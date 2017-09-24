@@ -1,0 +1,126 @@
+<table width="99%" border="0" align="center" cellpadding="0" cellspacing="0" class="tccktable">
+  <tbody>
+    <tr>
+      <td width="80" align="center" class="tccktit">行政许可决定书文号</td>
+      <td width="170" align="center" class="tccktit">项目名称</td>
+      <td width="80" align="center" class="tccktit">审批类别</td>
+      <td width="80" align="center" class="tccktit">许可内容</td>
+      <td width="120" align="center" class="tccktit">行政相对人名称</td>
+      <td width="80" align="center" class="tccktit">统一社会信用代码</td>
+      <td width="80" align="center" class="tccktit">组织机构代码</td>
+      <td width="80" align="center" class="tccktit">工商登记码</td>
+      <td width="80" align="center" class="tccktit">税务登记号</td>
+      <td width="80" align="center" class="tccktit">居民身份证号</td>
+      <td width="100" align="center" class="tccktit">法定代表人姓名</td>
+      <td width="80" align="center" class="tccktit">许可决定日期</td>
+      <td width="80" align="center" class="tccktit">许可截止期</td>
+      <td width="80" align="center" class="tccktit">许可机关</td>
+      <td width="80" align="center" class="tccktit">当前状态</td>
+      <td width="80" align="center" class="tccktit">地方编码</td>
+      <td width="80" align="center" class="tccktit">数据更新时间戳</td>
+      <td width="80" align="center" class="tccktit">备注</td>
+    </tr>
+    #foreach($!obj in $list)
+    <tr>
+      <td align="center">
+	      #if($!obj.xk_wsh.length()>9)
+	      <span title="$!obj.xk_wsh">$!obj.xk_wsh.substring(0,9)…</span>
+	      #else
+	      $!obj.xk_wsh
+	      #end
+      </td>
+      <td align="center">
+	      #if($!obj.xk_xmmc.length()>12)
+	      <span title="$!obj.xk_xmmc">$!obj.xk_xmmc.substring(0,12)…</span>
+	      #else
+	      $!obj.xk_xmmc
+	      #end
+      </td>
+      <td align="center">$!obj.xk_splb</td>
+      <td align="center">
+	      #if($!obj.xk_nr_ah.length()>12)
+	      <span title="$!obj.xk_nr_ah">$!obj.xk_nr_ah.substring(0,12)…</span>
+	      #else
+	      $!obj.xk_nr_ah
+	      #end
+      </td>
+      <td align="center">$!obj.xk_xdr</td>
+      <td align="center">
+	      #if("$!obj.xk_xdr_shxym"!=""&&$!obj.xk_xdr_shxym.length()>9)
+	      <span title="$!obj.xk_xdr_shxym">$!obj.xk_xdr_shxym.substring(0,9)…</span>
+	      #else
+	      $!obj.xk_xdr_shxym
+	      #end
+      </td>
+      <td align="center">$!obj.xk_xdr_zdm</td>
+      <td align="center">
+	      #if("$!obj.xk_xdr_gsdj"!=""&&$!obj.xk_xdr_gsdj.length()>9)
+	      <span title="$!obj.xk_xdr_gsdj">$!obj.xk_xdr_gsdj.substring(0,9)…</span>
+	      #else
+	      $!obj.xk_xdr_gsdj
+	      #end
+      </td>
+      <td align="center">
+	      #if("$!obj.xk_xdr_swdj"!=""&&$!obj.xk_xdr_swdj.length()>9)
+	      <span title="$!obj.xk_xdr_swdj">$!obj.xk_xdr_swdj.substring(0,9)…</span>
+	      #else
+	      $!obj.xk_xdr_swdj
+	      #end
+      </td>
+      <td align="center">
+	      #if("$!obj.xk_xdr_sfz"!=""&&$!obj.xk_xdr_sfz.length()>9)
+	      <span title="$!obj.xk_xdr_sfz">$!obj.xk_xdr_sfz.substring(0,9)…</span>
+	       #else
+	       $!obj.xk_xdr_sfz
+	      #end
+      </td>
+      <td align="center">$!obj.xk_fr</td>
+      <td align="center">
+      #if($!obj.xk_jdrq.toString().length()>10)
+	      $!obj.xk_jdrq.toString().substring(0,10)
+	       #else
+	      $!obj.xk_jdrq
+	      #end
+      </td>
+      <td align="center">
+      #if($!obj.xk_jzq.toString().length()>10)
+	      $!obj.xk_jzq.toString().substring(0,10)
+	       #else
+	      $!obj.xk_jzq
+	      #end
+      </td>
+      <td align="center">$!obj.xk_xzjg</td>
+      <td align="center">#if($!obj.xk_zt==0)正常#end</td>
+      <td align="center">$!obj.dfbm</td>
+      <td align="center">
+      #if($!obj.sjc.toString().length()>10)
+	      $!obj.sjc.toString().substring(0,10)
+	       #else
+	      $!obj.sjc
+	      #end
+    </td>
+      <td align="center">$!obj.bz</td>
+    </tr>
+    #end
+  </tbody>
+</table>
+<div style="height:45px; text-align:center; line-height:45px;" class="font12">共$!total条信息    页次：<span class="xxtjsub01"><strong>$!curPage</strong></span>/$!totalYs页　
+<a href="javascript:goPage(1)">[首页]</a>　
+#if($!curPage==1)
+[上一页]
+#else
+<a href="javascript:goPrePage($!curPage)">[上一页]</a>
+#end
+#if($!curPage==$!totalYs)
+[下一页]　
+#else
+<a href="javascript:goNextPage($!curPage)">[下一页]</a>　
+#end
+　<a href="javascript:goPage($!totalYs)">[末页]</a>　
+   <select name="whichPage" id="whichPage" onchange="goPage(this.value);" style="width:80px;">
+          	#foreach($!dijiye in $!whichPage)
+          	<option value="$!dijiye.value">$!dijiye.page</option>
+          	#end
+          	<script type="text/javascript">document.getElementById("whichPage").value = $!curPage;</script>
+ </select>
+</div>

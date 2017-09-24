@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html style="overflow-y:auto">
+<head>
+    <title>$!app_name</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!-- 框架 -->
+    <link href="${base}/include/css/default.css" rel="stylesheet" type="text/css"/>
+    <script type='text/javascript'>
+        var CONTEXTPATH = '${base}';
+    </script>
+    <script src="${base}/include/js/main.js"></script>
+    <script src="${base}/include/js/string.js"></script>
+    <!-- 分页  注意顺序 -->
+    <link href="${base}/include/css/themes/gray/easyui.css" rel="stylesheet" type="text/css"/>
+    <script src="${base}/include/js/jquery.easyui.min.js"></script>
+    <!-- 树 -->
+    <script type="text/javascript" src="${base}/include/controls/ztree/jquery.ztree.core-3.5.min.js"></script>
+    <link rel="stylesheet" href="${base}/include/controls/ztree/zTreeStyle/zTreeStyle.css" type="text/css">
+
+    <script>
+        function getWidth(percent){
+            return document.body.clientWidth*percent;
+        }
+        function loadData(){
+            var site_id = $("#site_id").val();
+            $("#dg1").treegrid({
+                width:"auto",
+                height:"auto",
+                nowrap: false,
+                striped: true,
+                border: true,
+                collapsible:false,//是否可折叠的
+                url : "${base}/private/cms/channel/listAll?site="+site_id,//首次查询路径
+                queryParams:{"id":""},//首次查询参数
+                idField:"id",
+                treeField:"name",
+                singleSelect:true,//是否单选
+                rownumbers:true,//行号
+                fit: true,//自动大小
+                fitColumns: true,//行自适应
+                pagination:false,//分页控件
+                loadMsg:'数据加载中...',
+                columns : [ [
+                    {
+                        field : "name",
+                        title : "栏目名称",
+                        width : getWidth(0.15)
+                    },
+                    {
+                        field : "channel_id",
+                        title : "栏目ID",
+                        width : getWidth(0.10)
+                    } ,
+                    {
+                        field : "aaa",
+                        title : "栏目状态",
+                        width : getWidth(0.03),
+                        formatter: function (value, row, index) {
+                            var str = "";
+                            if(row.aaa == 0){
+                                str += "<span style='color: cornflowerblue;'>显示</span>";
+                            }else{
+                                str += "<span style='color: orangered;'>隐藏</span>";
+                            }
+                            return str;
+                        }
+                    }
+                ] ],
+                frozenColumns:[[
+                    {field:"id",checkbox:true}
+                ]],
+                onDblClickRow:function(row)
+                {
+                    toupdate(row.id);
+                }
+
+            });
+
+        }
+
+        function getLoading(){
+            Page.MinMessage.Show({
+                text: '正在合并',
+                type: 'load'
+            });
+        }
+
+        function closeLoading(){
+            Page.MinMessage.Hide();
+        }
+
+        function getSelectVal(){
+            var arr = DataGrid.getSelectedValueID("dg1");
+            if (!arr || arr.length == 0) {
+                $("#channel_id_new").attr("value",0);
+            }else{
+                $("#channel_id_new").attr("value",arr);
+            }
+        }
+
+        Page.onLoad(function() {
+            loadData();
+        });
+        $(window).resize(function () {
+            clearTimeout(timer);
+            timer=setTimeout(function(){
+                $('#dg1').datagrid('resize');
+                $('div.panel-body').css('width','auto'); //////
+            },100);
+        });
+    </script>
+</head>
+<body leftmargin="0" topmargin="0"
+      style="overflow-x: hidden; overflow-y: auto">
+<table width="100%" border="0" cellspacing="6" cellpadding="0"
+       style="border-collapse: separate; border-spacing: 6px;">
+    <tr valign="top">
+        <td>
+            <form name='form1' id="from1" method='post'>
+                <input type="hidden" name="site_id" id="site_id" value="$!site_id" />
+                <input type="hidden" name="channel_id" id="channel_id" value="$!channel_id" />
+                <input type="hidden" name="channel_id_new" id="channel_id_new" value="0" />
+                <table width="100%" border="0" cellspacing="0" cellpadding="0"
+                       class="blockTable">
+                    <tr>
+                        <td class="blockTd">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="6">
+                                <tr>
+                                    <td style="padding: 0 8px 4px;">
+                                        <br />
+                                        <div style="color:#ff6244;">新栏目名：<input type="text" id="newName" name="newName"  /></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0px 5px;" height="410" >
+                                        <div id="dg1" style="width:100%;height:100%;"></div>
+                                        <div style="color:#ff6244;">*如果没有选择目标栏目，默认为一级栏目</div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

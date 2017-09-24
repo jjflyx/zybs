@@ -1,0 +1,28 @@
+var ioc = {
+		upload : {
+			type : "org.nutz.mvc.upload.UploadAdaptor",
+			args : [{refer : "uploadCtx"}],
+			singleton:false
+		},
+		uploadCtx : {
+			type : "org.nutz.mvc.upload.UploadingContext",
+			args : [{refer: "filePool"}],
+			singleton : false,
+			fields : {
+				ignoreNull : true,
+				maxFileSize : 29097152,
+				nameFilter : ".+(html|js|css|tpl|jpg|gif|png|jpeg|doc|docx|xls|xlsx|ppt|pptx|wps|pdf|txt|chm|mp3|mp4|3gp|rm|swf|flv|asf|wmv|wma|avi|7z|zip|rar|ios|jar|ktr|kjb|cdr)",
+				extOption: {
+					"images":"jpg,gif,png,jpeg,cdr",
+					"document":"doc,docx,xls,xlsx,ppt,pptx,wps,pdf,txt,chm",
+				    "music":"mp3",
+				    "video":"mp4,3gp,rm,swf,flv,asf,wmv,wma,avi",
+				    "archive":"7z,zip,rar,ios,jar"			            
+				   }
+			}
+		},
+		filePool : {
+			type : "com.hits.common.file.FilePool",
+			args : ["/temp/", 2000]
+		}
+};

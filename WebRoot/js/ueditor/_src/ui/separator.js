@@ -1,0 +1,1 @@
+(function(){var a=baidu.editor.utils,b=baidu.editor.ui.UIBase,c=baidu.editor.ui.Separator=function(d){this.initOptions(d);this.initSeparator();};c.prototype={uiName:"separator",initSeparator:function(){this.initUIBase();},getHtmlTpl:function(){return'<div id="##" class="edui-box %%"></div>';}};a.inherits(c,b);})();

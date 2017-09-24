@@ -1,0 +1,557 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>$!app_name</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!-- 框架 -->
+<script type='text/javascript'>
+    var CONTEXTPATH = '${base}';
+    var stylePath = '$!stylename';
+</script>
+<link href="${base}/include/css/blue/style.css" rel="stylesheet" type="text/css" />
+    <link href="${base}/include/css/page.css" rel="stylesheet" type="text/css" />
+<style>
+html,body{ *overflow:hidden;}
+</style>
+<script type="text/javascript" src="${base}/include/js/jquery.min.js"></script>
+<script type="text/javascript" src="${base}/include/js/string.js"></script>
+<script>
+    function customHeightSet() {
+        var otherH_1 = jQuery(".pageBtnarea").outerHeight()
+                + parseInt(jQuery(".pageM").css("paddingTop"))
+                + parseInt(jQuery(".pageM").css("paddingBottom"));
+        var pageH = document.documentElement.clientHeight;
+        jQuery("#pageScroll").height(pageH - otherH_1);
+    }
+    jQuery(document).ready(function() {
+        customHeightSet();
+    });
+    window.onload = function() {
+        customHeightSet();
+    }
+    window.onresize = function() {
+        customHeightSet();
+    }
+    //设置IE浏览器的打印默认样式，去掉页眉页脚
+    var hkey_root = "HKEY_CURRENT_USER";
+    var hkey_path = "\\Software\\Microsoft\\Internet Explorer\\PageSetup\\";
+    function pagesetup_null() {
+        try {
+            var RegWsh = new ActiveXObject("WScript.Shell");
+            var hkey_key = "header";
+            RegWsh.RegWrite(hkey_root + hkey_path + hkey_key, "");
+            hkey_key = "footer";
+            RegWsh.RegWrite(hkey_root + hkey_path + hkey_key, "");
+        } catch (e) {
+            alert(e);
+        }
+    }
+
+    function printThis() {
+        $('#noPrint_mood').hide();
+        $('#noPrint_top').hide();
+        bdhtml = window.document.body.innerHTML;
+        sprnstr = "<!--startprint-->";
+        eprnstr = "<!--endprint-->";
+        prnhtml = bdhtml.substr(bdhtml.indexOf(sprnstr) + 17);
+        prnhtml = prnhtml.substring(0, prnhtml.indexOf(eprnstr));
+        window.document.body.innerHTML = prnhtml;
+        pagesetup_null();
+        window.print();
+        window.history.go(0);
+    }
+    
+    function toPrintFun(id){
+        var url='${base}/private/print/rxdhjld?letterid='+id+'&sys_menu=信件打印&sys_random=' + Math.random();
+        var title='信件打印';
+        var iWidth=1020; //弹出窗口的宽度;
+        var iHeight=600; //弹出窗口的高度;  
+        openWin3(url,title,iWidth,iHeight);
+    }
+    
+    /* $(function(){
+        $(".swichctr").click(function(){
+            alert("--");
+            $(this).toggle(function(){
+                $(this).html("收起");
+            },function(){
+                $(this).html("展开");
+            })
+        })
+    }) */
+    
+    function show123(){
+        alert("--");
+        $(".swichctr").toggle(function(){
+            $(this).html("收起");
+        },function(){
+            $(this).html("展开");
+        })
+    }
+    function dy(){
+        bdhtml=window.document.body.innerHTML;
+        sprnstr="<!--startprint-->";
+        eprnstr="<!--endprint-->";
+        prnhtml=bdhtml.substr(bdhtml.indexOf(sprnstr)+17);
+        prnhtml=prnhtml.substring(0,prnhtml.indexOf(eprnstr));
+        window.document.body.innerHTML=prnhtml;
+        window.print();
+    }
+    function swichShow(ID){
+        $("#"+ID).toggle();
+    }
+</script>
+</head>
+
+<body>
+<form name='form1' id="form1" method='post'>
+            <input type="hidden" name="doAction" value="">
+            <input type="hidden" name="id" value="$!obj.id">
+            <input type="hidden" name="zbid" id="zbid" value="">
+            <input type="hidden" name="pjCount" id="pjCount" value="" />
+            <input type="hidden" name="jbid" id="jbid" value="">
+            <input type="hidden" name="isold" id="isold" value="0">
+    <!--startprint-->
+    <div class="pageM viewpage" id="pageScroll">
+        <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="table_titlebk">
+			<tr>
+				#if($!xy_type=='0001')
+					<td class="table_title" align="center">采矿权信息</td>
+				#elseif($!xy_type=='0002')
+					<td class="table_title" align="center">探矿权信息</td>
+				#elseif($!xy_type=='0003')
+					<td class="table_title" align="center">欠缴矿业价款信息</td>
+				#elseif($!xy_type=='0004')
+					<td class="table_title" align="center">地质勘查资质信息</td>
+				#elseif($!xy_type=='0005')
+					<td class="table_title" align="center">测绘资质信息</td>
+				#elseif($!xy_type=='0006')
+					<td class="table_title" align="center">地质灾害甲级资质信息</td>
+				#elseif($!xy_type=='0007')
+					<td class="table_title" align="center">地质灾害乙丙级资质信息</td>
+				#elseif($!xy_type=='0008')
+					<td class="table_title" align="center">行政强制信息</td>
+				#elseif($!xy_type=='0009')
+					<td class="table_title" align="center">企业行政处罚信息</td>
+				#elseif($!xy_type=='0010')
+					<td class="table_title" align="center">职称信息</td>
+				#elseif($!xy_type=='0011')
+					<td class="table_title" align="center">职称注销信息</td>
+				#elseif($!xy_type=='0012')
+					<td class="table_title" align="center">个人行政处罚信息</td>
+				#end
+			</tr>
+		</table>
+        <div class="conBody">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0"
+                class="tableViews">
+                <colgroup>
+                    <col width="19%" />
+                    <col width="31%" />
+                    <col width="19%" />
+                    <col width="31%" />
+                </colgroup>
+                #if($!xy_type=='0001')
+                <tr>
+                    <th>统一社会信用代码：</th>
+                    <td>$!xzxk.get(0).get(0)</td>
+                    <th>组织机构代码：</th>
+                    <td>$!xzxk.get(0).get(1)</td>
+                </tr>
+                <tr>
+                    <th>工商注册号：</th>
+                    <td>$!xzxk.get(0).get(2)</td>
+                    <th>矿山名称：</th>
+                    <td>$!xzxk.get(0).get(3)</td>
+                </tr>
+                <tr>
+                    <th>许可证号：</th>
+                    <td>$!xzxk.get(0).get(4)</td>
+                    <th>采矿权人：</th>
+                    <td>$!xzxk.get(0).get(5)</td>
+                </tr>
+                <tr>
+                    <th>开采主矿种：</th>
+                    <td>$!xzxk.get(0).get(6)</td>
+                    <th>矿区面积：</th>
+                    #if($!xzxk.get(0).get(7).substring(0,1)==".")
+                    <td>0$!xzxk.get(0).get(7) km²</td>
+                    #else
+                    <td>$!xzxk.get(0).get(7) km²</td>
+                    #end 
+                </tr>
+                <tr>
+                    <th>许可有效起始日期：</th>
+                    <td>$!xzxk.get(0).get(8)</td>
+                    <th>许可有效截止日期：</th>
+                    <td>$!xzxk.get(0).get(9)</td>
+                </tr>
+                
+                <tr>
+                    <th>审批机关：</th>
+                    <td>$!xzxk.get(0).get(10)</td>
+                    <th>批准日期：</th>
+                    <td>$!xzxk.get(0).get(11)</td>
+                </tr>
+                <!--探矿权信息  -->
+                #elseif($!xy_type=="0002")
+                <tr>
+                    <th>统一社会信用代码：</th>
+                    <td>$!xzxk.get(0).get(0)</td>
+                    <th>组织机构代码：</th>
+                    <td>$!xzxk.get(0).get(1)</td>
+                </tr>
+                <tr>
+                    <th>勘查单位：</th>
+                    <td>$!xzxk.get(0).get(2)</td>
+                    <th>许可证号：</th>
+                    <td>$!xzxk.get(0).get(3)</td>
+                </tr>
+                <tr>
+                    <th>勘察矿种：</th>
+                    <td>$!xzxk.get(0).get(4)</td>
+                    <th>勘察阶段：</th>
+                    <td>$!xzxk.get(0).get(5)</td>
+                </tr>
+                <tr>
+                    <th>许可有效起始日期：</th>
+                    <td>$!xzxk.get(0).get(6)</td>
+                    <th>许可有效截止日期：</th>
+                    <td>$!xzxk.get(0).get(7)</td>
+                </tr>
+                <tr>
+                    <th>审批机关：</th>
+                    <td>$!xzxk.get(0).get(8)</td>
+                    <th>审批日期：</th>
+                    <td>$!xzxk.get(0).get(9)</td>
+                </tr>
+                <!-- 欠缴矿业价款信息 -->
+                #elseif($!xy_type=="0003")
+                <tr>
+                    <th>统一社会信用代码：</th>
+                    <td>$!xzxk.get(0).get(0)</td>
+                    <th>组织机构代码：</th>
+                    <td>$!xzxk.get(0).get(1)</td>
+                </tr>
+                <tr>
+                    <th>工商注册号：</th>
+                    <td>$!xzxk.get(0).get(2)</td>
+                    <th>矿山名称：</th>
+                    <td>$!xzxk.get(0).get(3)</td>
+                </tr>
+                <tr>
+                    <th>许可证号：</th>
+                    <td>$!xzxk.get(0).get(4)</td>
+                    <th>欠缴数额：</th>
+                    <td>$!xzxk.get(0).get(5)</td>
+                </tr>
+                <!-- 地质勘察单位资质信息 -->
+                #elseif($!xy_type=="0004")
+                <tr>
+                    <th>统一社会信用代码：</th>
+                    <td>$!xzxk.get(0).get(0)</td>
+                    <th>组织机构代码：</th>
+                    <td>$!xzxk.get(0).get(1)</td>
+                </tr>
+                <tr>
+                    <th>工商注册号：</th>
+                    <td>$!xzxk.get(0).get(2)</td>
+                    <th>单位名称：</th>
+                    <td>$!xzxk.get(0).get(3)</td>
+                </tr>
+                <tr>
+                    <th>资质证编号：</th>
+                    <td>$!xzxk.get(0).get(4)</td>
+                    <th>资质等级：</th>
+                    <td>$!xzxk.get(0).get(5)</td>
+                </tr>
+                <tr>
+                    <th>资质起始日期：</th>
+                    <td>$!xzxk.get(0).get(6)</td>
+                    <th>资质结束日期：</th>
+                    <td>$!xzxk.get(0).get(7)</td>
+                </tr>
+                <tr>
+                    <th>审批机关：</th>
+                    <td colspan="3">$!xzxk.get(0).get(8)</td>
+                </tr>
+                <!-- 测绘资质信息 -->
+                #elseif($!xy_type=="0005")
+                <tr>
+                    <th>统一社会信用代码：</th>
+                    <td>$!xzxk.get(0).get(0)</td>
+                    <th>组织机构代码：</th>
+                    <td>$!xzxk.get(0).get(1)</td>
+                </tr>
+                <tr>
+                    <th>工商注册号：</th>
+                    <td>$!xzxk.get(0).get(2)</td>
+                    <th>单位名称：</th>
+                    <td>$!xzxk.get(0).get(3)</td>
+                </tr>
+                <tr>
+                    <th>法定代表人：</th>
+                    <td>$!xzxk.get(0).get(4)</td>
+                    <th>资质证编号：</th>
+                    <td>$!xzxk.get(0).get(5)</td>
+                </tr>
+                <tr>
+                    <th>资质等级：</th>
+                    <td>$!xzxk.get(0).get(6)</td>
+                    <th>资质范围：</th>
+                    <td>$!xzxk.get(0).get(7)</td>
+                </tr>
+                <tr>
+                    <th>资质起始日期：</th>
+                    <td>$!xzxk.get(0).get(8)</td>
+                    <th>资质结束日期：</th>
+                    <td>$!xzxk.get(0).get(9)</td>
+                </tr>
+                <tr>
+                    <th>审批机关：</th>
+                    <td>$!xzxk.get(0).get(10)</td>
+                    <th>审批日期：</th>
+                    <td>$!xzxk.get(0).get(11)</td>
+                </tr>
+                <!-- 地质灾害治理-甲级 -->
+                #elseif($!xy_type=="0006")
+                <tr>
+                    <th>统一社会信用代码：</th>
+                    <td>$!xzxk.get(0).get(0)</td>
+                    <th>组织机构代码：</th>
+                    <td>$!xzxk.get(0).get(1)</td>
+                </tr>
+                <tr>
+                    <th>工商注册号：</th>
+                    <td>$!xzxk.get(0).get(2)</td>
+                    <th>单位名称：</th>
+                    <td>$!xzxk.get(0).get(3)</td>
+                </tr>
+                <tr>
+                    <th>资质证编号：</th>
+                    <td>$!xzxk.get(0).get(4)</td>
+                    <th>资质类别：</th>
+                    <td>$!xzxk.get(0).get(5)</td>
+                </tr>
+                <tr>
+                    <th>资质等级：</th>
+                    <td>$!xzxk.get(0).get(6)</td>
+                    <th>资质范围：</th>
+                    <td>$!xzxk.get(0).get(7)</td>
+                </tr>
+                <tr>
+                    <th>资质起始日期：</th>
+                    <td>$!xzxk.get(0).get(8)</td>
+                    <th>资质结束日期：</th>
+                    <td>$!xzxk.get(0).get(9)</td>
+                </tr>
+                <tr>
+                    <th>审批机关：</th>
+                    <td>$!xzxk.get(0).get(10)</td>
+                    <th>审批日期：</th>
+                    <td>$!xzxk.get(0).get(11)</td>
+                </tr>
+                <!-- 地质灾害治理-乙丙级 -->
+                #elseif($!xy_type=="0007")
+                <tr>
+                    <th>统一社会信用代码：</th>
+                    <td>$!xzxk.get(0).get(0)</td>
+                    <th>组织机构代码：</th>
+                    <td>$!xzxk.get(0).get(1)</td>
+                </tr>
+                <tr>
+                    <th>工商注册号：</th>
+                    <td>$!xzxk.get(0).get(2)</td>
+                    <th>单位名称：</th>
+                    <td>$!xzxk.get(0).get(3)</td>
+                </tr>
+                <tr>
+                    <th>法定代表人：</th>
+                    <td>$!xzxk.get(0).get(4)</td>
+                    <th>资质证编号：</th>
+                    <td>$!xzxk.get(0).get(5)</td>
+                </tr>
+                <tr>
+                    <th>资质类别：</th>
+                    <td>$!xzxk.get(0).get(6)</td>
+                    <th>资质等级：</th>
+                    <td>$!xzxk.get(0).get(7)</td>
+                </tr>
+                <tr>
+                    <th>资质起始日期：</th>
+                    <td>$!xzxk.get(0).get(8)</td>
+                    <th>资质结束日期：</th>
+                    <td>$!xzxk.get(0).get(9)</td>
+                </tr>
+                <tr>
+                    <th>审批机关：</th>
+                    <td colspan="3">$!xzxk.get(0).get(10)</td>
+                </tr>
+                <!-- 行政强制处罚 -->
+                #elseif($!xy_type=="0008")
+                <tr>
+                    <th>统一社会信用代码：</th>
+                    <td>$!xzxk.get(0).get(0)</td>
+                    <th>组织机构代码：</th>
+                    <td>$!xzxk.get(0).get(1)</td>
+                </tr>
+                <tr>
+                    <th>工商注册号：</th>
+                    <td>$!xzxk.get(0).get(2)</td>
+                    <th>企业名称：</th>
+                    <td>$!xzxk.get(0).get(3)</td>
+                </tr>
+                <tr>
+                    <th>决定书文号：</th>
+                    <td>$!xzxk.get(0).get(4)</td>
+                    <th>执行情况：</th>
+                    <td>$!xzxk.get(0).get(5)</td>
+                </tr>
+                <tr>
+                    <th>案件名称：</th>
+                    <td colspan="3">$!xzxk.get(0).get(6)</td>
+                </tr>
+                <tr>
+                    <th>强制理由：</th>
+                    <td colspan="3">$!xzxk.get(0).get(7)</td>
+                </tr>
+                <tr>
+                    <th>强制依据：</th>
+                    <td colspan="3">$!xzxk.get(0).get(8)</td>
+                </tr>
+                <!-- 企业行政处罚 -->
+                #elseif($!xy_type=="0009")
+                <tr>
+                    <th>统一社会信用代码：</th>
+                    <td>$!xzxk.get(0).get(0)</td>
+                    <th>组织机构代码：</th>
+                    <td>$!xzxk.get(0).get(1)</td>
+                </tr>
+                <tr>
+                    <th>工商注册号：</th>
+                    <td>$!xzxk.get(0).get(2)</td>
+                    <th>企业名称：</th>
+                    <td>$!xzxk.get(0).get(3)</td>
+                </tr>
+                <tr>
+                    <th>决定书文号：</th>
+                    <td>$!xzxk.get(0).get(4)</td>
+                    <th>处罚日期：</th>
+                    <td>$!xzxk.get(0).get(5)</td>
+                </tr>
+                <tr>
+                    <th>处罚事由：</th>
+                    <td colspan="3">$!xzxk.get(0).get(6)</td>
+                </tr>
+                <tr>
+                    <th>处罚依据：</th>
+                    <td colspan="3">$!xzxk.get(0).get(7)</td>
+                </tr>
+                <tr>
+                    <th>处罚结论：</th>
+                    <td colspan="3">$!xzxk.get(0).get(8)</td>
+                </tr>
+                <!-- 职称信息 -->
+                #elseif($!xy_type=="0010")
+                <tr>
+                    <th>姓名：</th>
+                    <td>$!xzxk.get(0).get(0)</td>
+                    <th>身份证号：</th>
+                    <td>$!xzxk.get(0).get(1)</td>
+                </tr>
+                <tr>
+                    <th>职称名称：</th>
+                    <td>$!xzxk.get(0).get(2)</td>
+                    <th>职称证书编号：</th>
+                    <td>$!xzxk.get(0).get(3)</td>
+                </tr>
+                <tr>
+                    <th>职称等级：</th>
+                    <td>$!xzxk.get(0).get(4)</td>
+                    <th>取得时间：</th>
+                    <td>$!xzxk.get(0).get(5)</td>
+                </tr>
+                <tr>
+                    <th>审批单位：</th>
+                    <td colspan="3">$!xzxk.get(0).get(6)</td>
+                </tr>
+                <!-- 职称注销信息 -->
+                #elseif($!xy_type=="0011")
+                <tr>
+                    <th>姓名：</th>
+                    <td>$!xzxk.get(0).get(0)</td>
+                    <th>身份证号：</th>
+                    <td>$!xzxk.get(0).get(1)</td>
+                </tr>
+                <tr>
+                    <th>职称名称：</th>
+                    <td>$!xzxk.get(0).get(2)</td>
+                    <th>职称证书编号：</th>
+                    <td>$!xzxk.get(0).get(3)</td>
+                </tr>
+                <tr>
+                    <th>注销时间：</th>
+                    <td>$!xzxk.get(0).get(4)</td>
+                    <th>注销机关：</th>
+                    <td>$!xzxk.get(0).get(5)</td>
+                </tr>
+                <tr>
+                    <th>注销原因：</th>
+                    <td colspan="3">$!xzxk.get(0).get(6)</td>
+                </tr>
+                <!-- 个人行政处罚信息表 -->
+                #elseif($!xy_type=="0012")
+                <tr>
+                    <th>姓名：</th>
+                    <td>$!xzxk.get(0).get(0)</td>
+                    <th>身份证号：</th>
+                    <td>$!xzxk.get(0).get(1)</td>
+                </tr>
+                <tr>
+                    <th>处罚文书编号：</th>
+                    <td>$!xzxk.get(0).get(2)</td>
+                    <th>处罚机关：</th>
+                    <td>$!xzxk.get(0).get(3)</td>
+                </tr>
+                <tr>
+                    <th>违法行为：</th>
+                    <td colspan="3">$!xzxk.get(0).get(4)</td>
+                </tr>
+                <tr>
+                    <th>处罚结果：</th>
+                    <td colspan="3">$!xzxk.get(0).get(5)</td>
+                </tr>
+                <tr>
+                    <th>处罚日期：</th>
+                    <td colspan="3">$!xzxk.get(0).get(6)</td>
+                </tr>
+                #end
+            </table>
+        </div>
+    </div>    
+    <!--endprint-->
+    </form>
+    
+    <div class="pageBtnarea">
+        <input type="button" class="button" name="dis" id="dis" value="页面打印" onClick="dy();" />
+        <input type="button" class="button" name="btnCancal" id="btnCancal" value="关闭" onclick="window.close()">
+    </div>
+    
+    
+    <form action="${base}/DownFile" id="printform1" name="printform1" method="post">
+                        <input type="hidden" name="type" id="type"/>
+                        <textarea rows="" cols="" style="display: none;" name="htmlbody" id="htmlbody"></textarea>
+                        <div id="printnote1" style="display:none;">
+                            
+                        </div>
+    </form>
+    <script>
+        function exportF(type){
+            document.getElementById("type").value=type;
+            document.getElementById("htmlbody").value = document.getElementById("printnote1").innerHTML;
+            printform1.submit();
+        }
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,224 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+<head>
+
+    <title>$!app_name</title>
+     
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link href="${base}/include/css/default.css" rel="stylesheet" type="text/css"/> 
+	<script type='text/javascript'>
+		var CONTEXTPATH = '${base}';
+	</script>
+    <script src="${base}/include/js/main.js"></script>
+    <script src="${base}/include/js/string.js"></script>
+	<script type="text/javascript"> 
+    function checkpath(val)
+    {		
+	     if(val!=""){
+	    	jQuery.ajax({
+	    		url : "/private/cms/channel/checkpath",
+	    		data : $("#form1").serialize(),
+	    		success : function (res) {	
+	    			if(res=="true"){
+	    				Dialog.alert("路径已存在!");	
+	    				return false; 
+	    			}
+					return true;
+	    		},
+	    		fail : function(res) {
+	    			Dialog.alert("系统错误?!");
+					return false;
+	    		}
+	    	}); 
+    	 }
+    }
+    var p="$!sjchannel.path";
+    function getPyin()
+    {
+        jQuery.ajax({
+            url : "/private/cms/channel/getPinyin",
+            data : {"name":$("#name").val()},
+            success : function (res) {
+                if(p==""){
+                    $("#path").val(res);
+                }else if(p.endWith(res)){
+                }else if(p.endWith("/")){
+                    $("#path").val(p+res);
+                }else{
+                    $("#path").val(p+"/"+res);
+                }
+                checkpath($("#path").val());
+                return true;
+            },
+            fail : function(res) {
+                Dialog.alert("系统错误?!");
+                return false;
+            }
+        });
+
+
+    }
+    function setModel(){
+    	var d = new Dialog("setModel");
+       	d.Width = 500;
+       	d.Height = 300;
+       	d.Title = "选择模型内容模板";
+       	d.URL = "${base}/private/cms/channel/model?mjson="+$("#mjson").val()+"&site_id="+Page.getValue("site_id")+"&channel_id="+Page.getValue("channel_id");
+       	d.onLoad = function(){
+     		$DW.$("#mjson").val(mjson);  
+       	}
+       	d.OKEvent = function() {           
+       		if($DW.Verify.hasError()){
+       			  return;
+       		}    
+       		$("#mjson").val($DW.getSel());
+       		$D.close();
+       	}
+       	d.CancelEvent = function() {  
+       		$D.close();
+       		               
+       	}
+       	d.show();
+    	d.CancelButton.value="关 闭";
+    }
+</script>
+</head>
+<body class="dialogBody">
+<form name='form1' id="form1" method='post'>
+<input type="hidden" id="model_id" name="model_id" value="$!channel.model_id">  
+<input type="hidden" id="site_id" name="site_id" value="$!channel.site_id">  
+<input type="hidden" id="channel_id" name="channel_id" value="$!channel.channel_id">  
+<input type="hidden" id="mjson" name="mjson" value='$!mjson'>  
+       <table width="100%" height="100%" align="center" cellpadding="1" cellspacing="0">
+        <tr>
+            <td width="100%" valign="top"  align="center">
+                
+                  <table width="99%" class="pn-ftable" cellpadding="2" cellspacing="1" border="0">
+
+                            
+					<tr>
+						<td width="10%" class="pn-flabel pn-flabel-h">
+						上级栏目：
+						</td>
+						<td colspan="1" width="40%" class="pn-fcontent">
+						$!channel_name
+						</td>
+						<td width="10%" class="pn-flabel pn-flabel-h">模型：</td>
+						<td colspan="1" width="40%" class="pn-fcontent">
+						$!model.model_name</td>
+					</tr>
+					<tr>
+						<td width="10%" class="pn-flabel pn-flabel-h">
+						栏目名称：
+						</td>
+						<td colspan="1" width="40%" class="pn-fcontent">
+						<input type="text" name="name" id="name" value="$!channel.name" maxlength="100" size="20" verify="栏目名称|NotNull" onchange="getPyin()">
+						</td>
+						<td width="10%" class="pn-flabel pn-flabel-h">栏目路径：</td>
+						<td colspan="1" width="40%" class="pn-fcontent">
+						<input type="text" name="path" id="path" value="$!channel.path" maxlength="100" size="30"  verify="栏目路径|NotNull" >
+						</td>
+					</tr>
+					<tr>
+						<td width="10%" class="pn-flabel pn-flabel-h">
+						meta标题：
+						</td>
+						<td colspan="1" width="40%" class="pn-fcontent">
+						<input type="text" name="title" id="title" value="$!channel.title" maxlength="100" size="30" >
+						</td>
+						<td width="10%" class="pn-flabel pn-flabel-h">meta关键字：</td>
+						<td colspan="1" width="40%" class="pn-fcontent">
+						<input type="text" name="keywords" id="keywords"  value="$!channel.keywords" maxlength="100" size="30" >
+						</td>
+					</tr>
+
+					<tr>
+						<td width="10%" class="pn-flabel pn-flabel-h">
+						meta描述：
+						</td>
+						<td colspan="3" width="40%" class="pn-fcontent"> 
+						<textarea cols="70" rows="3" name="description"  maxlength="255">$!channel.description</textarea>
+						</td>
+					</tr>
+					
+					<tr>
+						<td width="10%" class="pn-flabel pn-flabel-h">
+						栏目模板：
+						</td>
+						<td colspan="1" width="40%" class="pn-fcontent">
+						<select name="tpl_channel" id="tpl_channel">
+						<option value="">-- 选择栏目模板 --</option>
+						#foreach($o in $modellist)
+							<option value="$!o" #if("$o"=="$!channel.tpl_channel") selected #end>$!o</option>
+						#end
+						</select>
+						</td>
+						<td width="10%" class="pn-flabel pn-flabel-h">
+						内容模板：</td>
+						<td colspan="1" width="40%" class="pn-fcontent">
+						<a
+													href='javascript:void(0);' ztype='zPushBtn'
+													class='zPushBtn' hidefocus='true' tabindex='-1'
+													onselectstart='return false' id='BtnPaixu' onClick="setModel();"><img
+														src="${base}/images/icons/icon011a1.gif"
+														width="20" height="20" /><b>选择内容模板&nbsp;</b></a> 
+														<span class="pn-fhelp">留空则继承上级栏目设置</span>
+						</td>
+					</tr>
+					<tr>
+						<td width="10%" class="pn-flabel pn-flabel-h">
+						前台显示：
+						</td>
+						<td colspan="3" width="40%" class="pn-fcontent">
+						<label><input type="radio" value="Y" #if("$!channel.is_display"=="Y")checked="checked"#end name="is_display"/>是</label>
+						 <label><input type="radio" value="N" #if("$!channel.is_display"=="N")checked="checked"#end name="is_display"/>否</label>
+&nbsp; <label><input type="checkbox" onclick="$('#blank').val(this.checked==true?'Y':'N');" #if("$!channel.blank"=="Y") checked="checked"#end/>新窗口打开</label>
+<input type="hidden" id="blank" name="blank" value="$!channel.blank"/>
+                            每页记录数: <input type="text" name="pagesize" value="$!channel.pagesize" style="width:40px" class="digits" maxlength="5">
+						</td>
+						
+					</tr>
+					<tr>
+						<td width="10%" class="pn-flabel pn-flabel-h">
+						外部链接：
+						</td>
+						<td colspan="3" width="40%" class="pn-fcontent">
+						 <input type="text" maxlength="200" name="linkurl" value="$!channel.linkurl" size="35" /> <span class="pn-fhelp">直接使用该地址作为url</span>
+
+						</td>
+					</tr>
+					<tr>
+						<td width="10%" class="pn-flabel pn-flabel-h">
+						工作流：
+						</td>
+						<td colspan="3" width="40%" class="pn-fcontent">
+						<select name="flowid">
+						<option value="0" selected="selected">--默认--</option>
+						#foreach($o in $wflist)
+						<option value="$o.id" #if($o.id==$channel.flowid) selected#end>$o.name</option>
+						#end
+						</select>
+ 						<span class="pn-fhelp">留空则继承上级栏目设置，顶层为空无需审核</span>
+						</td>
+					</tr>
+					<tr>
+						<td width="10%" class="pn-flabel pn-flabel-h">审核后：</td>
+						<td colspan="3" width="40%" class="pn-fcontent">
+						<select name="checked">
+						<option value="0" #if(0==$channel.checked) selected#end>--默认--</option>
+						<option value="1" #if(1==$channel.checked) selected#end>不能修改删除</option>
+						<option value="2" #if(2==$channel.checked) selected#end>修改后退回</option>
+						<option value="3" #if(3==$channel.checked) selected#end>修改后不变</option></select>
+
+						</td>
+					</tr>
+                        </table> 
+                
+            </td>
+            </tr>
+            </table>
+      </form>
+
+</body>
+</html>

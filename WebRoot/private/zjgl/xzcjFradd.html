@@ -1,0 +1,216 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<title>$!app_name</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<script type='text/javascript'>
+		var CONTEXTPATH = '${base}';
+		var stylePath = '$!stylename';
+
+	</script>
+	<link href="${base}/private/ratifyFollow/css/$!stylename/style.css" rel="stylesheet" type="text/css" />
+	<script src="${base}/include/js/main.js"></script>
+	<script src="${base}/include/js/string.js"></script>
+	<link href="${base}/include/css/themes/gray/easyui.css" rel="stylesheet" type="text/css" />
+	<link href="${base}/include/controls/my97/skin/WdatePicker.css" rel="stylesheet" type="text/css"/>
+	<script language="javascript" type="text/javascript" src="${base}/include/controls/my97/WdatePicker.js"></script>
+	<script src="${base}/include/js/jquery.easyui.min.js"></script>
+	<script>
+		function ht(){
+			$("#hideDIV").attr("style","");
+		}
+		
+		function snChange(){
+			$("#div_sn").attr("style","");
+			$("#div_sw").attr("style","display:none");
+		}
+		
+		function swChange(){
+			$("#div_sn").attr("style","display:none");
+			$("#div_sw").attr("style","");
+		}
+	</script>
+</head>
+<body leftmargin="0" topmargin="0" class="easyui-layout">
+<form name='form1' id="form1" method='post'
+	  action="${base}/private/slzx/slj_info/add">
+	<input type="hidden" name="id" id="id" value="$!obj.id">
+	<input type="hidden" name="flowid" id="flowid" value="$!flowid">
+	<input type="hidden" name="fromnum" id="fromnum" value="$!fromnum">
+	<input type="hidden" name="phone" id="phone" value="$!fromnum">
+	<input type="hidden" name="fromtime" id="fromtime" value="$!fromtime">
+	<input type="hidden" name="loginname" id="loginname" value="$!user.loginname">
+	<div region="center" border="false"
+		 style="width: 100%; height: 100%; padding: 0px 10px 10px;">
+		<table width="98%" border="0" align="center" cellpadding="0"
+			   cellspacing="0" class="table_auto margin_top15 table_titlebk">
+			<tr>
+				<td class="table_title">
+					法人信息
+				</td>
+			</tr>
+		</table>
+		
+		<table width="98%" border="0" align="center" cellpadding="0"  cellspacing="0" class="table_auto table_nrbk">
+			<tr>
+				<td valign="top" class="padding10">
+					<table width="100%" border="0" cellpadding="0" cellspacing="3">
+						<tr>
+							<td align="right">请选择：</td>
+							<td>
+								<input type="radio" name="radio" id="radio" value="0" onclick="snChange()" checked="checked"/>自动生成
+								<input type="radio" name="radio" id="radio1" value="1" onclick="swChange()">人工录入
+							</td>
+						</tr>
+						<tbody id="div_sn">
+						<tr>	
+							<td align="right">法人名称：</td>
+							<td width="220"><input type="text" name="name" id="name" size="20" maxlength="40" verify="企业名称|NotNull"></input><span style="color:red">*</span>
+								<input class="button" type="button" name="name" value="获取"></input>
+							</td>
+						</tr>
+						<tr>
+							<td align="right" width="150">统一社会信用代码：</td>
+					        <td algin="left" width="260"><input type="text" name="name" id="name" size="27" maxlength="50" placeholder="与组织机构代码至少填一项"></input></td>
+					        <td align="right" width="150">组织机构代码:</td>
+					        <td algin="left" width="260"><input type="text" name="name" id="name" size="27" maxlength="50" verify="组织机构代码|NotNull" placeholder="与统一社会信用代码至少填一项"><span style="color:red">*</span></input></td>
+						</tr>
+						
+						<tr>
+							<td align="right" width="150">法定代表人姓名：</td>
+							<td algin="left" width="140"><input type="text" name="name" id="name" size="20" maxlength="50" verify="法定代表人|NotNull"><span style="color:red">*</span></input></td>
+							<td align="right" width="150">法定代表人身份证：</td>
+							<td align="left" widht="140"><input type="text" name="name" id="name" size="25" maxlength="50" verify="身份证号|NotNull"><span style="color:red">*</span></input></td>
+				       </tr>
+						
+						<tr>
+					        <td align="right" width="150">联系电话：</td>
+					        <td algin="left" width="260"><input type="text" name="name" id="name" size="20" maxlength="50" verify="联系电话|NotNull"><span style="color:red">*</span></input></td>
+					        <td align="right" width="150">联系人手机号码：</td>
+					        <td align="left" widht="140"><input type="text" name="name" id="name" size="20" maxlength="50"><span style="color:red">*</span></input></td>
+						</tr>
+				
+						<tr>
+							<td align="right">企业地址：</td>
+							<td width="260"><input type="text" name="name" id="name" size="20" maxlength="50" verify="办公地址|NotNull"><span style="color:red">*</span></input></td>
+							<td align="right">登记机关：</td>
+							<td algin="left" width="260"><input type="text" name="name" id="name" size="20" maxlength="50" verify="登记机关|NotNull"><span style="color:red">*</span></input></td>
+						</tr>
+						<tr>
+							<td align="right" width="150">税务登记号：</td>
+							<td algin="left" width="260"><input type="text" name="name" id="name" size="20" maxlength="50" ></input></td>
+							<td align="right" width="150">工商注册号：</td>
+							<td algin="left" width="140"><input type="text" name="name" id="name" size="20" maxlength="50"></input></td>
+						</tr>
+				
+						<tr>
+							<td align="right" width="150">企业状态：</td>
+							<td width="260">
+								<select>
+									<option>请选择</option>
+									<option>正常在业</option>
+									<option>注销</option>
+									<option>迁出</option>
+									<option>吊销</option>
+								</select>
+							</td>
+							
+							<td align="right">企业类型：</td>
+							<td width="260"><input type="text" name="name" id="name" size="20" maxlength="50"></input></td>
+						</tr>
+				
+						<tr>
+							<td align="right" width="150">设立日期：</td>
+							<td algin="left" width="140"><input class="Wdate" onclick="WdatePicker()" name="name" id="name" size="20" maxlength="50"></input></td>
+							<td align="right">核准日期：</td>
+							<td width="260"><input class="Wdate" onclick="WdatePicker()" name="name" id="name" size="20" maxlength="50"></input></td>
+						</tr>
+						</tbody>
+						
+						<tbody id="div_sw" style="display: none">
+						<tr>	
+							<td align="right">法人名称：</td>
+							<td width="220">
+								<input type="text" name="name" id="name" size="20" maxlength="40" verify="企业名称|NotNull"><span style="color:red">*</span></input>
+							</td>
+						</tr>
+						<tr>
+							<td align="right" width="150">统一社会信用代码：</td>
+					        <td algin="left" width="260"><input type="text" name="name" id="name" size="27" maxlength="50" placeholder="与组织机构代码至少填一项"></input></td>
+					        <td align="right" width="150">组织机构代码:</td>
+					        <td algin="left" width="260"><input type="text" name="name" id="name" size="27" maxlength="50" verify="组织机构代码|NotNull" placeholder="与统一社会信用代码至少填一项"><span style="color:red">*</span></input></td>
+						</tr>
+						
+						<tr>
+							<td align="right" width="150">法定代表人姓名：</td>
+							<td algin="left" width="140"><input type="text" name="name" id="name" size="20" maxlength="50" verify="法定代表人|NotNull"><span style="color:red">*</span></input></td>
+							<td align="right" width="150">法定代表人身份证：</td>
+							<td align="left" widht="140"><input type="text" name="name" id="name" size="25" maxlength="50"></input></td>
+				       </tr>
+						
+						<tr>
+					        <td align="right" width="150">联系电话：</td>
+					        <td algin="left" width="260"><input type="text" name="name" id="name" size="20" maxlength="50" ></input></td>
+					        <td align="right" width="150">联系人手机号码：</td>
+					        <td align="left" widht="140"><input type="text" name="name" id="name" size="20" maxlength="50"></input></td>
+						</tr>
+				
+						<tr>
+							<td align="right">企业地址：</td>
+							<td width="260"><input type="text" name="name" id="name" size="20" maxlength="50"></input></td>
+							<td align="right">登记机关：</td>
+							<td algin="left" width="260"><input type="text" name="name" id="name" size="20" maxlength="50"></input></td>
+						</tr>
+						<tr>
+							<td align="right" width="150">税务登记号：</td>
+							<td algin="left" width="260"><input type="text" name="name" id="name" size="20" maxlength="50" ></input></td>
+							<td align="right" width="150">工商注册号：</td>
+							<td algin="left" width="140"><input type="text" name="name" id="name" size="20" maxlength="50"></input></td>
+						</tr>
+				
+						<tr>
+							<td align="right" width="150">企业状态：</td>
+							<td width="260">
+								<select>
+									<option>请选择</option>
+									<option>运营</option>
+									<option>注销</option>
+									<option>迁出</option>
+									<option>吊销</option>
+								</select>
+							</td>
+							
+							<td align="right">企业类型：</td>
+							<td width="260"><input type="text" name="name" id="name" size="20" maxlength="50"></input></td>
+						</tr>
+				
+						<tr>
+							<td align="right" width="150">设立日期：</td>
+							<td algin="left" width="140"><input class="Wdate" onclick="WdatePicker()" name="name" id="name" size="20" maxlength="50"></input></td>
+							<td align="right">核准日期：</td>
+							<td width="260"><input class="Wdate" onclick="WdatePicker()" name="name" id="name" size="20" maxlength="50"></input></td>
+						</tr>
+						</tbody>
+						
+					</table>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div region="south" border="false"
+		 style="overflow: hidden; padding: 10px 10px 0px 10px">
+		<table width="98%" border="0" cellspacing="0" cellpadding="0"
+			   class="table_auto tcck_foot margin_top10">
+			<tr>
+				<td align="center">
+					<input class="button" type="button" name="btnOk" value="确认"
+						   onclick="dosave()" />
+					<input class="button" type="button" name="btnOk" value="关闭"
+						   onclick="window.close();" />
+				</td>
+			</tr>
+		</table>
+	</div>
+</form>
+</body>
+</html>

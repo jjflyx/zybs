@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<title>$!app_name</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<!-- 框架 -->
+	<script type='text/javascript'>
+		var CONTEXTPATH = '${base}';
+		var stylePath = '$!stylename';
+	</script>
+	<link href="${base}/include/css/blue/style.css" rel="stylesheet" type="text/css" />
+	<link href="${base}/include/css/page.css" rel="stylesheet" type="text/css" />
+	<style>
+		html,body{ *overflow:hidden;}
+	</style>
+	<script type="text/javascript" src="${base}/include/js/jquery.min.js"></script>
+	<script type="text/javascript" src="${base}/include/js/string.js"></script>
+	<script>
+		function customHeightSet() {
+			var otherH_1 = jQuery(".pageBtnarea").outerHeight()
+					+ parseInt(jQuery(".pageM").css("paddingTop"))
+					+ parseInt(jQuery(".pageM").css("paddingBottom"));
+			var pageH = document.documentElement.clientHeight;
+			jQuery("#pageScroll").height(pageH - otherH_1);
+		}
+		jQuery(document).ready(function() {
+			customHeightSet();
+		});
+		window.onload = function() {
+			customHeightSet();
+		}
+		window.onresize = function() {
+			customHeightSet();
+		}
+	</script>
+</head>
+<body>
+<form name='form1' id="form1" method='post'>
+	<input type="hidden" name="type" id="type" value="$!obj.type">
+	<input type="hidden" name="id" id="id" value="$!obj.id">
+	<div class="pageM viewpage" id="pageScroll">
+		<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="table_titlebk">
+			<tr>
+				<td class="table_title" align="center">
+					#if($!{obj.type}==1)
+					估价师信息
+					#elseif($!{obj.type}==1)
+					土地代理登记人信息
+					#else
+					专业技术人员信息
+					#end
+				</td>
+			</tr>
+		</table>
+
+		<div class="conBody">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tableViews">
+				<tr>
+					<th width="20%">姓名：</th>
+					<td width="*">
+						$!{obj.name}
+					</td>
+				</tr>
+				<tr>
+					<th>
+						身份证号：
+					</th>
+					<td algin="left">
+						$!{obj.code}
+					</td>
+				</tr>
+				#if($!{obj.type}==1)
+				<tr>
+					<th>
+						性别：
+					</th>
+					<td algin="left" width="140">
+						#if($!{obj.sex}=="0")
+							 男性
+						#else
+							女性
+						#end
+					</td>
+				</tr>
+				#end
+				<tr>
+					<th>
+						联系电话：
+					</th>
+					<td algin="left">
+						$!{obj.tel}
+					</td>
+				</tr>
+				<tr>
+					<th>
+						手机号码：
+					</th>
+					<td algin="left">
+						$!{obj.phone}
+					</td>
+				</tr>
+				#if($!{type}==1||$!{type}==2)
+				<tr>
+					<th>
+						资格证号：
+					</th>
+					<td algin="left">
+						$!{obj.zgzh}
+					</td>
+				</tr>
+				<tr>
+					<th>
+						#if($!{type}==1)
+						执业登记号：
+						#else
+						登记号：
+						#end
+					</th>
+					<td algin="left">
+						$!{obj.djh}
+					</td>
+				</tr>
+				#end
+				<tr>
+					<th>
+						所属机构：
+					</th>
+					<td algin="left">
+						$!{obj.unit}
+					</td>
+				</tr>
+				<tr>
+					<th>
+						人员在职情况：
+					</th>
+					<td algin="left">
+						$!ryzt.get("$!obj.state")
+					</td>
+				</tr>
+				
+			</table>
+		</div>
+	</div>
+
+
+</form>
+<div class="pageBtnarea">
+	<!--<input class="button" type="button" name="btnOk" value="确认"-->
+	<!--onclick="doSave()" />-->
+	<input class="button" type="button" name="btnOk" value="关闭"
+		   onclick="window.close();" />
+</div>
+</body>
+</html>

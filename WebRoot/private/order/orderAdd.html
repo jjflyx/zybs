@@ -1,0 +1,199 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>$!app_name</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<script type='text/javascript'>
+		var CONTEXTPATH = '${base}';
+		var stylePath = '$!stylename';
+	</script>
+	<link href="${base}/private/ratifyFollow/css/blue/style.css" rel="stylesheet" type="text/css" />
+	<script src="${base}/include/js/main.js"></script>
+	<script src="${base}/include/js/string.js"></script>
+	<!--<link href="/gtCredit/include/css/themes/gray/easyui.css" rel="stylesheet" type="text/css" />-->
+	<script src="${base}/include/js/jquery.easyui.min.js"></script>
+	<link href="${base}/include/controls/my97/skin/WdatePicker.css" rel="stylesheet" type="text/css"/>
+	<script language="javascript" type="text/javascript" src="${base}/include/controls/my97/WdatePicker.js"></script>
+	<script src="${base}/include/js/ajax_select.js"></script>
+	<script src="${base}/js/util/preview.js"></script>
+<script>
+	function addSave(){
+		jQuery.ajax({
+			type : 'POST',
+			url : "${base}/private/order/addSave",
+			data : $("#form1").serialize(),
+			timeout : 30000,
+			success : function(res) {
+				if (res == "true") {
+					Dialog.alert("添加成功！", function() {
+						refreshloadDataTab();
+					});
+				} else {
+					Dialog.alert("添加失败！");
+				}
+				return false;
+			},
+			fail : function(res) {
+				Dialog.alert("系统错误?!");
+			}
+		});
+	}
+	
+	function getUnit(unitid)
+{	
+	jQuery.ajax({
+		url : "${base}/private/order/getUnit?unitid="+unitid,
+		success : function (res) {	
+			var a=res.split(";");
+			$("#khxm").attr("value",a[0]);
+			$("#lxfs").attr("value",a[1]);
+		}
+	});   
+}
+	
+	function customHeightSet() {
+	var otherH_1 = jQuery(".pageBtnarea").outerHeight()
+			+ parseInt($(".pageM").css("paddingTop"))
+			+ parseInt($(".pageM").css("paddingBottom"));
+	var pageH = document.documentElement.clientHeight;
+	jQuery("#pageScroll").height(pageH - otherH_1);
+	}
+	jQuery(document).ready(function() {
+		customHeightSet();
+	});
+	window.onresize = function() {
+		customHeightSet();
+	}
+	window.onload = function() {
+		customHeightSet();
+	}
+</script>
+</head>
+<body leftmargin="0" topmargin="0">
+<div class="pageM editpage" id="pageScroll" style="position:relative;">
+	<form name='form1' id="form1" method='post'>
+		<input type="hidden" name="sxqx_name" id="sxqx_name" /> <input
+			type="hidden" name="id" id="id" value="$!obj.id"> <input
+			type="hidden" name="sxxw_id" id="sxxw_id"> <input
+			type="hidden" name="sxqx_id" id="sxqx_id"> <input
+			type="hidden" name="cjcs_id" id="cjcs_id"> <input
+			type="hidden" name="xyzt_id" id="xyzt_id"> <input
+			type="hidden" name="xzcf_id" id="xzcf_id" /> <input type="hidden"
+			name="xyztid" id="xyztid" /> <input type="hidden" name="type"
+			id="type" value=" " /> <input type="hidden" name="xy_type"
+			id="xy_type" value="$!xytype" /> <input type="hidden" name="tablekey"
+			id="tablekey" value="$!tablekey" /> <input type="hidden"
+			name="contract_id" id="contract_id">
+		<div class="pageM viewpage pageAdd" id="pageScroll">
+			<table width="100%" border="0" align="center" cellpadding="0"
+				cellspacing="0" class="table_titlebk">
+				<tr>
+					<td class="table_title" align="center">中业标识广告加工制作订单</td>
+				</tr>
+			</table>
+			<table width="100%" border="0" cellpadding="0" cellspacing="3"
+				class="table_auto table_nrbk">
+				<tr>
+					<td align="right" width="15%">订单名称：</td>
+					<td algin="left" width="30%"><input type="text" name="ddmc"
+						id="ddmc" maxlength="50" /></td>
+					<td align="right">客户名称：</td>
+					<td width="*%">
+						<select id="unitid" name="unitid" verify="NotNull" onchange="getUnit(this.value)">
+							<option value="">请选择</option> #foreach($!unit in $!unitMap)
+							<option value="$!unit.id">$!unit.name</option> #end
+					</select>
+					</td>
+				</tr>
+				<tr>
+					<td align="right" width="15%">客户姓名：</td>
+					<td width="30%"><input type="text" id="khxm" name="khxm"/></td>
+					<td align="right" width="15%">联系方式：</td>
+					<td width="30%"><input type="text" id="lxfs" name="lxfs"/></td>
+				</tr>
+				<tr>
+					<td align="right">订货日期：</td>
+					<td width="*%"><input class="Wdate"
+						onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});" value="$!today"
+						name="add_time" id="add_time" size="20"
+						maxlength="50" verify="订货日期|NotNull" />
+					</td>
+					<td align="right" width="15%">应发货时间：</td>
+					<td width="*%"><input class="Wdate"
+						onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});" 
+						name="yfhrq" id="yfhrq" size="20"
+						maxlength="50" verify="应发货时间|NotNull" /></td>
+				</tr>
+				<tr>
+					<td align="right" width="15%">类型：</td>
+					<td width="30%">
+					<select onchange="selectCascade(this,'00010037')" verify="NotNull" iscascade="kz_0" loadselect="loadSelect(this,'00010037',1)" name="hhgg" selectedvalue="">
+      				<option value=" ">请选择</option>
+      				</select>
+      				</td>
+      				<td align="right" width="15%">尺寸大小：</td>
+					<td width="30%"><input type="text" id="ccdx" name="ccdx"/>cm</td>
+				</tr>
+				<tr>
+					<td align="right" width="15%">价格：</td>
+					<td width="*%"><input typt="text" name="yfjk" id="yfjk" /></td>
+					<td align="right" width="15%">是否发货：</td>
+					<td algin="left" width="30%">
+					<select id="isfh" name="isfh" verify="NotNull">
+							<option value="">请选择</option> #foreach($!isfh in $!isfhMap)
+							<option value="$!isfh.value">$!isfh.name</option> #end
+					</select>
+					<script type="text/javascript">selected(document.form1.isfh,"0001")</script>
+					</td>
+				</tr>
+				<!-- <tr>
+					<td align="right">收货地址：</td>
+					<td colspan="3" style="padding:0">
+						<table width="100%" border="0" cellspacing="0" cellpadding="0"
+							class="tableIn">
+							<tbody>
+								<tr>
+									<td><input type="text" class="input" placeholder="请标注送货地点"
+										id="shdz" name="shdz" style="width: 60%" readonly
+										onclick="getPointValue();" /><input type="button" class="button"
+										value="地图标注" onclick="getPointValue();" /></td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr> -->
+				
+				<tr>
+					<td align="right" width="15%">附件：</td>
+					<td colspan="3">
+						<span class="attachement" style=" padding: 2px; display: inline-block;" name="editable-input"> 
+							<input type="text" name="fj">
+							<button class="btn-text btn-attachement"
+									onclick="loadFileClickOut(this);" type="button"
+									fileinputname="fj" id="fj_button">选择</button>
+						</span> 
+						<span style="color: gray; font-size: 10px;"></span>
+					</td>
+			</tr>
+			</td> 
+				</tr>
+				
+				<tr>
+					<td align="right" width="15%">备注：</td>
+					<td algin="left" colspan="3"><textarea rows="3" style="width: 77.5%" name = "bz" id="bz"></textarea></td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+		
+	</form>
+	<div align="center" style="padding-bottom: 10px;">
+			<input class="button" type="button" name="btnOk" value="提交"
+				   onclick="addSave()" />
+			<input class="button" type="button" name="btnOk" value="关闭"
+				   onclick="window.close();" />
+		</div>
+	</div>
+	
+</body>
+</html>

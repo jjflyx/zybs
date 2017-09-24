@@ -1,0 +1,421 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<title>$!app_name</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<script type='text/javascript'>
+		var CONTEXTPATH = '${base}';
+		var stylePath = '$!stylename';
+	</script>
+	<link href="${base}/private/ratifyFollow/css/blue/style.css" rel="stylesheet" type="text/css" />
+	<script src="${base}/include/js/main.js"></script>
+	<script src="${base}/include/js/string.js"></script>
+	<!--<link href="/gtCredit/include/css/themes/gray/easyui.css" rel="stylesheet" type="text/css" />-->
+	<script src="${base}/include/js/jquery.easyui.min.js"></script>
+	<link href="${base}/include/controls/my97/skin/WdatePicker.css" rel="stylesheet" type="text/css"/>
+	<script language="javascript" type="text/javascript" src="${base}/include/controls/my97/WdatePicker.js"></script>
+	<script src="${base}/include/js/ajax_select.js"></script>
+	<script>
+		var checkresult=true;
+		var submit=false;
+		function doSave(status){
+			document.getElementById("status").value=status;
+			if(submit){
+				alert("请勿重复提交！");
+				return;
+			}
+			if(Verify.hasError()){
+				return ;
+			}
+			if($("#code").val().trim()=="" && $("#zzjgdm").val().trim()=="" ){
+				Dialog.alert("统一社会信用代码与组织机构代码必须填写一个",function(){
+					$("#code").focus();
+				});
+				return;
+			}
+
+			checkcode($("#code"));
+			checkgszch($("#gszch"));
+			checkfrmc($("#name"));
+			if(!checkresult){
+				return;
+			}
+			
+			submit=true;
+			jQuery.ajax({
+				type: 'POST',
+				url : "${base}/private/gtxt/xyzt/add" ,
+				data : $("#form1").serialize(),
+				success : function (res) {
+					if(res){
+						Dialog.alert("添加成功！",function(){
+							window.opener.loadGrid();
+							window.close();
+						});
+					}else{
+						Dialog.alert("添加失败！");
+						submit=false;
+					}
+					return false;
+				},
+				fail : function(res) {
+					Dialog.alert("系统错误?!");
+				}
+			});
+		}
+
+		$(document).ready(function() {
+			$(".radioItem").change(function() {
+				var selectedvalue = $("input[name='local']:checked").val();
+				if (selectedvalue == 0) {
+					$("#getFr").show();
+				} else {
+					$("#getFr").hide();
+				}
+			});
+
+			$("#code").bind("change",function(){
+				checkcode(this);
+			});
+			//级联加载企业类型
+			loadSelect($("#select_span"),'00020003','company_type','company_type','',1);
+		});
+
+		//验证统一社会信用代码是否唯一
+		function checkcode(obj){
+			var value=$(obj).val();
+			if(value){//没有值得时候不验证
+				jQuery.ajax({
+					type : 'POST',
+					url : "${base}/private/gtxt/xyzt/checkCode",
+					data : {"code":value},
+					async:false,
+					success : function(res) {
+						if (res == "false") {
+							Dialog.alert("当前输入的统一社会信用代码已存在，请更换！", function() {
+// 								window.opener.loadData();
+// 								window.close();
+							});
+							checkresult=false;
+						} else{
+							checkresult=true;
+						}
+
+					},
+					fail : function(res) {
+						Dialog.alert("系统错误?!");
+					}
+				});
+			}
+		}
+		
+		//验证工商注册号是否唯一
+		function checkgszch(obj){
+			var value=$(obj).val();
+			if(value){//没有值得时候不验证
+				jQuery.ajax({
+					type : 'POST',
+					url : "${base}/private/gtxt/xyzt/checkCode",
+					data : {"gszch":value},
+					async:false,
+					success : function(res) {
+						if (res == "false") {
+							Dialog.alert("当前输入的工商注册号已存在，请更换！", function() {
+// 								window.opener.loadData();
+// 								window.close();
+							});
+							checkresult=false;
+						} else{
+							checkresult=true;
+						}
+
+					},
+					fail : function(res) {
+						Dialog.alert("系统错误?!");
+					}
+				});
+			}
+		}
+		//验证法人名称是否唯一
+		function checkfrmc(obj){
+			var value=$(obj).val();
+			if(value){//没有值得时候不验证
+				jQuery.ajax({
+					type : 'POST',
+					url : "${base}/private/gtxt/xyzt/checkCode",
+					data : {"frmc":value},
+					async:false,
+					success : function(res) {
+						if (res == "false") {
+							Dialog.alert("当前输入的法人名称已存在，请更换！", function() {
+// 								window.opener.loadData();
+// 								window.close();
+							});
+							checkresult=false;
+						} else{
+							checkresult=true;
+						}
+
+					},
+					fail : function(res) {
+						Dialog.alert("系统错误?!");
+					}
+				});
+			}
+		}
+		
+		var qyzt=$!qyzt;
+		function getFrService(){
+			var gszch = $("#gszch").val();
+			var code =  $("#code").val();
+			var name =  $("#name").val();
+			var zzjgdm =  $("#zzjgdm").val();
+			if(gszch=="" && code=="" && name == "" && zzjgdm == "") {
+				Dialog.alert("请输入统一信用代码、工商注册号、法人名字或者组织机构代码任意一项查询法人信息！", function () {
+					$("#frName").focus();
+				});
+				return;
+			}
+			var key = "";
+			if(code!=""){
+				key = code;
+			}else if(gszch != ""){
+				key = gszch;
+			}else if(name != ""){
+				key = name;
+			}else{
+				key = zzjgdm;
+			}
+			jQuery.ajax({
+				url : "${base}/private/gtxt/xyzt/getFrObj",
+				type: 'POST',
+				data: {"key": key},
+				success: function (result) {
+					if(result!="{}") {
+						var obj = eval('(' + result + ')');
+						$("#create_date").val(obj.SLRQ=="null"?"":obj.SLRQ);
+						$("#hzrq").val(obj.HZRQ=="null"?"":obj.HZRQ);
+						$("#company_addr").val(obj.QYDZ=="null"?"":obj.QYDZ);
+						$("#djjg").val(obj.DJJG=="null"?"":obj.DJJG);
+						$("#swdjh").val(obj.SWDJH=="null"?"":obj.SWDJH);
+						$("#tel").val(obj.LXDH=="null"?"":obj.LXDH);
+						$("#fr_name").val(obj.FDDBR=="null"?"":obj.FDDBR);
+						$("#zzjgdm").val(obj.ZZJGDM=="null"?"":obj.ZZJGDM);
+						$("#name").val(obj.FRMC=="null"?"":obj.FRMC);
+						$("#gszch").val(obj.GSZCH=="null"?"":obj.GSZCH);
+						$("#code").val(obj.TYSHXYDM=="null"?"":obj.TYSHXYDM);
+						$("#src").val(1);
+						$("#state").val(obj.QYZT);
+						$("#update_date").val(obj.XYPTMODIFY_DATE=="null"?"":obj.XYPTMODIFY_DATE);
+					}else{
+						Dialog.alert("没有查询到相应的数据!");
+						$("#code").focus();
+						$("#create_date").val("");
+						$("#hzrq").val("");
+						$("#company_addr").val("");
+						$("#djjg").val("");
+						$("#swdjh").val("");
+						$("#tel").val("");
+						$("#fr_name").val("");
+						$("#zzjgdm").val("");
+						$("#name").val("");
+						$("#code").val("");
+						$("#src").val(0);
+						$("#update_date").val("");
+					}
+				}
+			});
+		}
+	</script>
+</head>
+<body leftmargin="0" topmargin="0" class="easyui-layout">
+<form name='form1' id="form1" method='post'>
+	<input type="hidden" name="type" id="type" value="1" />
+	<input type="hidden" name="src" id="src" value="0" />
+	<input type="hidden" name="status" id="status"  />
+	<input type="hidden" name="update_date" id="update_date" />
+	<input type="hidden" name="xylx" value="$!{xylx}" />
+	<div region="center" border="false"
+		 style="width: 100%; height: 100%; padding: 0px 10px 10px;">
+		<table width="98%" border="0" align="center" cellpadding="0"
+			   cellspacing="0" class="table_auto margin_top15 table_titlebk">
+			<tr>
+				<td class="table_title" align="center">
+					法人信息
+				</td>
+			</tr>
+		</table>
+		<table width="98%" border="0" align="center" cellpadding="0"  cellspacing="0" class="table_auto table_nrbk">
+			<tr>
+				<td valign="top" class="padding10">
+					<table width="100%" border="0" cellpadding="0" cellspacing="3">
+						#if(${xylx}!="0006")
+						<tr>
+							<td align="right" width="150">请选择：</td>
+							<td colspan="3">
+								<input type="radio" name="local" value="0" class="radioItem" checked="checked"/>省内
+								<input type="radio" name="local" value="1" class="radioItem">省外
+							</td>
+						</tr>
+						#else
+						<input type="hidden" name="local" value="0"/>
+						#end
+						<tbody id="div_sn">
+						<tr>
+							<td></td>
+							<td colspan="3">
+								<span style="color:red;">* 通过统一社会信用代码、工商注册号、法人名称或者组织机构代码任意一项获取省内法人信息</span>
+							</td>
+						</tr>
+						<tr>
+							<td align="right" width="150">
+								统一社会信用代码：
+							</td>
+							<td algin="left" width="200">
+								<input type="text" name="code" id="code" size="27" maxlength="50" placeholder="与组织机构代码至少填一项" verify="统一社会信用代码|Length=18&&isCharOrNumber" />
+							</td>
+							<td align="right">
+								组织机构代码:
+							</td>
+							<td algin="left">
+								<input type="text" name="zzjgdm" id="zzjgdm" size="27" maxlength="50" placeholder="与统一社会信用代码至少填一项"  verify="组织机构代码|Length=9&&isCharOrNumber"/>
+							</td>
+						</tr>
+						<tr>
+							<td align="right">法人名称：</td>
+							<td>
+								<input type="text" name="name" id="name" size="20" maxlength="40" verify="法人名称|NotNull" /><span style="color:red">*</span>
+							</td>
+							<td align="right" width="150">
+								工商注册号：
+							</td>
+							<td algin="left" width="*">
+								<input type="text" name="gszch" id="gszch" size="20" maxlength="50" verify="工商注册号|length=15" />&nbsp;&nbsp;&nbsp;
+								<input class="button" type="button" name="getFr" id="getFr" onclick="getFrService();" value="获取" />
+							</td>
+						</tr>
+						<tr>
+							<td align="right">
+								法定代表人姓名：
+							</td>
+							<td algin="left">
+								<input type="text" name="fr_name" id="fr_name" size="20" maxlength="50" verify="法定代表人|NotNull" /><span style="color:red">*</span>
+							</td>
+							<td align="right">
+								法定代表人身份证：
+							</td>
+							<td align="left">
+								<input type="text" name="fr_code" id="fr_code" size="25" maxlength="50" verify="身份证号|isIdNumber" />
+							</td>
+						</tr>
+
+						<tr>
+							<td align="right">
+								联系电话：
+							</td>
+							<td algin="left">
+								<input type="text" name="tel" id="tel" size="20" maxlength="50" verify="联系电话|NotNull&&联系电话|isPhone" /><span style="color:red">*</span>
+							</td>
+							<td align="right">
+								登记机关：
+							</td>
+							<td algin="left">
+								<input type="text" name="djjg" id="djjg" size="20" maxlength="50" />
+							</td>
+						</tr>
+						<tr>
+							<td align="right">
+								税务登记号：
+							</td>
+							<td algin="left">
+								<input type="text" name="swdjh" id="swdjh" size="20" maxlength="50" verify="工商注册号|length=15" />
+							</td>
+							<td align="right">企业状态：</td>
+							<td>
+								<select name="state" id="state">
+									#foreach($obj in $qyztList)
+									<option value="$obj.value">$obj.name</option>
+									#end
+								</select>
+							</td>
+						</tr>
+
+						<tr>
+							<td align="right">
+								企业类型：
+							</td>
+							<td  colspan="3">
+								<span id="select_span"></span>
+							</td>
+						</tr>
+						<tr>
+							<td align="right">
+								设立日期：
+							</td>
+							<td algin="left">
+								<input class="Wdate" onclick="WdatePicker()" name="create_date" id="create_date" size="20" maxlength="50" />
+							</td>
+							<td align="right">
+								#if(${xylx}=="00050001")
+								年检日期：
+								#else
+								核准日期：
+								#end
+							</td>
+							<td>
+								<input class="Wdate" onclick="WdatePicker()" name="hzrq" id="hzrq" size="20" maxlength="50" />
+							</td>
+						</tr>
+						#if(${xylx}=="00050002")
+						<tr>
+							<td align="right">
+								注册地址：
+							</td>
+							<td colspan="3">
+								<input type="text" name="zc_addr" id="zc_addr" size="50"  verify="注册地址|NotNull" /><span style="color:red">*</span>
+							</td>
+						</tr>
+						#end
+						<tr>
+							<td align="right">
+								办公地址：
+							</td>
+							<td colspan="3">
+								<input type="text" name="company_addr" id="company_addr" size="50"  verify="办公地址|NotNull" /><span style="color:red">*</span>
+							</td>
+						</tr>
+						#if(${xylx}=="00050001")
+						<tr>
+							<td align="right">
+								机构规模：
+							</td>
+							<td colspan="3">
+								<input type="text" name="jggm" id="jggm" size="10"  verify="机构规模|NotNull" /><span style="color:red">*(机构人数)</span>
+							</td>
+						</tr>
+						#end
+						<tr>
+							<td align="right" >联系人手机号码：</td>
+							<td align="left" colspan="3">
+								<input type="text" name="phone" id="phone" size="20" maxlength="50" verify="联系人手机号码|isPhone" />
+							</td>
+						</tr>
+						</tbody>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div region="south" border="false"
+		 style="overflow: hidden; padding: 10px 10px 0px 10px">
+		<div align="center" style="padding-bottom: 10px;">
+		<input type="button" class="button" name="Preview" value="暂存" onclick="doSave(0)" />
+			<input class="button" type="button" name="btnOk" value="提交"
+				   onclick="doSave(1)" />
+			<input class="button" type="button" name="btnOk" value="关闭"
+				   onclick="window.close();" />
+		</div>
+	</div>
+</form>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>安徽省交通建设工程质量监督局</title>
+<link rel="stylesheet" type="text/css" href="${baseRes!}/css/style.css"/>
+<script language="javascript" type="text/javascript" src="${baseRes!}/js/jquery.min.js"></script>
+<script language="javascript" type="text/javascript" src="${baseRes!}/js/hits.js"></script>
+</head>
+<body>
+<div class="wrapper">
+	[#include "../include/top.html"/]
+    <div class="site_body">
+        <div class="site_con">
+        	<div class="page_title" id="pagetitle"><h1>${content_ext.title}</h1></div>
+            <div class="page_other">来源：${content_ext.origin!'本站原创'}　　　发布时间：${content_ext.pub_time}         　　　【字体：<a href="javascript:fontZoomC();" class="wz">大</a> <a href="javascript:fontZoomB();" class="wz">中</a> <a href="javascript:fontZoomA();" class="wz">小</a>】</div>
+
+[#if pagination.firstPage]
+            [#if content_ext.description??]
+
+              <table width="100%" border="0" cellspacing="8" cellpadding="0" style="padding:10px;border:1px solid #e5e5e5;background:#f0f0f0;color:#79868f;margin-bottom:10px;">
+                <tr>
+                  <td><strong>内容摘要：</strong>[@text_cut s=content_ext.description len='60' append='...'/]</td>
+                </tr>
+              </table>
+            [/#if]
+			[/#if]
+  <table width="100%" border="0" cellspacing="8" cellpadding="0" style="padding:10px;border:0px solid #fff;margin-bottom:10px;">
+                <tr>
+                  <td>[#if content_ext.media_path?? && content_ext.media_type??]
+            <p style="margin: 5px auto; text-align: center">[#if content_ext.media_type=='FLV'] <object height="400" width="600" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000">
+            <param name="movie" value="${baseRes!}/img/flvplayer.swf" />
+            <param name="quality" value="high" />
+            <param name="allowFullScreen" value="true" />
+            <param name="FlashVars" value="vcastr_file=${content_ext.media_path!}&BufferTime=3" /><embed height="400" width="600" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" quality="high" flashvars="vcastr_file=${content_ext.media_path!}" allowfullscreen="true" src="${baseRes!}/img/flvplayer.swf"></embed></object>[#elseif content_ext.media_type=='FLASH'] <embed height="400" width="600" type="application/x-shockwave-flash" quality="high" src="${content_ext.media_path}" wmode="transparent" align="center"></embed>[#else] <embed height="400" width="600" type="video/x-ms-wmv" src="${content_ext.media_path}" console="cons" controls="ImageWindow" autostart="true"></embed>[/#if]</p>
+            [/#if]
+</td>
+                </tr>
+              </table>
+            <div class="page_con" id="fontzoom">
+                  ${txt!}
+
+          </div>
+ <table width="100%" border="0" cellspacing="8" cellpadding="0" style="padding:10px;border:0px solid #fff;margin-bottom:10px;">
+                <tr>
+                  <td>
+ [#if (fileList?size>0)]			
+			<div>
+				<ul>
+				<li>附件：</li>
+				[#list fileList as f]
+				<li>
+				<a href="${f.file_path!}" target="_blank">${f.filename!}</a>
+				</li>
+				[/#list]
+				<li></li>
+				</ul>
+			</div>
+                                               [/#if]
+</td>
+                </tr>
+              </table>
+            <div class="page_btn">
+                <div class="baidushare">
+                <!-- Baidu Button BEGIN -->
+               <div class="bdsharebuttonbox"><A class=bds_more href="#" data-cmd="more"></A><A class=bds_qzone title=分享到QQ空间 href="#" data-cmd="qzone"></A><A class=bds_tsina title=分享到新浪微博 href="#" data-cmd="tsina"></A><A class=bds_tqq title=分享到腾讯微博 href="#" data-cmd="tqq"></A><A class=bds_renren title=分享到人人网 href="#" data-cmd="renren"></A><A class=bds_weixin title=分享到微信 href="#" data-cmd="weixin"></A></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>                <!-- Baidu Button END -->
+                </div>
+                <a class="page_closebtn" href="javascript:window.close();">【关闭】</a>
+            </div>
+        </div>
+    </div>
+[#include "../include/foot.html"/]
+</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

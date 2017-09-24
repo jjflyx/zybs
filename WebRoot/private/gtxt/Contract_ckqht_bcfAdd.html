@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<title>$!app_name</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<script type='text/javascript'>
+		var CONTEXTPATH = '${base}';
+		var stylePath = '$!stylename';
+	</script>
+	<link href="${base}/private/ratifyFollow/css/blue/style.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" type="text/css" href="${base}/css/form.css" />
+	<script src="${base}/include/js/main.js"></script>
+	<script src="${base}/include/js/string.js"></script>
+	<!--<link href="/gtCredit/include/css/themes/gray/easyui.css" rel="stylesheet" type="text/css" />-->
+	<script src="${base}/include/js/jquery.easyui.min.js"></script>
+	<link href="${base}/include/controls/my97/skin/WdatePicker.css" rel="stylesheet" type="text/css"/>
+	<script language="javascript" type="text/javascript" src="${base}/include/controls/my97/WdatePicker.js"></script>
+	<script src="${base}/include/js/ajax_select.js"></script>
+	<script src="${base}/js/util/preview.js"></script>
+	<script>
+
+		function customHeightSet() {
+			var otherH_1 = jQuery(".pageBtnarea").outerHeight()
+					+ parseInt(jQuery(".pageM").css("paddingTop"))
+					+ parseInt(jQuery(".pageM").css("paddingBottom"));
+			var pageH = document.documentElement.clientHeight;
+			jQuery("#pageScroll").height(pageH - otherH_1);
+		}
+		jQuery(document).ready(function() {
+			customHeightSet();
+		});
+		window.onload = function() {
+			customHeightSet();
+		}
+		window.onresize = function() {
+			customHeightSet();
+		}
+
+		var checkresult=true;
+		function doSave(status){
+			document.getElementById("status").value=status;
+			if(Verify.hasError()&&status=="1"){
+				return ;
+			}
+			
+			jQuery.ajax({
+				type: 'POST',
+				url : "${base}/private/contract/ck/doBcfAdd" ,
+				data : $("#form1").serialize(),
+				success : function (res) {
+					if(res=="true"){
+						Dialog.alert("添加成功！",function(){
+							window.opener.loadGrid();
+							window.close();
+						});
+					}else{
+						Dialog.alert("添加失败！");
+					}
+					return false;
+				},
+				fail : function(res) {
+					Dialog.alert("系统错误?!");
+				}
+			});
+		}
+		function bian(jftype){
+        	if(jftype==1){//单位
+        		$("#ylxx_y").attr("verify","Number");
+        		$("#ylxrq_y").attr("verify","");
+        	}
+		}
+
+		function addTbodyTr(){
+			var htmlStr = "<tr class=\"listRow\">"+
+					"<td>"+
+					"<input name=\"ckb\" type=\"checkbox\">"+
+					"</td>"+
+					"<td style=\"text-align:left;\">"+
+					"缴纳金额：<input verify=\"NotNull&&Number\" type=\"text\" name=\"ylxx_y\">（单位：万元）"+
+					"&nbsp;&nbsp;&nbsp;缴纳日期：<input verify=\"NotNull\" onclick=\"WdatePicker({dateFmt:'yyyy-MM-dd'})\" readonly type=\"text\" name=\"ylxrq_y\" /><br />"+
+					"&nbsp;备注："+
+					"<input size=\"40\" type=\"text\" name=\"bz\" />"+
+					"</td>"+
+					"</tr>";
+			$("#yw_tbody").append(htmlStr);
+		}
+
+		$(document).ready(function() {
+			
+		});
+
+	</script>
+</head>
+<body leftmargin="0" topmargin="0" class="easyui-layout">
+<form name='form1' id="form1" method='post'>
+	<input type="hidden" id="status" name="status">
+	<div class="pageM viewpage" id="pageScroll">
+		<table width="98%" border="0" align="center" cellpadding="0"
+			   cellspacing="0" class="table_auto margin_top15 table_titlebk">
+			<tr>
+				<td class="table_title" align="center">
+					矿产资源补偿费缴纳义务
+				</td>
+			</tr>
+		</table>
+		<table width="98%" border="0" align="center" cellpadding="0"  cellspacing="0" class="table_auto table_nrbk">
+			<tr>
+				<td valign="top" class="padding10">
+					<table width="100%" border="0" cellpadding="0" cellspacing="3">
+						<tbody id="div_sn">
+						<tr>
+							<td align="right" width="150">
+								采矿许可证号：
+							</td>
+							<td algin="left" colspan="3">
+								<input type="text" name="xkzh"  readonly verify="采矿许可证号|NotNull" />
+								<input type="hidden" name="bjh" id="bjh" />
+								<span style="color:#ff0000;">*</span>
+								<img src="${base}/images/form/icon/cz_find.png" id="ht_img" name="ht_img" style="vertical-align:middle;cursor:pointer;" onclick="toAddXKZH('BCF_TYPE');">
+							</td>
+						</tr>
+						<tr>
+							<td align="right" nowrap>受让人(信用主体)：</td>
+							<td>
+								<input type="text" name="xyname" readonly  class="readonlyText"/>
+								<input type="hidden" name="xyzt" id="xyzt" />
+							</td>
+							<td align="right">
+								统一社会信用代码：
+							</td>
+							<td algin="left" width="*">
+								<input type="text" name="xycode" readonly  class="readonlyText"/>
+							</td>
+						</tr>
+						<tr>
+							<td align="right">
+								收缴单位：
+							</td>
+							<td algin="left" colspan="3">
+								<select name="jf_type" onchange="bian(this.value)">
+									<option value="0">本单位</option>
+									<option value="1">属地单位</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td align="right" valign="top">
+								应付款信息：
+							</td>
+							<td algin="left" colspan="3">
+								<div>
+									<label><input type="radio" name="fkfs" checked value="1">按期付款</label>
+								</div>
+								<table class="listTable noBorderTable" border="0" cellpadding="2" cellspacing="0" width="82%">
+									<tbody id="yw_tbody">
+									<tr class="toolBar">
+										<td colspan="2">
+											<a class="link add" href="javascript:addTbodyTr();">添加</a>
+											<a class="link del" href="javascript:delTr('ckb');">删除</a>
+										</td>
+									</tr>
+									<tr class="listRow">
+										<td>
+											<input name="ckb" type="checkbox">
+										</td>
+										<td style="text-align:left;">
+											缴纳金额：<input verify="NotNull&&Number" type="text" id="ylxx_y" name="ylxx_y" >（单位：万元）
+											缴纳日期：<input verify="NotNull" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" readonly type="text" id="ylxrq_y" name="ylxrq_y" >
+											<input type="hidden" name="ywid" ><br>
+											&nbsp;备注：
+											<input size="40" type="text" name="bz" >
+										</td>
+									</tr>
+									</tbody>
+								</table>
+							</td>
+						</tr>
+						</tbody>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</div>
+</form>
+<div class="pageBtnarea Noprint">
+	<input type="button" class="button" name="dis" id="dis" value="暂存" onClick="doSave(0);" />
+	<input type="button" class="button" name="dis" id="dis" value="提交" onClick="doSave(1);" />
+	<input type="button" class="button" name="btnCancal" id="btnCancal" value="关闭" onclick="window.close()">
+</div>
+</body>
+</html>

@@ -1,0 +1,345 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<title>$!app_name</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link rel="stylesheet" type="text/css"
+			href="${base}/include/css/blue/style.css" />
+		<script type='text/javascript'>
+		var CONTEXTPATH = '${base}';
+		var stylePath = '$!stylename';
+	</script>
+		<script src="${base}/include/js/main.js"></script>
+		<script src="${base}/include/js/string.js"></script>
+
+		<script type="text/javascript"
+			src="${base}/include/controls/ztree/jquery.ztree.core-3.5.min.js"></script>
+		<link rel="stylesheet"
+			href="${base}/include/controls/ztree/zTreeStyle/zTreeStyle.css"
+			type="text/css">
+		<style type="text/css">
+			.ztree li span.button {width:20px; height:20px; }
+			.ztree li span {line-height:22px; margin-right:2px}
+		</style>
+		<SCRIPT type="text/javascript">
+           <!--
+           var setting = {
+                        async: {
+                            enable: true,
+                            url:"${base}/private/sys/unit/tree",
+                            autoParam:["id"]
+                        },
+                        view:{
+                             nameIsHTML: true
+                        }
+                    };
+           function initTree(){
+        	    var myTree =jQuery.fn.zTree.init(jQuery("#treeDemo"), setting);
+			}
+           function add()
+           {           
+	        	var d = new Dialog("Add");
+	           	d.Width = 620;
+	           	d.Height = 430;
+	           	d.Title = "新建机构";
+	           	d.URL = "${base}/private/sys/unit/add?id="+Page.getValue("id");
+	           	d.onLoad = function(){
+	           		 
+	           		  $DW.$Z("name").focus();
+	           	}
+	           	d.OKEvent = function(){
+	           		addSave();
+	           	}; 
+	           	d.show();
+           }
+           function addSave(){  
+        	   
+        		if($DW.Verify.hasError()){
+        		  return;
+        	     } 
+        		 jQuery.ajax({
+        			 	type: 'POST',
+            			url : "${base}/private/sys/unit/addSave" ,
+            			data : $DW.$("#form1").serialize(),
+            			success : function (res) { 
+            				if(res!=""){
+            					$D.close();
+            					Dialog.alert("添加成功！");
+            					initTree();
+            		        	view(res);
+            				}else{
+            					Dialog.alert("添加失败！");
+            				}
+            				 
+            				return false;
+            			},
+            			fail : function(res) {
+            				Dialog.alert("系统错误?!");
+            			}
+            		});
+        	}
+           function del() {
+               Dialog.confirm("注意：这是级联删除，下级机构及用户角色会被一起删除，您确认要删除吗？", function() {
+            	   jQuery.ajax({
+           			url : "${base}/private/sys/unit/del?id="+Page.getValue("id") ,
+           			success : function (res) {  
+           				if(res=="true"){ 
+           					Dialog.alert("删除成功！");
+           					initTree();
+           		        	view("$!curuser.unitid");
+           				}else{
+           					Dialog.alert("删除失败！");
+           				}
+           				 
+           				return false;
+           			},
+           			fail : function(res) {
+           				Dialog.alert("系统错误?!");
+           			}
+           		});
+            	   
+            	   
+               });
+           }
+           function update()
+           {             
+	        	var d = new Dialog("Update");
+	           	d.Width = 620;
+	           	d.Height = 430;
+	           	d.Title = "修改机构";
+	           	d.URL = "${base}/private/sys/unit/update?id="+Page.getValue("id");
+	           	d.onLoad = function(){
+	           		$DW.$Z("name").focus();
+	           	}
+	           	d.OKEvent = function(){
+	           		updateSave();
+	           	};
+	           	d.show();
+           }
+           
+           function updateSave(){     
+       		 if($DW.Verify.hasError()){
+       		  return;
+       	     } 
+       		 jQuery.ajax({
+       				type: 'POST',
+           			url : "${base}/private/sys/unit/updateSave" ,
+           			data : $DW.$("#form1").serialize(),
+           			success : function (res) { 
+           				
+           				if(res!=""){
+           					$D.close();
+           					Dialog.alert("修改成功！");
+           					initTree();
+           		        	view(res);
+           				}else{
+           					Dialog.alert("修改失败！");
+           				}
+           				 
+           				return false;
+           			},
+           			fail : function(res) {
+           				Dialog.alert("系统错误?!");
+           			}
+           		});
+       	}
+           //转到排序页面
+           function sort()
+           {
+            var d = new Dialog("Sort");
+           	d.Width = 450;
+            d.Height = 420;
+           	d.Title = "机构排序";
+           	d.URL = "${base}/private/sys/unit/sort";
+           	d.OKEvent = function(){
+           		sortSave();
+           	}
+            d.ShowMessageRow = false;
+            d.MessageTitle = "机构排序";
+            d.Message = "支持同级排序！";
+        	d.show();
+           }
+           
+           function sortSave(){     
+         		 if($DW.Verify.hasError()){
+         		  return;
+         	     } 
+         		 $DW.getIdsTree();
+         		 jQuery.ajax({
+         				type: 'POST',
+             			url : "${base}/private/sys/unit/sortSave" ,
+             			data : $DW.$("#form1").serialize(),
+             			success : function (res) { 
+             				if(res!=""){
+             					$D.close();
+             					Dialog.alert("排序成功！");
+             					initTree();
+             					view("$!curuser.unitid");    
+             				}else{
+             					Dialog.alert("排序失败！");
+             				}
+             				 
+             				return false;
+             			},
+             			fail : function(res) {
+             				Dialog.alert("系统错误?!");
+             			}
+             		});
+         	}
+           function view(id){
+        	    
+        	   jQuery.ajax({
+       			url : "${base}/private/sys/unit/view?id="+id , 
+       			success : function (res) {  
+       				Page.bindData("dg1",res,""); 
+       				initButton();
+					if(id=="0001")
+					{
+							$Z("BtnDel").disable();
+					}
+       				return false;
+       			},
+       			fail : function(res) {
+       				Dialog.alert("系统错误?!");
+       			}
+       		});
+           }
+           function initButton(){
+        	   Page.initBtn();
+        	   $!initBtn
+			   
+           }
+           Page.onLoad(function(){
+        	   initTree();
+        	   view("$!curuser.unitid");     	   
+        	   initButton();
+           }); 
+           //-->
+ function customHeightSet(){			
+	var otherH_1	=jQuery(".divTitle").outerHeight()+22;
+	var otherH_2	=jQuery("#rother").outerHeight()+20;
+	var pageH	=document.documentElement.clientHeight;
+	jQuery("#tree1").height(pageH-otherH_1);
+	jQuery("#dataDiv").height(pageH-otherH_2);
+}
+jQuery(document).ready(function(){
+	customHeightSet();
+});
+window.onload = function(){
+	customHeightSet();			
+}
+window.onresize = function(){
+	customHeightSet();
+}
+       </SCRIPT>
+	</head>
+	<body leftmargin="0" topmargin="0">
+	<div class="ifrpage">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0">
+			<tr valign="top">
+				<td style="padding-right:10px;">
+                    <div class="divTitle"><img src="${base}/images/icons/icon042a1.gif" /><h3>机构列表</h3></div>
+					<!-- tree begin -->
+                    <div ztype='_Tree'  style='-moz-user-select: none; width: 200px; overflow: auto;'
+                        id='tree1' class='treeItemN divborder'>
+                        <ul id="treeDemo" class="ztree"></ul>
+                    </div>
+					<!-- tree end -->
+				</td>
+				
+				<td width="100%" valign="top">
+
+					 <div id="rother">
+						<div class="divTitle"><img src="${base}/images/icons/icon1.gif" /><h3>机构信息</h3></div>
+                        <div class="tableTop">
+								<div class="czbutton">
+									<ul>
+										<li id='BtnAdd'>
+											<a href='javascript:void(0);' onClick="add();"> <img
+													src="${base}/include/img/cz_add.png" /><b>新建&nbsp;</b> </a>
+										</li>
+										<li id='BtnUpdate'>
+											<a href='javascript:void(0);' onClick="update();"> <img
+													src="${base}/include/img/bj.png" /><b>编辑&nbsp;</b>
+											</a>
+										</li>
+										<li id='BtnDel'>
+											<a href='javascript:void(0);' onClick="del();"><img
+													src="${base}/include/img/cz_del.png" /><b>删除&nbsp;</b>
+											</a>
+										</li>
+										<li id='BtnSort'>
+											<a href='javascript:void(0);' onclick="sort();"><img
+													src="${base}/include/img/jy.png" /><b>排序&nbsp;</b>
+											</a>
+										</li>
+									</ul>
+								</div>
+                        </div>
+                    </div>
+					  <div id="dataDiv">
+								<table width="100%" id="dg1" cellpadding="0" cellspacing="0" border="0" class="tableList">
+									<tr >
+										<th width="36%" height="30" align="right" type="Tree">数据项</th>
+										<th width="64%" type="Data" field="count" align="left">值</th>
+									</tr>
+									<tr>
+										<td align="right">机构&nbsp;&nbsp;&nbsp;ID：</td>
+										<td><div id="id">&nbsp;</div></td>
+									</tr>
+									<tr>
+										<td align="right">机构名称：</td>
+										<td><div id="name" ></div></td>
+									</tr>
+									<tr>
+										<td align="right" >机构类型：</td>
+										<td><div id="unittype"></div></td>
+									</tr>
+									<tr>
+										<td align="right">行政区划：</td>
+										<td><div id="xzqh"></div></td>
+									</tr>
+									<tr>
+										<td align="right">热线电话：</td>
+										<td><div id="telephone"></div></td>
+									</tr>
+									<tr>
+										<td align="right" >承&nbsp;办&nbsp;人：</td>
+										<td ><div id="handler"></div></td>
+									</tr>
+									<tr >
+										<td align="right">承办人手机：</td>
+										<td><div id="handlerphone"></div></td>
+									</tr>
+									<tr >
+										<td align="right">主管领导：</td>
+										<td><div id="leader"></div></td>
+									</tr>
+									<tr > 
+										<td align="right">领导电话：</td>
+										<td><div id="leadphone"></div></td>
+									</tr>
+									<tr>
+										<td align="right">联系地址：</td>
+										<td><div id="address"></div></td>
+									</tr>
+									<tr>
+										<td align="right">机构Email：</td>
+										<td><div id="email"></div></td>
+									</tr>
+									<tr>
+										<td align="right">网&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址：</td>
+										<td><div id="website"></div></td>
+									</tr>
+									<tr>
+										<td align="right">机构描述：</td>
+										<td><div id="descript"></div></td>
+									</tr>
+								</table>
+                    </div>
+				</td>
+			</tr>
+		</table>
+	</div>
+</body>
+</html>

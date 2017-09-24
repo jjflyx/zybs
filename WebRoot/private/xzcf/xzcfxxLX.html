@@ -1,0 +1,221 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>$!app_name</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script type='text/javascript'>
+        var CONTEXTPATH = '${base}';
+        var stylePath = '$!stylename';
+    </script>
+	<link rel="stylesheet" type="text/css" href="${base}/include/css/page.css"/>
+    <link href="${base}/private/ratifyFollow/css/$!stylename/style.css" rel="stylesheet" type="text/css" />
+    <script src="${base}/include/js/main.js"></script>
+    <script src="${base}/include/js/string.js"></script>
+
+    <script src="${base}/include/js/jquery.easyui.min.js"></script>
+    <link href="${base}/include/controls/my97/skin/WdatePicker.css" rel="stylesheet" type="text/css"/>
+    <script language="javascript" type="text/javascript" src="${base}/include/controls/my97/WdatePicker.js"></script>
+    <script src="${base}/include/js/ajaxfileupload.js"></script>
+    <script src="${base}/js/util/preview.js"></script>
+    <script>
+    function customHeightSet(){			
+    	var otherH_1	=jQuery(".pageBtnarea").outerHeight() + parseInt($(".pageM").css("paddingTop")) + parseInt($(".pageM").css("paddingBottom"));
+    	var pageH	=document.documentElement.clientHeight;
+    	jQuery("#pageScroll").height(pageH-otherH_1);
+    }
+    jQuery(document).ready(function(){
+    	customHeightSet();
+    	appendDiv();
+    });
+    window.onload = function(){
+    	customHeightSet();			
+    }
+    window.onresize = function(){
+    	customHeightSet();
+     }
+        function doSave(){
+            if(Verify.hasError()){
+                return;
+            }
+            jQuery.ajax({
+                type: 'POST',
+                url : "${base}/private/xzcf/doLxqk",
+                data : $("#form1").serialize(),
+                success : function (res) { 
+                    if(res =="true"){ 
+                        Dialog.alert("操作成功!",function(){
+                        	refreshloadDataTab();
+                        });
+                    }else{
+                        Dialog.alert("操作失败！");
+                    }
+                    return false;
+                },
+                fail : function(res) {
+                    Dialog.alert("系统错误?!");
+                }
+            }); 
+        }
+        
+        
+        window.onload = function(){
+            checkboxOnclick();
+        }
+    </script>
+</head>
+<body leftmargin="0" topmargin="0" class="easyui-layout">
+<form name='form1' id="form1" method='post'
+      action="${base}/private/slzx/slj_info/add">
+     
+    <input type="hidden" id="xzcfid" name="xzcfid" value="$!xzcf.id"/>
+    <div class="pageM editpage" id="pageScroll">
+        <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="table_auto margin_top15 table_titlebk">
+            <tr>
+                <td class="table_title" align="center">
+                                                  行政处罚信息
+                </td>
+            </tr>
+        </table>
+        <div class="conBody">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0"  class="tableEdits table_nrbk">
+				<colgroup>
+					<col width="10%" />
+					<col width="40%" />
+					<col width="10%" />
+					<col width="40%" />
+				</colgroup>
+				<tr>
+					<th>行政处罚类型：</td>
+					<td colspan="3">$!xzcf_type.get("$!xzcf.xzcf_type")</th>
+				</tr>
+
+				<tr>
+					<th>信用主体：</th>
+					<td >$!xyzt.name</td>
+					<th>信用主体类型：</th>
+					<td>$!ztMap.get("$!xyzt.type")</td>
+				</tr>
+
+				<tr>
+					<th>处罚单位：</th>
+					<td colspan="3">$!cjjg.get($!xzcf.cf_unit)</td>
+				</tr>
+
+				<tr id="xwtr">
+					<th>失信行为：</th>
+					<td colspan="3">
+						#if($isxz=="1")
+						#if($!xzcf.sxxw_id=="0043_01")非法占地#elseif($!xzcf.sxxw_id=="0043_02")破坏耕地#elseif($!xzcf.sxxw_id=="0043_03")非法转让其他土地#else
+                        其他处罚 #end
+						#else
+						#set($i=1) 
+						#foreach($!obj in $!xwlist)
+							$!obj.sxxw 
+							<input type="hidden" id="bz$i" name="bz" value="$!obj.bz" /> 
+							#set($i=$i+1) 
+						#end
+						#end
+					</td>
+				</tr>
+				#if($isxz!="1")
+				<tr id="qxtr">
+					<th>失信情形：</th>
+					<td colspan="3">
+					<span id="qx_td"> #set($i="")
+						#foreach($!qx in $!qxlist) 
+							#if($i != $!qx.sxqx)
+								#set($i=$!qx.sxqx) 
+								$!qx.sxqx</br> 
+							#end 
+						#end
+					</span>
+					</td>
+				</tr>
+
+				<tr id="cstr">
+					<th>惩戒措施：</th>
+					<td colspan="3" id="cs_td">
+						#set($i="") 
+						#foreach($!cs in $!cslist) 
+							#if($i != $!qx.sxqx) 
+								#set($i=$!qx.sxqx) 
+								$!cs.cjcs</br> 
+							#end
+						#end
+					</td>
+				</tr>
+
+				<tr id="yjtr">
+					<th>惩戒依据：</th>
+					<td colspan="3" id="yj_td">
+						#foreach($!yj in $yjlist)$!yj.yj#end
+					</td>
+				</tr>
+				#end
+				<!-- <tr>
+					<th>案由：</th>
+					<td colspan="3">$!xzcf.au</td>
+				</tr> -->
+
+				<tr>
+					<th>处罚决定书文号：</th>
+					<td >$!xzcf.xzcf_code</td>
+					<th>处罚生效时间：</th>
+					<td >$!xzcf.cfsx_date</td>
+				</tr>
+				<tr>
+					<!-- <th>履行处罚截止日期：</th>
+					<td>
+						$!xzcf.end_date
+					</td> -->
+					<th >实际履行情况：</th>
+					<td>
+						<select id="sjlxqk" name="sjlxqk"  verify="实际履行情况|NotNull">
+							<option value="">请选择</option>
+							#foreach($!sjlxqk in $!sjlxqkList)
+							<option value="$!sjlxqk.value">$!sjlxqk.name</option>
+							#end
+						</select>
+						<script type="text/javascript">selected(document.form1.sjlxqk,"$!xzcf.sjlxqk")</script>
+					</td>
+					#if($!xzcf.biaozhu)
+					<th >标注：</th>
+					<td>
+						$!biaozhu.get("$!xzcf.biaozhu")
+					</td>
+					#end
+				</tr>
+
+				<tr >
+                    <th>处罚依据：</th>
+                    <td  colspan="3">$!xzcf.xzcf_yiju</td>
+                </tr>
+                <tr >
+                    <th>处罚结论：</th>
+                    <td  colspan="3">$!xzcf.xzcf_note</td>
+                </tr>
+
+				<tr> 
+      				<th>附件：</th> 
+      				<td colspan="3">
+      					#if($!fileList.size()>0)
+							#foreach($obj in $!fileList)
+								<a href="${base}$obj.get(1)">$!obj.get(0)</a></br>
+							#end
+						#else
+							无附件
+						#end
+					</td>
+     			</tr> 
+
+			</table>
+		</div>
+        
+    </div>
+    <div class="pageBtnarea">
+		  <input class="button" type="button" name="btnOk" value="提交" onclick="doSave()" />
+          <input class="button" type="button" name="btnOk" value="关闭"  onclick="window.close();" />
+	</div>
+</form>
+</body>
+</html>

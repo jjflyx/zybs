@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<title>$!app_name</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<!-- 框架 -->
+		<link rel="stylesheet" type="text/css" href="${base}/include/css/default.css" />
+		<script type='text/javascript'> 
+			var CONTEXTPATH = '${base}'; 
+			var stylePath = '$!stylename'; 
+		</script>
+		<script src="${base}/include/js/main.js"></script>
+		<script src="${base}/include/js/string.js"></script>
+		<!-- 分页  注意顺序 -->
+		<link href="${base}/include/css/themes/gray/easyui.css" rel="stylesheet" type="text/css" />
+		<script src="${base}/include/js/jquery.easyui.min.js"></script>
+		<link href="${base}/include/controls/my97/skin/WdatePicker.css" rel="stylesheet" type="text/css"/>
+	<script language="javascript" type="text/javascript" src="${base}/include/controls/my97/WdatePicker.js"></script>
+
+		<SCRIPT type="text/javascript">
+           
+           function initButton(){
+        	   Page.initBtn();
+        	   $!initBtn
+           }
+           function getWidth(percent){
+        	   return document.body.clientWidth*percent;
+		   }
+           var logMap=$!logMap;
+           function loadGrid(){
+        	   $("#dg1").datagrid({  
+        	        width:"auto",
+        	   		height:"auto",
+        	        nowrap: true,
+        	        striped: true,  
+        	        border: true,  
+        	        collapsible:false,//是否可折叠的  
+        	        fit: true,//自动大小  
+        	        url:"${base}/private/sys/syslog/sjtsList",  
+        	        queryParams:{"transname":$("#transname").val(),"startdate":$("#startdate").val(),"enddate":$("#startdate").val(),"status":$("#status").val()},
+        	        remoteSort:false,   
+        	        idField:"id",
+        	        singleSelect:true,//是否单选  
+        	        pagination:true,//分页控件  
+        	        rownumbers:true,//行号  
+        	        fitColumns: true,//行自适应
+					pageSize: 10,
+        	        pageList:[5,10,15,20,30,40,50],
+        	        loadMsg:'数据加载中...',
+        	        columns:[[
+						{title : '推送模块',field : 'transname',width:getWidth(0.1),align : 'center'},
+						{title : '开始时间',field : 'startdate',width:getWidth(0.08),align : 'center'
+						},
+						{title : '结束时间',field : 'enddate',width:getWidth(0.08),align : 'center'},
+						{title : '状态',field : 'status',width:getWidth(0.03),align : 'center',
+							formatter: function(value,row,index){
+								return logMap[row.status];
+							}
+						},
+						{title : '浏览',field : 'detail',width:getWidth(0.02),align : 'center',
+							formatter: function(val,rec){
+								val="";
+								val+="<a href='javascript:void(0);' onClick=\"preview('"+rec.id_batch+"');\">浏览</a>";
+								return val;
+							}
+						}
+        	        ]]
+        	    });  
+        	    //设置分页控件  
+        	    var p = $("#dg1").datagrid("getPager");  
+        	    $(p).pagination({  
+        	        beforePageText: "第",//页数文本框前显示的汉字  
+        	        afterPageText: "页    共 {pages} 页",  
+        	        displayMsg: "当前显示 {from} - {to} 条记录   共 {total} 条记录",  
+        	        onBeforeRefresh:function(){ 
+        	            $(this).pagination('loading'); 
+        	             
+        	            $(this).pagination('loaded'); 
+        	        } 
+        	    });  
+           }
+           function preview(mainid){
+     	  		var url='${base}/private/sys/syslog/sjtsDetail?id='+mainid+'&sys_random=' + Math.random();
+     	  		var title='浏览日志信息';
+        		openWin3(url,title,800,480);
+           	
+           }
+           Page.onLoad(function() {
+        	   loadGrid();
+        	   initButton();
+               }); 
+           $(window).resize(function () {
+       		clearTimeout(timer);
+       		timer=setTimeout(function(){
+       		  $('#dg1').datagrid('resize');
+       		  $('div.panel-body').css('width','auto');
+       		 },100);
+       		});
+           
+       </SCRIPT>
+	</head>
+	<body leftmargin="0" topmargin="0" class="easyui-layout">
+		<form name="form1" id="form1" method="post">
+		<div region="north" border="false"
+		 style="overflow: hidden; padding: 10px 10px 0px 10px">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0"
+                       class="blockTable">
+                    <tr>
+                        <td class="blockTd">
+		<table width="100%" border="0" cellspacing="0" cellpadding="6">
+						<tr>
+							<!-- <td align="right" width="60">推送模块：</td>
+							<td width="40">
+								<input type="text" name="transname" id="transname" />
+							</td> -->
+							<td align="right" width="40">状态：</td>
+							<td width="40">
+								<select name="status" id="status">
+									<option value="">请选择</option>
+									#foreach($data in $!log)
+									<option value="${data.value}">${data.name}</option>
+									#end
+								</select>
+							</td>
+							<td align="right" width="60">推送时间：</td>
+							<td width="250">
+								<input type="text" id="startdate" name="startdate"  size="12" style="height:16px;background:#F4F9FB url(${base}/include/controls/my97/skin/datePicker.gif) no-repeat right;"
+						onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" >
+                                                        到 <input type="text" id="enddate" name="enddate" value="$!endTime" size="12"  style="height:16px;background:#F4F9FB url(${base}/include/controls/my97/skin/datePicker.gif) no-repeat right;"
+							onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" >
+							</td>
+							
+							<td align="left">
+								<span >
+								<input type="button" class="button" name="Submitbutton" id="Submitbutton"
+									value="查询日志" onClick="loadGrid()">
+								</span>
+							</td>
+						</tr>
+					</table>
+		
+		</td></tr>
+		
+		</table>
+	</div>
+			<div region="center" border="false"
+				style="width: 100%; height: 100%; padding: 0px 10px 10px;">
+				<div id="dg1" style="width: 100%; height: 100%;"></div>
+			</div>
+
+		</form>
+	</body>
+</html>

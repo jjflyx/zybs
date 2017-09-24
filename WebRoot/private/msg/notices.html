@@ -1,0 +1,234 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<title>$!app_name</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<!-- 框架 -->
+		<script type='text/javascript'>
+			var CONTEXTPATH = '${base}';
+			var stylePath = '$!stylename';
+		</script>
+		<link rel="stylesheet" type="text/css"
+			href="${base}/include/css/blue/style.css" />
+		<script type="text/javascript" src="${base}/include/js/main.js"></script>
+		<script type="text/javascript" src="${base}/include/js/string.js"></script>
+		<script type="text/javascript" src="${base}/include/js/jquery.easyui.pack.js"></script>
+		<script type="text/javascript" src='${base}/include/js/tabpage.js'></script>
+		<script type="text/JavaScript">
+		<!--
+		//鼠标移出改变图片
+		function MM_swapImgRestore() { //v3.0
+		  	var i,j,x,y,a=document.MM_sr,b=document.MM_sr_0; 
+		  	//alert("1="+b.length);
+		  	for(i=0;a&&i<a.length&&(x=a[i])&&x.oSrc;i++){
+		  		//alert("1="+x.oSrc);
+			  	x.src=x.oSrc;
+		  	}
+		  	for(j=0;b&&j<b.length&&(y=b[j])&&y.oSrc;j++){
+			  	//alert("2="+y.oSrc);
+				y.src=y.oSrc;
+		  	}
+		}
+		//获取对象，根据id,n:id,d:document
+		function MM_findObj(n, d) { //v4.01
+		  	var p,i,x;  
+		  	if(!d) 
+			  	d=document; 
+		  	if((p=n.indexOf("?"))>0&&parent.frames.length) {
+		    	d=parent.frames[n.substring(p+1)].document; 
+		    	n=n.substring(0,p);
+		    }
+		  	if(!(x=d[n])&&d.all) 
+			  	x=d.all[n]; 
+		  	for (i=0;!x&&i<d.forms.length;i++) 
+			  	x=d.forms[i][n];
+		  	for(i=0;!x&&d.layers&&i<d.layers.length;i++) 
+			  	x=MM_findObj(n,d.layers[i].document);
+		  	if(!x && d.getElementById) 
+			  	x=d.getElementById(n); 
+		  	return x;
+		}
+		//鼠标移入修改图片显示
+		function MM_swapImage() { //v3.0
+		  	var i,j=0,z=0,x,y,a=MM_swapImage.arguments; 
+		  	document.MM_sr=new Array; 
+		  	document.MM_sr_0=new Array;
+		  	for(i=0;i<(a.length-2);i+=3)
+		   		if ((x=MM_findObj(a[i]))!=null){
+			   		//alert("i="+i)
+			   		document.MM_sr[j++]=x; 
+			   		if(!x.oSrc) 
+				   		x.oSrc=x.src; 
+			   		x.src=a[i+2];
+			   		//alert(a[i]);
+			   		if((y=MM_findObj(a[i]+'_0'))!=null){
+			   			//alert(y);
+			   			document.MM_sr_0[z++]=y;
+				   		if(!y.oSrc)
+					   		y.oSrc=y.src;
+				   		//alert(1);
+				   		y.src=a[i+1];
+			   		}
+				}
+		}
+		//打开对应的消息列表
+		function toNoticesPage(n){
+			switch (n) {
+				case 0:
+					parent.addTab("所有公告","${base}/private/msg/msgInfo/msg_info?sys_menu=所有公告&sys_random="+ Math.random());
+					break;
+				case 1:
+					
+					break;
+				case 2:
+					parent.addTab("所有消息","${base}/private/msg/msgInfo/msgMessage?sys_menu=所有消息 &sys_random="+ Math.random());
+					break;
+				default:
+					break;
+			}
+		}
+		//查看收到的消息
+		function queryInfo(nid) {
+			var d = new Dialog("view");
+			d.Width = 700;
+			d.Height = 500;
+			d.Title = "查看";
+			d.URL = "${base}/private/msg/msgInfo/view?id=" + nid,
+					d.OKEvent = function() {
+						parent.resesTap("我的消息","${base}/private/msg/msgInfo/showNotices");	
+						$D.close();
+					};
+			d.show();
+		}
+		//-->
+		</script>
+	</head>
+
+	<body>
+		<table width="95%" border="0" align="center" cellpadding="0"
+			cellspacing="0" class="table_auto margin_top20">
+			<tr>
+				<td width="180" valign="top">
+					<table width="180" height="170" border="0" cellpadding="0"
+						cellspacing="0" onmouseout="MM_swapImgRestore()"
+						onmouseover="MM_swapImage('Image8','${base}/include/img/noticebga.jpg','${base}/include/img/notice01a.jpg',1)">
+						<tr>
+							<td align="center" >
+								<a href="javascript:void(0);" onclick="toNoticesPage(0);" 
+									style="text-decoration : none; width: 180px;height: 170px;" >
+									<img src="${base}/include/img/notice01.jpg" name="Image8" width="180" height="130"
+										border="0" id="Image8" /><br/>
+									<img src="${base}/include/img/noticebg.jpg" name="Image8_0" width="180" height="40"
+										border="0" id="Image8_0" />
+									<font color="#898989" class="font14" style='position:relative;top: -37px;left: 0px;width: 180px;height: 40px;'>未读
+										<font style="font-size: 18px; color: #ff0000; font-weight: bold;">#if($ggnum)$!ggnum#end</font>条</font>
+								</a>
+							</td>
+						</tr>
+					</table>
+				</td>
+				<td width="60">
+					&nbsp;
+				</td>
+				<td width="180" valign="top">
+					<table width="180" height="170" border="0" cellpadding="0"
+						cellspacing="0" onmouseout="MM_swapImgRestore()"
+						onmouseover="MM_swapImage('Image9','${base}/include/img/noticebga.jpg','${base}/include/img/notice02a.jpg',1)">
+						<tr>
+							<td align="center" >
+								<a href="javascript:void(0);" onclick="toNoticesPage(2);" 
+									style="text-decoration : none; width: 180px;height: 170px;" >
+									<img src="${base}/include/img/notice02.jpg" name="Image9" width="180" height="130"
+										border="0" id="Image9" /><br/>
+									<img src="${base}/include/img/noticebg.jpg" name="Image9_0" width="180" height="40"
+										border="0" id="Image9_0" />
+									<font color="#898989" class="font14" style='position:relative;top: -37px;left: 0px;width: 180px;height: 40px;'>未读消息<font
+										style="font-size: 18px; color: #ff0000; font-weight: bold;">#if($znxxnum)$!znxxnum#end</font>条</font>
+								</a>
+							</td>
+						</tr>
+					</table>
+				</td>
+				<td width="60">
+					&nbsp;
+				</td>
+				<td width="180" valign="top">
+					<!--<table width="180" height="170" border="0" cellpadding="0" cellspacing="0" 
+						onmouseout="MM_swapImgRestore()"
+						onmouseover="MM_swapImage('Image10', '${base}/include/img/noticebga.jpg', '${base}/include/img/notice03a.jpg', 1);">
+						<tr>
+							<td align="center">
+								<a href="javascript:void(0);" onclick="toNoticesPage(1);" 
+									style="text-decoration : none; width: 180px;height: 170px;" >
+									<img src="${base}/include/img/notice03.jpg" name="Image10" width="180" height="130"
+										border="0" id="Image10" />
+									<img src="${base}/include/img/noticebg.jpg" name="Image10_0" width="180" height="40"
+										border="0" id="Image10_0" />
+									<font color="#898989" class="font14" style='position:relative;top: -37px;left: 0px;width: 180px;height: 40px;'>未接收<font
+										style="font-size: 18px; color: #ff0000; font-weight: bold;">#if($wjnum)$!wjnum#end</font>条</font>
+								</a>
+							</td>
+						</tr>
+					</table>-->
+					&nbsp;
+				</td>
+				<td valign="top">
+					&nbsp;
+				</td>
+			</tr>
+		</table>
+		<table width="95%" border="0" align="center" cellpadding="0"
+			cellspacing="0" class="table_auto margin_top20 table_nrbk">
+			<tr class="font14">
+				<td width="100" height="30" align="center" bgcolor="#e7e7e7">
+					<strong>类别</strong>
+				</td>
+				<td bgcolor="#e7e7e7">
+					<strong>内容</strong>
+				</td>
+				<td width="150" align="center" bgcolor="#e7e7e7">
+					<strong>发布时间</strong>
+				</td>
+			</tr>
+			#if($list && $!list.size()>0)
+			#foreach($obj in $list)
+			<tr>
+            	<td height="25" align="center"><strong><font color="#FF0000">#if($!obj.infotype==0)[通知公告]#elseif($!obj.infotype==1)[文件传送]#else[站内消息]#end</font></strong></td>
+            	<td><font color="#7e7e7e"><a href="#" onclick="queryInfo($!obj.id)" class="notiec">$!obj.title </a></font></td>
+            	<td align="center"><font color="#7e7e7e"> $!obj.ctime</font></td>
+          	</tr>
+          	#end
+          	#if($!list.size()<5)
+          		#set($jindex=5-$!list.size())
+				#foreach($i in [0..$!jindex])
+			<tr>
+				<td height="25" align="center">
+					&nbsp;
+				</td>
+				<td>
+					&nbsp;
+				</td>
+				<td align="center">
+					&nbsp;
+				</td>
+			</tr>
+				#end
+			#end
+			#else
+				#foreach($i in [0..5])
+			<tr>
+				<td height="25" align="center">
+					&nbsp;
+				</td>
+				<td>
+					&nbsp;
+				</td>
+				<td align="center">
+					&nbsp;
+				</td>
+			</tr>
+				#end
+			#end
+		</table>
+	</body>
+</html>

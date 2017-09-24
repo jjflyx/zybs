@@ -1,0 +1,546 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<title>$!app_name</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<!-- 框架 -->
+	<link rel="stylesheet" type="text/css" href="${base}/include/css/default.css"/>
+	<script type='text/javascript'>
+		var CONTEXTPATH = '${base}';
+		var stylePath = '$!stylename';
+	</script>
+	<script src="${base}/include/js/main.js"></script>
+	<script src="${base}/include/js/string.js"></script>
+	<!-- 分页  注意顺序 -->
+	<link href="${base}/include/css/themes/gray/easyui.css"
+		  rel="stylesheet" type="text/css" />
+	<script src="${base}/include/js/jquery.easyui.min.js"></script>
+	<!-- 树 -->
+	<script type="text/javascript" src="${base}/include/controls/ztree/jquery.ztree.core-3.5.min.js"></script>
+	<link rel="stylesheet" href="${base}/include/controls/ztree/zTreeStyle/zTreeStyle.css" type="text/css">
+	<script type="text/javascript" src="${base}/include/controls/my97/WdatePicker.js"></script>
+
+	<script>
+		function getWidth(percent){
+			return document.body.clientWidth*percent;
+		}
+
+		//加载列表数据
+		function loadGrid(){
+			var type = $("#type").val();
+			if(type=="0"){
+				loadData_zrr();
+			}else if(type=="2"){
+				loadData_other()
+			}else{
+				loadData_fr();
+			}
+			//设置分页控件
+			var p = $("#dg1").datagrid("getPager");
+			$(p).pagination({
+				beforePageText: "第",//页数文本框前显示的汉字
+				afterPageText: "页    共 {pages} 页",
+				displayMsg: "当前显示 {from} - {to} 条记录   共 {total} 条记录",
+				onBeforeRefresh:function(){
+				}
+			});
+			$("#dg1").datagrid("clearSelections");
+		}
+		var qyzt=$!qyzt;
+		var actor='$!loginname';
+		var statusMap=$!statusMap;
+		function loadData_fr(){
+			$("#dg1").datagrid({
+				width:"auto",
+				height:"auto",
+				nowrap: true,
+				striped: true,
+				border: true,
+				collapsible:false,//是否可折叠的
+				url : "${base}/private/gtxt/xyzt/list?type=1",//首次查询路径
+				queryParams:{"cx_name":$("#cx_name").val().trim(),"cx_code":$("#cx_code").val().trim()},//首次查询参数
+				idField:"id",
+				treeField:"name",
+				remoteSort:false,
+				singleSelect:false,//是否单选
+				rownumbers:true,//行号
+				fit: true,//自动大小
+				fitColumns: true,//行自适应
+				pagination:true,//分页控件
+				loadMsg:'数据加载中...',
+				columns : [ [
+					{
+						field : "a",
+						title : "法人名称",
+						align : "center",
+						width : 200
+					},
+					{
+						field : "b",
+						title : "统一社会信用代码",
+						align : "center",
+						width : 200
+					},
+					{
+						field : "c",
+						title : "法定代表人姓名",
+						align : "center",
+						width : getWidth(0.08)
+					} ,
+					{
+						field : "d",
+						title : "企业状态",
+						align : "center",
+						width : getWidth(0.05),
+						formatter: function(value,row,index){
+							var reName = "";
+							if(value!=""){
+								reName = qyzt[value];
+							}
+							return reName;
+						}
+					} ,
+					{
+                        field : "status",
+                        title : "状态",
+                        align : "center",
+                        width : getWidth(0.04),
+                        formatter:function(value,row,index){
+                        	return statusMap[row.status];
+                        }
+                    },	
+					{
+						field : "g",
+						title : "操作",
+						align : "center",
+						width : getWidth(0.05),
+						formatter: function(value,row,index){
+							if(actor == row.actor||row.actor==null){
+								var s1 = "<a href='javascript:update("+row.id+");'>修改</a>";
+								var s2 = "<a href='javascript:detail("+row.id+");'>浏览</a>";
+								return s2+" | "+s1;
+							}else{
+								var s1 = "<a href='javascript:detail("+row.id+");'>浏览</a>";
+								return s1;
+							}
+						}
+					}
+				] ]
+			});
+		}
+
+		function loadData_zrr(){
+			$("#dg1").datagrid({
+				width:"auto",
+				height:"auto",
+				nowrap: true,
+				striped: true,
+				border: true,
+				collapsible:false,//是否可折叠的
+				url : "${base}/private/gtxt/xyzt/list?type=0",//首次查询路径
+				queryParams:{"cx_name":$("#cx_name").val().trim(),"cx_code":$("#cx_code").val().trim()},//首次查询参数
+				idField:"id",
+				treeField:"name",
+				remoteSort:false,
+				singleSelect:false,//是否单选
+				rownumbers:true,//行号
+				fit: true,//自动大小
+				fitColumns: true,//行自适应
+				pagination:true,//分页控件
+				loadMsg:'数据加载中...',
+				columns : [ [
+					{
+						field : "a",
+						title : "姓名",
+						align : "center",
+						width : 80
+					},
+					{
+						field : "b",
+						title : "身份证号",
+						align : "center",
+						width : 200
+					},
+					{
+						field : "c",
+						title : "手机号码",
+						align : "center",
+						width : getWidth(0.08)
+					} ,
+					{
+                        field : "status",
+                        title : "状态",
+                        align : "center",
+                        width : getWidth(0.04),
+                        formatter:function(value,row,index){
+                        	return statusMap[row.status];
+                        }
+                    },	
+					{
+						field : "g",
+						title : "操作",
+						align : "center",
+						width : getWidth(0.05),
+						formatter: function(value,row,index){
+							if(actor == row.actor||row.actor==null){
+								var s1 = "<a href='javascript:update("+row.id+");'>修改</a>";
+								var s2 = "<a href='javascript:detail("+row.id+");'>浏览</a>";
+								return s2+" | "+s1;
+							}else{
+								var s1 = "<a href='javascript:detail("+row.id+");'>浏览</a>";
+								return s1;
+							}
+						}
+					}
+				] ],
+				onDblClickRow:function(value,row,index)
+				{
+					update(row.id);
+				}
+			});
+		}
+		
+		function loadData_other(){
+			$("#dg1").datagrid({
+				width:"auto",
+				height:"auto",
+				nowrap: true,
+				striped: true,
+				border: true,
+				collapsible:false,//是否可折叠的
+				url : "${base}/private/gtxt/xyzt/list?type=2",//首次查询路径
+				queryParams:{"cx_name":$("#cx_name").val().trim(),"cx_code":$("#cx_code").val().trim()},//首次查询参数
+				idField:"id",
+				treeField:"name",
+				remoteSort:false,
+				singleSelect:false,//是否单选
+				rownumbers:true,//行号
+				fit: true,//自动大小
+				fitColumns: true,//行自适应
+				pagination:true,//分页控件
+				loadMsg:'数据加载中...',
+				columns : [ [
+					{
+						field : "a",
+						title : "组织名称",
+						align : "center",
+						width : 200
+					},
+					{
+						field : "b",
+						title : "统一社会信用代码",
+						align : "center",
+						width : 200
+					},
+					{
+						field : "c",
+						title : "负责人姓名",
+						align : "center",
+						width : getWidth(0.08)
+					} ,
+					{
+						field : "d",
+						title : "手机号码",
+						align : "center",
+						width : getWidth(0.08)
+					} ,
+					{
+                        field : "status",
+                        title : "状态",
+                        align : "center",
+                        width : getWidth(0.04),
+                        formatter:function(value,row,index){
+                        	return statusMap[row.status];
+                        }
+                    },	
+					{
+						field : "g",
+						title : "操作",
+						align : "center",
+						width : getWidth(0.05),
+						formatter: function(value,row,index){
+							if(value == 1){
+								var s1 = "<a href='javascript:update("+row.id+");'>修改</a>";
+								var s2 = "<a href='javascript:detail("+row.id+");'>浏览</a>";
+								return s2+" | "+s1;
+							}else{
+								var s1 = "<a href='javascript:detail("+row.id+");'>浏览</a>";
+								return s1;
+							}
+						}
+					}
+				] ],
+				onDblClickRow:function(value,row,index)
+				{
+					update(row.id);
+				}
+			});
+		}
+
+		//浏览页面
+		function detail(id){
+			var type = $("#type").val();
+			var xylx = $("#xylx").val();
+			var typeName = "";
+			switch(type)
+			{
+				case 0:
+					typeName = "查看自然人信息";
+					break;
+				case 1:
+					typeName = "查看法人信息";
+					break;
+				case 2:
+					typeName = "查看其他组织信息";
+					break;
+				default :
+					typeName = "";break;
+			}
+			var iHeight = 380;
+			var iWidth = 800;
+			var iTop = (window.screen.height-30-iHeight)/2;//获得窗口的垂直位置;
+			var iLeft = (window.screen.width-10-iWidth)/2;//获得窗口的水平位置;
+			if(type==1&&xylx=="00050001"){
+				window.open("${base}/private/gtxt/zj/gjjgView?id="+id,"估价机构信息", 'height='+iHeight+',,innerHeight='+iHeight+',width='+iWidth+',innerWidth='+iWidth+',top='+iTop+',left='+iLeft+',toolbar=no,menubar=no,scrollbars=auto,resizeable=no,location=no,status=no');
+			}else{
+				window.open("${base}/private/gtxt/xyzt/view?id="+id+"&type="+type,typeName, 'height='+iHeight+',,innerHeight='+iHeight+',width='+iWidth+',innerWidth='+iWidth+',top='+iTop+',left='+iLeft+',toolbar=no,menubar=no,scrollbars=auto,resizeable=no,location=no,status=no');
+			}
+		}
+
+		//转到新增页面
+		function add()
+		{
+			var type = $("#type").val();
+			var xylx = $("#xylx").val();
+			var typeName = "";
+			switch(type)
+			{
+				case 0:
+					typeName = "添加自然人信息";
+					break;
+				case 1:
+					typeName = "添加法人信息";
+					break;
+				case 2:
+					typeName = "添加其他组织信息";
+					break;
+				default :
+					typeName = "";break;
+			}
+			var iHeight = 440;
+			var iWidth = 800;
+			var iTop = (window.screen.height-30-iHeight)/2; //获得窗口的垂直位置;
+			var iLeft = (window.screen.width-10-iWidth)/2; //获得窗口的水平位置;
+			window.open ("${base}/private/gtxt/xyzt/toadd?type="+type+"&xylx="+xylx,typeName, 'height='+iHeight+',,innerHeight='+iHeight+',width='+iWidth+',innerWidth='+iWidth+',top='+iTop+',left='+iLeft+',toolbar=no,menubar=no,scrollbars=auto,resizeable=no,location=no,status=no');
+		}
+
+		//转到修改页面
+		function update(id)
+		{
+			var type = $("#type").val();
+			var xylx = $("#xylx").val();
+			var typeName = "";
+			switch(type)
+			{
+				case 0:
+					typeName = "自然人信息修改";
+					break;
+				case 1:
+					typeName = "法人信息修改";
+					break;
+				case 2:
+					typeName = "其他组织信息修改";
+					break;
+				default :
+					typeName = "";break;
+			}
+			var iHeight = 410;
+			var iWidth = 800;
+			var iTop = (window.screen.height-30-iHeight)/2; //获得窗口的垂直位置;
+			var iLeft = (window.screen.width-10-iWidth)/2; //获得窗口的水平位置;
+			window.open ("${base}/private/gtxt/xyzt/toupdate?id="+id+"&type="+type+"&xylx="+xylx, typeName, 'height='+iHeight+',,innerHeight='+iHeight+',width='+iWidth+',innerWidth='+iWidth+',top='+iTop+',left='+iLeft+',toolbar=no,menubar=no,scrollbars=auto,resizeable=no,location=no,status=no');
+		}
+
+		//转到修改页面
+		function toupdate(id)
+		{
+			var d = new Dialog("Update");
+			d.Width = 500;
+			d.Height = 300;
+			d.Title = "修改菜单";
+			d.URL = "${base}/private/zjgl/fr/toUpdate";
+			d.onLoad = function(){
+				$DW.$Z("name").focus();
+			}
+			d.OKEvent = function(){
+				updateSave();
+			};
+			d.show();
+		}
+
+		function updateSave(){
+			if($DW.Verify.hasError()){
+				return;
+			}
+			jQuery.ajax({
+				type: 'POST',
+				url : "${base}/private/zjgl/fr/updateSave" ,
+				data : $DW.$("#form1").serialize(),
+				success : function (res) {
+					if(res!=""){
+						$D.close();
+						Dialog.alert("修改成功！");
+						loadData();
+					}else{
+						Dialog.alert("修改失败！");
+					}
+
+					return false;
+				},
+				fail : function(res) {
+					Dialog.alert("系统错误?!");
+				}
+			});
+		}
+
+		function del1(){
+			jQuery.ajax({
+				url : "${base}/private/zjgl/fr/del",
+				success : function (res) {
+					if(res=="true"){
+						Dialog.alert("删除成功！");
+						loadData();
+					}else{
+						Dialog.alert("删除失败！");
+					}
+					return false;
+				},
+				fail : function(res) {
+					Dialog.alert("系统错误?!");
+				}
+			});
+		}
+
+		function del() {
+			var arr = $('#dg1').treegrid('getSelections');
+			if (!arr || arr.length == 0) {
+				Dialog.alert("请先选择要删除的菜单！");
+				return;
+			}
+			Dialog.confirm("注意：您确认要删除吗？", function() {
+				jQuery.ajax({
+					url : "${base}/private/zjgl/fr/del",
+
+					success : function (res) {
+
+						if(res=="true"){
+							Dialog.alert("删除成功！");
+							loadData();
+						}else{
+							Dialog.alert("删除失败！");
+						}
+
+						return false;
+					},
+					fail : function(res) {
+						Dialog.alert("系统错误?!");
+					}
+				});
+
+
+			});
+		}
+
+
+		$(function(){
+			$("#Djtoggle").toggle(function() {
+				$(this).text("已完成点击");
+			}, function() {
+				$(this).text("点击有惊喜");
+			});
+		})
+
+
+		function sel(obj){
+			var id=obj.value;
+			var qx=document.getElementsByName("id");
+			for(var i = 0; i < qx.length; i ++)
+			{
+				if(qx[i].type == "checkbox")
+				{
+					var v=qx[i].value;
+					if(v!=""&&v.length>id.length&&v.startWith(id)){
+						if(obj.checked){
+							qx[i].checked=true;
+						} else{
+							qx[i].checked=false;
+						}
+					}
+					if(v!=""&&v.length<id.length&&id.startWith(v)){
+						if(obj.checked){
+						} else{
+							qx[i].checked=false;
+						}
+					}
+
+				}
+			}
+
+		}
+		Page.onLoad(function() {
+			loadGrid();
+		});
+		$(window).resize(function () {
+			clearTimeout(timer);
+			timer=setTimeout(function(){
+				$('#dg1').treegrid('resize');
+				$('div.panel-body').css('width','auto'); //////
+			},100);
+		});
+
+	</script>
+</head>
+<body leftmargin="0" topmargin="0" class="easyui-layout">
+<form name='form1' id="from1" method='post'>
+	<input type="hidden" name="doAction" value="">
+	<input type="hidden" name="sys_menuid" value="$!sys_menuid">
+	<input type="hidden" name="type" id="type" value="$!type">
+	<input type="hidden" name="xylx" id="xylx" value="$!xylx">
+	<div region="north" border="false"
+		 style="overflow: hidden; padding: 10px 10px 0px 10px">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0"
+                       class="blockTable">
+                    <tr>
+                        <td class="blockTd">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="6">
+                             
+			<tr>
+				<td style="padding: 8px 0 4px 6px;" id="btnlist">
+													<span style="float: left;">
+													&nbsp;
+													#if($!type==0)姓名：#elseif($!type==2)组织名称：#else法人名称：#end<input type="text" name="cx_name" id="cx_name" size="20" />
+													&nbsp;
+													#if($!type==0)身份证号：#else统一社会信用代码：#end<input type="text" name="cx_code" id="cx_code" size="20" />
+													<input type="button" name="check" onclick="loadGrid();"  value="查询" />
+													<!-- <a class="Djtoggle" id="Djtoggle" name="Djtoggle" style="cursor: pointer;">点击有惊喜</a> -->
+													</span>
+													<span style="float:right;">
+														<a href='javascript:void(0);' ztype='zPushBtn' class='zPushBtn'
+																hidefocus='true' tabindex='-1' onselectstart='return false'
+																id='a' onClick="add();"><img
+																src="${base}/images/icons/icon022a2.gif"
+																width="20" height="20" /><b>新建&nbsp;</b></a>
+													</span>
+				</td>
+			</tr>
+		</table></td></tr></table>
+	</div>
+	<div region="center" border="false"
+		 style="width: 100%; height: 100%; padding: 0px 10px 10px;">
+		<div id="dg1" style="width: 100%; height: 100%;"></div>
+	</div>
+</form>
+</body>
+</html>
+
+

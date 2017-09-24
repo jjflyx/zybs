@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<title>$!app_name</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<script type='text/javascript'>
+		var CONTEXTPATH = '${base}';
+		var stylePath = '$!stylename';
+	</script>
+	<link href="${base}/private/ratifyFollow/css/blue/style.css" rel="stylesheet" type="text/css" />
+
+	<script src="${base}/include/js/main.js"></script>
+	<script src="${base}/include/js/string.js"></script>
+	<!--<link href="/gtCredit/include/css/themes/gray/easyui.css" rel="stylesheet" type="text/css" />-->
+	<script src="${base}/include/js/jquery.easyui.min.js"></script>
+	<link href="${base}/include/controls/my97/skin/WdatePicker.css" rel="stylesheet" type="text/css"/>
+	<script language="javascript" type="text/javascript" src="${base}/include/controls/my97/WdatePicker.js"></script>
+	<script src="${base}/include/js/ajax_select.js"></script>
+	<script src="${base}/js/util/preview.js"></script>
+	<script>
+		var checkresult=true;
+		function doSave(){
+
+			if(Verify.hasError()){
+				return ;
+			}
+
+//			checkcode($("#code"));
+//			if(!checkresult){
+//				return;
+//			}
+
+			jQuery.ajax({
+				type: 'POST',
+				url : "${base}/private/contract/ck/add" ,
+				data : $("#form1").serialize(),
+				success : function (res) {
+					if(res){
+						Dialog.alert("添加成功！",function(){
+							window.opener.loadGrid();
+							window.close();
+						});
+					}else{
+						Dialog.alert("添加失败！");
+					}
+					return false;
+				},
+				fail : function(res) {
+					Dialog.alert("系统错误?!");
+				}
+			});
+		}
+
+		$(document).ready(function() {
+
+		});
+
+	</script>
+</head>
+<body leftmargin="0" topmargin="0" class="easyui-layout">
+<form name='form1' id="form1" method='post'>
+	<div region="center" border="false" style="width: 100%; height: 100%; padding: 0px 10px 10px;">
+		<table width="98%" border="0" align="center" cellpadding="0"
+			   cellspacing="0" class="table_auto margin_top15 table_titlebk">
+			<tr>
+				<td class="table_title" align="center">
+					采矿许可证信息
+				</td>
+			</tr>
+		</table>
+		<table width="98%" border="0" align="center" cellpadding="0"  cellspacing="0" class="table_auto table_nrbk">
+			<tr>
+				<td valign="top" class="padding10">
+					<table width="100%" border="0" cellpadding="0" cellspacing="3">
+						<tbody id="div_sn">
+						<tr>
+							<td align="right" width="150">
+								办件号：
+							</td>
+							<td algin="left" colspan="3" >
+								<input type="text" name="bjh" id="bjh" size="27" maxlength="50" placeholder="办件号" verify="办件号|NotNull&&办件号|isCharOrNumber" /> <!--Length=18&&-->
+								<span style="color:#ff0000;">*</span>
+							</td>
+							<!--<td align="right" width="150">-->
+								<!--缴纳方式：-->
+							<!--</td>-->
+							<!--<td algin="left" width="*">-->
+								<!--<select name="jf_type" id="jf_type">-->
+									<!--<option value="">请选择</option>-->
+									<!--<option value="0">本单位</option>-->
+									<!--<option value="1">属地单位</option>-->
+								<!--</select>-->
+							<!--</td>-->
+						</tr>
+						<tr>
+							<td align="right" width="150">
+								采矿许可证号：
+							</td>
+							<td algin="left" width="200">
+								<input type="text" name="xkzh" id="xkzh" size="27" maxlength="50" placeholder="采矿许可证号" verify="采矿许可证号|NotNull&&采矿许可证号|isCharOrNumber" />
+								<span style="color:#ff0000;">*</span>
+							</td>
+							<td align="right" width="150">
+								受让人(信用主体)：
+							</td>
+							<td algin="left" width="*">
+								<input type="hidden" name="xyzt" id="xyzt" />
+								<input type="text" name="xyzt_name" id="xyzt_name" size="20" maxlength="50" verify="受让人(信用主体)|NotNull" readonly /><span style="color:#ff0000;">*</span>&nbsp;&nbsp;&nbsp;
+								<span class="userselector" style="padding:2px;display:inline-block;" name="editable-input"><button type="button" class="btn-text btn-userselector" onclick="userselector('xyzt',1)">选择</button></span>
+							</td>
+						</tr>
+						<tr>
+							<td align="right">采矿许可证期限：</td>
+							<td colspan="3">
+								<input class="Wdate" onclick="WdatePicker()" name="qxq" id="qxq" size="20" maxlength="50" readonly  verify="开始日期|NotNull" />
+								至
+								<input class="Wdate" onclick="WdatePicker()" name="qsz" id="qsz" size="20" maxlength="50" readonly  verify="结束日期|NotNull" />
+								<span style="color:red">*</span>
+							</td>
+						</tr>
+						<tr>
+							<td align="right">
+								矿山名称：
+							</td>
+							<td algin="left" colspan="3">
+								<input type="text" name="kqmc" id="kqmc" size="20" maxlength="50" />
+							</td>
+						</tr>
+						<tr>
+							<td align="right">
+								矿区面积：
+							</td>
+							<td algin="left" colspan="3">
+								<input type="text" name="kqmj" id="kqmj" size="20" maxlength="50" verify="矿区面积|isNumber" /><span style="color:red"> ㎡</span>
+							</td>
+						</tr>
+						<tr>
+							<td align="right">
+								矿种：
+							</td>
+							<td algin="left" colspan="3">
+								<select onchange="selectCascade(this,'00020013')" verify="矿种|NotNull" iscascade="kz_0" loadselect="loadSelect(this,'00020013',1)" name="kz" ><option value=" ">请选择</option></select>
+								<span style="color:#ff0000;">*</span>
+							</td>
+						</tr>
+						<tr>
+							<td align="right">
+								审批日期：
+							</td>
+							<td algin="left" colspan="3">
+								<input class="Wdate" onclick="WdatePicker()" name="sprq" id="sprq" size="20" maxlength="50" verify="审批日期|NotNull" readonly />
+								<span style="color:#ff0000;">*</span>
+							</td>
+						</tr>
+						<tr>
+							<td align="right">
+								矿山地址：
+							</td>
+							<td  colspan="3">
+								<select onchange="selectCascade(this,'00010004')" iscascade="ksdz_0" loadselect="loadSelect(this,'00010004',1)" name="ksdz" selectedvalue="" verify="矿山地址|NotNull">
+									<option value=" ">请选择</option>
+								</select>
+								<input type="text" name="jtwz" />
+								<span style="color:#ff0000;">*</span>
+							</td>
+						</tr>
+						</tbody>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div region="south" border="false"
+		 style="overflow: hidden; padding: 10px 10px 0px 10px">
+		<div align="center" style="padding-bottom: 10px;">
+			<input class="button" type="button" name="btnOk" value="确认"
+				   onclick="doSave()" />
+			<input class="button" type="button" name="btnOk" value="关闭"
+				   onclick="window.close();" />
+		</div>
+	</div>
+</form>
+</body>
+</html>

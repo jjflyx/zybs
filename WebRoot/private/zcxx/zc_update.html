@@ -1,0 +1,208 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>$!app_name</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script type='text/javascript'>
+        var CONTEXTPATH = '${base}';
+        var stylePath = '$!stylename';
+    </script>
+    <link href="${base}/private/ratifyFollow/css/$!stylename/style.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" type="text/css" href="${base}/include/css/page.css"/>
+	
+    <script src="${base}/include/js/main.js"></script>
+    <script src="${base}/include/js/string.js"></script>
+    <script src="${base}/include/js/jquery.easyui.min.js"></script>
+    <link href="${base}/include/controls/my97/skin/WdatePicker.css" rel="stylesheet" type="text/css"/>
+    <script language="javascript" type="text/javascript" src="${base}/include/controls/my97/WdatePicker.js"></script>
+    <script>
+    function customHeightSet(){			
+    	var otherH_1	=jQuery(".pageBtnarea").outerHeight() + parseInt($(".pageM").css("paddingTop")) + parseInt($(".pageM").css("paddingBottom"));
+    	var pageH	=document.documentElement.clientHeight;
+    	jQuery("#pageScroll").height(pageH-otherH_1);
+    }
+    jQuery(document).ready(function(){
+    	customHeightSet();
+    	appendDiv();
+    });
+    window.onload = function(){
+    	customHeightSet();			
+    }
+    window.onresize = function(){
+    	customHeightSet();
+     }
+    function checkloginname()
+    {
+    	var newname = document.form1.zc_card.value;
+    	if('$!obj.zc_card' == newname){
+    		document.form1.nameflag.value = 0;
+    		return;
+    	}
+    	jQuery.ajax({
+    		url : "${base}/private/zcxx/ajaxname",
+    		data : jQuery("#form1").serialize(),
+    		success : function (res) {	
+    			if(res=="true"){
+    				Dialog.alert("职称编号已存在",function(){
+    					 document.form1.nameflag.value = 1;
+                    });	
+    			}else{
+    				     document.form1.nameflag.value = 0;
+    			}		                      
+    		},
+    		fail : function(res) {
+    			Dialog.alert("系统错误?!");
+    		}
+    	});   
+    }
+    
+    function zhuxiao(val){
+    	if(val=="1"){
+    		document.getElementById("zhuxiao1").style.display="";
+    		document.getElementById("zhuxiao2").style.display="";
+    		$("#zc_zxsj").attr("verify","NotNull");
+    		$("#zc_zxjg").attr("verify","NotNull");
+    		$("#zc_zxyy").attr("verify","NotNull");
+    	}else{
+    		document.getElementById("zhuxiao1").style.display="none";
+    		document.getElementById("zhuxiao2").style.display="none";
+    		$("#zc_zxsj").attr("verify","");
+    		$("#zc_zxjg").attr("verify","");
+    		$("#zc_zxyy").attr("verify","");
+    	}
+    }
+    </script>
+</head>
+<body leftmargin="0" topmargin="0" class="easyui-layout">
+<form name='form1' id="form1" method='post'  action="">
+<input type="hidden" name="nameflag" id="nameflag" value="0">
+    <div class="pageM editpage" id="pageScroll">
+    	<input type="hidden" name="id" value="$!obj.id" />
+        <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="table_titlebk">
+            <tr>
+                <td class="table_title" align="center">
+                   	 职称信息
+                </td>
+            </tr>
+        </table>
+        <div class="conBody">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0"  class="tableEdits table_nrbk">
+				<colgroup>
+					<col width="10%" />
+					<col width="40%" />
+					<col width="10%" />
+					<col width="40%" />
+				</colgroup>
+
+				<tr>
+					<th>姓名：</th>
+					<td>
+						<input type="text" name="name" id="name" size="20" value="$!obj.name"  verify="NotNull" maxlength="40" />
+						<span style="color: red">*</span>
+					</td>
+					<th>身份证：</th>
+					<td>
+						<input type="text" id="idcard" name="idcard" size="20" value="$!obj.idcard"  maxlength="40" verify="NotNull"/>
+						<span style="color: red">*</span>
+					</td>
+				</tr>
+
+				<tr>
+					<th>职称：</th>
+					<td>
+						<input type="text" name="zc_name" id="zc_name" value="$!obj.zc_name" size="20"  maxlength="50" verify="NotNull"/>
+						<span style="color: red">*</span>
+					</td>
+					<th>职称编号：</th>
+					<td>
+						<input type="text" name="zc_card" id="zc_card" value="$!obj.zc_card" size="20"  onblur="checkloginname()" maxlength="50" verify="NotNull"/>
+						<span style="color: red">*</span>
+					</td>
+				</tr>
+				<tr>
+					<th>职称级别：</th>
+					<td>
+						<input type="text" name="zc_level" id="zc_level" value="$!obj.zc_level" size="20"  maxlength="50" verify="NotNull"/>
+						<span style="color: red">*</span>
+					</td>
+					<th>获得时间：</th>
+					<td>
+						<input  onclick="WdatePicker();" name="zc_time" id="zc_time" value="$!obj.zc_time" size="20" readonly="readonly" maxlength="50" verify="NotNull">
+						<span style="color: red">*</span>
+					</td>
+				</tr>
+				<tr>
+					<th>审批单位：</th>
+					<td>
+						<input type="text" name="sp_unit" id="sp_unit" value="$!obj.sp_unit" size="20"  maxlength="50" verify="NotNull"/>
+						<span style="color: red">*</span>
+					</td>
+					<th>状态：</th>
+					<td>
+						<select id="zc_state" name="zc_state"  verify="职称状态|NotNull" onchange="zhuxiao(this.value)">
+							<option value="">请选择</option>
+							<option value="0">正常</option>
+							<option value="1">注销</option>
+						</select>
+						<script type="text/javascript">selected(document.form1.zc_state,"0")</script>
+					</td>
+				</tr>
+				<tr id="zhuxiao1" style="display:none">
+					<th>注销时间：</th>
+					<td>
+						<input  onclick="WdatePicker();" name="zc_zxsj" id="zc_zxsj" value="$!obj.zc_zxsj" size="20" readonly="readonly" maxlength="50" >
+						<span style="color: red">*</span>
+					</td>
+					<th>注销机关：</th>
+					<td>
+						<input type="text" name="zc_zxjg" id="zc_zxjg" value="$!obj.zc_zxjg" size="20"  maxlength="50" />
+						<span style="color: red">*</span>
+					</td>
+				</tr>
+				<tr id="zhuxiao2" style="display:none">
+					<th>注销原因：</th>
+					<td colspan="3">
+						<input type="text" name="zc_zxyy" id="zc_zxyy" value="$!obj.zc_zxyy" size="80"   />
+						<span style="color: red">*</span>
+					</td>
+				</tr>
+			</table>
+		</div>
+    </div>
+    <div class="pageBtnarea">
+		  <input class="button" type="button" name="btnOk" value="确认" onclick="doSave()" />
+          <input class="button" type="button" name="btnOk" value="关闭" onclick="window.close();" />
+	</div>
+</form>
+<script>
+	//添加操作
+	function doSave() {
+		if (Verify.hasError()) {
+			return;
+		}
+		if(document.form1.nameflag.value==1){
+	    	Dialog.alert("职称编号已存在！");
+	    	return false;
+	    }
+		jQuery.ajax({
+			type : 'POST',
+			url : "${base}/private/zcxx/update",
+			data : $("#form1").serialize(),
+			success : function(res) {
+				if (res == "true") {
+					Dialog.alert("修改成功！", function() {
+						refreshloadDataTab();
+					});
+				} else {
+					Dialog.alert("修改失败！");
+				}
+				return false;
+			},
+			fail : function(res) {
+				Dialog.alert("系统错误?!");
+			}
+		});
+	}
+</script>
+</body>
+</html>

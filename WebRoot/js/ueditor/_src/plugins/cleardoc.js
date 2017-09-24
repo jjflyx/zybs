@@ -1,0 +1,1 @@
+UE.commands["cleardoc"]={execCommand:function(c){var d=this,b=d.options.enterTag,a=d.selection.getRange();if(b=="br"){d.body.innerHTML="<br/>";a.setStart(d.body,0).setCursor();}else{d.body.innerHTML="<p>"+(ie?"":"<br/>")+"</p>";a.setStart(d.body.firstChild,0).setCursor(false,true);}}};

@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>安徽省交通建设工程质量监督局</title>
+<link rel="stylesheet" type="text/css" href="${baseRes!}/css/style.css"/>
+<script language="javascript" type="text/javascript" src="${baseRes!}/js/jquery.min.js"></script>
+<script language="javascript" type="text/javascript" src="${baseRes!}/js/hits.js"></script>
+</head>
+<body>
+[@cms_channel_list hasContent='0' titLen='28'  append='...'  channelId=channel.channel_id?substring(0,channel.channel_id?length)]
+        [#list tag_list as c]
+           [#if c_index=0]
+<SCRIPT>
+window.location.href=" [#if c.linkurl??]${c.linkurl}[#else]${base!}/${c.path}/index.html[/#if]";
+</SCRIPT>
+         
+        [/#if]
+        [/#list]
+        [/@cms_channel_list]
+</body>
+</html>
+
+
+
+

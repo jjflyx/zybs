@@ -1,0 +1,106 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>安徽省交通建设工程质量监督局</title>
+<link rel="stylesheet" type="text/css" href="${baseRes!}/css/style.css"/>
+<script language="javascript" type="text/javascript" src="${baseRes!}/js/jquery.min.js"></script>
+<script language="javascript" type="text/javascript" src="${baseRes!}/js/hits.js"></script>
+</head>
+<body>
+<div class="wrapper">
+	[#include "../include/top.html"/]
+    <div class="site_body">
+    	<div class="site_left">
+        	<div class="zwlink">
+            	<ul>
+                	<li><a href="${base!}/zzjg/1058847.html" target="_blank"><img src="${baseRes!}/img/btn_1.gif" width="200" height="32" /></a></li>
+                	<li><a href="${base!}/zzjg/1058844.html" target="_blank"><img src="${baseRes!}/img/btn_2.gif" width="200" height="32" /></a></li>
+                	<li><a href="${base!}/zzjg/1058846.html" target="_blank"><img src="${baseRes!}/img/btn_3.gif" width="200" height="32" /></a></li>
+                	<li><a href="${base!}/zzjg/1058845.html" target="_blank"><img src="${baseRes!}/img/btn_4.gif" width="200" height="32" /></a></li>
+                </ul>
+            </div>
+            <div class="divborder">
+            	<div class="title1"><h2><strong>行业信息查询</strong></h2></div>
+                <div class="content1">
+                	<ul class="list1">
+ [@cms_content_list dateFormat='yyyy-MM-dd' count='8' titLen='14'  append='...' orderBy='4' channelId='0012']
+          [#list tag_list as a]
+
+                    	<li><a href="[#if a.link??]${a.link}[#else]${base!}/${a.path}/${a.content_id}.html[/#if]" title="${a.title}" target="_blank"><span style="[#if a.title_color??]color:${a.title_color};[/#if][#if a.is_bold='Y']font-weight:bold;[/#if]">[#if a.short_title??][@text_cut s=a.short_title len=titLen append='...'/][#else][@text_cut s=a.title len=titLen append='...'/][/#if]</span></a></li>
+                     [/#list]
+          [/@cms_content_list] 
+
+                    </ul>
+                </div>
+            </div>
+            <div class="divborder partM">
+            	<ul class="listhd clearfix">
+                	<li><a href="${base!}/hdzx/ldxx/index.html"  target="_blank"><img src="${baseRes!}/img/hd_1.gif" width="97" height="37" /></a></li>
+                	<li><a href="${base!}/hdzx/yjzj/index.html"  target="_blank"><img src="${baseRes!}/img/hd_2.gif" width="97" height="37" /></a></li>
+                	<li><a href="${base!}/hdzx/tsjb/index.html"  target="_blank"><img src="${baseRes!}/img/hd_3.gif" width="97" height="37" /></a></li>
+                	<li><a href="${base!}/zlxz/index.html" target="_blank"><img src="${baseRes!}/img/hd_4.gif" width="97" height="37" /></a></li>
+                </ul>
+            </div>
+            <div class="divborder partM">
+            	<div class="title1"><h2><strong>出行服务</strong></h2></div>
+                <div class="content1">
+                	<ul class="listcxfw clearfix">
+                    	<li><a href="#" target="_blank"><span class="icon_cxfw1 iconimg"></span>电子地图</a></li>
+                        <li><a href="#" target="_blank"><span class="icon_cxfw2 iconimg"></span>航班查询</a></li>
+                        <li><a href="#" target="_blank"><span class="icon_cxfw3 iconimg"></span>公交线路</a></li>
+                        <li><a href="#" target="_blank"><span class="icon_cxfw4 iconimg"></span>汽车时刻</a></li>
+                        <li><a href="#" target="_blank"><span class="icon_cxfw5 iconimg"></span>高速信息</a></li>
+                        <li><a href="#" target="_blank"><span class="icon_cxfw6 iconimg"></span>列车时刻</a></li>
+                        <li><a href="#" target="_blank"><span class="icon_cxfw7 iconimg"></span>邮政编码</a></li>
+                        <li><a href="#" target="_blank"><span class="icon_cxfw8 iconimg"></span>空气质量</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="site_right">
+        	<div class="m1 clearfix">
+           	    <div class="title2"><div class="title2bg"><h2><strong>${channel.name!}</strong></h2><span class="stat">当前位置：<a href="${base!}/index.html">首页</a> > [#list channelList as n]<a href="${base!}/${n.path}/index.html" >${n.name}</a>[#if n_has_next] > [/#if][/#list]</span></div></div>
+                <div class="content2 clearfix listcon">
+                	      [@cms_content_page count='20' orderBy='4' channelId=channel.channel_id channelOption='1' titLen='52'  append='...'  dateFormat='yyyy-MM-dd']
+                	<ul class="list">
+ 
+ [#list tag_pagination.list as a]
+                    	<li><a href="[#if a.link??]${a.link}[#else]${base!}/${a.path}/${a.content_id}.html[/#if]" title="${a.title}" target="_blank"><span style="[#if a.title_color??]color:${a.title_color};[/#if][#if a.is_bold='Y']font-weight:bold;[/#if]">[#if a.short_title??][@text_cut s=a.short_title len=titLen append='...'/][#else][@text_cut s=a.title len=titLen append='...'/][/#if]</span> </a><span class="time">${a.pub_time?date(dateFormat)}</span></li>
+                    	[/#list]
+
+
+                    </ul>
+                    <!--分页代码-->
+ 
+                    <div class="pageation">
+                       [@cms_pagination sysPage='1'/] 
+                    </div>
+
+                    <!--分页代码 end-->
+
+ [/@cms_content_page]
+             
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+ [#include "../include/foot.html"/]
+</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

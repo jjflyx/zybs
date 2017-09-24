@@ -1,0 +1,222 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>安徽省交通运输厅</title>
+    <script type="text/javascript" src="${baseRes!}/js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="${baseRes!}/js/hits.js"></script>
+    <link href="${baseRes!}/css/jtxw.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+[#include "../include/通用头部.html"/]
+
+<div class="site_body">
+    <div class="site_postion">
+        <div class="postion_icon ">您当前的位置：<a href="${base!}/index.html">首页</a> > [#list channelList as n]<a href="${base!}/${n.path}/index.html" >${n.name}</a>[#if n_has_next] > [/#if][/#list]</div>
+    </div>
+
+    <div class="site_nr">
+        <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+            <tr>
+                <td width="261" align="left" valign="top"><table width="248"  border="0" cellpadding="0" cellspacing="0" class="table">
+                    <tr>
+                        <td align="center" valign="top" bgcolor="#FFFFFF"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td height="47" align="center" ><table width="98%" border="0" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <td width="30" align="center"><img src="${baseRes!}/img/jtxw_dit.jpg" width="12" height="13" /></td>
+                                        <td align="left" class="jtxw_tit">
+                                            [#if channel.channel_id?substring(0,4)='0002']
+                                            新闻动态
+                                            [#elseif channel.channel_id?substring(0,4)='0001']
+                                            交通概况
+                                            [#elseif channel.channel_id?substring(0,4)='0007']
+                                            政务动态
+                                            [#elseif channel.channel_id?substring(0,4)='0005']
+                                            政府信息公开
+                                            [#else]
+                                            ${channel.name!}
+                                            [/#if]
+                                        </td>
+                                    </tr>
+                                </table></td>
+                            </tr>
+                            <tr>
+                                <td height="28" align="center" background="${baseRes!}/img/jtxw_4.jpg"> </td>
+                            </tr>
+                        </table>
+                            [#if channel.channel_id?length=4]
+                            [@cms_channel_list hasContent='0' titLen='28'  append='...'  channelId=channel.channel_id?substring(0,channel.channel_id?length)]
+                            <!--hasContent='1' 不显示外链栏目-->
+                            <!--channelId='0001' 列出0001的子栏目-->
+                            <!--channelId='0001,0002' 列出指定栏目-->
+
+                            [#list tag_list as c]
+                            [#if c.channel_id=channel.channel_id]
+                            <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="jtxw_menu1">
+                                <tr>
+                                    <td align="right"><table width="67%" height="20" border="0" cellpadding="0" cellspacing="0">
+                                        <tr>
+                                            <td align="left"><a href="[#if c.linkurl??]${c.linkurl}[#else]${base!}/${c.path}/index.html[/#if]" class="jtxw">${c.name}</a></td>
+                                        </tr>
+                                    </table></td>
+                                </tr>
+                            </table>
+
+                            [@cms_channel_list hasContent='0' titLen='38'  append='...'  channelId=channel.channel_id]
+                            [#list tag_list as d]
+                            <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="jtxw_menu3">
+                                <tr>
+                                    <td align="right" valign="middle"><table width="61%" height="20" border="0" cellpadding="0" cellspacing="0">
+                                        <tr>
+                                            <td align="left"><a href="[#if d.linkurl??]${d.linkurl}[#else]${base!}/${d.path}/index.html[/#if]" class="jtxw3"></a></td>
+                                        </tr>
+                                    </table></td>
+                                </tr>
+                            </table>
+                            [/#list]
+                            [/@cms_channel_list]
+
+                            [#else]
+                            <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="jtxw_menu2">
+                                <tr>
+                                    <td align="right"><table width="67%" height="20" border="0" cellpadding="0" cellspacing="0">
+                                        <tr>
+                                            <td align="left"><a href="[#if c.linkurl??]${c.linkurl}[#else]${base!}/${c.path}/index.html[/#if]" class="jtxw2">${c.name}</a></td>
+                                        </tr>
+                                    </table></td>
+                                </tr>
+                            </table>
+                            [/#if]
+                            [/#list]
+                            [/@cms_channel_list]
+                            [#else]
+                            [@cms_channel_list hasContent='0' titLen='38'  append='...' channelId=channel.channel_id?substring(0,channel.channel_id?length-4)]
+                            <!--hasContent='1' 不显示外链栏目-->
+                            <!--channelId='0001' 列出0001的子栏目-->
+                            <!--channelId='0001,0002' 列出指定栏目-->
+
+                            [#list tag_list as c]
+                            [#if c.channel_id=channel.channel_id]
+                            <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="jtxw_menu1">
+                                <tr>
+                                    <td align="right"><table width="67%" height="20" border="0" cellpadding="0" cellspacing="0">
+                                        <tr>
+                                            <td align="left"><a href="[#if c.linkurl??]${c.linkurl}[#else]${base!}/${c.path}/index.html[/#if]" class="jtxw">${c.name}</a></td>
+                                        </tr>
+                                    </table></td>
+                                </tr>
+                            </table>
+                            [@cms_channel_list hasContent='0'  titLen='38'  append='...' channelId=channel.channel_id]
+                            [#list tag_list as d]
+                            <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="jtxw_menu3">
+                                <tr>
+                                    <td align="right" valign="middle"><table width="61%" height="20" border="0" cellpadding="0" cellspacing="0">
+                                        <tr>
+                                            <td align="left"><a href="[#if d.linkurl??]${d.linkurl}[#else]${base!}/${d.path}/index.html[/#if]" class="jtxw3">${d.name}</a></td>
+                                        </tr>
+                                    </table></td>
+                                </tr>
+                            </table>
+                            [/#list]
+                            [/@cms_channel_list]
+
+                            [#else]
+                            <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="jtxw_menu2">
+                                <tr>
+                                    <td align="right"><table width="67%" height="20" border="0" cellpadding="0" cellspacing="0">
+                                        <tr>
+                                            <td align="left"><a href="[#if c.linkurl??]${c.linkurl}[#else]${base!}/${c.path}/index.html[/#if]" class="jtxw2">${c.name}</a></td>
+                                        </tr>
+                                    </table></td>
+                                </tr>
+                            </table>
+                            [/#if]
+                            [/#list]
+                            [/@cms_channel_list]
+                            [/#if]
+                        </td>
+                    </tr>
+                </table></td>
+                <td align="center" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td width="140" align="center" bgcolor="#0077C9" class="jtxw_tit"><font color="#FFFFFF">${channel.name!}</font></td>
+                        <td height="34" background="${baseRes!}/img/lb01.jpg"> </td>
+                        <td width="5"><img src="${baseRes!}/img/lb02.jpg" width="5" height="34" /></td>
+                    </tr>
+                </table>
+
+
+                    <div class="page_artlist">
+                        [@cms_content_page count='15' orderBy='4' channelId=channel.channel_id channelOption='1' titLen='38'  append='...'  dateFormat='yyyy-MM-dd']
+                        <ul>
+                            [#list tag_pagination.list as a]
+                            [#if a_index=4]
+                            <li> <a href="[#if a.link??]${a.link}[#else]${base!}/${a.path}/${a.content_id}.html[/#if]"  target="_blank" title="${a.title}">
+                                <span style="[#if a.title_color??]color:${a.title_color};[/#if][#if a.is_bold='Y']font-weight:bold;[/#if]">[#if a.short_title??][@text_cut s=a.short_title len=titLen append='...'/][#else][@text_cut s=a.title len=titLen append='...'/][/#if]</span> </a>
+                                <span class="timespan">${a.pub_time?date(dateFormat)}</span></li>
+                            [#if a_has_next]
+                        </ul>
+                        <ul>
+                            [#else]
+                        </ul>
+                        [/#if]
+                        [#elseif a_index=9]
+
+                        <li> <a href="[#if a.link??]${a.link}[#else]${base!}/${a.path}/${a.content_id}.html[/#if]"  target="_blank" title="${a.title}">
+                            <span style="[#if a.title_color??]color:${a.title_color};[/#if][#if a.is_bold='Y']font-weight:bold;[/#if]">[#if a.short_title??][@text_cut s=a.short_title len=titLen append='...'/][#else][@text_cut s=a.title len=titLen append='...'/][/#if]</span> </a>
+                            <span class="timespan">${a.pub_time?date(dateFormat)}</span></li>
+                        [#if a_has_next]
+                        </ul>
+                        <ul>
+
+                            [#else]
+                        </ul>
+
+                        [/#if]
+
+
+                        [#else]
+
+                        <li> <a href="[#if a.link??]${a.link}[#else]${base!}/${a.path}/${a.content_id}.html[/#if]"  target="_blank"  title="${a.title}" >
+                            <span style="[#if a.title_color??]color:${a.title_color};[/#if][#if a.is_bold='Y']font-weight:bold;[/#if]">[#if a.short_title??][@text_cut s=a.short_title len=titLen append='...'/][#else][@text_cut s=a.title len=titLen append='...'/][/#if]</span> </a>
+                            <span class="timespan">${a.pub_time?date(dateFormat)}</span></li>
+                        [#if a_has_next]
+                        [#else]
+                        </ul>
+                        [/#if]
+                        [/#if]
+                        [/#list]
+
+                        <div style="clear:both;"></div>
+                        <div class="pagesite"  style="text-align:center">[@cms_pagination sysPage='1'/]</div>
+                        [/@cms_content_page]
+                        <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td align="center" height="20" valign="top"></td>
+                            </tr>
+                        </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+[#include "../include/通用版底.html"/]
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

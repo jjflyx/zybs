@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>$!app_name</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link href="${base}/include/css/default.css" rel="stylesheet" type="text/css"/>
+    <link href="${base}/include/css/cms.css" rel="stylesheet" type="text/css"/>
+    <link href="${base}/include/css/cms.css" rel="stylesheet" type="text/css"/>
+    <script type='text/javascript'>
+        var CONTEXTPATH = '${base}';
+    </script>
+    <script src="${base}/include/js/main.js"></script>
+    <script src="${base}/include/js/string.js"></script>
+    <!-- 分页  注意顺序 -->
+    <link href="${base}/include/css/themes/gray/easyui.css" rel="stylesheet" type="text/css"/>
+    <script src="${base}/include/js/jquery.easyui.min.js"></script>
+    <script type="text/javascript"
+            src="${base}/include/controls/ztree/jquery.ztree.core-3.5.min.js"></script>
+    <link rel="stylesheet" href="${base}/include/controls/ztree/zTreeStyle/zTreeStyle.css" type="text/css">
+
+    <SCRIPT type="text/javascript">
+    $(function(){
+        jQuery.ajax({
+        type: 'POST',
+        url: "${base}/private/cms/result/getResult",
+        success: function (res) {
+        var obj = jQuery.parseJSON(res);
+        for(var i=0;i < obj.length;i++){
+           $("#tabDiv").append("<tr><th width=\"150\" align=\"center\">"+obj[i].id +"</th><th align=\"center\">"+obj[i].title+"</th><th width=\"120\" align=\"center\">"+obj[i].shenqingren+"</th><th width=\"60\" align=\"center\">"+obj[i].status+"</th></tr> ");
+        }
+        return;
+        },
+        fail: function (res) {
+
+        }
+        });
+    });
+</SCRIPT>
+</head>
+<body>
+<body>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="bscx_table" id="tabDiv">
+    <tr><th width="150" align="center">办件编号</th><th align="center">事项内容</th><th width="120" align="center">申请人/企业</th><th width="60" align="center">当前状态</th></tr>
+  </table>
+</body>
+</html>

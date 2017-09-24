@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>$!app_name</title>
+ 
+	<link rel="stylesheet" type="text/css" href="${base}/include/css/blue/style.css"/>
+	<script type='text/javascript'>
+		var CONTEXTPATH = '${base}';
+		var stylePath = '$!stylename';
+	</script>
+    <script src="${base}/include/js/main.js"></script>
+    <script src="${base}/include/js/string.js"></script>
+   
+    <script type="text/javascript" src="${base}/include/controls/ztree/jquery.ztree.core-3.5.min.js"></script> 
+	<script type="text/javascript" src="${base}/include/controls/ztree/jquery.ztree.excheck-3.5.min.js"></script>
+    <script type="text/javascript" src="${base}/include/controls/ztree/jquery.ztree.exedit-3.5.min.js"></script>
+	<link rel="stylesheet" href="${base}/include/controls/ztree/zTreeStyle/zTreeStyle.css" type="text/css">
+</head>
+<body leftmargin="0" topmargin="0">
+<script type="text/javascript"> 
+
+
+var firstAsyncSuccessFlag =0;//是否是首次加载
+var sjunit='$!sjunit';
+var setting = {
+		async : {
+			enable : true,
+			url : "${base}/private/sys/unit/ajaxTree?sjunit="+sjunit,
+			autoParam : [ "id" ]
+		},
+		view : {
+			dblClickExpand: false
+		},
+		callback:{
+			onAsyncSuccess:function(event, treeId, treeNode, msg) {
+				var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+				if(firstAsyncSuccessFlag===0){//首次加载
+					var initCode='$!initCode';
+ 					console.info("初始化initCode---"+initCode);
+					if(initCode){//有初始化选中值
+						var codeLength=initCode.length;
+						
+						var levelCount=codeLength/4;
+// 						console.info(levelCount+"初始化code长度---"+codeLength);
+						if(codeLength<=4){//默认选中父级
+							var node=treeObj.getNodeByParam('id',initCode,null);
+							treeObj.selectNode(node);
+							$('#selectValue').val(node.id);
+							$('#selectName').val(node.name);
+							firstAsyncSuccessFlag=1;
+						}else{
+							for (var  i= 1;  i < levelCount; i++) {
+								
+								var pa=initCode.substring(0,i*4);
+								var node=treeObj.getNodeByParam('id',pa,null);
+								
+								if(node){
+									if(!node.zAsync){
+										treeObj.reAsyncChildNodes(node, "refresh",true);
+									}
+									treeObj.expandNode(node, true, false, true,true);
+								}
+								
+							}
+							if(treeNode && treeNode.value===initCode.substring(0,(codeLength-4))){
+// 								console.info("id是否等于选中的父级");
+								firstAsyncSuccessFlag=1;
+								var node=treeObj.getNodeByParam('id',initCode,null);
+								treeObj.selectNode(node);
+								$('#selectValue').val(node.id);
+								$('#selectName').val(node.name);
+							}
+						}
+					}else{
+						firstAsyncSuccessFlag=1;
+						//默认展开所属区域第一级
+// 						var typeid='$!typeid';
+// 						if(typeid && typeid==='00020005'){
+							
+// 						}
+					}
+				}
+				
+			},
+			beforeClick:function(treeId, treeNode, clickFlag){
+					$('#selectValue').val(treeNode.id);
+					$('#selectName').val(treeNode.name);
+					$('#isparent').val(treeNode.isParent);
+			},
+			beforeDblClick: function (treeId, treeNode) {
+				$('#selectValue').val(treeNode.id);
+				$('#selectName').val(treeNode.name);
+				$('#isparent').val(treeNode.isParent);
+			}
+		}
+	};
+	
+	function initTree() {
+		var myTree = jQuery.fn.zTree.init(jQuery("#treeDemo"), setting);
+	}
+	$(function (){
+		initTree();
+	});	
+	
+	
+ </script>
+<div class="ifrpage">
+		<input type="hidden" id="isparent" value="false" /> 
+		<input type="hidden" id="selectValue" value="" />
+		<input type="hidden" id="selectName" value="" />
+		<table width="100%" border="0" cellspacing="0" cellpadding="0">
+			<tr valign="top">
+				<td style="padding-right:10px;">
+					<!-- tree begin -->
+                    <div ztype='_Tree'  style='-moz-user-select: none; width: 400px;  overflow: auto; '  id='tree1' class='treeItemN divborder'>
+                        <ul id="treeDemo" class="ztree"></ul>
+                    </div>
+					<!-- tree end -->
+				</td>
+			</tr>
+		</table>
+</div>
+</body>
+</html>

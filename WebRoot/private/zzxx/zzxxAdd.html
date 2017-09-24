@@ -1,0 +1,770 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>$!app_name</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script type='text/javascript'>
+        var CONTEXTPATH = '${base}';
+        var stylePath = '$!stylename';
+
+    </script>
+    <link href="${base}/include/css/blue/style.css" rel="stylesheet" type="text/css" />
+    <link href="${base}/include/css/page.css" rel="stylesheet" type="text/css" />
+    <link href="${base}/private/ratifyFollow/css/$!stylename/style.css" rel="stylesheet" type="text/css" />
+    <script src="${base}/include/js/main.js"></script>
+    <script src="${base}/include/js/string.js"></script>
+    <!--<link href="${base}/include/css/themes/gray/easyui.css" rel="stylesheet" type="text/css" />-->
+    <link href="${base}/include/controls/my97/skin/WdatePicker.css" rel="stylesheet" type="text/css"/>
+    <script language="javascript" type="text/javascript" src="${base}/include/controls/my97/WdatePicker.js"></script>
+    <script src="${base}/include/js/jquery.easyui.min.js"></script>
+    <script src="${base}/include/js/select.js"></script>
+    <script>
+    
+        function doSave(status){
+        	document.getElementById("status").value=status;
+            var start_date = $("#start_date").val();
+            var end_date = $("#end_date").val();
+            var d1 = new Date(start_date); 
+            var d2 = new Date(end_date);
+            if(d1.getTime() > d2.getTime()){
+                Dialog.alert("有效期填写有误，请核实！");
+                return;
+            }
+            if(Verify.hasError()){
+                return ;
+            }
+            #if($!xy_type == "00050003")
+            getZyfw()
+            #end
+            jQuery.ajax({
+                type: 'POST',
+                url : "${base}/private/zzxx/tdpg/addSave" ,
+                data : $("#form1").serialize(),
+                success : function (res) {
+                    if(res){
+                        Dialog.alert("添加成功！",function(){
+                        	refreshloadDataTab();
+                        });
+                    }else{
+                        Dialog.alert("添加失败！");
+                    }
+                    return false;
+                },
+                fail : function(res) {
+                    Dialog.alert("系统错误?!");
+                }
+            });
+        }
+        
+        //继续添加
+        function doJxtj(){
+        	document.getElementById("status").value=1;
+            var start_date = $("#start_date").val();
+            var end_date = $("#end_date").val();
+            var d1 = new Date(start_date); 
+            var d2 = new Date(end_date);
+            if(d1.getTime() > d2.getTime()){
+                Dialog.alert("有效期填写有误，请核实！");
+                return;
+            }
+            if(Verify.hasError()){
+                return ;
+            }
+            #if($!xy_type == "00050003")
+            getZyfw()
+            #end
+            jQuery.ajax({
+                type: 'POST',
+                url : "${base}/private/zzxx/tdpg/addSave" ,
+                data : $("#form1").serialize(),
+                success : function (res) {
+                    if(res){
+                        Dialog.alert("添加成功！",function(){
+                        	document.getElementById("zz_code").value="";
+                        	document.getElementById("zz_jb").value="";
+                        	document.getElementById("zz_unit").value="";
+                        	document.getElementById("start_date").value="";
+                        	document.getElementById("end_date").value="";
+                        	document.getElementById("zz_lb").value="";
+                        });
+                    }else{
+                        Dialog.alert("添加失败！");
+                    }
+                    return false;
+                },
+                fail : function(res) {
+                    Dialog.alert("系统错误?!");
+                }
+            });
+        }
+        
+        //添加信用主体    
+        function toAddfr(){
+            var ctype = 1;
+            var xyzt_type = 1;
+            var d = new Dialog("Addfr");
+            d.Width = 800;
+            d.Height = 400;
+            d.Title = "添加信用主体";
+            d.URL = "${base}/private/zzxx/tdpg/toAddxyzt?ctype="+ctype+"&xyzt_type="+xyzt_type;
+            d.OKEvent = function(){
+                if($DW.doSave()){
+                    var ids = $DW.$("#checkids_id").val();
+                    var names = $DW.$("#checkids_name").val();
+                    var zzjgdm = $DW.$("#checkids_zzjgdm").val();
+                    var codes = $DW.$("#checkids_code").val();
+                    var companyAddr = $DW.$("#checkids_companyAddr").val();
+                    var companyType = $DW.$("#checkids_companyType").val();
+                    var frName = $DW.$("#checkids_frName").val();
+                    var acreateTime = $DW.$("#checkids_acreateTime").val();
+                    $("#xyzt_id").val(ids);
+                    $("#name").val(names);
+                    if(zzjgdm != null && zzjgdm != ""){
+                        $("#code").val(zzjgdm);
+                        $("#p_ty").attr("style","display:none");
+                        $("#p_zz").attr("style","display:");
+                    }else{
+                        $("#code").val(codes);
+                        $("#p_zz").attr("style","display:none");
+                        $("#p_ty").attr("style","display:");
+                    }
+                    $("#frName").val(frName);
+                    $("#frName").text(frName);
+                    $("#commaryAddr").val(companyAddr);
+                    $("#commaryAddr").text(companyAddr);
+                    $("#companyType").text(companyType);
+                    $("#acreateTime").text(acreateTime);
+                    $D.close();
+                }
+            }
+            d.show();
+        }
+        
+        //加载select 级联数据
+function selectCascade2(id,typeid,obj){
+var values=$(obj).val().replace(/\s+/g,"");//去空格
+jQuery("#"+id).empty();
+	jQuery.ajax({
+  		type : "post",
+		dataType : "json",
+		url : CONTEXTPATH+"/private/cs/value/getAjaxCascadeCsValue",
+		data : {"typeid":typeid,"value":values},
+		async:false,
+		cache : false,
+		success : function(optionData) {
+		jQuery("#"+id).append('<option value="">请选择</option>');
+			if(optionData.length>0 && values!=""){
+				$.each(optionData,function(){
+					jQuery("#"+id).append('<option value="'+this.value+'">'+this.name+'</option>');
+				});
+			}
+		},
+		error : function() {
+			Dialog.alert("访问数据失败！");
+		}
+	});
+}
+jQuery(document).ready(function() {
+    customHeightSet();
+});
+window.onresize = function() {
+    customHeightSet();
+}
+window.onload = function(){
+	customHeightSet();
+}
+    </script>
+#if($!xy_type == "00050003")
+<script>
+function checkDiv(value){
+	if(value=="0002"){
+		selectCascade2("zyfw_1",'00010004',$("#zyfw_0"));
+		$("#zyfw_0").show();
+		$("#zyfw_1").show();
+		$("#zyfw_2").hide();
+		$("#zyfw_1").attr("verify","NotNull");
+	}else if(value=="0003"){
+		selectCascade2("zyfw_1",'00010004',$("#zyfw_0"));
+		$("#zyfw_0").show();
+		$("#zyfw_1").show();
+		$("#zyfw_2").show();
+		$("#zyfw_1").attr("verify","NotNull");
+		$("#zyfw_2").attr("verify","NotNull");
+	}else{
+		$("#zyfw_0").hide();
+		$("#zyfw_1").hide();
+		$("#zyfw_2").hide();
+		$("#zyfw_1").attr("verify","");
+		$("#zyfw_2").attr("verify","");
+	}
+}
+function getZyfw(){
+	var value=$("#zz_jb").val();
+	if(value=="0002"){
+		$("#zyfw").val($("#zyfw_1").val());
+	}else if(value=="0003"){
+		$("#zyfw").val($("#zyfw_2").val());
+	}else{
+		$("#zyfw").val($("#zyfw_0").val());
+	}
+}
+</script>
+#end
+</head>
+<body leftmargin="0" topmargin="0">
+<form name='form1' id="form1" method='post'>
+    <input type="hidden" id="actor" name="actor" value="$!actor"/>
+    <input type="hidden" id="unitid" name="unitid" value="$!unitid"/>
+    <input type="hidden" id="xy_type" name="xy_type" value="$!xy_type">
+    <input type="hidden" id="cancellation" name="cancellation" value="1">
+    <input type="hidden" name="status" id="status">
+    <input type="hidden" id="xyzt_id" name="xyzt_id">
+    <div class="pageM viewpage pageAdd" id="pageScroll">
+        <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="table_titlebk">
+            <tr>
+                <td class="table_title" align="center">
+                    #if($!xy_type == "00050002")
+                    土地规划资质
+                    #else
+                    法人资质信息
+                    #end
+                </td>
+            </tr>
+        </table>
+        <table width="98%" border="0" cellpadding="0" cellspacing="3" class="table_auto table_nrbk">
+        <tbody>
+        
+            <tr>
+                <td valign="top" class="padding10">
+                    <table width="100%" border="0" cellpadding="0" cellspacing="3">
+                        <tr>
+                            <td align="right" width="200">信用主体：</td>
+                            <td  width="*">
+                                <input type="text" name="name" id="name" size="25" maxlength="40" verify="法人名称|NotNull" readonly="readonly" placeholder="点击右边图标即可添加"/>
+                                <span style="color:red">*</span>
+                                 &nbsp;<img src="${base}/include/img/cz_find.png" id="fr_img" name="fr_img" style=" vertical-align:middle;cursor: pointer;" onclick="toAddfr();"/>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td align="right" width="200">
+                               <p id="p_ty" style="display:"> 统一社会信用代码：</p><p id="p_zz" style="display:none">组织机构代码：</p>
+                            </td>
+                            <td>
+                                <input type="text" name="code" id="code" size="25" class="readonlyText" readonly="readonly" maxlength="40" />
+                            </td>
+                        </tr>
+                        
+                        #if($!xy_type == "00050001")
+                        <!-- 土地评估 -->
+                        <tr>
+                            <td align="right" width="200">
+                                	资质证书号：
+                            </td>
+                            <td>
+                                <input type="text" name="zz_code" id="zz_code" size="25" maxlength="40" verify="资质证书号|NotNull" />
+                                <span style="color:red">*</span>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td align="right" width="200">
+                          	 资质证书发放单位：     
+                            </td>
+                            <td>
+                                <input type="text" name="zz_unit" id="zz_unit" size="25" maxlength="40" verify="发放单位|NotNull" />
+                                <span style="color:red">*</span>
+                            <td>
+                        </tr>
+                        
+                        <tr>
+                            <td align="right" width="200">
+                                执业范围：
+                            </td>
+                            <td>
+                                <input type="text" name="zyfw" id="zyfw" size="25" maxlength="40" verify="执业范围|NotNull"/>
+                                <span style="color:red">*</span>
+                            </td>
+                        </tr>
+                        <!--<tr>-->
+                            <!--<td align="right" width="200">当前分值：</td>-->
+                            <!--<td>-->
+                                <!--<input type="text" name="count" id="count" size="25" maxlength="5" verify="当前分值|NotNull&&当前分值|Number"/>-->
+                                <!--<span style="color:red">*</span>-->
+                            <!--</td>-->
+                        <!--</tr>-->
+                        <tr>
+                            <td align="right" width="200" valign="top">社会贡献及荣誉：</td>
+                            <td colspan="4"><textarea id="gxry" name="gxry" cols="60" rows="3"></textarea></td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="200" valign="top">其他信息：</td>
+                            <td colspan="4"><textarea id="ext" name="ext" cols="60" rows="3"></textarea></td>
+                        </tr>
+                        #elseif($!xy_type == "00050002")
+                         <!-- 土地规划 -->
+                        <tr>
+                            <td align="right" width="200">
+                                资质名称：
+                            </td>
+                            <td>
+                                <input type="text" name="zz_name" id="zz_name" size="25" maxlength="40" value="土地规划资质" verify="资质名称|NotNull" />
+                                <span style="color:red">*</span>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td align="right" width="200">
+                                资质级别：
+                            </td>
+                            <td>
+                                <select id="zz_jb" name="zz_jb" verify="资质级别|NotNull">
+                                    <option value="">请选择</option>
+                                    #foreach($!zzjb in $!zzjbMap)
+                                    <option value="$!zzjb.value">$!zzjb.name</option>
+                                    #end
+                                </select>
+                                <span style="color:red">*</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="200">
+                                是否省内机构：
+                            </td>
+                            <td>
+                                <input type="radio" class="radioItem" name="if_sn" id="if_sn"  value="0" checked="checked" />是
+                                <input type="radio" class="radioItem" name="if_sn" id="if_sn"  value="1" />否
+                                <span style="color:red">*</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="200">
+                                资质有效期：
+                            </td>
+                            <td>
+                                <input class="Wdate" onclick="WdatePicker();" name="start_date" id="start_date" size="20" maxlength="50"  verify="开始时间|NotNull"></input>&nbsp;&nbsp;至&nbsp;
+                                <input class="Wdate" onclick="WdatePicker();" name="end_date" id="end_date" size="20" maxlength="50"  verify="结束时间|NotNull"></input>
+                                <span style="color:red">*</span>
+                            </td>
+                        </tr>
+                        #elseif($!xy_type == "00050003")
+                        <!-- 土地登记代理-->
+                        <tr>
+                            <td align="right" width="200"> 资质名称：</td>
+                            <td>
+                                <input type="text" name="zz_name" id="zz_name" size="25" maxlength="40" verify="资质名称|NotNull" />
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td align="right" width="200">执业范围：</td>
+                            <td>
+                                <select id="zz_jb" name="zz_jb" verify="执业范围|NotNull" onchange="checkDiv(this.value)">
+                                    <option value="">请选择</option>
+                                    #foreach($!zzjb in $!zyfwList)
+                                    <option value="$!zzjb.value">$!zzjb.name</option>
+                                    #end
+                                </select>
+	                            <input type="hidden" id="zyfw" name="zyfw">
+                                <select name="zyfw_0" id="zyfw_0" style="display: none;">
+      								<option value="340000">安徽省</option>
+      							</select>
+      							<select name="zyfw_1" id="zyfw_1" style="display: none;" onchange="selectCascade2('zyfw_2','00010004',this)">
+      								<option value=" ">请选择</option>
+      							</select>
+      							<select name="zyfw_2" id="zyfw_2" style="display: none;">
+      								<option value=" ">请选择</option>
+      							</select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="200" valign="top">年检情况：</td>
+                            <td colspan="4"><textarea id="njqx" name="njqx" cols="60" rows="3" verify="年检情况|NotNull"></textarea></td>
+                        </tr>
+                        
+                        #elseif($!xy_type == "00050004")
+                        <!--  矿产权价格评估服务-->
+                        <tr>
+                            <td align="right" width="200"> 资质名称：</td>
+                            <td>
+                                <input type="text" name="zz_name" id="zz_name" size="25" maxlength="40"  verify="资质名称|NotNull" />
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td align="right" width="200">资质级别：</td>
+                            <td>
+                                <select id="zz_jb" name="zz_jb" verify="资质级别|NotNull">
+                                    <option value="">请选择</option>
+                                    #foreach($!zzjb in $!zzjbMap)
+                                    <option value="$!zzjb.value">$!zzjb.name</option>
+                                    #end
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="200">执业范围：</td>
+                            <td>
+                                <input type="text" name="zyfw" id="zyfw" size="25" maxlength="40" verify="执业范围|NotNull"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="200" valign="top">年检情况：</td>
+                            <td colspan="4"><textarea id="njqx" name="njqx" cols="60" rows="3" verify="年检情况|NotNull"></textarea></td>
+                        </tr>
+                        
+                        #elseif($!xy_type == "0006")
+                        <!-- 测绘地理市场信用 -->
+                        <tr>
+                            <td align="right" width="200"> 法定代表人：</td>
+                            <td>
+                                <label id="frName" name="frName"></label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="200"> 单位地址：</td>
+                            <td>
+                                <label id="commaryAddr" name="commaryAddr"></label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="200"> 企业类型：</td>
+                            <td>
+                                <label id="companyType" name="companyType"></label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="200"> 成立日期：</td>
+                            <td>
+                                <label id="acreateTime" name="acreateTime"></label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="200">
+                                	资质证书号：
+                            </td>
+                            <td>
+                                <input type="text" name="zz_code" id="zz_code" size="25" maxlength="40" verify="资质证书号|NotNull" />
+                                <span style="color:#FF0000;">*</span>
+                            </td>
+                        </tr>
+                        
+                         <tr>
+                            <td align="right" width="200">许可决定日期：</td>
+                            <td>
+                                <input class="Wdate" onclick="WdatePicker();" name="start_date" id="start_date" size="20" maxlength="50"  verify="开始时间|NotNull"></input>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td align="right" width="200">资质级别：</td>
+                            <td>
+                                <select id="zz_jb" name="zz_jb" verify="资质级别|NotNull" loadselect="loadSelect(this,'00010022',1)">
+                                    <option value="">请选择</option>
+                                </select>
+                                <span style="color:#FF0000;">*</span>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td align="right" width="200">
+                                	人员规模：
+                            </td>
+                            <td>
+                                <input type="text" name="staffSize" id="staffSize" size="25" maxlength="40" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="200">
+                                	仪器设备：
+                            </td>
+                            <td>
+                                <textarea id="apparatus" name="apparatus" cols="60" rows="3"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="200">
+                                	专业范围：
+                            </td>
+                            <td>
+                               <textarea id="major" name="major" cols="60" rows="3"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="200">
+                                	资质变更记录：
+                            </td>
+                            <td>
+                               <textarea id="changeRecord" name="changeRecord" cols="60" rows="3"></textarea>
+                            </td>
+                        </tr>
+                        #elseif($!xy_type == "00050005" || $!xy_type == "00070002")
+                        <!-- 地质灾害危险性评估  地质灾害危险性评估  地质灾害治理工程-->
+                        <tr>
+                            <td align="right" width="200"> 法定代表人：</td>
+                            <td>
+                                <input type="text" name="frName" id="frName" size="25" class="readonlyText" readonly="readonly"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="200"> 单位地址：</td>
+                            <td>
+                            	<input type="text" name="commaryAddr" id="commaryAddr" size="25" class="readonlyText" readonly="readonly"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="200">
+                                资质证书号：
+                            </td>
+                            <td>
+                                <input type="text" name="zz_code" id="zz_code" size="25" maxlength="40" verify="资质证书号|NotNull" />
+                                <span style="color:#FF0000;">*</span>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td align="right" width="200">资质级别：</td>
+                            <td>
+                                <select id="zz_jb" name="zz_jb" verify="资质级别|NotNull">
+                                    <option value="">请选择</option>
+                                    #foreach($!zzjb in $!zzjbMap)
+                                    <option value="$!zzjb.value">$!zzjb.name</option>
+                                    #end
+                                </select>
+                                <span style="color:#FF0000;">*</span>
+                            </td>
+                        </tr>
+                        <tr>
+      						<td align="right" width="200">资质类别：</td>
+      						 <td>
+      							<span class="selectinput" style="padding:2px;display:inline-block;" name="editable-input">
+      							#if($!xy_type == "00050005")
+      								<select name="zz_lb" iscascade="zz_lb_0" onchange="selectCascade(this,'00010021')" verify="NotNull" loadselect="loadSelect(this,'00010021',1)">
+      								</select>
+      							#elseif($!xy_type == "00070002")
+      							<select name="zz_lb" iscascade="zz_lb_0" onchange="selectCascade(this,'00010016')" verify="NotNull" loadselect="loadSelect(this,'00010016',1)">
+      								<option value=" ">请选择</option>
+      							</select>
+      								#end
+      							</span>
+      							<span style="color:#FF0000;">*</span>
+      							<br>
+      						</td>
+     					</tr>
+                        	<tr>
+                            <td align="right" width="200">
+                                	资质有效期：
+                            </td>
+                            <td>
+                                <input class="Wdate" onclick="WdatePicker();" name="start_date" id="start_date" size="20" maxlength="50"  verify="开始时间|NotNull"></input>&nbsp;&nbsp;至&nbsp;
+                                <input class="Wdate" onclick="WdatePicker();" name="end_date" id="end_date" size="20" maxlength="50"  verify="结束时间|NotNull"></input>
+                                <span style="color:red">*</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="200"> 技术负责人：</td>
+                            <td>
+                                <input type="text" name="jsfzr" id="jsfzr" size="25" maxlength="40" />
+                            </td>
+                        </tr>
+                       <tr>
+                            <td align="right" width="200">
+                                	执业范围：
+                            </td>
+                            <td>
+                                <input type="text" name="zyfw" id="zyfw" size="25" maxlength="40" verify="执业范围|NotNull"/>
+                                <span style="color:red">*</span>
+                            </td>
+                        </tr>
+                        <tr>
+                           	<td align="right" width="200"> 法定代表人的职称类别、等级：</td>
+                            <td>
+                                <input type="text" name="fr_zcdj" id="fr_zcdj" size="25" maxlength="40" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="200"> 技术负责人的职称类别、等级：</td>
+                            <td>
+                                <input type="text" name="jsfzr_zcdj" id="jsfzr_zcdj" size="25" maxlength="40" />
+                            </td>
+                        </tr>
+                        #elseif($!xy_type == "00070001")
+                        <!-- 农村土地政治项目 -->
+                      <!--   <tr>
+                            <td align="right" width="200">
+                                	企业资质：
+                            </td>
+                            <td>
+                                <input type="text" name="qyzz" id="qyzz" size="25" maxlength="40" verify="企业资质|NotNull" />
+                            </td>
+                        </tr> -->
+                        <tr>
+                            <td align="right" width="200"> 资质名称：</td>
+                            <td>
+                                <input type="text" name="zz_name" id="zz_name" size="25" maxlength="40" verify="资质名称|NotNull" />
+                                <span style="color:red">*</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="200">
+                                	资质有效期：
+                            </td>
+                            <td>
+                                <input class="Wdate" onclick="WdatePicker();" name="start_date" id="start_date" size="20" maxlength="50"  verify="开始时间|NotNull"></input>&nbsp;&nbsp;至&nbsp;
+                                <input class="Wdate" onclick="WdatePicker();" name="end_date" id="end_date" size="20" maxlength="50"  verify="结束时间|NotNull"></input>
+                                <span style="color:red">*</span>
+                            </td>
+                        </tr>
+                        <tr>
+      						<td align="right" width="200">资质类别：</td>
+      						 <td>
+      							<span class="selectinput" style="padding:2px;display:inline-block;" name="editable-input">
+      								<select name="zz_lb" onchange="selectCascade2('zz_jb','00010017',this)" verify="资质类别|NotNull" loadselect="loadSelect(this,'00010017',1)">
+      									<option value=" ">请选择</option>
+      								</select>
+      							</span>
+      							<span style="color:#FF0000;">*</span>
+      							<br>
+      						</td>
+     					</tr>
+     					
+                        <tr>
+                            <td align="right" width="200">资质级别：</td>
+                            <td>
+                                <select id="zz_jb" name="zz_jb" verify="资质级别|NotNull">
+                                    <option value="">请选择</option>
+                                </select>
+                                <span style="color:red">*</span>
+                            </td>
+                        </tr>
+                        #elseif($!xy_type == "00070003")
+                        <!-- 矿山地质环境治理项目 -->
+                        <tr>
+                            <td align="right" width="200">
+                               	 资质名称：
+                            </td>
+                            <td>
+                                <input type="text" name="zz_name" id="zz_name" size="25" maxlength="40" verify="资质名称|NotNull" />
+                                <span style="color:red">*</span>
+                            </td>
+                        </tr>
+                         <tr>
+                            <td align="right" width="200">
+                                	资质编号：
+                            </td>
+                            <td>
+                                <input type="text" name="zz_code" id="zz_code" size="25" maxlength="40" verify="资质证书号|NotNull" />
+                                <span style="color:#FF0000;">*</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="200">资质级别：</td>
+                            <td>
+                                <select id="zz_jb" name="zz_jb" verify="资质级别|NotNull">
+                                    <option value="">请选择</option>
+                                    #foreach($!zzjb in $!zzjbMap)
+                                    <option value="$!zzjb.value">$!zzjb.name</option>
+                                    #end
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="200">
+                              	  资质有效期：
+                            </td>
+                            <td>
+                                <input class="Wdate" onclick="WdatePicker();" name="start_date" id="start_date" size="20" maxlength="50"  verify="开始时间|NotNull"></input>&nbsp;&nbsp;至&nbsp;
+                                <input class="Wdate" onclick="WdatePicker();" name="end_date" id="end_date" size="20" maxlength="50"  verify="结束时间|NotNull"></input>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="200">
+                            	发证机关：     
+                            </td>
+                            <td>
+                                
+                                <input type="text" id="zz_unit" name="zz_unit" value="$!zzinfo.zz_unit"  verify="发证机关|NotNull">
+                                <span style="color:red">*</span>
+                            <td>
+                        </tr>
+                        #elseif($!xy_type == "00070004")
+                        <!-- 实施地质勘查信用 -->
+                        <tr>
+                            <td align="right" width="200">
+                                	资质证书号：
+                            </td>
+                            <td>
+                                <input type="text" name="zz_code" id="zz_code" size="25" maxlength="40" verify="资质证书号|NotNull" />
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td align="right" width="200">资质级别：</td>
+                            <td>
+                                <select id="zz_jb" name="zz_jb" verify="资质级别|NotNull">
+                                    <option value="">请选择</option>
+                                    #foreach($!zzjb in $!zzjbMap)
+                                    <option value="$!zzjb.value">$!zzjb.name</option>
+                                    #end
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="200">
+                              	  资质有效期：
+                            </td>
+                            <td>
+                                <input class="Wdate" onclick="WdatePicker();" name="start_date" id="start_date" size="20" maxlength="50"  verify="开始时间|NotNull"></input>&nbsp;&nbsp;至&nbsp;
+                                <input class="Wdate" onclick="WdatePicker();" name="end_date" id="end_date" size="20" maxlength="50"  verify="结束时间|NotNull"></input>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="200">
+                            	发证机关：     
+                            </td>
+                            <td>
+                                <input type="text" id="zz_unit" name="zz_unit"  verify="发证机关|NotNull">
+                                <span style="color:red">*</span>
+                            <td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="200">
+                                	执业范围：
+                            </td>
+                            <td>
+                                <input type="text" name="zyfw" id="zyfw" size="25" maxlength="40" verify="执业范围|NotNull"/>
+                                <span style="color:red">*</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="200">地质勘查资质类别：</td>
+                            <td>
+                                <select id="zz_lb" name="zz_lb" iscascade="zz_lb_0" onchange="selectCascade(this,'00010014')" verify="NotNull" loadselect="loadSelect(this,'00010014',1)">
+      								<option value=" ">请选择</option>
+      							</select>
+                            </td>
+                        </tr>
+                        
+                        #end
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+        </table>
+    </div>
+    <div class="pageBtnarea">
+    		#if($!xy_type == "00070004")
+    			<input class="button" type="button" name="btnOk" value="继续添加"
+                   onclick="doJxtj()" />
+    		#end
+    		<input class="button" type="button" name="btnOk" value="暂存"
+                   onclick="doSave(0)" />
+            <input class="button" type="button" name="btnOk" value="提交"
+                   onclick="doSave(1)" />
+            <input class="button" type="button" name="btnOk" value="关闭"
+                   onclick="window.close();" />
+        </div>
+    </div>
+</form>
+</body>
+</html>

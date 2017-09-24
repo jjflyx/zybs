@@ -1,0 +1,1 @@
+UE.commands["spechars"]={queryCommandState:function(){return this.highlight?-1:0;}};

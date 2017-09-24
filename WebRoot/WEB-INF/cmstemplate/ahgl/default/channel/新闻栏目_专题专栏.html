@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>安徽省公路局</title>
+<script type="text/javascript" src="${baseRes!}/js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="${baseRes!}/js/hits.js"></script>
+<script type="text/javascript" src="${baseRes!}/js/jquery.KinSlideshow-1.2.1.min.js"></script>
+<script type="text/javascript" src="${baseRes!}/js/MSClass.js"></script>
+<link rel="stylesheet" type="text/css" href="${baseRes!}/css/ny.css"/>
+<!--[if IE 6]>
+<script language="javascript" type="text/javascript" src="${baseRes!}/js/DD_belatedPNG.min.js"></script>
+<![endif]-->
+</head>
+<body>
+[#include "../include/top.html"/]
+<div class="width1004">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td width="735" valign="top"><table width="100%" height="48" border="0" cellpadding="0" cellspacing="0">
+        <tr>
+          <td width="40" align="center"><img src="${baseRes!}/img/dqwz.gif" width="18" height="16" /></td>
+          <td><font color="#8c8c8c">当前位置： <a href="${base!}/index.html" class="dqwz">首页</a> -> [#list channelList as n]<a href="${base!}/${n.path}/index.html"  class="dqwz">${n.name}</a>[#if n_has_next] -> [/#if][/#list] </font></td>
+        </tr>
+      </table>
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="nytitle">
+          <tr>
+            <td ><font class="nytext">专题专栏</font></td>
+          </tr>
+        </table>
+
+[@cms_content_page count='20' orderBy='4' channelId=channel.channel_id channelOption='0' titLen='38'  append='...'  dateFormat='yyyy-MM-dd']
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td class="nydownline">
+				<div class="ny_newslb">
+					<ul>
+[#list tag_pagination.list as a]
+  <li><a href="[#if a.link??]${a.link}[#else]${base!}/${a.path}/${a.content_id}.html[/#if]" title="${a.title}" target="_blank"><span style="[#if a.title_color??]color:${a.title_color};[/#if][#if a.is_bold='Y']font-weight:bold;[/#if]">[#if a.short_title??][@text_cut s=a.short_title len=titLen append='...'/][#else][@text_cut s=a.title len=titLen append='...'/][/#if]</span></a><span class="ztzttime">${a.pub_time?date(dateFormat)}</span></li>
+[/#list]
+						
+					</ul>
+				</div>			
+				</td>
+          </tr>
+          <tr>
+            <td height="40" align="center" valign="bottom" class="ny_font12">[@cms_pagination sysPage='1'/] </td>
+          </tr>
+        </table>
+ [/@cms_content_page]
+      </td>
+    </tr>
+  </table>
+</div>
+[#include "../include/foot.html"/]
+</body>
+</html>
+
+
+
+
+
+
+
+

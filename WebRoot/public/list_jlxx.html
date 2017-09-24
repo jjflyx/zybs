@@ -1,0 +1,67 @@
+<table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="tccktable">
+  <tbody>
+    <tr >
+      <td width="40" align="center" class="tccktit">序号</td>
+      <td width="140" align="center" class="tccktit">企业名称</td>
+      <td width="120" align="center" class="tccktit">统一社会信用代码<br />
+        （或组织机构代码）</td>
+      <td width="100" align="center" class="tccktit">企业地址</td>
+      <td width="320" align="center" class="tccktit">奖励内容</td>
+      <td width="100" align="center" class="tccktit">奖励作出时间</td>
+      <td width="150" align="center" class="tccktit">奖励作出单位</td>
+    </tr>
+    #set($sum=$!jlcurjls)
+    #foreach($!jlxx in $!jlxxList)
+    #set($sum= $sum + 1)
+    #if($!jlxx.jlxcts<4)
+    <tr>
+      <td width="40" align="center"><span class="three">$!sum</span></td>
+      <td width="140" align="center"><span class="three">$!jlxx.name</span></td>
+      #if($!jlxx.code)
+      <td width="120" align="center"><span class="three">$!jlxx.code</span></td>
+      #else
+      <td width="120" align="center"><span class="three">$!jlxx.zzjgdm</span></td>
+      #end
+      <td width="100" align="center"><span class="three">$!jlxx.company_addr</span></td>
+      <td width="320" align="center"><span class="three">$!jlxx.note</span></td>
+      <td width="100" align="center"><span class="three">$!jlxx.jl_date</span></td>
+      <td width="150" align="center"><span class="three">$!jlxx.unitname</span></td>
+    </tr>
+    #else
+    <tr>
+      <td width="40" align="center">$!sum</td>
+      <td width="140" align="center">$!jlxx.name</td>
+      #if($!jlxx.code)
+      <td width="120" align="center">$!jlxx.code</td>
+      #else
+      <td width="120" align="center">$!jlxx.zzjgdm</td>
+      #end
+      <td width="100" align="center">$!jlxx.company_addr</td>
+      <td width="320" align="center">$!jlxx.note</td>
+      <td width="100" align="center">$!jlxx.jl_date</td>
+      <td width="150" align="center">$!jlxx.unitname</td>
+    </tr>
+    #end
+    #end
+  </tbody>
+</table>
+<div style="height:45px; text-align:center; line-height:45px;">共$!jlTotal条信息    页次：<span class="xxtjsub01"><strong>$!jlcurPage</strong></span>/$!jltotalYs页　
+<a href="javascript:jlxxTz(1)">[首页]</a>　
+#if($!jlcurPage==1)
+[上一页]
+#else
+<a href="javascript:jlxxTz($!jllastPage)">[上一页]</a>
+#end
+#if($!jlnext==1)
+[下一页]　
+#else
+<a href="javascript:jlxxTz($!jlnextPage)">[下一页]</a>　
+#end　
+<a href="javascript:jlxxTz($!jltotalYs)">[末页]</a>　
+  <select id="jlwp" name="jlwp" onchange="jlxxTz(this.value)" style="width:80px;">
+    #foreach($!dijiye in $!jlwhichPage)
+       <option value="$!dijiye.value">$!dijiye.page</option>
+   	#end
+  </select>
+  <script type="text/javascript">document.getElementById("jlwp").value = $!jlcurPage;</script>
+</div>

@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>安徽省交通运输厅</title>
+<script type="text/javascript" src="${baseRes!}/phonejs/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="${baseRes!}/phonejs/hits.js"></script>
+<script type="text/javascript" src="${baseRes!}/phonejs/jquery.KinSlideshow-1.2.1.min.js"></script>
+<script type="text/javascript" src="${baseRes!}/phonejs/MSClass.js"></script>
+<link rel="stylesheet" type="text/css" href="${baseRes!}/phonecss/main.css"/>
+</head>
+<body>
+[#include "../include/phonetop.html"/]
+<div class="clear"></div>
+<div class="hdp"> 
+<!-- 图片新闻代码 开始 -->
+            <div id="KinSlideshow" style="width:320px; height:243px; overflow:hidden;">
+[@cms_content_list count='5' orderBy='4' typeId='2' titLen='5' image='1' channelId='00020003' channelOption='1']
+                [#list tag_list as a] 
+                <a href="${base!}/${a.path}/${a.content_id}.html" target="_blank" title="${a.title}"><img src="${a.title_img}" alt="${a.title}" width="320" height="243" /></a>
+                
+  [/#list]
+                [/@cms_content_list]
+           </div>
+			<script type="text/javascript">
+            $(function(){
+                $("#KinSlideshow").KinSlideshow({
+                        moveStyle:"left",intervalTime:3,
+                        mouseEvent:"mouseover",
+                        titleBar:{titleBar_height:30,titleBar_bgColor:"#000000",titleBar_alpha:0.3},
+                        titleFont:{TitleFont_size:12,TitleFont_color:"#ffffff",TitleFont_weight:"bold"},
+                        btn:{btn_bgColor:"#ffffff",btn_bgHoverColor:"#0076c9",btn_fontColor:"#000",btn_fontHoverColor:"#fff",btn_borderColor:"#666",btn_borderHoverColor:"#FF0000",btn_borderWidth:0}
+                });
+            })
+            </script>
+            <!-- 图片新闻代码 结束 --></div>
+<div class="conter">
+	<h2><a href="${base!}/phone/jtxw/index.html" target="_blank">交通新闻</a></h2>
+	<div class="two_nav"><a href="${base!}/phone/jtxw/zwzc/index.html" target="_blank" class="on" id="jtxw_title_0" onmouseover="tabitem(this,5)">政务之窗</a> | <a href="${base!}/phone/jtxw/zwdt/index.html" target="_blank"  id="jtxw_title_1" onmouseover="tabitem(this,5)">政务动态</a> | <a href="${base!}/phone/jtxw/xwbd/index.html" target="_blank"  id="jtxw_title_2" onmouseover="tabitem(this,5)">新闻报道</a> | <a href="${base!}/phone/jtxw/mtjj/index.html" target="_blank"  id="jtxw_title_3" onmouseover="tabitem(this,5)">媒体聚焦</a> | <a href="${base!}/phone/jtxw/xwfbh/index.html" target="_blank"  id="jtxw_title_4" onmouseover="tabitem(this,5)">新闻发布会</a></div>
+	<div id="jtxw_content_0">
+		<div class="listlb">
+			<ul>
+[@cms_content_list dateFormat='yyyy-MM-dd' count='6' titLen='100'  append='...' orderBy='4' channelId='001400030001']
+          [#list tag_list as a]
+				<li><a href="[#if a.link??]${a.link}[#else]${base!}/${a.path}/${a.content_id}.html[/#if]" title="${a.title}" target="_blank"><span style="[#if a.title_color??]color:${a.title_color};[/#if][#if a.is_bold='Y']font-weight:bold;[/#if]">[#if a.short_title??][@text_cut s=a.short_title len=titLen append='...'/][#else][@text_cut s=a.title len=titLen append='...'/][/#if]</span></a></li>
+	  [/#list]
+[/@cms_content_list]  
+			</ul>
+ 		 </div>
+  </div>
+	 <div id="jtxw_content_1" style="display:none;">
+		<div class="listlb">
+			<ul>
+[@cms_content_list dateFormat='yyyy-MM-dd' count='6' titLen='100'  append='...' orderBy='4' channelId='001400030002']
+          [#list tag_list as a]
+				<li><a href="[#if a.link??]${a.link}[#else]${base!}/${a.path}/${a.content_id}.html[/#if]" title="${a.title}" target="_blank"><span style="[#if a.title_color??]color:${a.title_color};[/#if][#if a.is_bold='Y']font-weight:bold;[/#if]">[#if a.short_title??][@text_cut s=a.short_title len=titLen append='...'/][#else][@text_cut s=a.title len=titLen append='...'/][/#if]</span></a></li>
+	  [/#list]
+[/@cms_content_list]  
+			</ul>
+	   </div>
+ 	 </div>
+	 <div id="jtxw_content_2" style="display:none;">
+		<div class="listlb">
+			<ul>
+[@cms_content_list dateFormat='yyyy-MM-dd' count='6' titLen='100'  append='...' orderBy='4' channelId='001400030003']
+          [#list tag_list as a]
+				<li><a href="[#if a.link??]${a.link}[#else]${base!}/${a.path}/${a.content_id}.html[/#if]" title="${a.title}" target="_blank"><span style="[#if a.title_color??]color:${a.title_color};[/#if][#if a.is_bold='Y']font-weight:bold;[/#if]">[#if a.short_title??][@text_cut s=a.short_title len=titLen append='...'/][#else][@text_cut s=a.title len=titLen append='...'/][/#if]</span></a></li>
+	  [/#list]
+[/@cms_content_list]  
+			</ul>
+	   </div>
+ 	 </div>
+	 	 <div id="jtxw_content_3" style="display:none;">
+		<div class="listlb">
+			<ul>
+[@cms_content_list dateFormat='yyyy-MM-dd' count='6' titLen='100'  append='...' orderBy='4' channelId='001400030004']
+          [#list tag_list as a]
+				<li><a href="[#if a.link??]${a.link}[#else]${base!}/${a.path}/${a.content_id}.html[/#if]" title="${a.title}" target="_blank"><span style="[#if a.title_color??]color:${a.title_color};[/#if][#if a.is_bold='Y']font-weight:bold;[/#if]">[#if a.short_title??][@text_cut s=a.short_title len=titLen append='...'/][#else][@text_cut s=a.title len=titLen append='...'/][/#if]</span></a></li>
+	  [/#list]
+[/@cms_content_list]  
+			</ul>
+ 		 </div>
+ 	 </div>
+	 <div id="jtxw_content_4" style="display:none;">
+		<div class="listlb">
+			<ul>
+[@cms_content_list dateFormat='yyyy-MM-dd' count='6' titLen='100'  append='...' orderBy='4' channelId='001400030005']
+          [#list tag_list as a]
+				<li><a href="[#if a.link??]${a.link}[#else]${base!}/${a.path}/${a.content_id}.html[/#if]" title="${a.title}" target="_blank"><span style="[#if a.title_color??]color:${a.title_color};[/#if][#if a.is_bold='Y']font-weight:bold;[/#if]">[#if a.short_title??][@text_cut s=a.short_title len=titLen append='...'/][#else][@text_cut s=a.title len=titLen append='...'/][/#if]</span></a></li>
+	  [/#list]
+[/@cms_content_list]  
+			</ul>
+	   </div>
+ 	 </div>
+</div>
+<div class="conter">
+	<h2><a href="${base!}/phone/tzgg/index.html" target="_blank">通知公告</a></h2>
+		<div class="listlb">
+			<ul>
+[@cms_content_list dateFormat='yyyy-MM-dd' count='6' titLen='100'  append='...' orderBy='4' channelId='00140002']
+          [#list tag_list as a]
+				<li><a href="[#if a.link??]${a.link}[#else]${base!}/${a.path}/${a.content_id}.html[/#if]" title="${a.title}" target="_blank"><span style="[#if a.title_color??]color:${a.title_color};[/#if][#if a.is_bold='Y']font-weight:bold;[/#if]">[#if a.short_title??][@text_cut s=a.short_title len=titLen append='...'/][#else][@text_cut s=a.title len=titLen append='...'/][/#if]</span></a></li>
+	  [/#list]
+[/@cms_content_list]  
+</li>
+			</ul>
+  </div>
+</div>
+<div class="conter">
+  <h2><a href="${base!}/phone/cjwd/index.html" target="_blank">常见问答</a></h2>
+  <div class="listlb">
+    <ul>
+[@cms_content_list dateFormat='yyyy-MM-dd' count='6' titLen='100'  append='...' orderBy='4' channelId='00140005']
+          [#list tag_list as a]
+				<li><a href="[#if a.link??]${a.link}[#else]${base!}/${a.path}/${a.content_id}.html[/#if]" title="${a.title}" target="_blank"><span style="[#if a.title_color??]color:${a.title_color};[/#if][#if a.is_bold='Y']font-weight:bold;[/#if]">[#if a.short_title??][@text_cut s=a.short_title len=titLen append='...'/][#else][@text_cut s=a.title len=titLen append='...'/][/#if]</span></a></li>
+	  [/#list]
+[/@cms_content_list]  
+    </ul>
+  </div>
+</div>
+<div class="conter">
+  <h2><a href="${base!}/phone/tpxw/index.html">图片新闻</a></h2>
+  <div class="index_pic_samll">
+	<ul>
+
+[@cms_content_list count='4' orderBy='4' typeId='2' titLen='5' image='1' channelId='00020003' channelOption='1']
+                [#list tag_list as a] 
+<li>
+			<div class="index_pic_area">
+			<div class="index_pic_samllimg"><a href="${base!}/${a.path}/${a.content_id}.html" target="_blank" title="${a.title}"><img src="${a.title_img}"   border="0" /></a></div>
+			<div class="index_pic_bigtitle"><a href="${base!}/${a.path}/${a.content_id}.html" target="_blank" title="${a.title}">${a.title}</a></div>
+			<div class="titlebg"></div>
+			</div>
+		</li>
+                
+  [/#list]
+                [/@cms_content_list]
+		
+		
+	</ul>
+	<div class="clear"></div>
+  </div>
+</div>
+[#include "../include/phonefoot.html"/]
+
+</body>
+</html>
+
+
+
+
+

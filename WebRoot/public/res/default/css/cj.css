@@ -1,0 +1,13 @@
+/* CSS Document */
+/*引入站点通用样式*/
+@import url("main.css");
+
+/*交通杂志*/
+.zxcj_title{margin-left:25px;}
+.zxcj_title ul{ _background:#FFF;}
+.zxcj_title ul li{ height:37px; text-align:center; line-height:37px;float:left;width:146px;margin:0 2px;}
+.zxcj_title ul li a:link,.zxcj_title ul li a:visited{ background:url(../img/cj02.gif) no-repeat ; display:block; height:37px;color:#08234c;font-size:18px;font-family:'microsoft yahei',"黑体";text-decoration:none;}
+.zxcj_title ul li .on:link,.zxcj_title ul li .on:visited{ background:url(../img/cj01.gif) no-repeat; display:block; height:37px;color:#ffffff;font-size:18px;font-family:'microsoft yahei',"黑体";text-decoration:none;}
+
+
+.cj_height30{line-height:30px;}

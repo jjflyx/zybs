@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<title>$!app_name</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<!-- 框架 -->
+		<script type='text/javascript'>
+			var CONTEXTPATH = '${base}';
+			var stylePath = '$!stylename';
+		</script>
+		<link href="${base}/include/css/blue/style.css" rel="stylesheet"
+			type="text/css" />
+		<script src="${base}/include/js/main.js"></script>
+		<script src="${base}/include/js/string.js"></script>
+		<!-- 分页  注意顺序 -->
+		<link href="${base}/include/css/themes/gray/easyui.css"
+			rel="stylesheet" type="text/css" />
+		<script src="${base}/include/js/jquery.easyui.min.js"></script>
+		<!-- 树 -->
+		<script type="text/javascript"
+			src="${base}/include/controls/ztree/jquery.ztree.core-3.5.min.js"></script>
+		<link rel="stylesheet"
+			href="${base}/include/controls/ztree/zTreeStyle/zTreeStyle.css"
+			type="text/css">
+		<script type="text/javascript"
+			src="${base}/include/controls/my97/WdatePicker.js"></script>
+		<link rel="stylesheet"
+			href="${base}/include/controls/my97/skin/WdatePicker.css"
+			type="text/css">
+		<script>
+		function getWidth(percent){
+	        	   return document.body.clientWidth*percent;
+		}
+		
+		function loadData(){
+				$("#dg1").datagrid({
+				width:"auto",
+	        	height:"auto",
+	        	nowrap: false,  
+	        	striped: true,  
+	        	border: true,  
+	        	collapsible:false,//是否可折叠的 
+				url : "${base}/private/sys/unit/unitsearchlist",//首次查询路径
+				queryParams:{"keys":$("#keys").val(),"unitid":$("#unitid").val()},//首次查询参数
+				remoteSort : false,
+				idField:"name",
+				singleSelect:false,//是否单选 
+				rownumbers:true,//行号  
+				fit: true,//自动大小  
+				fitColumns: true,//行自适应
+				pagination:true,//分页控件  
+				pageNumber:1,
+				pageSize : 10,
+				pageList : [ 5, 10, 15, 20, 30, 40, 50 ],
+				loadMsg:'数据加载中...',
+				columns : [ [
+				{
+					field : "name",
+					title : "单位名称",
+					width : getWidth(0.08)
+				},
+				{
+					field : "telephone",
+					title : "热线电话（办公电话）",
+					width : getWidth(0.12)
+				},
+				{
+					field : "handler",
+					title : "承办人",
+					width : getWidth(0.06)
+				},
+				{
+					field : "handlerphone",
+					title : "承办人电话",
+					width : getWidth(0.08)
+				},
+				{
+					field : "leader",
+					title : "分管领导",
+					width : getWidth(0.06)
+				},
+				{
+					field : "leadphone",
+					title : "分管领导电话",
+					width : getWidth(0.08)
+				}
+				] ]
+			});
+	        var p = $("#dg1").datagrid("getPager");
+	        $(p).pagination({
+	            beforePageText: "第",//页数文本框前显示的汉字
+	            afterPageText: "页    共 {pages} 页",
+	            displayMsg: "当前显示 {from} - {to} 条记录   共 {total} 条记录",
+	            onBeforeRefresh:function(){
+	            }
+	        });
+		}
+		
+		Page.onLoad(function() {
+		   loadData();
+		   
+	     });
+
+	     function clearTj(){
+			$("#unitid").val("");
+			$("#keys").val("");
+	     }
+		/*$(window).resize(function () {
+			clearTimeout(timer);
+			timer=setTimeout(function(){
+			  $('#dg1').datagrid('resize');
+			  $('div.panel-body').css('width','auto'); //////
+			 },100);
+			});*/
+		</script>
+	</head>
+	<body leftmargin="0" topmargin="0" class="easyui-layout">
+		<form name='form1' id="form1" method='post'>
+			<input type="hidden" id="newinfoid" name="newinfoid"
+				value="$!newinfoid" />
+			<div region="north" border="false"
+				style="overflow: hidden; padding: 10px 10px 0px 10px">
+				<table width="100%" border="0" cellspacing="0" cellpadding="6">
+					<tr>
+						<td width=80 align="right" nowrap>
+							办理单位：
+						</td>
+						<td width=120>
+							<select id="unitid" name="unitid" style="width: 85px">
+								<option value="">
+									请选择
+								</option>
+								#foreach($unitobj in $!unitlist)
+								<option value="$!unitobj.id">
+									$!unitobj.name
+								</option>
+								#end
+							</select>
+						</td>
+						<td width=80 align="right" nowrap>
+							关键字：
+						</td>
+						<td width=160 >
+							<input type="text" id="keys" name="keys" maxlength="20" onclick="this.value=''">
+						</td>
+						<td id="searchBtn" align="left" valign="bottom">
+							<input class="button" type="button" id="dosearch" name="dosearch" value="查询"
+								onclick="loadData();" />
+							<input class="button" type="button" id="clearBtn" name="clearBtn" value="清除"
+								onclick="clearTj();" />
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div region="center" border="false" style="width: 100%; height: 100%; padding: 0px 10px 10px;">
+				<div id="dg1" style="width: 100%; height: 100%;"></div>
+			</div>
+		</form>
+	</body>
+</html>

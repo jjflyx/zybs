@@ -1,0 +1,494 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+<head>
+
+    <title>$!app_name</title>
+     
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link href="${base}/include/css/default.css" rel="stylesheet" type="text/css"/> 
+	<script type='text/javascript'>
+		var CONTEXTPATH = '${base}';
+	</script>
+    <script src="${base}/include/js/main.js"></script>
+    <script src="${base}/include/js/string.js"></script>
+   	<!-- 分页  注意顺序 -->
+	<link href="${base}/include/css/themes/gray/easyui.css" rel="stylesheet" type="text/css"/> 	
+	<script src="${base}/include/js/jquery.easyui.min.js"></script>	
+    <script type="text/javascript"
+	src="${base}/include/controls/ztree/jquery.ztree.core-3.5.min.js"></script> 
+	<link rel="stylesheet" href="${base}/include/controls/ztree/zTreeStyle/zTreeStyle.css" type="text/css">
+
+    <SCRIPT type="text/javascript">
+           <!--
+           
+           function initTree(){
+				var setting = {
+                        async: {
+                            enable: true,
+                            url:"${base}/private/cms/channel/treelist",
+                            autoParam:["id"],
+							otherParam:{"site_id":Page.getValue("site")}
+                        },
+                        view:{
+                             nameIsHTML: true
+                        } 
+                 }; 
+        	    jQuery.fn.zTree.init(jQuery("#treeDemo"), setting);
+			}
+           function del(){
+       	    var ids = [];
+       		var arr = $('#dg1').datagrid('getSelections');
+       	    if (!arr || arr.length == 0) {
+       	        Dialog.alert("请先选择要删除的内容！");
+       	        return;
+       	    }
+       	    for(var i=0; i<arr.length; i++){
+       	        ids.push(arr[i].name);
+       	    }
+       	    Dialog.confirm("确定删除？", function(){
+       	    	jQuery.ajax({
+       	    	 	type: 'POST',
+       	    		url : "${base}/private/cms/tpl/delnames" ,
+       	    		data : {"names":ids.toString(),"path":Page.getValue("path")},
+       	    		success : function (res) { 
+       	    			if(res=="true"){    				
+       	    				Dialog.alert("删除成功！");
+       	    				initTree();
+          					openPath(Page.getValue("path"));
+       	    			}else{
+       	    				Dialog.alert("删除失败！");
+       	    			}			 
+       	    			return false;
+       	    		},
+       	    		fail : function(res) {
+       	    			Dialog.alert("系统错误!");
+       	    		}
+       	    	});
+       	    }, "", 250, 100);    
+       	}
+			
+		   function addChannel(modeid)
+           {         
+			    if(modeid=="")
+			    	return;
+	        	var d = new Dialog("Add");
+	           	d.Width = 850;
+	           	d.Height = 400;
+	           	d.Title = "新建";
+	           	d.URL = "${base}/private/cms/channel/toadd?model_id="+modeid+"&site_id="+Page.getValue("site")+"&channel_id="+Page.getValue("channel_id");
+	           	d.onLoad = function(){
+	           		  
+	           	}
+	           	d.OKEvent = function(){
+	           		if($DW.Verify.hasError()){
+	          		  return;
+	          	     }
+	           		addSave();
+	           	}; 
+	           	d.show();
+           }
+		   function addSave(){  
+			    $DW.Page.MinMessage.Show({
+					text: '保存中', 
+					type: 'load' 
+				});
+	       		jQuery.ajax({
+	       			 	type: 'POST',
+	           			url : "${base}/private/cms/channel/add" ,
+	           			data : $DW.$("#form1").serialize(),
+	           			success : function (res) { 
+	           				if(res=="true"){
+	           					$D.close();
+	           					Dialog.alert("添加成功！");
+	           					initTree();
+	           					loadGrid();
+	           				}else{
+	           					Dialog.alert("添加失败！");
+	           				}
+	           				$DW.Page.MinMessage.Hide(); 
+	           				return false;
+	           			},
+	           			fail : function(res) {
+	           				Dialog.alert("系统错误?!");
+	           			}
+	               });
+       	   }
+		   function update(site_id,channel_id)
+           {         
+			    if(channel_id=="")
+			    	return;
+	        	var d = new Dialog("Update");
+	           	d.Width = 850;
+	           	d.Height = 400;
+	           	d.Title = "修改";
+	           	d.URL = "${base}/private/cms/channel/toupdate?site_id="+site_id+"&channel_id="+channel_id;
+	           	d.onLoad = function(){
+	           		  
+	           	}
+	           	d.OKEvent = function(){
+	           		if($DW.Verify.hasError()){
+	          		  return;
+	          	     }
+	           		updateSave();
+	           	}; 
+	           	d.show();
+           }
+		   function updateSave(){  
+			    $DW.Page.MinMessage.Show({
+					text: '保存中', 
+					type: 'load' 
+				});
+	       		jQuery.ajax({
+	       			 	type: 'POST',
+	           			url : "${base}/private/cms/channel/update" ,
+	           			data : $DW.$("#form1").serialize(),
+	           			success : function (res) { 
+	           				if(res=="true"){
+	           					$D.close();
+	           					Dialog.alert("修改成功！");
+	           					initTree();
+	           					loadGrid();
+	           				}else{
+	           					Dialog.alert("修改失败！");
+	           				}
+	           				$DW.Page.MinMessage.Hide(); 
+	           				return false;
+	           			},
+	           			fail : function(res) {
+	           				Dialog.alert("系统错误?!");
+	           			}
+	               });
+       	   }
+		   function del(site_id,channel_id) {
+		       	Dialog.confirm("确定删除？", function(){
+		       		Page.MinMessage.Show({
+						text: '正在执行', 
+						type: 'load' 
+					});
+		  	    	jQuery.ajax({
+		  	    	 	type: 'POST',
+		  	    		url : "${base}/private/cms/channel/delete?site_id="+site_id+"&channel_id="+channel_id ,    		
+		  	    		success : function (res) { 
+		  	    			Page.MinMessage.Hide();
+		  	    			if(res=="true"){    				
+		  	    				Dialog.alert("删除成功！");
+		  	    				
+		  	    			}else{
+		  	    				Dialog.alert('<p align="center">删除失败！请确认该栏目下没有文章后在执行删除栏目操作！</p>');
+		  	    			}	
+		  	    			initTree();
+           					loadGrid();
+		  	    			
+		  	    			return false;
+		  	    		},
+		  	    		fail : function(res) {
+		  	    			Dialog.alert("系统错误!");
+		  	    		}
+		  	    	});
+		  	    }, "", 280, 120);    
+          }
+           function openModel()
+           {
+           	var d = new Dialog("Model");
+           	d.Width = 800;
+           	d.Height = 400;
+           	d.Title = "模型管理";
+           	d.URL = "${base}/private/cms/model/index";
+           	d.OKEvent = function() {           
+           		if($DW.Verify.hasError()){
+           			  return;
+           		}                   
+           	}
+           	d.CancelEvent = function() {  
+           		$D.close();
+           		initModel();                
+           	}
+           	d.show();
+           	d.CancelButton.value="关 闭";
+           	d.OKButton.hide();
+
+           } 
+           function sort()
+           {
+               var d = new Dialog("Sort");
+               d.Width = 450;
+               d.Height = 350;
+               d.Title = "栏目排序";
+               d.URL = "/private/cms/channel/toSort?site_id="+Page.getValue("site");
+               d.OKEvent = function() {
+               	 $DW.getIdsTree();
+               	 sortUpdate();
+                    
+               }
+               d.show();
+           }
+           function sortUpdate(){
+           	   if($DW.Verify.hasError()){
+           		  return;
+           	     }
+           	$DW.Page.MinMessage.Show({
+				text: '正在执行', 
+				type: 'load' 
+			});
+           		 jQuery.ajax({
+           				type: 'POST',
+               			url : "/private/cms/channel/sort" ,
+               			data : $DW.$("#form1").serialize(),
+               			success : function (res) { 
+               				$DW.Page.MinMessage.Hide();
+               				if(res=="true"){
+               					$D.close();
+               					Dialog.alert("排序成功！");
+               					initTree();
+               					loadGrid();
+
+               				}else{
+               					Dialog.alert("排序失败！");
+               				}
+               				
+               				return false;
+               			},
+               			fail : function(res) {
+               				Dialog.alert("系统错误?!");
+               			}
+               		});
+           	 
+           }
+
+           function getWidth(percent){
+        	   return document.body.clientWidth*percent;
+		   }
+           function list(cid){
+        	   $("#channel_id").val(cid);
+        	   initModel();
+        	   loadGrid();
+           }
+           function loadGrid(){
+        	   $("#dg1").datagrid({
+        	        width:"auto",
+        	   		height:"auto",
+        	        nowrap: false,  
+        	        striped: false,  
+        	        border: true,  
+        	        collapsible:false,//是否可折叠的  
+        	        fit: true,//自动大小  
+        	        url:"${base}/private/cms/channel/list",  
+        	        //sortName: 'code',  
+        	        //sortOrder: 'desc', 
+        	        queryParams:{"site_id":Page.getValue("site"),"channel_id":Page.getValue("channel_id")},
+        	        remoteSort:false,   
+        	        idField:"name", 
+        	        singleSelect:false,//是否单选  
+        	        pagination:false,//分页控件  
+        	        rownumbers:true,//行号  
+        	        fitColumns: true,//行自适应
+        	        loadMsg:'数据加载中...',
+        	        columns:[[
+						{title : '栏目ID',field : 'channel_id',width:getWidth(0.18),align : 'left'},
+						{title : '栏目名称',field : 'name',width:getWidth(0.25),align : 'left'},
+						{title : '访问路径',field : 'path',width:getWidth(0.22),align : 'left'},
+						{title : '显示', field: 'is_display',width:getWidth(0.15),align : 'center',
+							formatter: function(value,row,index){
+								if(row.is_display=='Y')
+								{
+									return "是";
+								}else{
+									return "否";
+								}
+							}
+						},
+						{title : '操作选项', field: 'aa',width:getWidth(0.15),align : 'center',
+							formatter: function(value,row,index){
+								var s1="修改",s2="删除";
+								 if(!$("#BtnUpdate").hasClass("zPushBtnDisabled")){
+									 s1="<a href='javascript:update(\""+row.site_id+"\",\""+row.channel_id+"\")'>修改</a>";
+								 }
+								 if(!$("#BtnDel").hasClass("zPushBtnDisabled")){
+									 s2="<a href='javascript:del(\""+row.site_id+"\",\""+row.channel_id+"\")'>删除</a>";
+								 }
+									return s1+" | "+s2;
+								 
+							}
+						}
+        	        ]],frozenColumns:[[  
+        	          	            {field:"id",checkbox:true}
+        	          	        	 ]]
+        	    });  
+           }
+           function initModel(){
+        	   
+        	   jQuery.ajax({
+      	    	 	type: 'POST',
+      	    		url : "${base}/private/cms/model/list" ,
+      	    		data : {"site_id":Page.getValue("site")},
+      	    		success : function (res) { 
+      	    			if(res!=""){    		
+						 
+      	    				var obj = jQuery.parseJSON(res);
+							var selector=$("#modelId"); 
+								selector.empty();
+								selector.append("<option value=''>-- 添加子栏目--</option>");
+							jQuery.each(obj.rows, function(index, term) {
+								
+								
+								selector.append("<option value=\""+term.model_id+"\">"+term.model_name+"</option>");
+							});
+      	    			
+      	    			}			 
+      	    			return false;
+      	    		},
+      	    		fail : function(res) {
+      	    			Dialog.alert("系统错误!");
+      	    		}
+      	    	});
+           } 
+           function changeSite(){ 
+        	    $("#channel_id").val("");
+        	    list("");
+        	    
+      	    	initTree();
+           }
+           function initSite(){
+        	    var selector=$("#site"); 
+        	    var str;
+ 				selector.empty();
+ 				#foreach($o in $obj)
+ 				str=gettreecode('$!o.site_id')+'$!o.site_sname';
+ 				selector.append("<option value=\"$!o.site_id\" #if("$!site_id"=="$!o.site_id")selected#end>"+str+"</option>");
+ 				#end
+           }
+           function initBtn(){
+        	   Page.initBtn();
+        	   $!initBtn
+        	   $Z("BtnR").enable();
+        	   if($("#BtnAdd").hasClass("zPushBtnDisabled")){
+        		   $("#modelId").attr("disabled","disabled");
+        	   }
+           }
+           Page.onLoad(function(){
+        	    
+        	    initSite();
+				initModel();
+				initBtn();
+        	    initTree();
+        	    loadGrid(); 
+           }); 
+           $(window).resize(function () {
+          		clearTimeout(timer);
+          		timer=setTimeout(function(){
+          		  $('#dg1').treegrid('resize');
+          		  $('div.panel-body').css('width','auto'); 
+          		 },200);
+          		});
+           //-->
+       </SCRIPT>
+</head>
+<body leftmargin="0" topmargin="0" style="overflow-x: hidden; overflow-y: auto">
+<form name="form1" id="form1" >
+<input type="hidden" name="channel_id" id="channel_id" value="">
+
+	<table width="100%" border="0" cellspacing="6" cellpadding="0"
+		style="border-collapse: separate; border-spacing: 6px;">
+		<tr valign="top">
+			<td width="180">
+			    <table width="100%" height="100%" border="0" cellspacing="0"
+					cellpadding="6" class="blockTable">
+					<tr>
+						<td style="padding: 6px;" class="blockTd" align="right">
+						<a
+													href='javascript:void(0);' ztype='zPushBtn'
+													class='zPushBtn' hidefocus='true' tabindex='-1'
+													onselectstart='return false' id='BtnR' onClick="initTree();loadGrid();initModel();"><img
+														src="${base}/images/icons/icon042a13.gif"
+														width="20" height="20" /><b>刷新栏目&nbsp;</b></a>
+					<a
+													href='javascript:void(0);' ztype='zPushBtn'
+													class='zPushBtn' hidefocus='true' tabindex='-1'
+													onselectstart='return false' id='BtnModel' onClick="openModel();"><img
+														src="${base}/images/icons/icon403a10.gif"
+														width="20" height="20" /><b>模型管理&nbsp;</b></a>
+														</td>
+					</tr>
+					
+					
+				 <tr>
+						<td style="padding: 6px;" class="blockTdn" align="right">
+						<ul style="text-align:left;padding:2px 0 0 10px;"> 
+								网站：<select id="site" name="site" onchange="changeSite()">
+								</select>
+								</ul>
+														</td>
+					</tr>
+					<tr>
+						<td style="padding: 6px;" class="blockTdn">
+							<div ztype='_Tree'
+								style='-moz-user-select: none; height: 390px; width: 200px;'
+								id='tree1' class='treeItemN'>
+								
+
+								<ul id="treeDemo" class="ztree"></ul>
+							</div>
+
+						</td>
+					</tr>
+					
+					
+				</table>
+			</td>
+			<td width="100%" valign="top">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0"
+					style="border-collapse: separate; border-spacing: 0px;">
+					<tr valign="top">
+						<td>
+							<table width="100%" border="0" cellpadding="0" cellspacing="0"
+								class="blockTable">
+								<tr>
+									<td class="blockTd">
+										<table width="100%" border="0" cellspacing="0" cellpadding="6">
+											
+											<tr>
+												<td style="padding: 0 8px 4px;" id="btnlist"> 
+												<a id="BtnAdd" style="display:none;" ztype='zPushBtn' class='zPushBtn'>添加</a>	
+												<a id="BtnUpdate" style="display:none;" ztype='zPushBtn' class='zPushBtn'>修改</a>	
+												<a id="BtnDel" style="display:none;" ztype='zPushBtn' class='zPushBtn'>删除</a>	
+														 
+														 <a
+													href='javascript:void(0);' ztype='zPushBtn'
+													class='zPushBtn' hidefocus='true' tabindex='-1'
+													onselectstart='return false' id='BtnPaixu' onClick="sort();"><img
+														src="${base}/images/icons/icon400a13.gif"
+														width="20" height="20" /><b>排序&nbsp;</b></a> 
+												</td>
+												<td algin="right" width="85">
+												  
+													<select name="modelId" id="modelId" onchange="if(this.options[this.selectedIndex].value!=''){addChannel(this.options[this.selectedIndex].value);}">
+ 
+													</select>
+												 </td>
+												  
+											</tr> 
+											<tr>
+												 <td style="padding:0px 5px;"height="350" colspan="3">                                             
+                                            <table width="100%" height="100%" id="dg1" size="10" cellpadding="2" cellspacing="0">
+												<tr><td></td></tr>
+											</table>                                          
+                                            </td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+
+
+
+
+			</td>
+		</tr>
+	</table>
+	</form>
+</body>
+</html>

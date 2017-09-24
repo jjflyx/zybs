@@ -1,0 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+
+    <title>$!app_name</title>
+     
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link href="${base}/include/css/default.css" rel="stylesheet" type="text/css"/> 
+	<script type='text/javascript'>
+		var CONTEXTPATH = '${base}';
+	</script>
+    <script src="${base}/include/js/main.js"></script>
+    <script src="${base}/include/js/string.js"></script>
+</head>
+<body class="dialogBody">
+<form name='form1' id="form1" method='post'>
+    <input type="hidden" id="flowid" name="flowid" value="$!flowid">
+    <input type="hidden" id="site_id" name="site_id" value="$!site_id">
+    <input type="hidden" id="channel_id" name="channel_id" value="$!channel_id">
+    <input type="hidden" id="content_id" name="content_id" value="$!content_id">
+    <input type="hidden" id="type" name="type" value="$!info.type">
+    <input type="hidden" id="wksize" name="wksize" value="$!wksize">
+    <input type="hidden" id="step" name="step" value="$!info.step">
+    <input type="hidden" id="tag" name="tag" value="0">
+    <input type="hidden" id="msg" name="msg" value="$!msg" />
+    <input type="hidden" id="ids" name="ids" value="$!ids" />
+    <input type="hidden" id="flag" name="flag" value="" />
+
+       <table width="100%" height="100%" align="center" cellpadding="2" cellspacing="0">
+        <tr>
+            <td width="100%" valign="top" align="center">
+                <div id="con_one_1" style="text-align: center">
+                #if($!msg)
+                    <br><br>
+                    <span style="color: #ff0000;">$!msg</span>
+                    <script type="text/javascript">$("#tag").attr("value","1");</script>
+                #else
+                    #if(${content.status}==3)
+                        <br><br>
+                        <span style="color: #ff0000;">文章已终审，无需审核！</span>
+                        <script type="text/javascript">$("#tag").attr("value","1");</script>
+                    #else
+
+                        #if($flowid<=0)
+                    <table width="99%" border="0" cellpadding="0" cellspacing="0">
+                        <tr><td colspan="4" height="50"></td></tr>
+                        <tr>
+                            <td width="50%" height="30" align="right">操作：</td>
+                            <td width="50%" colspan="3" align="left">
+
+                                <input type="radio" name="type" value="type" checked>终审
+                                <script type="text/javascript">$("#flag").attr("value","savechecks");</script>
+                            </td>
+                        </tr>
+
+                    </table>
+                        #else
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td width="100%" height="30" colspan="4" align="left">&nbsp;工作流名称：${workflow.name}</td>
+                        </tr>
+                        <tr>
+                            <td width="100%" height="30" colspan="4" align="left">&nbsp;
+                                #foreach($o in $infolist)
+                                #set($r=$o.step+1)
+
+                                <span id="s$!o.step">
+
+                                节点$!r:#if($o.type==0)普通流转#else会签#end</span> ->
+                                #end
+                                <span >终审</span>
+                                <script type="text/javascript">
+                                        #if($check)
+                                        $("#s$!check.check_step").css("color","red");
+                                        #else
+                                        $("#s0").css("color","red");
+                                        #end
+                                        $("#flag").attr("value","savecheck");
+                                </script>
+                            </td>
+                        </tr>
+                        #if($wksize<1)
+                        <tr>
+                            <td width="50%" height="30" colspan="4" align="center"><span style="color: #ff0000;">流程步骤未定义！</span></td>
+                        </tr>
+                        <script type="text/javascript">$("#tag").val("1");</script>
+
+                        #else
+
+
+                                #if($info)
+
+                                    #if($info.type==0)
+                                <tr>
+                                    <td width="40%" height="30" align="right">操作：</td>
+                                    <td width="60%" colspan="3" align="left">
+                                        <input type="radio" name="is_checked" value="Y" checked>
+                                        #if($wksize-1==$step)终审#else流转到下一节点#end
+                                    </td>
+                                </tr>
+                                    #else
+
+
+                                                <tr>
+                                                    <td width="30%" height="30" align="right">审核意见：</td>
+                                                    <td width="70%" colspan="3" align="left">
+                                                        <textarea  name="check_opinion" id="check_opinion" cols="35" rows="5" onclick="this.select()">$!check.check_opinion</textarea>
+
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="30%" height="30" align="right">操作：</td>
+                                                    <td width="70%" colspan="3" align="left">
+                                                        <input type="radio" name="is_checked" value="Y" checked>#if($wksize-1==$step)终审#else通过#end
+                                                        #if($step>0)<input type="radio" name="is_checked" value="N" >不通过#end
+                                                    </td>
+                                                </tr>
+
+                                    #end
+                                    #else
+                                    #set($s=$step+1)
+                                    <tr>
+                                        <td width="50%" height="30" colspan="4" align="center"><span style="color: #ff0000;">节点$!s 当前用户不可处理！</span></td>
+                                    </tr>
+                                    <script type="text/javascript">$("#tag").val("1");</script>
+                                    #end
+
+                        #end
+                    </table>
+
+                        #end
+                    #end
+                 #end
+                </div>
+            </td>
+            </tr>
+            </table>
+      </form>
+
+</body>
+</html>

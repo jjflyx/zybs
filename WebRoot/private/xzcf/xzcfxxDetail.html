@@ -1,0 +1,264 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>$!app_name-行政处罚</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!-- 框架 -->
+    <script type='text/javascript'>
+        var CONTEXTPATH = '${base}';
+        var stylePath = '$!stylename';
+    </script>
+    <link href="${base}/private/ratifyFollow/css/$!stylename/style.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="${base}/private/zjgl/css/page.css" />
+    <style>
+        html,body{ *overflow:hidden;}
+    </style>
+    <script type="text/javascript" src="${base}/include/js/jquery.min.js"></script>
+    <script type="text/javascript" src="${base}/include/js/string.js"></script>
+    <script>
+        function customHeightSet() {
+            var otherH_1 = jQuery(".pageBtnarea").outerHeight()
+                    + parseInt(jQuery(".pageM").css("paddingTop"))
+                    + parseInt(jQuery(".pageM").css("paddingBottom"));
+            var pageH = document.documentElement.clientHeight;
+            jQuery("#pageScroll").height(pageH - otherH_1);
+        }
+        jQuery(document).ready(function() {
+            customHeightSet();
+        });
+        window.onload = function() {
+            customHeightSet();
+        }
+        window.onresize = function() {
+            customHeightSet();
+        }
+        //设置IE浏览器的打印默认样式，去掉页眉页脚
+        var hkey_root = "HKEY_CURRENT_USER";
+        var hkey_path = "\\Software\\Microsoft\\Internet Explorer\\PageSetup\\";
+        function pagesetup_null() {
+            try {
+                var RegWsh = new ActiveXObject("WScript.Shell");
+                var hkey_key = "header";
+                RegWsh.RegWrite(hkey_root + hkey_path + hkey_key, "");
+                hkey_key = "footer";
+                RegWsh.RegWrite(hkey_root + hkey_path + hkey_key, "");
+            } catch (e) {
+                alert(e);
+            }
+        }
+
+        function printThis() {
+            $('#noPrint_mood').hide();
+            $('#noPrint_top').hide();
+            bdhtml = window.document.body.innerHTML;
+            sprnstr = "<!--startprint-->";
+            eprnstr = "<!--endprint-->";
+            prnhtml = bdhtml.substr(bdhtml.indexOf(sprnstr) + 17);
+            prnhtml = prnhtml.substring(0, prnhtml.indexOf(eprnstr));
+            window.document.body.innerHTML = prnhtml;
+            pagesetup_null();
+            window.print();
+            window.history.go(0);
+        }
+
+        function toPrintFun(id){
+            var url='${base}/private/print/rxdhjld?letterid='+id+'&sys_menu=信件打印&sys_random=' + Math.random();
+            var title='信件打印';
+            var iWidth=1020; //弹出窗口的宽度;
+            var iHeight=600; //弹出窗口的高度;
+            openWin3(url,title,iWidth,iHeight);
+        }
+        $(function(){
+            $(".swichctr").toggle(function(){
+                $(this).html("收起");
+            },function(){
+                $(this).html("展开");
+            })
+        })
+        function swichShow(ID){
+            $("#"+ID).toggle();
+        }
+
+        function dy(){
+            bdhtml=window.document.body.innerHTML;
+            sprnstr="<!--startprint-->";
+            eprnstr="<!--endprint-->";
+            prnhtml=bdhtml.substr(bdhtml.indexOf(sprnstr)+17);
+            prnhtml=prnhtml.substring(0,prnhtml.indexOf(eprnstr));
+            window.document.body.innerHTML=prnhtml;
+            window.print();
+        }
+    </script>
+</head>
+
+<body>
+<!--startprint-->
+<form name='form1' id="form1" method='post'>
+    <input type="hidden" name="doAction" value="">
+    <input type="hidden" name="id" value="$!obj.id">
+    <input type="hidden" name="zbid" id="zbid" value="">
+    <input type="hidden" name="pjCount" id="pjCount" value="" />
+    <input type="hidden" name="jbid" id="jbid" value="">
+    <input type="hidden" name="isold" id="isold" value="0">
+
+    <div class="pageM viewpage" id="pageScroll">
+        <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="table_titlebk">
+            <tr>
+                <td class="table_title" align="center">
+                    行政处罚信息
+                </td>
+            </tr>
+        </table>
+        <div class="conBody">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0"
+                   class="tableViews">
+                <colgroup>
+                    <col width="16%" />
+                    <col width="35%" />
+                    <col width="15%" />
+                    <col width="34%" />
+                </colgroup>
+                <tr>
+                    <th>信用主体：</th>
+                    <td>$!xyzt.name</td>
+                    <th>信用主体类型：</th>
+                    <td>$!ztMap.get("$!xyzt.type")</td>
+                </tr>
+                <tr>
+                    <!--<th widht="100">关联合同：</th>-->
+                    <!--<td>#foreach($!ht in $!htlist)$!ht.htmc#end</td>-->
+                    <th>行政处罚类型：</th>
+                    <td colspan="3">$!xzcf_type.get("$!xzcf.xzcf_type")</td>
+                </tr>
+                <tr>
+                    <th>失信行为：</th>
+                    <td colspan="3">
+                        #if($isxz=="1")
+                        #if($!xzcf.sxxw_id=="0043_01")非法占地#elseif($!xzcf.sxxw_id=="0043_02")破坏耕地#elseif($!xzcf.sxxw_id=="0043_03")非法转让其他土地#else
+                        其他行为 #end
+                        #else
+                        #foreach($!xw in $!xwlist)
+                        $!xw.sxxw</br>
+                        #end
+                        #end
+                    </td>
+                </tr>
+                #if($isxz!="1")
+                <tr>
+                    <th>失信情形：</th>
+                    <td colspan="3">
+                        #foreach($!qx in $!qxlist)
+                        $!qx</br>
+                        #end
+                    </td>
+                </tr>
+                <tr>
+                    <th>惩戒措施：</th>
+                    <td colspan="3">
+                        #foreach($!cs in $!cslist)
+                        $!cs</br>
+                        #end
+                    </td>
+                </tr>
+                <tr>
+                    <th>惩戒依据：</th>
+                    <td colspan="3">
+                        #foreach($!yj in $!yjlist)
+                        $!yj</br>
+                        #end
+                    </td>
+                </tr>
+                #end
+                <!-- <tr>
+                    <th>案由：</th>
+                    <td colspan="3">$!xzcf.au</td>
+                </tr> -->
+                
+                <tr>
+                    <th>行政处罚决定书文号：</th>
+                    <td>$!xzcf.xzcf_code</td>
+                    <th>处罚生效时间：</th>
+                    <td>$!xzcf.cfsx_date</td>
+                </tr>
+                <tr>
+                    #if($!xzcf.biaozhu)
+                    <th>实际履行情况：</th>
+                    <td>$!sjlxqk.get("$!xzcf.sjlxqk")</td>
+                    <th>标注：</th>
+                    <td>$!biaozhu.get("$!xzcf.biaozhu")</td>
+					#else
+					<th>实际履行情况：</th>
+                    <td  colspan="3">$!sjlxqk.get("$!xzcf.sjlxqk")</td>
+                    #end
+                </tr>
+                <tr >
+                    <th>处罚依据：</th>
+                    <td  colspan="3">$!xzcf.xzcf_yiju</td>
+                </tr>
+                <tr >
+                    <th>处罚结论：</th>
+                    <td  colspan="3">$!xzcf.xzcf_note</td>
+                </tr>
+                
+                <tr> 
+      				<th>上传附件：</th> 
+      				<td colspan="3">
+      					#if($!fileList.size()>0)
+							#foreach($obj in $!fileList)
+								<a href="${base}$obj.get(1)">$!obj.get(0)</a></br>
+							#end
+						#else
+							无附件
+						#end
+					</td>
+     			</tr> 
+                
+                 #if($!xzcf.xzcf_zt==2)
+                <tr>
+                    <th>撤销时间：</th>
+                    <td colspan="3">
+                    	$!syslog.create_time
+                    </td>
+                </tr>
+                <tr>
+                    <th>撤销原因：</th>
+                    <td colspan="3">
+                        $!syslog.reason
+                    </td>
+                </tr>
+                <tr>
+                    <th>撤销依据：</th>
+                    <td colspan="3">
+                        $!syslog.basis
+                    </td>
+                </tr>
+                #end
+            </table>
+        </div>
+    </div>
+
+</form>
+<!--endprint-->
+<div class="pageBtnarea">
+    <input type="button" class="button" name="dis" id="dis" value="页面打印" onClick="dy();" />
+    <!-- <input type="button" class="button" name="btnOk" id="btnOk" value="打印" onClick="toPrintFun('$!obj.id')" />-->
+    <input type="button" class="button" name="btnCancal" id="btnCancal" value="关闭" onclick="window.close()">
+</div>
+
+<form action="${base}/DownFile" id="printform1" name="printform1" method="post">
+    <input type="hidden" name="type" id="type"/>
+    <textarea rows="" cols="" style="display: none;" name="htmlbody" id="htmlbody"></textarea>
+    <div id="printnote1" style="display:none;">
+
+    </div>
+</form>
+<script>
+    function exportF(type){
+
+        document.getElementById("type").value=type;
+        document.getElementById("htmlbody").value = document.getElementById("printnote1").innerHTML;
+        printform1.submit();
+    }
+</script>
+</body>
+</html>

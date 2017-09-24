@@ -1,0 +1,3070 @@
+/private/txl_group/add
+	com.hits.modules.txl.Txl_groupAction
+	Txl_groupAction.add(...)       : boolean   
+	OK:raw
+
+/private/txl_group/list
+	com.hits.modules.txl.Txl_groupAction
+	Txl_groupAction.list(...)      : String    
+	OK:raw
+
+/private/txl_group/delete
+	com.hits.modules.txl.Txl_groupAction
+	Txl_groupAction.delete(...)    : boolean   
+	OK:raw
+
+/private/txl_group/update
+	com.hits.modules.txl.Txl_groupAction
+	Txl_groupAction.update(...)    : boolean   
+	OK:raw
+
+/private/txl_group/toupdate
+	com.hits.modules.txl.Txl_groupAction
+	Txl_groupAction.toUpdate(...)  : void      
+	OK:->:/private/txl/txl_groupUpdate.html
+
+/private/txl_group/totxl_group
+	com.hits.modules.txl.Txl_groupAction
+	Txl_groupAction.toTxl_group(...) : void      
+	OK:->:/private/txl/txl_groupList.html
+
+/private/txl_group/toadd
+	com.hits.modules.txl.Txl_groupAction
+	Txl_groupAction.toadd(...)     : void      
+	OK:->:/private/txl/txl_groupAdd.html
+
+/private/txl_group/listall
+	com.hits.modules.txl.Txl_groupAction
+	Txl_groupAction.listAll(...)   : String    
+	OK:raw
+
+/private/zjgl/jcfwht
+	com.hits.modules.zjgl.Jcfw_htAction
+	Jcfw_htAction.user(...)        : void      
+	OK:->:/private/zjgl/jcfwht.html
+
+/private/zjgl/jcfwht/anyting
+	com.hits.modules.zjgl.Jcfw_htAction
+	Jcfw_htAction.anyting(...)     : void      
+	OK:
+
+/private/zjgl/jcfwht/detail
+	com.hits.modules.zjgl.Jcfw_htAction
+	Jcfw_htAction.detail(...)      : void      
+	OK:->:/private/zjgl/jcfwhtDetail.html
+
+/private/zjgl/jcfwht/htlist
+	com.hits.modules.zjgl.Jcfw_htAction
+	Jcfw_htAction.htlist(...)      : String    
+	OK:raw
+
+/private/zjgl/jcfwht/toupdate
+	com.hits.modules.zjgl.Jcfw_htAction
+	Jcfw_htAction.toUpdate(...)    : void      
+	OK:->:/private/zjgl/jcfwhtupdate.html
+
+/private/zjgl/jcfwht/toadd
+	com.hits.modules.zjgl.Jcfw_htAction
+	Jcfw_htAction.toadd(...)       : void      
+	OK:->:/private/zjgl/jcfwhtadd.html
+
+/private/sys/syslog/?
+	com.hits.modules.sys.Sys_logAction
+	Sys_logAction.log(...)         : void      
+	OK:->:/private/sys/sys_log.html
+
+/private/sys/syslog/list
+	com.hits.modules.sys.Sys_logAction
+	Sys_logAction.list(...)        : JSONObject
+	OK:raw
+
+/private/sys/syslog/yx
+	com.hits.modules.sys.Sys_logAction
+	Sys_logAction.sys_yxlog(...)   : void      
+	OK:->:/private/sys/sys_YXlog.html
+
+/private/sys/syslog/yxlist
+	com.hits.modules.sys.Sys_logAction
+	Sys_logAction.yxlist(...)      : JSONObject
+	OK:raw
+
+/private/sys/syslog/cz
+	com.hits.modules.sys.Sys_logAction
+	Sys_logAction.sys_log(...)     : void      
+	OK:->:/private/sys/sys_CZlog.html
+
+/private/sys/syslog/sjtslist
+	com.hits.modules.sys.Sys_logAction
+	Sys_logAction.sjtsList(...)    : JSONObject
+	OK:raw
+
+/private/sys/syslog/loglist
+	com.hits.modules.sys.Sys_logAction
+	Sys_logAction.loglist(...)     : JSONObject
+	OK:raw
+
+/private/sys/syslog/logdetail
+	com.hits.modules.sys.Sys_logAction
+	Sys_logAction.logdetail(...)   : void      
+	OK:->:/private/sys/sys_gtxyDetail.html
+
+/private/sys/syslog/sjtsdetail
+	com.hits.modules.sys.Sys_logAction
+	Sys_logAction.sjtsDetail(...)  : void      
+	OK:->:/private/sys/sys_sjtsDetail.html
+
+/private/sys/syslog/xylog
+	com.hits.modules.sys.Sys_logAction
+	Sys_logAction.xylog(...)       : void      
+	OK:->:/private/sys/sys_gtxylog.html
+
+/private/sys/sys_userparamconfig/add
+	com.hits.modules.sys.Sys_userparamconfigAction
+	Sys_userparamconfigAction.add(...) : boolean   
+	OK:raw
+
+/private/sys/sys_userparamconfig/list
+	com.hits.modules.sys.Sys_userparamconfigAction
+	Sys_userparamconfigAction.list(...) : JSONObject
+	OK:raw
+
+/private/sys/sys_userparamconfig/delete
+	com.hits.modules.sys.Sys_userparamconfigAction
+	Sys_userparamconfigAction.delete(...) : boolean   
+	OK:raw
+
+/private/sys/sys_userparamconfig
+	com.hits.modules.sys.Sys_userparamconfigAction
+	Sys_userparamconfigAction.index(...) : void      
+	OK:->:/private/sys/userparamconfig.html
+
+/private/sys/sys_userparamconfig/update
+	com.hits.modules.sys.Sys_userparamconfigAction
+	Sys_userparamconfigAction.update(...) : boolean   
+	OK:raw
+
+/private/sys/sys_userparamconfig/deleteids
+	com.hits.modules.sys.Sys_userparamconfigAction
+	Sys_userparamconfigAction.deleteIds(...) : boolean   
+	OK:raw
+
+/private/sys/sys_userparamconfig/toadd
+	com.hits.modules.sys.Sys_userparamconfigAction
+	Sys_userparamconfigAction.toadd(...) : void      
+	OK:->:/private/sys/userparamconfigadd.html
+
+/private/sys/sys_userparamconfig/toupdate
+	com.hits.modules.sys.Sys_userparamconfigAction
+	Sys_userparamconfigAction.toupdate(...) : Sys_userparamconfig
+	OK:->:/private/sys/userparamconfigUpdate.html
+
+/private/sys/sys_userparamconfig/view
+	com.hits.modules.sys.Sys_userparamconfigAction
+	Sys_userparamconfigAction.view(...) : Sys_userparamconfig
+	OK:json
+
+/private/sys/sys_userparamconfig/checktypename
+	com.hits.modules.sys.Sys_userparamconfigAction
+	Sys_userparamconfigAction.checktypename(...) : boolean   
+	OK:raw
+
+/private/baobiao/sxcjlist
+	com.hits.modules.baobiao.BaobiaoAction
+	BaobiaoAction.sxcjList(...)    : String    
+	OK:raw
+
+/private/baobiao/sxcj
+	com.hits.modules.baobiao.BaobiaoAction
+	BaobiaoAction.sxcj(...)        : void      
+	OK:->:/private/baobiao/sxcj.html
+
+/private/baobiao/cztj
+	com.hits.modules.baobiao.BaobiaoAction
+	BaobiaoAction.cztj(...)        : void      
+	OK:->:/private/baobiao/cztj.html
+
+/private/baobiao/yytj
+	com.hits.modules.baobiao.BaobiaoAction
+	BaobiaoAction.yytj(...)        : void      
+	OK:->:/private/baobiao/yytj.html
+
+/private/baobiao/sxjllist
+	com.hits.modules.baobiao.BaobiaoAction
+	BaobiaoAction.sxjlList(...)    : String    
+	OK:raw
+
+/private/baobiao/sxcjym
+	com.hits.modules.baobiao.BaobiaoAction
+	BaobiaoAction.sxcjYm(...)      : void      
+	OK:->:/private/baobiao/sxcjList.html
+
+/private/baobiao/xxsb
+	com.hits.modules.baobiao.BaobiaoAction
+	BaobiaoAction.xxsb(...)        : void      
+	OK:->:/private/baobiao/xxsb.html
+
+/private/baobiao/getchartsxjl
+	com.hits.modules.baobiao.BaobiaoAction
+	BaobiaoAction.getChartsxjl(...) : String    
+	OK:raw
+
+/private/baobiao/getchart
+	com.hits.modules.baobiao.BaobiaoAction
+	BaobiaoAction.getChart(...)    : String    
+	OK:raw
+
+/private/baobiao/dcsxcj
+	com.hits.modules.baobiao.BaobiaoAction
+	BaobiaoAction.dcSxcj(...)      : void      
+	OK:raw
+
+/private/baobiao/yyxyztsel
+	com.hits.modules.baobiao.BaobiaoAction
+	BaobiaoAction.yyxyztSel(...)   : String    
+	OK:raw
+
+/private/baobiao/xxsbxsbmsel
+	com.hits.modules.baobiao.BaobiaoAction
+	BaobiaoAction.xxsbXsbmSel(...) : String    
+	OK:raw
+
+/private/baobiao/xxsblist
+	com.hits.modules.baobiao.BaobiaoAction
+	BaobiaoAction.xxsbList(...)    : JSONObject
+	OK:raw
+
+/private/baobiao/sxjlym
+	com.hits.modules.baobiao.BaobiaoAction
+	BaobiaoAction.sxjlYm(...)      : void      
+	OK:->:/private/baobiao/sxjlList.html
+
+/private/baobiao/ywmksel
+	com.hits.modules.baobiao.BaobiaoAction
+	BaobiaoAction.ywmkSel(...)     : String    
+	OK:raw
+
+/private/baobiao/yytjlist
+	com.hits.modules.baobiao.BaobiaoAction
+	BaobiaoAction.yytjList(...)    : JSONObject
+	OK:raw
+
+/private/baobiao/sxxwsel
+	com.hits.modules.baobiao.BaobiaoAction
+	BaobiaoAction.sxxwSel(...)     : String    
+	OK:raw
+
+/private/baobiao/jlxyztsel
+	com.hits.modules.baobiao.BaobiaoAction
+	BaobiaoAction.jlxyztSel(...)   : String    
+	OK:raw
+
+/private/baobiao/xyztsel
+	com.hits.modules.baobiao.BaobiaoAction
+	BaobiaoAction.xyztSel(...)     : String    
+	OK:raw
+
+/private/baobiao/xxsbym
+	com.hits.modules.baobiao.BaobiaoAction
+	BaobiaoAction.xxsbYm(...)      : void      
+	OK:->:/private/baobiao/xxsbList.html
+
+/private/baobiao/sxjl
+	com.hits.modules.baobiao.BaobiaoAction
+	BaobiaoAction.sxjl(...)        : void      
+	OK:->:/private/baobiao/sxjltj.html
+
+/private/baobiao/scfssel
+	com.hits.modules.baobiao.BaobiaoAction
+	BaobiaoAction.scfsSel(...)     : String    
+	OK:raw
+
+/private/baobiao/yytjym
+	com.hits.modules.baobiao.BaobiaoAction
+	BaobiaoAction.yytjYm(...)      : void      
+	OK:->:/private/baobiao/yytjList.html
+
+/private/baobiao/cjztsel
+	com.hits.modules.baobiao.BaobiaoAction
+	BaobiaoAction.cjztSel(...)     : String    
+	OK:raw
+
+/private/baobiao/xzxkym
+	com.hits.modules.baobiao.BaobiaoAction
+	BaobiaoAction.xzxkYm(...)      : void      
+	OK:->:/private/baobiao/xzxkList.html
+
+/private/baobiao/sxyjhxx
+	com.hits.modules.baobiao.BaobiaoAction
+	BaobiaoAction.sxyjhXx(...)     : void      
+	OK:->:/private/baobiao/stsjts.html
+
+/private/baobiao/xzxkxx
+	com.hits.modules.baobiao.BaobiaoAction
+	BaobiaoAction.xzxkXx(...)      : void      
+	OK:->:/private/baobiao/xzxk.html
+
+/private/baobiao/xzxkpclist
+	com.hits.modules.baobiao.BaobiaoAction
+	BaobiaoAction.xzxkPcList(...)  : String    
+	OK:raw
+
+/private/baobiao/dcsxjl
+	com.hits.modules.baobiao.BaobiaoAction
+	BaobiaoAction.dcSxjl(...)      : void      
+	OK:raw
+
+/private/baobiao/xzxkdetail
+	com.hits.modules.baobiao.BaobiaoAction
+	BaobiaoAction.xzxkDetail(...)  : void      
+	OK:->:/private/baobiao/xzxkDetail.html
+
+/private/baobiao/xzxklist
+	com.hits.modules.baobiao.BaobiaoAction
+	BaobiaoAction.xzxkList(...)    : JSONObject
+	OK:raw
+
+/private/baobiao/xzxkpc
+	com.hits.modules.baobiao.BaobiaoAction
+	BaobiaoAction.xzxkPc(...)      : void      
+	OK:->:/private/baobiao/xzxkPc.html
+
+/private/baobiao/dcyytj
+	com.hits.modules.baobiao.BaobiaoAction
+	BaobiaoAction.dcYytj(...)      : void      
+	OK:raw
+
+/private/baobiao/dcxxsb
+	com.hits.modules.baobiao.BaobiaoAction
+	BaobiaoAction.dcXxsb(...)      : void      
+	OK:raw
+
+/private/baobiao/sxyjhym
+	com.hits.modules.baobiao.BaobiaoAction
+	BaobiaoAction.sxyjhYm(...)     : void      
+	OK:->:/private/baobiao/stsjtsList.html
+
+/private/baobiao/sxyjhpc
+	com.hits.modules.baobiao.BaobiaoAction
+	BaobiaoAction.sxyjhPc(...)     : void      
+	OK:->:/private/baobiao/stsjtsPc.html
+
+/private/baobiao/sxyjhdetail
+	com.hits.modules.baobiao.BaobiaoAction
+	BaobiaoAction.sxyjhDetail(...) : void      
+	OK:->:/private/baobiao/stsjtsDetail.html
+
+/private/baobiao/sxyjhpclist
+	com.hits.modules.baobiao.BaobiaoAction
+	BaobiaoAction.sxyjhPcList(...) : String    
+	OK:raw
+
+/private/baobiao/sxyjhlist
+	com.hits.modules.baobiao.BaobiaoAction
+	BaobiaoAction.sxyjhList(...)   : JSONObject
+	OK:raw
+
+/private/sys/role/add
+	com.hits.modules.sys.RoleAction
+	RoleAction.add(...)            : int       
+	OK:raw
+
+/private/sys/role/list
+	com.hits.modules.sys.RoleAction
+	RoleAction.list(...)           : JSONObject
+	OK:raw
+
+/private/sys/role/delete
+	com.hits.modules.sys.RoleAction
+	RoleAction.delete(...)         : boolean   
+	OK:raw
+
+/private/sys/role/update
+	com.hits.modules.sys.RoleAction
+	RoleAction.update(...)         : boolean   
+	OK:raw
+
+/private/sys/role
+	com.hits.modules.sys.RoleAction
+	RoleAction.role(...)           : void      
+	OK:->:/private/sys/role.html
+
+/private/sys/role/tree
+	com.hits.modules.sys.RoleAction
+	RoleAction.tree(...)           : String    
+	OK:raw
+
+/private/sys/role/delroleuser
+	com.hits.modules.sys.RoleAction
+	RoleAction.delroleuser(...)    : String    
+	OK:raw
+
+/private/sys/role/getrole
+	com.hits.modules.sys.RoleAction
+	RoleAction.getrole(...)        : Sys_role  
+	OK:json
+
+/private/sys/role/ajaxname
+	com.hits.modules.sys.RoleAction
+	RoleAction.ajaxname(...)       : String    
+	OK:raw
+
+/private/sys/role/ajaxroleuser
+	com.hits.modules.sys.RoleAction
+	RoleAction.ajaxroleuser(...)   : String    
+	OK:raw
+
+/private/sys/role/menu
+	com.hits.modules.sys.RoleAction
+	RoleAction.menu(...)           : boolean   
+	OK:raw
+
+/private/sys/role/addroleuser
+	com.hits.modules.sys.RoleAction
+	RoleAction.addroleuser(...)    : String    
+	OK:raw
+
+/private/sys/role/ajaxunit
+	com.hits.modules.sys.RoleAction
+	RoleAction.ajaxunit(...)       : String    
+	OK:raw
+
+/private/sys/role/tomenu
+	com.hits.modules.sys.RoleAction
+	RoleAction.tomenu(...)         : void      
+	OK:->:/private/sys/roleMenu.html
+
+/private/sys/role/userlist
+	com.hits.modules.sys.RoleAction
+	RoleAction.userlist(...)       : JSONObject
+	OK:raw
+
+/private/sys/role/toadd
+	com.hits.modules.sys.RoleAction
+	RoleAction.toadd(...)          : void      
+	OK:->:/private/sys/roleAdd.html
+
+/private/sys/role/toupdate
+	com.hits.modules.sys.RoleAction
+	RoleAction.toupdate(...)       : void      
+	OK:->:/private/sys/roleUpdate.html
+
+/private/sys/role/toaddroleuser
+	com.hits.modules.sys.RoleAction
+	RoleAction.toaddroleuser(...)  : void      
+	OK:->:/private/sys/roleUser.html
+
+/private/xyda/tolist
+	com.hits.modules.xyda.Xyda_Action
+	Xyda_Action.user(...)          : void      
+	OK:->:/private/xyda/xydalist.html
+
+/private/xyda/xydalist
+	com.hits.modules.xyda.Xyda_Action
+	Xyda_Action.xydalist(...)      : String    
+	OK:raw
+
+/private/xyda/detailxyda
+	com.hits.modules.xyda.Xyda_Action
+	Xyda_Action.detailXyda(...)    : void      
+	OK:->:/private/xyda/xydaDetail.html
+
+/private/xyda/xyxxdt
+	com.hits.modules.xyda.Xyda_Action
+	Xyda_Action.xyxxdt(...)        : void      
+	OK:->:/private/xyda/xyxxdtlist.html
+
+/private/xyda/xyxxsblist
+	com.hits.modules.xyda.Xyda_Action
+	Xyda_Action.xyxxsblist(...)    : String    
+	OK:raw
+
+/private/sys/templateconfig/list
+	com.hits.modules.sys.Sys_templateconfigAction
+	Sys_templateconfigAction.list(...) : List      
+	OK:json
+
+/private/sys/templateconfig
+	com.hits.modules.sys.Sys_templateconfigAction
+	Sys_templateconfigAction.user(...) : void      
+	OK:->:/private/sys/templateconfig.html
+
+/private/sys/templateconfig/checkin
+	com.hits.modules.sys.Sys_templateconfigAction
+	Sys_templateconfigAction.checkin(...) : void      
+	OK:->:/private/sys/ifdb.html
+
+/private/sys/templateconfig/checkid
+	com.hits.modules.sys.Sys_templateconfigAction
+	Sys_templateconfigAction.checkId(...) : boolean   
+	OK:raw
+
+/private/sys/templateconfig/checkinsave
+	com.hits.modules.sys.Sys_templateconfigAction
+	Sys_templateconfigAction.checkinSave(...) : boolean   
+	OK:raw
+
+/private/sys/templateconfig/toadd
+	com.hits.modules.sys.Sys_templateconfigAction
+	Sys_templateconfigAction.toadd(...) : void      
+	OK:->:/private/sys/templateconfigAdd.html
+
+/private/sys/templateconfig/del
+	com.hits.modules.sys.Sys_templateconfigAction
+	Sys_templateconfigAction.del(...) : boolean   
+	OK:raw
+
+/private/sys/templateconfig/updatesave
+	com.hits.modules.sys.Sys_templateconfigAction
+	Sys_templateconfigAction.updateSave(...) : boolean   
+	OK:raw
+
+/private/sys/templateconfig/listall
+	com.hits.modules.sys.Sys_templateconfigAction
+	Sys_templateconfigAction.listAll(...) : String    
+	OK:raw
+
+/private/sys/templateconfig/addsave
+	com.hits.modules.sys.Sys_templateconfigAction
+	Sys_templateconfigAction.addSave(...) : boolean   
+	OK:raw
+
+/private/sys/templateconfig/toupdate
+	com.hits.modules.sys.Sys_templateconfigAction
+	Sys_templateconfigAction.toupdate(...) : void      
+	OK:->:/private/sys/templateconfigUpdate.html
+
+/private/formyy/add
+	com.hits.modules.form.YYFormAction
+	YYFormAction.add(...)          : boolean   
+	OK:raw
+
+/private/formyy/list
+	com.hits.modules.form.YYFormAction
+	YYFormAction.list(...)         : JSONObject
+	OK:raw
+
+/private/formyy/delete
+	com.hits.modules.form.YYFormAction
+	YYFormAction.delete(...)       : boolean   
+	OK:raw
+
+/private/formyy/update
+	com.hits.modules.form.YYFormAction
+	YYFormAction.update(...)       : boolean   
+	OK:raw
+
+/private/formyy/tomakeup
+	com.hits.modules.form.YYFormAction
+	YYFormAction.tomakeup(...)     : void      
+	OK:->:/private/formyy/tableBulu.html
+
+/private/formyy/topreview
+	com.hits.modules.form.YYFormAction
+	YYFormAction.topreview(...)    : void      
+	OK:->:/private/formyy/tablePreview.html
+
+/private/formyy/checkonly
+	com.hits.modules.form.YYFormAction
+	YYFormAction.checkOnly(...)    : boolean   
+	OK:raw
+
+/private/formyy/loadxyzt
+	com.hits.modules.form.YYFormAction
+	YYFormAction.loadxyzt(...)     : JSONObject
+	OK:raw
+
+/private/formyy/deleteids
+	com.hits.modules.form.YYFormAction
+	YYFormAction.deleteIds(...)    : boolean   
+	OK:raw
+
+/private/formyy/selectht
+	com.hits.modules.form.YYFormAction
+	YYFormAction.selectHt(...)     : void      
+	OK:->:/private/formyy/selectHt.html
+
+/private/formyy/selectxkzh
+	com.hits.modules.form.YYFormAction
+	YYFormAction.selectXKZH(...)   : void      
+	OK:->:/private/formyy/selectXKZH.html
+
+/private/formyy/selecttkxkzh
+	com.hits.modules.form.YYFormAction
+	YYFormAction.selectTKXKZH(...) : void      
+	OK:->:/private/formyy/selectTK_XKZH.html
+
+/private/formyy/selectxzcf
+	com.hits.modules.form.YYFormAction
+	YYFormAction.selectXzcf(...)   : void      
+	OK:->:/private/formyy/selectXzcf.html
+
+/private/formyy/tolist
+	com.hits.modules.form.YYFormAction
+	YYFormAction.tolist(...)       : String    
+	OK:->:${obj}
+
+/private/formyy/toadd
+	com.hits.modules.form.YYFormAction
+	YYFormAction.toadd(...)        : void      
+	OK:->:/private/formyy/tableAdd.html
+
+/private/formyy/toupdate
+	com.hits.modules.form.YYFormAction
+	YYFormAction.toupdate(...)     : void      
+	OK:->:/private/formyy/tableUpdate.html
+
+/private/zjgl/ht/add
+	com.hits.modules.zjgl.Zjgl_htAction
+	Zjgl_htAction.add(...)         : String    
+	OK:raw
+
+/private/zjgl/ht
+	com.hits.modules.zjgl.Zjgl_htAction
+	Zjgl_htAction.user(...)        : void      
+	OK:->:/private/zjgl/ht.html
+
+/private/zjgl/ht/toaddfr
+	com.hits.modules.zjgl.Zjgl_htAction
+	Zjgl_htAction.toaddFr(...)     : String    
+	OK:raw
+
+/private/zjgl/ht/htlist1
+	com.hits.modules.zjgl.Zjgl_htAction
+	Zjgl_htAction.htlist1(...)     : String    
+	OK:raw
+
+/private/zjgl/ht/bulu
+	com.hits.modules.zjgl.Zjgl_htAction
+	Zjgl_htAction.bulu(...)        : void      
+	OK:->:/private/zjgl/htbulu_ck.html
+
+/private/zjgl/ht/addfr
+	com.hits.modules.zjgl.Zjgl_htAction
+	Zjgl_htAction.addfr(...)       : void      
+	OK:->:/private/zjgl/ht_addfr.html
+
+/private/zjgl/ht/detail
+	com.hits.modules.zjgl.Zjgl_htAction
+	Zjgl_htAction.detail(...)      : void      
+	OK:->:/private/zjgl/htDetail.html
+
+/private/zjgl/ht/htlist
+	com.hits.modules.zjgl.Zjgl_htAction
+	Zjgl_htAction.htlist(...)      : String    
+	OK:raw
+
+/private/zjgl/ht/toupdate
+	com.hits.modules.zjgl.Zjgl_htAction
+	Zjgl_htAction.toUpdate(...)    : void      
+	OK:->:/private/zjgl/htupdate_ck.html
+
+/private/zjgl/ht/toadd
+	com.hits.modules.zjgl.Zjgl_htAction
+	Zjgl_htAction.toadd(...)       : void      
+	OK:->:/private/zjgl/htadd_ck.html
+
+/private/zjgl/ht/updatesave
+	com.hits.modules.zjgl.Zjgl_htAction
+	Zjgl_htAction.updateSave(...)  : String    
+	OK:raw
+
+/private/msg/msg_fj/add
+	com.hits.modules.nbjl.Msg_fjAction
+	Msg_fjAction.add(...)          : boolean   
+	OK:raw
+
+/private/msg/msg_fj/list
+	com.hits.modules.nbjl.Msg_fjAction
+	Msg_fjAction.list(...)         : JSONObject
+	OK:raw
+
+/private/msg/msg_fj/delete
+	com.hits.modules.nbjl.Msg_fjAction
+	Msg_fjAction.delete(...)       : boolean   
+	OK:raw
+
+/private/msg/msg_fj/update
+	com.hits.modules.nbjl.Msg_fjAction
+	Msg_fjAction.update(...)       : boolean   
+	OK:raw
+
+/private/msg/msg_fj/deleteids
+	com.hits.modules.nbjl.Msg_fjAction
+	Msg_fjAction.deleteIds(...)    : boolean   
+	OK:raw
+
+/private/msg/msg_fj/toadd
+	com.hits.modules.nbjl.Msg_fjAction
+	Msg_fjAction.toadd(...)        : void      
+	OK:->:/private/msg/Msg_fjAdd.html
+
+/private/msg/msg_fj/toupdate
+	com.hits.modules.nbjl.Msg_fjAction
+	Msg_fjAction.toupdate(...)     : void      
+	OK:->:/private/msg/Msg_fjUpdate.html
+
+/private/msg/msg_fj/view
+	com.hits.modules.nbjl.Msg_fjAction
+	Msg_fjAction.view(...)         : Msg_fj    
+	OK:json
+
+/private/msg/msg_fj
+	com.hits.modules.nbjl.Msg_fjAction
+	Msg_fjAction.msg_fj(...)       : void      
+	OK:->:/private/xxx/Msg_fj.html
+
+/private/welcome/zzxylist
+	com.hits.modules.sys.WelcomeAction
+	WelcomeAction.zzxyList(...)    : String    
+	OK:raw
+
+/private/welcome/zzxyxx
+	com.hits.modules.sys.WelcomeAction
+	WelcomeAction.zzxyxx(...)      : void      
+	OK:->:/private/welcome/zzxyxx.html
+
+/private/welcome/htxylist
+	com.hits.modules.sys.WelcomeAction
+	WelcomeAction.htxyList(...)    : String    
+	OK:raw
+
+/private/welcome/htxyxx
+	com.hits.modules.sys.WelcomeAction
+	WelcomeAction.htxyxx(...)      : void      
+	OK:->:/private/welcome/htxyxx.html
+
+/private/cs/value/add
+	com.hits.modules.sys.csgl.Cs_valueAction
+	Cs_valueAction.add(...)        : String    
+	OK:raw
+
+/private/cs/value/sort
+	com.hits.modules.sys.csgl.Cs_valueAction
+	Cs_valueAction.sort(...)       : boolean   
+	OK:raw
+
+/private/cs/value/update
+	com.hits.modules.sys.csgl.Cs_valueAction
+	Cs_valueAction.update(...)     : boolean   
+	OK:raw
+
+/private/cs/value/tree
+	com.hits.modules.sys.csgl.Cs_valueAction
+	Cs_valueAction.tree(...)       : String    
+	OK:raw
+
+/private/cs/value/del
+	com.hits.modules.sys.csgl.Cs_valueAction
+	Cs_valueAction.del(...)        : boolean   
+	OK:raw
+
+/private/cs/value/listall
+	com.hits.modules.sys.csgl.Cs_valueAction
+	Cs_valueAction.listAll(...)    : String    
+	OK:raw
+
+/private/cs/value/toadd
+	com.hits.modules.sys.csgl.Cs_valueAction
+	Cs_valueAction.toAdd(...)      : void      
+	OK:->:/private/sys/csgl/Cs_valueAdd.html
+
+/private/cs/value/tosort
+	com.hits.modules.sys.csgl.Cs_valueAction
+	Cs_valueAction.toSort(...)     : void      
+	OK:->:/private/sys/csgl/Cs_valueSort.html
+
+/private/cs/value/toupdate
+	com.hits.modules.sys.csgl.Cs_valueAction
+	Cs_valueAction.toupdate(...)   : void      
+	OK:->:/private/sys/csgl/Cs_valueUpdate.html
+
+/private/cs/value/listcombottreecode
+	com.hits.modules.sys.csgl.Cs_valueAction
+	Cs_valueAction.listCombotTreeCode(...) : String    
+	OK:raw
+
+/private/cs/value/getajaxselectedvalue
+	com.hits.modules.sys.csgl.Cs_valueAction
+	Cs_valueAction.getAjaxSelectedValue(...) : Cs_value  
+	OK:json
+
+/private/cs/value/getajaxcsvalue
+	com.hits.modules.sys.csgl.Cs_valueAction
+	Cs_valueAction.getAjaxCsValue(...) : List      
+	OK:json
+
+/private/cs/value/getajaxcodevalue
+	com.hits.modules.sys.csgl.Cs_valueAction
+	Cs_valueAction.getAjaxCodeValue(...) : Cs_value  
+	OK:json
+
+/private/cs/value/listcombottree
+	com.hits.modules.sys.csgl.Cs_valueAction
+	Cs_valueAction.listCombotTree(...) : String    
+	OK:raw
+
+/private/cs/value/getallcombotreelist
+	com.hits.modules.sys.csgl.Cs_valueAction
+	Cs_valueAction.getAllCombotreeList(...) : String    
+	OK:raw
+
+/private/cs/value/getajaxcascadecsvalue
+	com.hits.modules.sys.csgl.Cs_valueAction
+	Cs_valueAction.getAjaxCascadeCsValue(...) : List      
+	OK:json
+
+/private/cs/value/getajaxtreegraid
+	com.hits.modules.sys.csgl.Cs_valueAction
+	Cs_valueAction.getAjaxTreeGraid(...) : String    
+	OK:raw
+
+/private/cs/value/totree
+	com.hits.modules.sys.csgl.Cs_valueAction
+	Cs_valueAction.toTree(...)     : String    
+	OK:->:${obj}
+
+/private/cs/value
+	com.hits.modules.sys.csgl.Cs_valueAction
+	Cs_valueAction.cs_value(...)   : void      
+	OK:->:/private/sys/csgl/Cs_value.html
+
+/private/cs/value/checkcsvalue
+	com.hits.modules.sys.csgl.Cs_valueAction
+	Cs_valueAction.checkCsValue(...) : String    
+	OK:raw
+
+/private/cs/value/ajaxtree
+	com.hits.modules.sys.csgl.Cs_valueAction
+	Cs_valueAction.ajaxTree(...)   : String    
+	OK:raw
+
+/private/cs/value/listtreeall
+	com.hits.modules.sys.csgl.Cs_valueAction
+	Cs_valueAction.listTreeAll(...) : String    
+	OK:raw
+
+/private/xzcf/sxcjlist
+	com.hits.modules.xzcf.Xzcf_infoAction
+	Xzcf_infoAction.sxcjList(...)  : String    
+	OK:raw
+
+/private/xzcf/sxxwajax
+	com.hits.modules.xzcf.Xzcf_infoAction
+	Xzcf_infoAction.sxxwAjax(...)  : String    
+	OK:raw
+
+/private/xzcf/toaddfr
+	com.hits.modules.xzcf.Xzcf_infoAction
+	Xzcf_infoAction.toAddfr(...)   : void      
+	OK:->:/private/xzcf/xzcfAddfr.html
+
+/private/xzcf/tolist
+	com.hits.modules.xzcf.Xzcf_infoAction
+	Xzcf_infoAction.user(...)      : void      
+	OK:->:/private/xzcf/xzcfxxlist.html
+
+/private/xzcf/tofindhtmc
+	com.hits.modules.xzcf.Xzcf_infoAction
+	Xzcf_infoAction.tofindHtmc(...) : String    
+	OK:raw
+
+/private/xzcf/dolxqk
+	com.hits.modules.xzcf.Xzcf_infoAction
+	Xzcf_infoAction.doLxqk(...)    : boolean   
+	OK:raw
+
+/private/xzcf/tocancel
+	com.hits.modules.xzcf.Xzcf_infoAction
+	Xzcf_infoAction.toCancel(...)  : void      
+	OK:->:/private/xzcf/xzcfxxCancel.html
+
+/private/xzcf/tobz
+	com.hits.modules.xzcf.Xzcf_infoAction
+	Xzcf_infoAction.toBz(...)      : void      
+	OK:->:/private/xzcf/xzcfxxBZ.html
+
+/private/xzcf/tolx
+	com.hits.modules.xzcf.Xzcf_infoAction
+	Xzcf_infoAction.toLx(...)      : void      
+	OK:->:/private/xzcf/xzcfxxLX.html
+
+/private/xzcf/detail
+	com.hits.modules.xzcf.Xzcf_infoAction
+	Xzcf_infoAction.detail(...)    : void      
+	OK:->:/private/xzcf/xzcfxxDetail.html
+
+/private/xzcf/dobiaozhu
+	com.hits.modules.xzcf.Xzcf_infoAction
+	Xzcf_infoAction.doBiaozhu(...) : boolean   
+	OK:raw
+
+/private/xzcf/toissue
+	com.hits.modules.xzcf.Xzcf_infoAction
+	Xzcf_infoAction.toIssue(...)   : boolean   
+	OK:raw
+
+/private/xzcf/revoke
+	com.hits.modules.xzcf.Xzcf_infoAction
+	Xzcf_infoAction.revoke(...)    : boolean   
+	OK:raw
+
+/private/xzcf/toupdate
+	com.hits.modules.xzcf.Xzcf_infoAction
+	Xzcf_infoAction.toUpdate(...)  : void      
+	OK:->:/private/xzcf/xzcfxxUpdate.html
+
+/private/xzcf/toadd
+	com.hits.modules.xzcf.Xzcf_infoAction
+	Xzcf_infoAction.toadd(...)     : void      
+	OK:->:/private/xzcf/xzcfxxAdd.html
+
+/private/xzcf/updatesave
+	com.hits.modules.xzcf.Xzcf_infoAction
+	Xzcf_infoAction.updateSave(...) : boolean   
+	OK:raw
+
+/private/xzcf/addsave
+	com.hits.modules.xzcf.Xzcf_infoAction
+	Xzcf_infoAction.addSave(...)   : boolean   
+	OK:raw
+
+/private/xzcf/xzcflist
+	com.hits.modules.xzcf.Xzcf_infoAction
+	Xzcf_infoAction.xzcflist(...)  : String    
+	OK:raw
+
+/private/jlxx/add
+	com.hits.modules.jlry.Reward_infoAction
+	Reward_infoAction.add(...)     : void      
+	OK:->:/private/jlry/jlAdd.html
+
+/private/jlxx/toaddfr
+	com.hits.modules.jlry.Reward_infoAction
+	Reward_infoAction.toAddfr(...) : void      
+	OK:->:/private/jlry/jlryAddfr.html
+
+/private/jlxx/tolist
+	com.hits.modules.jlry.Reward_infoAction
+	Reward_infoAction.user(...)    : void      
+	OK:->:/private/jlry/jllist.html
+
+/private/jlxx/jllist
+	com.hits.modules.jlry.Reward_infoAction
+	Reward_infoAction.jllist(...)  : String    
+	OK:raw
+
+/private/jlxx/detail
+	com.hits.modules.jlry.Reward_infoAction
+	Reward_infoAction.detail(...)  : void      
+	OK:->:/private/jlry/jlDetail.html
+
+/private/jlxx/toupdate
+	com.hits.modules.jlry.Reward_infoAction
+	Reward_infoAction.toUpdate(...) : void      
+	OK:->:/private/jlry/jlUpdate.html
+
+/private/jlxx/addsave
+	com.hits.modules.jlry.Reward_infoAction
+	Reward_infoAction.addSave(...) : boolean   
+	OK:raw
+
+/private/jlxx/update
+	com.hits.modules.jlry.Reward_infoAction
+	Reward_infoAction.Update(...)  : boolean   
+	OK:raw
+
+/private/jlxx/addfrlist
+	com.hits.modules.jlry.Reward_infoAction
+	Reward_infoAction.addFrlist(...) : String    
+	OK:raw
+
+/private/jlxx/jlcx
+	com.hits.modules.jlry.Reward_infoAction
+	Reward_infoAction.jlcx(...)    : void      
+	OK:->:/private/jlry/jlcxlist.html
+
+/private/cs/type/add
+	com.hits.modules.sys.csgl.Cs_typeAction
+	Cs_typeAction.add(...)         : boolean   
+	OK:raw
+
+/private/cs/type/list
+	com.hits.modules.sys.csgl.Cs_typeAction
+	Cs_typeAction.list(...)        : String    
+	OK:raw
+
+/private/cs/type/sort
+	com.hits.modules.sys.csgl.Cs_typeAction
+	Cs_typeAction.sort(...)        : boolean   
+	OK:raw
+
+/private/cs/type/update
+	com.hits.modules.sys.csgl.Cs_typeAction
+	Cs_typeAction.update(...)      : boolean   
+	OK:raw
+
+/private/cs/type
+	com.hits.modules.sys.csgl.Cs_typeAction
+	Cs_typeAction.cs_type(...)     : void      
+	OK:->:/private/sys/csgl/Cs_type.html
+
+/private/cs/type/toadd
+	com.hits.modules.sys.csgl.Cs_typeAction
+	Cs_typeAction.toadd(...)       : void      
+	OK:->:/private/sys/csgl/Cs_typeAdd.html
+
+/private/cs/type/del
+	com.hits.modules.sys.csgl.Cs_typeAction
+	Cs_typeAction.del(...)         : boolean   
+	OK:raw
+
+/private/cs/type/tosort
+	com.hits.modules.sys.csgl.Cs_typeAction
+	Cs_typeAction.toSort(...)      : void      
+	OK:->:/private/sys/csgl/Cs_typeSort.html
+
+/private/cs/type/toupdate
+	com.hits.modules.sys.csgl.Cs_typeAction
+	Cs_typeAction.toupdate(...)    : void      
+	OK:->:/private/sys/csgl/Cs_typeUpdate.html
+
+/private/cs/type/getajaxcstype
+	com.hits.modules.sys.csgl.Cs_typeAction
+	Cs_typeAction.getAjaxCsType(...) : List      
+	OK:json
+
+/private/msg/msg_user/add
+	com.hits.modules.nbjl.Msg_userAction
+	Msg_userAction.add(...)        : boolean   
+	OK:raw
+
+/private/msg/msg_user/list
+	com.hits.modules.nbjl.Msg_userAction
+	Msg_userAction.list(...)       : JSONObject
+	OK:raw
+
+/private/msg/msg_user/delete
+	com.hits.modules.nbjl.Msg_userAction
+	Msg_userAction.delete(...)     : boolean   
+	OK:raw
+
+/private/msg/msg_user/update
+	com.hits.modules.nbjl.Msg_userAction
+	Msg_userAction.update(...)     : boolean   
+	OK:raw
+
+/private/msg/msg_user/deleteids
+	com.hits.modules.nbjl.Msg_userAction
+	Msg_userAction.deleteIds(...)  : boolean   
+	OK:raw
+
+/private/msg/msg_user/toadd
+	com.hits.modules.nbjl.Msg_userAction
+	Msg_userAction.toadd(...)      : void      
+	OK:->:/private/msg/Msg_userAdd.html
+
+/private/msg/msg_user/toupdate
+	com.hits.modules.nbjl.Msg_userAction
+	Msg_userAction.toupdate(...)   : void      
+	OK:->:/private/msg/Msg_userUpdate.html
+
+/private/msg/msg_user/view
+	com.hits.modules.nbjl.Msg_userAction
+	Msg_userAction.view(...)       : Msg_user  
+	OK:json
+
+/private/msg/msg_user
+	com.hits.modules.nbjl.Msg_userAction
+	Msg_userAction.msg_user(...)   : void      
+	OK:->:/private/msg/Msg_user.html
+
+/private/gtxt/warn_info/list
+	com.hits.modules.gtxt.Early_warning_infoAction
+	Early_warning_infoAction.list(...) : JSONObject
+	OK:raw
+
+/private/gtxt/warn_info
+	com.hits.modules.gtxt.Early_warning_infoAction
+	Early_warning_infoAction.early_warning_info(...) : void      
+	OK:->:/private/ratifyFollow/earlyWarning.html
+
+/private/sys/user/add
+	com.hits.modules.sys.UserAction
+	UserAction.add(...)            : boolean   
+	OK:raw
+
+/private/sys/user/lock
+	com.hits.modules.sys.UserAction
+	UserAction.lock(...)           : boolean   
+	OK:raw
+
+/private/sys/user/list
+	com.hits.modules.sys.UserAction
+	UserAction.list(...)           : JSONObject
+	OK:raw
+
+/private/sys/user/delete
+	com.hits.modules.sys.UserAction
+	UserAction.delete(...)         : boolean   
+	OK:raw
+
+/private/sys/user/unlock
+	com.hits.modules.sys.UserAction
+	UserAction.unlock(...)         : boolean   
+	OK:raw
+
+/private/sys/user/update
+	com.hits.modules.sys.UserAction
+	UserAction.update(...)         : boolean   
+	OK:raw
+
+/private/sys/user/info
+	com.hits.modules.sys.UserAction
+	UserAction.info(...)           : Sys_user  
+	OK:->:/private/sys/userInfo.html
+
+/private/sys/user
+	com.hits.modules.sys.UserAction
+	UserAction.user(...)           : void      
+	OK:->:/private/sys/user.html
+
+/private/sys/user/finduser
+	com.hits.modules.sys.UserAction
+	UserAction.findUser(...)       : List      
+	OK:raw
+
+/private/sys/user/tree
+	com.hits.modules.sys.UserAction
+	UserAction.tree(...)           : String    
+	OK:raw
+
+/private/sys/user/ajaxname
+	com.hits.modules.sys.UserAction
+	UserAction.ajaxname(...)       : boolean   
+	OK:raw
+
+/private/sys/user/toadd
+	com.hits.modules.sys.UserAction
+	UserAction.toadd(...)          : void      
+	OK:->:/private/sys/userAdd.html
+
+/private/sys/user/toupdate
+	com.hits.modules.sys.UserAction
+	UserAction.toupdate(...)       : void      
+	OK:->:/private/sys/userUpdate.html
+
+/private/sys/user/selectuser
+	com.hits.modules.sys.UserAction
+	UserAction.selectUser(...)     : void      
+	OK:->:/private/msg/selectUser.html
+
+/private/sys/user/getuser
+	com.hits.modules.sys.UserAction
+	UserAction.getUser(...)        : List      
+	OK:raw
+
+/private/sys/user/updateinfo
+	com.hits.modules.sys.UserAction
+	UserAction.updateInfo(...)     : String    
+	OK:raw
+
+/private/sys/user/getuname
+	com.hits.modules.sys.UserAction
+	UserAction.getuname(...)       : String    
+	OK:raw
+
+/private/sys/user/ajaxallusers
+	com.hits.modules.sys.UserAction
+	UserAction.ajaxAllUsers(...)   : List      
+	OK:raw
+
+/private/sys/user/xgmm
+	com.hits.modules.sys.UserAction
+	UserAction.xgmm(...)           : Sys_user  
+	OK:->:/private/sys/xgmm.html
+
+/private/sys/user/finduser_
+	com.hits.modules.sys.UserAction
+	UserAction.findUser_(...)      : JSONArray 
+	OK:json
+
+/private/gtxt/zj/add
+	com.hits.modules.gtxt.Zj_infoAction
+	Zj_infoAction.add(...)         : boolean   
+	OK:raw
+
+/private/gtxt/zj/list
+	com.hits.modules.gtxt.Zj_infoAction
+	Zj_infoAction.list(...)        : String    
+	OK:raw
+
+/private/gtxt/zj/update
+	com.hits.modules.gtxt.Zj_infoAction
+	Zj_infoAction.update(...)      : boolean   
+	OK:raw
+
+/private/gtxt/zj/deleteids
+	com.hits.modules.gtxt.Zj_infoAction
+	Zj_infoAction.deleteIds(...)   : boolean   
+	OK:raw
+
+/private/gtxt/zj/checkcode
+	com.hits.modules.gtxt.Zj_infoAction
+	Zj_infoAction.checkCode(...)   : boolean   
+	OK:raw
+
+/private/gtxt/zj/toadd
+	com.hits.modules.gtxt.Zj_infoAction
+	Zj_infoAction.toadd(...)       : void      
+	OK:->:/private/ratifyFollow/zjAdd.html
+
+/private/gtxt/zj/del
+	com.hits.modules.gtxt.Zj_infoAction
+	Zj_infoAction.del(...)         : boolean   
+	OK:raw
+
+/private/gtxt/zj/toupdate
+	com.hits.modules.gtxt.Zj_infoAction
+	Zj_infoAction.toupdate(...)    : void      
+	OK:->:/private/ratifyFollow/zjUpdate.html
+
+/private/gtxt/zj/view
+	com.hits.modules.gtxt.Zj_infoAction
+	Zj_infoAction.view(...)        : Zj_info   
+	OK:->:/private/ratifyFollow/zjDetail.html
+
+/private/gtxt/zj
+	com.hits.modules.gtxt.Zj_infoAction
+	Zj_infoAction.zj_info(...)     : void      
+	OK:->:/private/ratifyFollow/zjList.html
+
+/private/gtxt/zj/selectlist
+	com.hits.modules.gtxt.Zj_infoAction
+	Zj_infoAction.selectList(...)  : JSONObject
+	OK:raw
+
+/private/gtxt/zj/gjjgpage
+	com.hits.modules.gtxt.Zj_infoAction
+	Zj_infoAction.gjjgPage(...)    : void      
+	OK:->:/private/ratifyFollow/gjjgList.html
+
+/private/gtxt/zj/gjjgview
+	com.hits.modules.gtxt.Zj_infoAction
+	Zj_infoAction.gjjgView(...)    : void      
+	OK:->:/private/ratifyFollow/gjjgDetail.html
+
+/private/zjgl/jcfw
+	com.hits.modules.zjgl.Jcfw_sxcjAction
+	Jcfw_sxcjAction.user(...)      : void      
+	OK:->:/private/zjgl/jcfw.html
+
+/private/zjgl/jcfw/sxcjlist
+	com.hits.modules.zjgl.Jcfw_sxcjAction
+	Jcfw_sxcjAction.sxcjlist(...)  : String    
+	OK:raw
+
+/private/zjgl/jcfw/toupdate
+	com.hits.modules.zjgl.Jcfw_sxcjAction
+	Jcfw_sxcjAction.toUpdate(...)  : void      
+	OK:->:/private/zjgl/jcfwSxcjupdate.html
+
+/private/zjgl/jcfw/toadd
+	com.hits.modules.zjgl.Jcfw_sxcjAction
+	Jcfw_sxcjAction.toadd(...)     : void      
+	OK:->:/private/zjgl/jcfwSxcjadd.html
+
+/private/zjgl/jcfw/tochexiao
+	com.hits.modules.zjgl.Jcfw_sxcjAction
+	Jcfw_sxcjAction.toChexiao(...) : void      
+	OK:->:/private/zjgl/jcfwSxcjchexiao.html
+
+/private/xzcj/sxcj
+	com.hits.modules.zjgl.Xzcf_sxcjAction
+	Xzcf_sxcjAction.user(...)      : void      
+	OK:->:/private/zjgl/xzcf_sxcj.html
+
+/private/xzcj/sxcj/sxcjlist
+	com.hits.modules.zjgl.Xzcf_sxcjAction
+	Xzcf_sxcjAction.sxcjlist(...)  : String    
+	OK:raw
+
+/private/xzcj/sxcj/detail
+	com.hits.modules.zjgl.Xzcf_sxcjAction
+	Xzcf_sxcjAction.detail(...)    : void      
+	OK:->:/private/zjgl/xzcf_detail.html
+
+/private/xzcj/sxcj/toupdate
+	com.hits.modules.zjgl.Xzcf_sxcjAction
+	Xzcf_sxcjAction.toUpdate(...)  : void      
+	OK:->:/private/zjgl/xzcf_sxcjupdate.html
+
+/private/xzcj/sxcj/toadd
+	com.hits.modules.zjgl.Xzcf_sxcjAction
+	Xzcf_sxcjAction.toadd(...)     : void      
+	OK:->:/private/zjgl/xzcf_sxcjadd.html
+
+/private/sys/safe
+	com.hits.modules.sys.SafeAction
+	SafeAction.list(...)           : void      
+	OK:->:/private/sys/safe.html
+
+/private/sys/safe/update
+	com.hits.modules.sys.SafeAction
+	SafeAction.update(...)         : boolean   
+	OK:raw
+
+/private/cform/dic_value/add
+	com.hits.modules.sys.Dic_valueAction
+	Dic_valueAction.add(...)       : boolean   
+	OK:raw
+
+/private/cform/dic_value/list
+	com.hits.modules.sys.Dic_valueAction
+	Dic_valueAction.list(...)      : JSONObject
+	OK:raw
+
+/private/cform/dic_value/delete
+	com.hits.modules.sys.Dic_valueAction
+	Dic_valueAction.delete(...)    : boolean   
+	OK:raw
+
+/private/cform/dic_value/update
+	com.hits.modules.sys.Dic_valueAction
+	Dic_valueAction.update(...)    : boolean   
+	OK:raw
+
+/private/cform/dic_value/deleteids
+	com.hits.modules.sys.Dic_valueAction
+	Dic_valueAction.deleteIds(...) : boolean   
+	OK:raw
+
+/private/cform/dic_value/toadd
+	com.hits.modules.sys.Dic_valueAction
+	Dic_valueAction.toadd(...)     : void      
+	OK:->:/private/cform/Dic_valueAdd.html
+
+/private/cform/dic_value/toupdate
+	com.hits.modules.sys.Dic_valueAction
+	Dic_valueAction.toupdate(...)  : void      
+	OK:->:/private/cform/Dic_valueUpdate.html
+
+/private/cform/dic_value/view
+	com.hits.modules.sys.Dic_valueAction
+	Dic_valueAction.view(...)      : Dic_value 
+	OK:json
+
+/private/cform/dic_value
+	com.hits.modules.sys.Dic_valueAction
+	Dic_valueAction.dic_value(...) : void      
+	OK:->:/private/cform/Dic_value.html
+
+/private/form/list
+	com.hits.modules.form.FormAction
+	FormAction.list(...)           : JSONObject
+	OK:raw
+
+/private/form/deleteids
+	com.hits.modules.form.FormAction
+	FormAction.deleteIds(...)      : boolean   
+	OK:raw
+
+/private/form/savequery
+	com.hits.modules.form.FormAction
+	FormAction.saveQuery(...)      : boolean   
+	OK:raw
+
+/private/form/toview
+	com.hits.modules.form.FormAction
+	FormAction.toview(...)         : void      
+	OK:->:/private/form/viewDesign.html
+
+/private/form/saveform
+	com.hits.modules.form.FormAction
+	FormAction.saveForm(...)       : boolean   
+	OK:raw
+
+/private/form/checktable
+	com.hits.modules.form.FormAction
+	FormAction.checktable(...)     : String    
+	OK:raw
+
+/private/form/preview
+	com.hits.modules.form.FormAction
+	FormAction.preview(...)        : void      
+	OK:->:/private/form/preview.html
+
+/private/form/toquery
+	com.hits.modules.form.FormAction
+	FormAction.toquery(...)        : void      
+	OK:->:/private/form/queryDesign.html
+
+/private/form/saveview
+	com.hits.modules.form.FormAction
+	FormAction.saveView(...)       : boolean   
+	OK:raw
+
+/private/form/userselector
+	com.hits.modules.form.FormAction
+	FormAction.userselector(...)   : void      
+	OK:->:/private/form/userselector.html
+
+/private/form/tolist
+	com.hits.modules.form.FormAction
+	FormAction.tolist(...)         : void      
+	OK:->:/private/form/formDefList.html
+
+/private/form/toadd
+	com.hits.modules.form.FormAction
+	FormAction.toadd(...)          : void      
+	OK:->:/private/form/formDesign.html
+
+/private/form/toupdate
+	com.hits.modules.form.FormAction
+	FormAction.toupdate(...)       : void      
+	OK:->:/private/form/formDesign.html
+
+/private/form/totablededign
+	com.hits.modules.form.FormAction
+	FormAction.toTableDedign(...)  : void      
+	OK:->:/private/form/formTableDesign.html
+
+/license/dolicense
+	com.hits.modules.sys.licenseAction
+	licenseAction.doLicense(...)   : void      
+	OK:->:/private/license/licenseRequest.html
+
+/private/tasks/add
+	com.hits.modules.tasks.TasksAction
+	TasksAction.add(...)           : String    
+	OK:raw
+
+/private/tasks/list
+	com.hits.modules.tasks.TasksAction
+	TasksAction.list(...)          : JSONObject
+	OK:raw
+
+/private/tasks/delete
+	com.hits.modules.tasks.TasksAction
+	TasksAction.delete(...)        : boolean   
+	OK:raw
+
+/private/tasks/update
+	com.hits.modules.tasks.TasksAction
+	TasksAction.update(...)        : boolean   
+	OK:raw
+
+/private/tasks/tolist
+	com.hits.modules.tasks.TasksAction
+	TasksAction.tasks(...)         : void      
+	OK:->:/private/tasks/tasksList.html
+
+/private/tasks/deleteids
+	com.hits.modules.tasks.TasksAction
+	TasksAction.deleteIds(...)     : boolean   
+	OK:raw
+
+/private/tasks/toadd
+	com.hits.modules.tasks.TasksAction
+	TasksAction.toAdd(...)         : void      
+	OK:->:/private/tasks/tasksAdd.html
+
+/private/tasks/toupdate
+	com.hits.modules.tasks.TasksAction
+	TasksAction.toupdate(...)      : void      
+	OK:->:/private/tasks/TasksUpdate.html
+
+/private/tasks/view
+	com.hits.modules.tasks.TasksAction
+	TasksAction.view(...)          : Tasks     
+	OK:json
+
+/private/tasks/executeimmediately
+	com.hits.modules.tasks.TasksAction
+	TasksAction.ExecuteImmediately(...) : String    
+	OK:raw
+
+/private/zcxx/zx/cancel
+	com.hits.modules.zcxx.Zc_zx_infoAction
+	Zc_zx_infoAction.cancel(...)   : boolean   
+	OK:raw
+
+/private/zcxx/zx/tocancel
+	com.hits.modules.zcxx.Zc_zx_infoAction
+	Zc_zx_infoAction.tocancel(...) : void      
+	OK:->:/private/zcxx/zc_cancel.html
+
+/private/sys/holidayinfo/add
+	com.hits.modules.sys.Sys_holidayinfoAction
+	Sys_holidayinfoAction.add(...) : boolean   
+	OK:raw
+
+/private/sys/holidayinfo/delete
+	com.hits.modules.sys.Sys_holidayinfoAction
+	Sys_holidayinfoAction.delete(...) : boolean   
+	OK:raw
+
+/private/sys/holidayinfo
+	com.hits.modules.sys.Sys_holidayinfoAction
+	Sys_holidayinfoAction.index(...) : void      
+	OK:->:/private/sys/holidayCalendar.html
+
+/private/sys/holidayinfo/update
+	com.hits.modules.sys.Sys_holidayinfoAction
+	Sys_holidayinfoAction.update(...) : boolean   
+	OK:raw
+
+/private/sys/holidayinfo/deleteids
+	com.hits.modules.sys.Sys_holidayinfoAction
+	Sys_holidayinfoAction.deleteIds(...) : boolean   
+	OK:raw
+
+/private/sys/holidayinfo/toadd
+	com.hits.modules.sys.Sys_holidayinfoAction
+	Sys_holidayinfoAction.toadd(...) : Sys_holidayinfo
+	OK:->:/private/sys/holidayinfoAdd.html
+
+/private/sys/holidayinfo/toupdate
+	com.hits.modules.sys.Sys_holidayinfoAction
+	Sys_holidayinfoAction.toupdate(...) : Sys_holidayinfo
+	OK:->:/private/sys/holidayinfoUpdate.html
+
+/private/sys/holidayinfo/view
+	com.hits.modules.sys.Sys_holidayinfoAction
+	Sys_holidayinfoAction.view(...) : Sys_holidayinfo
+	OK:json
+
+/private/sys/holidayinfo/getholidayrecords
+	com.hits.modules.sys.Sys_holidayinfoAction
+	Sys_holidayinfoAction.getHolidayRecords(...) : String    
+	OK:raw
+
+/private/file/uploadmore
+	com.hits.modules.file.FileAction
+	FileAction.uploadMore(...)     : void      
+	OK:->:/private/file/uploadMore.html
+
+/private/file/uploadone
+	com.hits.modules.file.FileAction
+	FileAction.uploadOne(...)      : void      
+	OK:->:/private/file/uploadOne.html
+
+/private/file/uploadmoresave
+	com.hits.modules.file.FileAction
+	FileAction.uploadMoreSave(...) : JSONObject
+	OK:raw
+
+/private/file/uploadsaveforsjjh
+	com.hits.modules.file.FileAction
+	FileAction.uploadSaveForSjjh(...) : JSONObject
+	OK:raw
+
+/private/file/uploadonesave
+	com.hits.modules.file.FileAction
+	FileAction.uploadOneSave(...)  : JSONObject
+	OK:raw
+
+/private/gtxt/xyzt/add
+	com.hits.modules.gtxt.Xyzt_infoAction
+	Xyzt_infoAction.add(...)       : boolean   
+	OK:raw
+
+/private/gtxt/xyzt/list
+	com.hits.modules.gtxt.Xyzt_infoAction
+	Xyzt_infoAction.list(...)      : JSONObject
+	OK:raw
+
+/private/gtxt/xyzt/update
+	com.hits.modules.gtxt.Xyzt_infoAction
+	Xyzt_infoAction.update(...)    : boolean   
+	OK:raw
+
+/private/gtxt/xyzt/getFrObj
+	com.hits.modules.gtxt.Xyzt_infoAction
+	Xyzt_infoAction.getFrObj(...)  : JSONObject
+	OK:raw
+
+/private/gtxt/xyzt
+	com.hits.modules.gtxt.Xyzt_infoAction
+	Xyzt_infoAction.xyztIndex(...) : void      
+	OK:->:/private/zjgl/xyztList.html
+
+/private/gtxt/xyzt/cjlist
+	com.hits.modules.gtxt.Xyzt_infoAction
+	Xyzt_infoAction.cjList(...)    : String    
+	OK:raw
+
+/private/gtxt/xyzt/jllist
+	com.hits.modules.gtxt.Xyzt_infoAction
+	Xyzt_infoAction.jlList(...)    : String    
+	OK:raw
+
+/private/gtxt/xyzt/xzqzlist
+	com.hits.modules.gtxt.Xyzt_infoAction
+	Xyzt_infoAction.xzqzlist(...)  : String    
+	OK:raw
+
+/private/gtxt/xyzt/queryall
+	com.hits.modules.gtxt.Xyzt_infoAction
+	Xyzt_infoAction.queryAll(...)  : void      
+	OK:->:/private/ratifyFollow/queryList.html
+
+/private/gtxt/xyzt/queryxzpage
+	com.hits.modules.gtxt.Xyzt_infoAction
+	Xyzt_infoAction.queryXzPage(...) : void      
+	OK:->:/private/ratifyFollow/queryXzList.html
+
+/private/gtxt/xyzt/checkcode
+	com.hits.modules.gtxt.Xyzt_infoAction
+	Xyzt_infoAction.checkCode(...) : boolean   
+	OK:raw
+
+/private/gtxt/xyzt/toadd
+	com.hits.modules.gtxt.Xyzt_infoAction
+	Xyzt_infoAction.toadd(...)     : String    
+	OK:->:${obj}
+
+/private/gtxt/xyzt/toupdate
+	com.hits.modules.gtxt.Xyzt_infoAction
+	Xyzt_infoAction.toupdate(...)  : String    
+	OK:->:${obj}
+
+/private/gtxt/xyzt/xzcflist
+	com.hits.modules.gtxt.Xyzt_infoAction
+	Xyzt_infoAction.xzcflist(...)  : String    
+	OK:raw
+
+/private/gtxt/xyzt/view
+	com.hits.modules.gtxt.Xyzt_infoAction
+	Xyzt_infoAction.view(...)      : String    
+	OK:->:${obj}
+
+/private/gtxt/xyzt/warnexceptionpage
+	com.hits.modules.gtxt.Xyzt_infoAction
+	Xyzt_infoAction.warnExceptionPage(...) : void      
+	OK:->:/private/ratifyFollow/warnExceptionList.html
+
+/private/gtxt/xyzt/towarnexceptionchoice
+	com.hits.modules.gtxt.Xyzt_infoAction
+	Xyzt_infoAction.toWarnExceptionChoice(...) : void      
+	OK:->:/private/ratifyFollow/warnExceptionChoice.html
+
+/private/gtxt/xyzt/towarnexceptionupdate
+	com.hits.modules.gtxt.Xyzt_infoAction
+	Xyzt_infoAction.toWarnExceptionUpdate(...) : void      
+	OK:->:/private/ratifyFollow/warnExceptionDetail.html
+
+/private/gtxt/xyzt/warnexceptionlist
+	com.hits.modules.gtxt.Xyzt_infoAction
+	Xyzt_infoAction.warnExceptionList(...) : JSONObject
+	OK:raw
+
+/private/gtxt/xyzt/warnexceptionupdate
+	com.hits.modules.gtxt.Xyzt_infoAction
+	Xyzt_infoAction.warnExceptionUpdate(...) : boolean   
+	OK:raw
+
+/private/gtxt/xyzt/addwarnexception
+	com.hits.modules.gtxt.Xyzt_infoAction
+	Xyzt_infoAction.addWarnException(...) : Boolean   
+	OK:raw
+
+/private/common/htlist
+	com.hits.modules.com.CommonAction
+	CommonAction.htlist(...)       : JSONObject
+	OK:raw
+
+/private/common/findht
+	com.hits.modules.com.CommonAction
+	CommonAction.findHt(...)       : void      
+	OK:->:/private/com/htlist.html
+
+/private/zjgl/yjxx/check
+	com.hits.modules.zjgl.Xzcf_yjxxAction
+	Xzcf_yjxxAction.check(...)     : void      
+	OK:->:/private/zjgl/xzcf_yjxxAdd.html
+
+/private/zjgl/yjxx
+	com.hits.modules.zjgl.Xzcf_yjxxAction
+	Xzcf_yjxxAction.user(...)      : void      
+	OK:->:/private/zjgl/xzcf_yjxx.html
+
+/private/zjgl/yjxx/gogo
+	com.hits.modules.zjgl.Xzcf_yjxxAction
+	Xzcf_yjxxAction.gogo(...)      : void      
+	OK:->:/private/zjgl/xzcf_yjxxUpdate.html
+
+/private/zjgl/yjxx/yjxxlist
+	com.hits.modules.zjgl.Xzcf_yjxxAction
+	Xzcf_yjxxAction.yjxxlist(...)  : String    
+	OK:raw
+
+/private/xzqz/tolist
+	com.hits.modules.xzqz.Xzqz_infoAction
+	Xzqz_infoAction.user(...)      : void      
+	OK:->:/private/xzqz/xzqzlist.html
+
+/private/xzqz/xzqzlist
+	com.hits.modules.xzqz.Xzqz_infoAction
+	Xzqz_infoAction.xzqzlist(...)  : String    
+	OK:raw
+
+/private/xzqz/tocancel
+	com.hits.modules.xzqz.Xzqz_infoAction
+	Xzqz_infoAction.toCancel(...)  : void      
+	OK:->:/private/xzqz/xzqzCancel.html
+
+/private/xzqz/detail
+	com.hits.modules.xzqz.Xzqz_infoAction
+	Xzqz_infoAction.detail(...)    : void      
+	OK:->:/private/xzqz/xzqzDetail.html
+
+/private/xzqz/toissue
+	com.hits.modules.xzqz.Xzqz_infoAction
+	Xzqz_infoAction.toIssue(...)   : boolean   
+	OK:raw
+
+/private/xzqz/revoke
+	com.hits.modules.xzqz.Xzqz_infoAction
+	Xzqz_infoAction.revoke(...)    : boolean   
+	OK:raw
+
+/private/xzqz/toadd
+	com.hits.modules.xzqz.Xzqz_infoAction
+	Xzqz_infoAction.toadd(...)     : void      
+	OK:->:/private/xzqz/xzqzAdd.html
+
+/private/xzqz/updatesave
+	com.hits.modules.xzqz.Xzqz_infoAction
+	Xzqz_infoAction.updateSave(...) : boolean   
+	OK:raw
+
+/private/xzqz/addsave
+	com.hits.modules.xzqz.Xzqz_infoAction
+	Xzqz_infoAction.addSave(...)   : boolean   
+	OK:raw
+
+/private/xzqz/toupdate
+	com.hits.modules.xzqz.Xzqz_infoAction
+	Xzqz_infoAction.toupdate(...)  : void      
+	OK:->:/private/xzqz/xzqzUpdate.html
+
+/private/lock
+	com.hits.modules.sys.IndexAction
+	IndexAction.lock(...)          : void      
+	OK:->:/private/lock.html
+
+/private/index
+	com.hits.modules.sys.IndexAction
+	IndexAction.index(...)         : void      
+	OK:->:/private/index.html
+
+/private/left
+	com.hits.modules.sys.IndexAction
+	IndexAction.left(...)          : void      
+	OK:->:/private/left.html
+
+/private/help
+	com.hits.modules.sys.IndexAction
+	IndexAction.help(...)          : void      
+	OK:->:/private/helpfile/help.html
+
+/private/reload
+	com.hits.modules.sys.IndexAction
+	IndexAction.reload(...)        : boolean   
+	OK:raw
+
+/private/dounlock
+	com.hits.modules.sys.IndexAction
+	IndexAction.dounlock(...)      : String    
+	OK:raw
+
+/private/welcome
+	com.hits.modules.sys.IndexAction
+	IndexAction.welcome(...)       : void      
+	OK:->:/private/welcome.html
+
+/private/searchnotics
+	com.hits.modules.sys.IndexAction
+	IndexAction.searchNotics(...)  : String    
+	OK:raw
+
+/private/helpmedia
+	com.hits.modules.sys.IndexAction
+	IndexAction.helpmedia(...)     : void      
+	OK:->:/private/helpMedia.html
+
+/private/yzpassword
+	com.hits.modules.sys.IndexAction
+	IndexAction.yzPassword(...)    : String    
+	OK:raw
+
+/private/downfile
+	com.hits.modules.sys.IndexAction
+	IndexAction.downfile(...)      : void      
+	OK:raw
+
+/private/syshelp
+	com.hits.modules.sys.IndexAction
+	IndexAction.sysHelp(...)       : void      
+	OK:->:/private/system_help.html
+
+/private/helppdf
+	com.hits.modules.sys.IndexAction
+	IndexAction.helppdf(...)       : void      
+	OK:->:/private/helpPdf.html
+
+/private/dolock
+	com.hits.modules.sys.IndexAction
+	IndexAction.dolock(...)        : void      
+	OK:->:/private/lock.html
+
+/private/zmtj
+	com.hits.modules.sys.IndexAction
+	IndexAction.zmtj(...)          : void      
+	OK:->:/private/×ÀÃæÍ³¼Æ.html
+
+/private/dochangestyle
+	com.hits.modules.sys.IndexAction
+	IndexAction.doChangeStyle(...) : String    
+	OK:->:/private/left.html
+
+/private/tochangestyle
+	com.hits.modules.sys.IndexAction
+	IndexAction.toChangeStyle(...) : void      
+	OK:->:/private/changeStyle.html
+
+/public/xyda/list
+	com.hits.modules.xyda.XydaPubAction
+	XydaPubAction.list(...)        : void      
+	OK:->:/public/list.html
+
+/public/xyda/sgslist
+	com.hits.modules.xyda.XydaPubAction
+	XydaPubAction.sgslist(...)     : void      
+	OK:->:/public/sgs_list.html
+
+/private/sys/unit/add
+	com.hits.modules.sys.UnitAction
+	UnitAction.add(...)            : void      
+	OK:->:/private/sys/unitAdd.html
+
+/private/sys/unit/sort
+	com.hits.modules.sys.UnitAction
+	UnitAction.sort(...)           : void      
+	OK:->:/private/sys/unitSort.html
+
+/private/sys/unit/update
+	com.hits.modules.sys.UnitAction
+	UnitAction.update(...)         : void      
+	OK:->:/private/sys/unitUpdate.html
+
+/private/sys/unit/tree
+	com.hits.modules.sys.UnitAction
+	UnitAction.tree(...)           : String    
+	OK:raw
+
+/private/sys/unit/del
+	com.hits.modules.sys.UnitAction
+	UnitAction.del(...)            : boolean   
+	OK:raw
+
+/private/sys/unit/updatesave
+	com.hits.modules.sys.UnitAction
+	UnitAction.updateSave(...)     : String    
+	OK:raw
+
+/private/sys/unit/addsave
+	com.hits.modules.sys.UnitAction
+	UnitAction.addSave(...)        : String    
+	OK:raw
+
+/private/sys/unit
+	com.hits.modules.sys.UnitAction
+	UnitAction.unit(...)           : void      
+	OK:->:/private/sys/unit.html
+
+/private/sys/unit/view
+	com.hits.modules.sys.UnitAction
+	UnitAction.view(...)           : Sys_unit  
+	OK:json
+
+/private/sys/unit/unitsearchlist
+	com.hits.modules.sys.UnitAction
+	UnitAction.unitsearchlist(...) : String    
+	OK:raw
+
+/private/sys/unit/totree
+	com.hits.modules.sys.UnitAction
+	UnitAction.toTree(...)         : String    
+	OK:->:${obj}
+
+/private/sys/unit/ajaxtree
+	com.hits.modules.sys.UnitAction
+	UnitAction.ajaxTree(...)       : String    
+	OK:raw
+
+/private/sys/unit/telunithtml
+	com.hits.modules.sys.UnitAction
+	UnitAction.telunitHtml(...)    : void      
+	OK:->:/include/js/call/telunit_usc.html
+
+/private/sys/unit/sortsave
+	com.hits.modules.sys.UnitAction
+	UnitAction.sortSave(...)       : boolean   
+	OK:raw
+
+/private/sys/unit/allunit
+	com.hits.modules.sys.UnitAction
+	UnitAction.allUnit(...)        : List      
+	OK:raw
+
+/private/sys/unit/telunit
+	com.hits.modules.sys.UnitAction
+	UnitAction.telunit(...)        : String    
+	OK:raw
+
+/private/sys/unit/unitsearch
+	com.hits.modules.sys.UnitAction
+	UnitAction.unitsearch(...)     : void      
+	OK:->:/private/sys/unitsearch.html
+
+/private/zjgl/fr/add
+	com.hits.modules.zjgl.Zjgl_frAction
+	Zjgl_frAction.add(...)         : String    
+	OK:raw
+
+/private/zjgl/fr
+	com.hits.modules.zjgl.Zjgl_frAction
+	Zjgl_frAction.user(...)        : void      
+	OK:->:/private/zjgl/fr.html
+
+/private/zjgl/fr/detail
+	com.hits.modules.zjgl.Zjgl_frAction
+	Zjgl_frAction.detail(...)      : void      
+	OK:->:/private/zjgl/frDetail.html
+
+/private/zjgl/fr/toupdate
+	com.hits.modules.zjgl.Zjgl_frAction
+	Zjgl_frAction.toUpdate(...)    : void      
+	OK:->:/private/zjgl/frupdate.html
+
+/private/zjgl/fr/toadd
+	com.hits.modules.zjgl.Zjgl_frAction
+	Zjgl_frAction.toadd(...)       : void      
+	OK:->:/private/zjgl/fradd.html
+
+/private/zjgl/fr/del
+	com.hits.modules.zjgl.Zjgl_frAction
+	Zjgl_frAction.del(...)         : String    
+	OK:raw
+
+/private/zjgl/fr/updatesave
+	com.hits.modules.zjgl.Zjgl_frAction
+	Zjgl_frAction.updateSave(...)  : String    
+	OK:raw
+
+/private/zjgl/fr/frlist
+	com.hits.modules.zjgl.Zjgl_frAction
+	Zjgl_frAction.frlist(...)      : String    
+	OK:raw
+
+/private/zjgl/zrr/add
+	com.hits.modules.zjgl.Zjgl_zrrAction
+	Zjgl_zrrAction.add(...)        : String    
+	OK:raw
+
+/private/zjgl/zrr
+	com.hits.modules.zjgl.Zjgl_zrrAction
+	Zjgl_zrrAction.user(...)       : void      
+	OK:->:/private/zjgl/zrr.html
+
+/private/zjgl/zrr/detail
+	com.hits.modules.zjgl.Zjgl_zrrAction
+	Zjgl_zrrAction.detail(...)     : void      
+	OK:->:/private/zjgl/zrrDetail.html
+
+/private/zjgl/zrr/toupdate
+	com.hits.modules.zjgl.Zjgl_zrrAction
+	Zjgl_zrrAction.toUpdate(...)   : void      
+	OK:->:/private/zjgl/zrrupdate.html
+
+/private/zjgl/zrr/toadd
+	com.hits.modules.zjgl.Zjgl_zrrAction
+	Zjgl_zrrAction.toadd(...)      : void      
+	OK:->:/private/zjgl/zrradd.html
+
+/private/zjgl/zrr/del
+	com.hits.modules.zjgl.Zjgl_zrrAction
+	Zjgl_zrrAction.del(...)        : String    
+	OK:raw
+
+/private/zjgl/zrr/updatesave
+	com.hits.modules.zjgl.Zjgl_zrrAction
+	Zjgl_zrrAction.updateSave(...) : String    
+	OK:raw
+
+/private/zjgl/zrr/zrrlist
+	com.hits.modules.zjgl.Zjgl_zrrAction
+	Zjgl_zrrAction.zrrlist(...)    : String    
+	OK:raw
+
+/private/gtxt/rule/add
+	com.hits.modules.gtxt.Gtxt_ruleAction
+	Gtxt_ruleAction.add(...)       : boolean   
+	OK:raw
+
+/private/gtxt/rule/list
+	com.hits.modules.gtxt.Gtxt_ruleAction
+	Gtxt_ruleAction.list(...)      : JSONObject
+	OK:raw
+
+/private/gtxt/rule/delete
+	com.hits.modules.gtxt.Gtxt_ruleAction
+	Gtxt_ruleAction.delete(...)    : boolean   
+	OK:raw
+
+/private/gtxt/rule/update
+	com.hits.modules.gtxt.Gtxt_ruleAction
+	Gtxt_ruleAction.update(...)    : boolean   
+	OK:raw
+
+/private/gtxt/rule/deleteids
+	com.hits.modules.gtxt.Gtxt_ruleAction
+	Gtxt_ruleAction.deleteIds(...) : boolean   
+	OK:raw
+
+/private/gtxt/rule/toupdate
+	com.hits.modules.gtxt.Gtxt_ruleAction
+	Gtxt_ruleAction.toUpdate(...)  : void      
+	OK:->:/private/ratifyFollow/warnRule_Update.html
+
+/private/gtxt/rule/toadd
+	com.hits.modules.gtxt.Gtxt_ruleAction
+	Gtxt_ruleAction.toAdd(...)     : void      
+	OK:->:/private/ratifyFollow/warnRule_Add.html
+
+/private/gtxt/rule/view
+	com.hits.modules.gtxt.Gtxt_ruleAction
+	Gtxt_ruleAction.view(...)      : void      
+	OK:->:/private/ratifyFollow/warnRule_Detail.html
+
+/private/gtxt/rule/gettbaleoption
+	com.hits.modules.gtxt.Gtxt_ruleAction
+	Gtxt_ruleAction.getTbaleOption(...) : String    
+	OK:raw
+
+/private/gtxt/rule/getbreachinfolist
+	com.hits.modules.gtxt.Gtxt_ruleAction
+	Gtxt_ruleAction.getBreachInfoList(...) : String    
+	OK:raw
+
+/private/gtxt/rule
+	com.hits.modules.gtxt.Gtxt_ruleAction
+	Gtxt_ruleAction.gtxt_rule(...) : void      
+	OK:->:/private/ratifyFollow/warnRuleList.html
+
+/private/gtxt/rule/gettablelist
+	com.hits.modules.gtxt.Gtxt_ruleAction
+	Gtxt_ruleAction.getTableList(...) : String    
+	OK:raw
+
+/private/gtxt/rule/changestate
+	com.hits.modules.gtxt.Gtxt_ruleAction
+	Gtxt_ruleAction.changeState(...) : boolean   
+	OK:raw
+
+/private/msg/msgInfo/add
+	com.hits.modules.nbjl.Msg_infoAction
+	Msg_infoAction.add(...)        : boolean   
+	OK:raw
+
+/private/msg/msgInfo/delete
+	com.hits.modules.nbjl.Msg_infoAction
+	Msg_infoAction.delete(...)     : boolean   
+	OK:raw
+
+/private/msg/msgInfo/update
+	com.hits.modules.nbjl.Msg_infoAction
+	Msg_infoAction.update(...)     : boolean   
+	OK:raw
+
+/private/msg/msgInfo/send
+	com.hits.modules.nbjl.Msg_infoAction
+	Msg_infoAction.send(...)       : boolean   
+	OK:raw
+
+/private/msg/msgInfo/deleteids
+	com.hits.modules.nbjl.Msg_infoAction
+	Msg_infoAction.deleteIds(...)  : boolean   
+	OK:raw
+
+/private/msg/msgInfo/shownotices
+	com.hits.modules.nbjl.Msg_infoAction
+	Msg_infoAction.showNotices(...) : void      
+	OK:->:/private/msg/notices.html
+
+/private/msg/msgInfo/revocation
+	com.hits.modules.nbjl.Msg_infoAction
+	Msg_infoAction.revocation(...) : String    
+	OK:raw
+
+/private/msg/msgInfo/mymsg_info
+	com.hits.modules.nbjl.Msg_infoAction
+	Msg_infoAction.mymsg_info(...) : void      
+	OK:->:/private/msg/mytzggList.html
+
+/private/msg/msgInfo/tohuifu
+	com.hits.modules.nbjl.Msg_infoAction
+	Msg_infoAction.tohuifu(...)    : void      
+	OK:->:/private/msg/msgHF.html
+
+/private/msg/msgInfo/addcg
+	com.hits.modules.nbjl.Msg_infoAction
+	Msg_infoAction.addCg(...)      : boolean   
+	OK:raw
+
+/private/msg/msgInfo/fslist
+	com.hits.modules.nbjl.Msg_infoAction
+	Msg_infoAction.fslist(...)     : JSONObject
+	OK:raw
+
+/private/msg/msgInfo/tozhuanfa
+	com.hits.modules.nbjl.Msg_infoAction
+	Msg_infoAction.tozhuanfa(...)  : void      
+	OK:->:/private/msg/msgZF.html
+
+/private/msg/msgInfo/msg_info
+	com.hits.modules.nbjl.Msg_infoAction
+	Msg_infoAction.msg_info(...)   : void      
+	OK:->:/private/msg/tzggList.html
+
+/private/msg/msgInfo/msgfj
+	com.hits.modules.nbjl.Msg_infoAction
+	Msg_infoAction.msgFj(...)      : void      
+	OK:->:/private/msg/msgfj.html
+
+/private/msg/msgInfo/toaddmess
+	com.hits.modules.nbjl.Msg_infoAction
+	Msg_infoAction.toaddMess(...)  : void      
+	OK:->:/private/msg/msgAdd.html
+
+/private/msg/msgInfo/toupdatemess
+	com.hits.modules.nbjl.Msg_infoAction
+	Msg_infoAction.toupdateMess(...) : void      
+	OK:->:/private/msg/msgUpdate.html
+
+/private/msg/msgInfo/jslist
+	com.hits.modules.nbjl.Msg_infoAction
+	Msg_infoAction.jslist(...)     : JSONObject
+	OK:raw
+
+/private/msg/msgInfo/updatecg
+	com.hits.modules.nbjl.Msg_infoAction
+	Msg_infoAction.updateCg(...)   : boolean   
+	OK:raw
+
+/private/msg/msgInfo/iscg
+	com.hits.modules.nbjl.Msg_infoAction
+	Msg_infoAction.isCg(...)       : boolean   
+	OK:raw
+
+/private/msg/msgInfo/msgmessage
+	com.hits.modules.nbjl.Msg_infoAction
+	Msg_infoAction.msgMessage(...) : void      
+	OK:->:/private/msg/msgMessage.html
+
+/private/msg/msgInfo/mymsgmessage
+	com.hits.modules.nbjl.Msg_infoAction
+	Msg_infoAction.myMsgMessage(...) : void      
+	OK:->:/private/msg/myMsgMessage.html
+
+/private/msg/msgInfo/toadd
+	com.hits.modules.nbjl.Msg_infoAction
+	Msg_infoAction.toadd(...)      : void      
+	OK:->:/private/msg/tzggAdd.html
+
+/private/msg/msgInfo/del
+	com.hits.modules.nbjl.Msg_infoAction
+	Msg_infoAction.del(...)        : boolean   
+	OK:raw
+
+/private/msg/msgInfo/toupdate
+	com.hits.modules.nbjl.Msg_infoAction
+	Msg_infoAction.toupdate(...)   : void      
+	OK:->:/private/msg/tzggUpdate.html
+
+/private/msg/msgInfo/view
+	com.hits.modules.nbjl.Msg_infoAction
+	Msg_infoAction.view(...)       : void      
+	OK:->:/private/msg/msgView.html
+
+/private/zjgl/jlry/add
+	com.hits.modules.zjgl.Zjgl_jlryAction
+	Zjgl_jlryAction.add(...)       : String    
+	OK:raw
+
+/private/zjgl/jlry
+	com.hits.modules.zjgl.Zjgl_jlryAction
+	Zjgl_jlryAction.user(...)      : void      
+	OK:->:/private/zjgl/jlry.html
+
+/private/zjgl/jlry/jlrylist
+	com.hits.modules.zjgl.Zjgl_jlryAction
+	Zjgl_jlryAction.jlrylist(...)  : String    
+	OK:raw
+
+/private/zjgl/jlry/toupdate
+	com.hits.modules.zjgl.Zjgl_jlryAction
+	Zjgl_jlryAction.toUpdate(...)  : void      
+	OK:->:/private/zjgl/jlryupdate.html
+
+/private/zjgl/jlry/toadd
+	com.hits.modules.zjgl.Zjgl_jlryAction
+	Zjgl_jlryAction.toadd(...)     : void      
+	OK:->:/private/zjgl/jlryadd.html
+
+/private/zjgl/jlry/updatesave
+	com.hits.modules.zjgl.Zjgl_jlryAction
+	Zjgl_jlryAction.updateSave(...) : String    
+	OK:raw
+
+/private/zcxx/add
+	com.hits.modules.zcxx.Zc_infoAction
+	Zc_infoAction.add(...)         : boolean   
+	OK:raw
+
+/private/zcxx/update
+	com.hits.modules.zcxx.Zc_infoAction
+	Zc_infoAction.update(...)      : boolean   
+	OK:raw
+
+/private/zcxx/deleteids
+	com.hits.modules.zcxx.Zc_infoAction
+	Zc_infoAction.deleteIds(...)   : boolean   
+	OK:raw
+
+/private/zcxx/ajaxname
+	com.hits.modules.zcxx.Zc_infoAction
+	Zc_infoAction.ajaxname(...)    : boolean   
+	OK:raw
+
+/private/zcxx/toadd
+	com.hits.modules.zcxx.Zc_infoAction
+	Zc_infoAction.toadd(...)       : void      
+	OK:->:/private/zcxx/zc_add.html
+
+/private/zcxx/toupdate
+	com.hits.modules.zcxx.Zc_infoAction
+	Zc_infoAction.toupdate(...)    : void      
+	OK:->:/private/zcxx/zc_update.html
+
+/private/zcxx/view
+	com.hits.modules.zcxx.Zc_infoAction
+	Zc_infoAction.view(...)        : Zc_info   
+	OK:->:/private/zcxx/zc_detail.html
+
+/private/zcxx/to_zclist
+	com.hits.modules.zcxx.Zc_infoAction
+	Zc_infoAction.to_zclist(...)   : void      
+	OK:->:/private/zcxx/zc_list.html
+
+/private/zcxx/querylist
+	com.hits.modules.zcxx.Zc_infoAction
+	Zc_infoAction.queryList(...)   : void      
+	OK:->:/private/zcxx/queryList.html
+
+/private/zcxx/zclist
+	com.hits.modules.zcxx.Zc_infoAction
+	Zc_infoAction.zclist(...)      : JSONObject
+	OK:raw
+
+/private/txl/add
+	com.hits.modules.txl.TxlAction
+	TxlAction.add(...)             : boolean   
+	OK:raw
+
+/private/txl/list
+	com.hits.modules.txl.TxlAction
+	TxlAction.list(...)            : String    
+	OK:raw
+
+/private/txl/delete
+	com.hits.modules.txl.TxlAction
+	TxlAction.delete(...)          : boolean   
+	OK:raw
+
+/private/txl/update
+	com.hits.modules.txl.TxlAction
+	TxlAction.update(...)          : boolean   
+	OK:raw
+
+/private/txl/toupdate
+	com.hits.modules.txl.TxlAction
+	TxlAction.toUpdate(...)        : void      
+	OK:->:/private/txl/txlUpdate.html
+
+/private/txl/toadd
+	com.hits.modules.txl.TxlAction
+	TxlAction.toAdd(...)           : void      
+	OK:->:/private/txl/txlAdd.html
+
+/private/txl/selectuser
+	com.hits.modules.txl.TxlAction
+	TxlAction.selectUser(...)      : String    
+	OK:->:${obj}
+
+/private/txl/getuser
+	com.hits.modules.txl.TxlAction
+	TxlAction.getUser(...)         : List      
+	OK:raw
+
+/private/txl/list_user
+	com.hits.modules.txl.TxlAction
+	TxlAction.list_user(...)       : void      
+	OK:->:/private/txl/selectUser.html
+
+/private/txl/totxl
+	com.hits.modules.txl.TxlAction
+	TxlAction.toTxl(...)           : void      
+	OK:->:/private/txl/txlList.html
+
+/private/txl/isvalid
+	com.hits.modules.txl.TxlAction
+	TxlAction.isvalid(...)         : String    
+	OK:raw
+
+/private/zjgl/xyda
+	com.hits.modules.zjgl.Xyxx_xydaAction
+	Xyxx_xydaAction.user(...)      : void      
+	OK:->:/private/zjgl/xyda.html
+
+/private/zjgl/xyda/checksx
+	com.hits.modules.zjgl.Xyxx_xydaAction
+	Xyxx_xydaAction.checkSx(...)   : void      
+	OK:->:/private/zjgl/xyda_sx.html
+
+/private/zjgl/xyda/checkjl
+	com.hits.modules.zjgl.Xyxx_xydaAction
+	Xyxx_xydaAction.checkJl(...)   : void      
+	OK:->:/private/zjgl/xyda_jl.html
+
+/private/zjgl/xyda/xydalist
+	com.hits.modules.zjgl.Xyxx_xydaAction
+	Xyxx_xydaAction.xydalist(...)  : String    
+	OK:raw
+
+/private/order
+	com.hits.modules.order.OrderAction
+	OrderAction.order(...)         : void      
+	OK:->:/private/order/orderList.html
+
+/private/order/getunit
+	com.hits.modules.order.OrderAction
+	OrderAction.getUnit(...)       : String    
+	OK:raw
+
+/private/order/toadd
+	com.hits.modules.order.OrderAction
+	OrderAction.toAdd(...)         : void      
+	OK:->:/private/order/orderAdd.html
+
+/private/order/addsave
+	com.hits.modules.order.OrderAction
+	OrderAction.addSave(...)       : boolean   
+	OK:raw
+
+/private/order/orderlist
+	com.hits.modules.order.OrderAction
+	OrderAction.orderList(...)     : JSONObject
+	OK:raw
+
+/private/cjzdx/tolist
+	com.hits.modules.cjzdx.cjzdxAction
+	cjzdxAction.user(...)          : void      
+	OK:->:/private/cjzdx/cjzdxlist.html
+
+/private/cjzdx/showdetail
+	com.hits.modules.cjzdx.cjzdxAction
+	cjzdxAction.showDetail(...)    : void      
+	OK:->:/private/cjzdx/cjzdxDetail.html
+
+/private/cjzdx/cjzdxlist
+	com.hits.modules.cjzdx.cjzdxAction
+	cjzdxAction.cjzdxList(...)     : String    
+	OK:raw
+
+/private/breach/ajax_list
+	com.hits.modules.sys.breach.Breach_Action
+	Breach_Action.ajax_list(...)   : String    
+	OK:raw
+
+/private/breach/tobreachadd
+	com.hits.modules.sys.breach.Breach_Action
+	Breach_Action.toBreachAdd(...) : void      
+	OK:->:/private/sys/breach/breach_add.html
+
+/private/breach/tousermenu
+	com.hits.modules.sys.breach.Breach_Action
+	Breach_Action.toUserMenu(...)  : void      
+	OK:->:/private/sys/breach/userMenu.html
+
+/private/breach/tobreach
+	com.hits.modules.sys.breach.Breach_Action
+	Breach_Action.toBreach(...)    : void      
+	OK:->:/private/sys/breach/breach_list.html
+
+/private/breach/usermenu
+	com.hits.modules.sys.breach.Breach_Action
+	Breach_Action.userMenu(...)    : boolean   
+	OK:raw
+
+/private/breach/addbreach
+	com.hits.modules.sys.breach.Breach_Action
+	Breach_Action.addBreach(...)   : boolean   
+	OK:raw
+
+/private/breach/updatebreach
+	com.hits.modules.sys.breach.Breach_Action
+	Breach_Action.updateBreach(...) : boolean   
+	OK:raw
+
+/private/breach/gethtfl
+	com.hits.modules.sys.breach.Breach_Action
+	Breach_Action.getHTFL(...)     : JSONObject
+	OK:json
+
+/private/breach/getssxw
+	com.hits.modules.sys.breach.Breach_Action
+	Breach_Action.getSSXW(...)     : JSONObject
+	OK:json
+
+/private/breach/del
+	com.hits.modules.sys.breach.Breach_Action
+	Breach_Action.del(...)         : boolean   
+	OK:raw
+
+/private/breach/tobreachupdate
+	com.hits.modules.sys.breach.Breach_Action
+	Breach_Action.toBreachUpdate(...) : void      
+	OK:->:/private/sys/breach/breach_update.html
+
+/private/logout
+	com.hits.modules.sys.LoginAction
+	LoginAction.logout(...)        : void      
+	OK:>>:/private/login
+
+/private/login
+	com.hits.modules.sys.LoginAction
+	LoginAction.login(...)         : void      
+	OK:->:/private/login.html
+
+/private/doLogin
+	com.hits.modules.sys.LoginAction
+	LoginAction.login(...)         : String    
+	OK:raw
+
+/private/online
+	com.hits.modules.sys.LoginAction
+	LoginAction.Online(...)        : int       
+	OK:raw
+
+/private/sys/dic_type/add
+	com.hits.modules.sys.Dic_typeAction
+	Dic_typeAction.add(...)        : boolean   
+	OK:raw
+
+/private/sys/dic_type/list
+	com.hits.modules.sys.Dic_typeAction
+	Dic_typeAction.list(...)       : JSONObject
+	OK:raw
+
+/private/sys/dic_type/delete
+	com.hits.modules.sys.Dic_typeAction
+	Dic_typeAction.delete(...)     : boolean   
+	OK:raw
+
+/private/sys/dic_type/update
+	com.hits.modules.sys.Dic_typeAction
+	Dic_typeAction.update(...)     : boolean   
+	OK:raw
+
+/private/sys/dic_type/deleteids
+	com.hits.modules.sys.Dic_typeAction
+	Dic_typeAction.deleteIds(...)  : boolean   
+	OK:raw
+
+/private/sys/dic_type
+	com.hits.modules.sys.Dic_typeAction
+	Dic_typeAction.dic_type(...)   : void      
+	OK:->:/private/sys/Dic_type.html
+
+/private/sys/dic_type/toadd
+	com.hits.modules.sys.Dic_typeAction
+	Dic_typeAction.toadd(...)      : void      
+	OK:->:/private/sys/Dic_typeAdd.html
+
+/private/sys/dic_type/toupdate
+	com.hits.modules.sys.Dic_typeAction
+	Dic_typeAction.toupdate(...)   : void      
+	OK:->:/private/sys/Dic_typeUpdate.html
+
+/private/sys/dic_type/view
+	com.hits.modules.sys.Dic_typeAction
+	Dic_typeAction.view(...)       : Dic_type  
+	OK:json
+
+/private/sys/res/list
+	com.hits.modules.sys.ResourceAction
+	ResourceAction.list(...)       : List      
+	OK:json
+
+/private/sys/res/sort
+	com.hits.modules.sys.ResourceAction
+	ResourceAction.sort(...)       : boolean   
+	OK:raw
+
+/private/sys/res
+	com.hits.modules.sys.ResourceAction
+	ResourceAction.user(...)       : void      
+	OK:->:/private/sys/resource.html
+
+/private/sys/res/del
+	com.hits.modules.sys.ResourceAction
+	ResourceAction.del(...)        : boolean   
+	OK:raw
+
+/private/sys/res/updatesave
+	com.hits.modules.sys.ResourceAction
+	ResourceAction.updateSave(...) : String    
+	OK:raw
+
+/private/sys/res/listall
+	com.hits.modules.sys.ResourceAction
+	ResourceAction.listAll(...)    : String    
+	OK:raw
+
+/private/sys/res/toadd
+	com.hits.modules.sys.ResourceAction
+	ResourceAction.toAdd(...)      : void      
+	OK:->:/private/sys/resourceAdd.html
+
+/private/sys/res/addsave
+	com.hits.modules.sys.ResourceAction
+	ResourceAction.addSave(...)    : boolean   
+	OK:raw
+
+/private/sys/res/tosort
+	com.hits.modules.sys.ResourceAction
+	ResourceAction.toSort(...)     : void      
+	OK:->:/private/sys/resourceSort.html
+
+/private/sys/res/toupdate
+	com.hits.modules.sys.ResourceAction
+	ResourceAction.toupdate(...)   : void      
+	OK:->:/private/sys/resourceUpdate.html
+
+/private/zjgl/sxcj/add
+	com.hits.modules.zjgl.Zjgl_sxjcAction
+	Zjgl_sxjcAction.add(...)       : String    
+	OK:raw
+
+/private/zjgl/sxcj
+	com.hits.modules.zjgl.Zjgl_sxjcAction
+	Zjgl_sxjcAction.user(...)      : void      
+	OK:->:/private/zjgl/sxcj.html
+
+/private/zjgl/sxcj/sxcjlist
+	com.hits.modules.zjgl.Zjgl_sxjcAction
+	Zjgl_sxjcAction.sxcjlist(...)  : String    
+	OK:raw
+
+/private/zjgl/sxcj/detail
+	com.hits.modules.zjgl.Zjgl_sxjcAction
+	Zjgl_sxjcAction.detail(...)    : void      
+	OK:->:/private/zjgl/sxcjDetail.html
+
+/private/zjgl/sxcj/toupdate
+	com.hits.modules.zjgl.Zjgl_sxjcAction
+	Zjgl_sxjcAction.toUpdate(...)  : void      
+	OK:->:/private/zjgl/sxcjupdate.html
+
+/private/zjgl/sxcj/toadd
+	com.hits.modules.zjgl.Zjgl_sxjcAction
+	Zjgl_sxjcAction.toadd(...)     : void      
+	OK:->:/private/zjgl/sxcjadd.html
+
+/private/zjgl/sxcj/updatesave
+	com.hits.modules.zjgl.Zjgl_sxjcAction
+	Zjgl_sxjcAction.updateSave(...) : String    
+	OK:raw
+
+/private/zjgl/sxcj/addht
+	com.hits.modules.zjgl.Zjgl_sxjcAction
+	Zjgl_sxjcAction.addht(...)     : void      
+	OK:->:/private/zjgl/sxcj_addht.html
+
+/private/zjgl/sxcj/tochexiao
+	com.hits.modules.zjgl.Zjgl_sxjcAction
+	Zjgl_sxjcAction.toChexiao(...) : void      
+	OK:->:/private/zjgl/sxcjchexiao.html
+
+/private/quartz/savequartz
+	com.hits.modules.quartz.QuartzTaskAction
+	QuartzTaskAction.saveQuartz(...) : boolean   
+	OK:raw
+
+/private/quartz/updatequartz
+	com.hits.modules.quartz.QuartzTaskAction
+	QuartzTaskAction.updateQuartz(...) : boolean   
+	OK:raw
+
+/private/quartz/toupdate
+	com.hits.modules.quartz.QuartzTaskAction
+	QuartzTaskAction.toupdate(...) : void      
+	OK:->:/private/quartz/quartz_update.html
+
+/private/quartz/toquartztasklist
+	com.hits.modules.quartz.QuartzTaskAction
+	QuartzTaskAction.toQuartzTaskList(...) : void      
+	OK:->:/private/quartz/quartz_list.html
+
+/private/quartz/quartztasklist
+	com.hits.modules.quartz.QuartzTaskAction
+	QuartzTaskAction.quartzTaskList(...) : String    
+	OK:raw
+
+/private/quartz/delquartz
+	com.hits.modules.quartz.QuartzTaskAction
+	QuartzTaskAction.delQuartz(...) : boolean   
+	OK:raw
+
+/private/quartz/checktaskid
+	com.hits.modules.quartz.QuartzTaskAction
+	QuartzTaskAction.checkTaskid(...) : boolean   
+	OK:raw
+
+/private/quartz/quartzadd
+	com.hits.modules.quartz.QuartzTaskAction
+	QuartzTaskAction.quartzAdd(...) : void      
+	OK:->:/private/quartz/quartz_add.html
+
+/private/createtable/createbean
+	com.hits.modules.cgtable.CreateTableAction
+	CreateTableAction.createBean(...) : boolean   
+	OK:raw
+
+/private/ratifyFollow/list
+	com.hits.modules.ratifyFollow.contractManageAction
+	contractManageAction.list(...) : List      
+	OK:json
+
+/private/ratifyFollow/sort
+	com.hits.modules.ratifyFollow.contractManageAction
+	contractManageAction.sort(...) : boolean   
+	OK:raw
+
+/private/ratifyFollow/contract/warning
+	com.hits.modules.ratifyFollow.contractManageAction
+	contractManageAction.earlyWarning(...) : void      
+	OK:->:/private/ratifyFollow/earlyWarning.html
+
+/private/ratifyFollow/warnlist
+	com.hits.modules.ratifyFollow.contractManageAction
+	contractManageAction.warnList(...) : String    
+	OK:raw
+
+/private/ratifyFollow/warnupdate
+	com.hits.modules.ratifyFollow.contractManageAction
+	contractManageAction.warnUpdate(...) : void      
+	OK:->:/private/ratifyFollow/earlyWarning_Update.html
+
+/private/ratifyFollow/datadetail
+	com.hits.modules.ratifyFollow.contractManageAction
+	contractManageAction.dataDetail(...) : void      
+	OK:->:/private/ratifyFollow/dateDetail.html
+
+/private/ratifyFollow/warnrulepage
+	com.hits.modules.ratifyFollow.contractManageAction
+	contractManageAction.warnRulePage(...) : void      
+	OK:->:/private/ratifyFollow/warnRuleList.html
+
+/private/ratifyFollow/miningprice
+	com.hits.modules.ratifyFollow.contractManageAction
+	contractManageAction.miningPrice(...) : void      
+	OK:->:/private/ratifyFollow/miningPrice.html
+
+/private/ratifyFollow/frlist
+	com.hits.modules.ratifyFollow.contractManageAction
+	contractManageAction.frList(...) : String    
+	OK:raw
+
+/private/ratifyFollow/warnadd
+	com.hits.modules.ratifyFollow.contractManageAction
+	contractManageAction.warnAdd(...) : void      
+	OK:->:/private/ratifyFollow/earlyWarning_Add.html
+
+/private/ratifyFollow/contractadd
+	com.hits.modules.ratifyFollow.contractManageAction
+	contractManageAction.contractAdd(...) : void      
+	OK:->:/private/ratifyFollow/contract_Add.html
+
+/private/ratifyFollow/blackupdate
+	com.hits.modules.ratifyFollow.contractManageAction
+	contractManageAction.blackUpdate(...) : void      
+	OK:->:/private/ratifyFollow/blackUpdate.html
+
+/private/ratifyFollow/warndetail
+	com.hits.modules.ratifyFollow.contractManageAction
+	contractManageAction.warnDetail(...) : void      
+	OK:->:/private/ratifyFollow/earlyWarning_Detail.html
+
+/private/ratifyFollow/blackdetail
+	com.hits.modules.ratifyFollow.contractManageAction
+	contractManageAction.blackDetail(...) : void      
+	OK:->:/private/ratifyFollow/blackDetail.html
+
+/private/ratifyFollow/warnruleadd
+	com.hits.modules.ratifyFollow.contractManageAction
+	contractManageAction.warnRuleAdd(...) : void      
+	OK:->:/private/ratifyFollow/warnRule_Add.html
+
+/private/ratifyFollow/warnrulelist
+	com.hits.modules.ratifyFollow.contractManageAction
+	contractManageAction.warnRuleList(...) : String    
+	OK:raw
+
+/private/ratifyFollow/blackadd
+	com.hits.modules.ratifyFollow.contractManageAction
+	contractManageAction.blackAdd(...) : void      
+	OK:->:/private/ratifyFollow/blackAdd.html
+
+/private/ratifyFollow/datalistpage
+	com.hits.modules.ratifyFollow.contractManageAction
+	contractManageAction.dataListPage(...) : void      
+	OK:->:/private/ratifyFollow/dateListPage.html
+
+/private/ratifyFollow/del
+	com.hits.modules.ratifyFollow.contractManageAction
+	contractManageAction.del(...)  : boolean   
+	OK:raw
+
+/private/ratifyFollow/updatesave
+	com.hits.modules.ratifyFollow.contractManageAction
+	contractManageAction.updateSave(...) : String    
+	OK:raw
+
+/private/ratifyFollow/collect/listAll
+	com.hits.modules.ratifyFollow.contractManageAction
+	contractManageAction.listAll(...) : String    
+	OK:raw
+
+/private/ratifyFollow/datalist
+	com.hits.modules.ratifyFollow.contractManageAction
+	contractManageAction.dataList(...) : String    
+	OK:raw
+
+/private/ratifyFollow/toadd
+	com.hits.modules.ratifyFollow.contractManageAction
+	contractManageAction.toAdd(...) : void      
+	OK:->:/private/ratifyFollow/resourceAdd.html
+
+/private/ratifyFollow/addsave
+	com.hits.modules.ratifyFollow.contractManageAction
+	contractManageAction.addSave(...) : boolean   
+	OK:raw
+
+/private/ratifyFollow/tosort
+	com.hits.modules.ratifyFollow.contractManageAction
+	contractManageAction.toSort(...) : void      
+	OK:->:/private/ratifyFollow/resourceSort.html
+
+/private/ratifyFollow/toupdate
+	com.hits.modules.ratifyFollow.contractManageAction
+	contractManageAction.toupdate(...) : void      
+	OK:->:/private/ratifyFollow/resourceUpdate.html
+
+/private/ratifyFollow/contractupdate
+	com.hits.modules.ratifyFollow.contractManageAction
+	contractManageAction.contractUpdate(...) : void      
+	OK:->:/private/ratifyFollow/contract_Update.html
+
+/private/ratifyFollow/contractdetail
+	com.hits.modules.ratifyFollow.contractManageAction
+	contractManageAction.contractDetail(...) : void      
+	OK:->:/private/ratifyFollow/contract_Detail.html
+
+/private/ratifyFollow/reality/miningPriceShow
+	com.hits.modules.ratifyFollow.contractManageAction
+	contractManageAction.miningPriceShow_rel(...) : void      
+	OK:->:/private/ratifyFollow/miningPrice_reality_Detail.html
+
+/private/ratifyFollow/reality/miningPriceUpdate
+	com.hits.modules.ratifyFollow.contractManageAction
+	contractManageAction.miningPriceUpdate_rel(...) : void      
+	OK:->:/private/ratifyFollow/miningPrice_reality_Update.html
+
+/private/ratifyFollow/miningpriceadd
+	com.hits.modules.ratifyFollow.contractManageAction
+	contractManageAction.miningPriceAdd(...) : void      
+	OK:->:/private/ratifyFollow/miningPrice_Add.html
+
+/private/ratifyFollow/warnruleupdate
+	com.hits.modules.ratifyFollow.contractManageAction
+	contractManageAction.warnRuleUpdate(...) : void      
+	OK:->:/private/ratifyFollow/warnRule_Update.html
+
+/private/ratifyFollow/warnexceptiondetail
+	com.hits.modules.ratifyFollow.contractManageAction
+	contractManageAction.warnExceptionDetail(...) : void      
+	OK:->:/private/ratifyFollow/warnExceptionDetail.html
+
+/private/ratifyFollow/miningpriceshow
+	com.hits.modules.ratifyFollow.contractManageAction
+	contractManageAction.miningPriceShow(...) : void      
+	OK:->:/private/ratifyFollow/miningPrice_Detail.html
+
+/private/ratifyFollow/blacklistpage
+	com.hits.modules.ratifyFollow.contractManageAction
+	contractManageAction.blackListPage(...) : void      
+	OK:->:/private/ratifyFollow/BlackList.html
+
+/private/ratifyFollow/reality/miningPrice
+	com.hits.modules.ratifyFollow.contractManageAction
+	contractManageAction.miningPrice_rel(...) : void      
+	OK:->:/private/ratifyFollow/miningPrice_reality.html
+
+/private/ratifyFollow/warnruledetail
+	com.hits.modules.ratifyFollow.contractManageAction
+	contractManageAction.warnRuleDetail(...) : void      
+	OK:->:/private/ratifyFollow/warnRule_Detail.html
+
+/private/ratifyFollow/contract/fulfil
+	com.hits.modules.ratifyFollow.contractManageAction
+	contractManageAction.contractManage(...) : void      
+	OK:->:/private/ratifyFollow/contractMange.html
+
+/private/ratifyFollow/collect/dir
+	com.hits.modules.ratifyFollow.contractManageAction
+	contractManageAction.collectDirPage(...) : void      
+	OK:->:/private/ratifyFollow/collectDirectory.html
+
+/private/ratifyFollow/warnexceptionpage
+	com.hits.modules.ratifyFollow.contractManageAction
+	contractManageAction.warnExceptionPage(...) : void      
+	OK:->:/private/ratifyFollow/warnExceptionList.html
+
+/private/ratifyFollow/miningpriceupdate
+	com.hits.modules.ratifyFollow.contractManageAction
+	contractManageAction.miningPriceUpdate(...) : void      
+	OK:->:/private/ratifyFollow/miningPrice_Update.html
+
+/private/sxcj/add
+	com.hits.modules.sxcj.Discredit_infoAction
+	Discredit_infoAction.add(...)  : void      
+	OK:->:/private/sxcj/sxcjAdd.html
+
+/private/sxcj/sxcjlist
+	com.hits.modules.sxcj.Discredit_infoAction
+	Discredit_infoAction.sxcjList(...) : String    
+	OK:raw
+
+/private/sxcj/toaddfr
+	com.hits.modules.sxcj.Discredit_infoAction
+	Discredit_infoAction.toAddfr(...) : void      
+	OK:->:/private/jlry/jlryAddfr.html
+
+/private/sxcj/tolist
+	com.hits.modules.sxcj.Discredit_infoAction
+	Discredit_infoAction.user(...) : void      
+	OK:->:/private/sxcj/sxcjlist.html
+
+/private/sxcj/tocancel
+	com.hits.modules.sxcj.Discredit_infoAction
+	Discredit_infoAction.toCancel(...) : void      
+	OK:->:/private/sxcj/sxcjCancel.html
+
+/private/sxcj/biaozhu
+	com.hits.modules.sxcj.Discredit_infoAction
+	Discredit_infoAction.biaozhu(...) : boolean   
+	OK:raw
+
+/private/sxcj/tobz
+	com.hits.modules.sxcj.Discredit_infoAction
+	Discredit_infoAction.toBz(...) : void      
+	OK:->:/private/sxcj/sxcjBz.html
+
+/private/sxcj/detail
+	com.hits.modules.sxcj.Discredit_infoAction
+	Discredit_infoAction.detail(...) : void      
+	OK:->:/private/sxcj/sxcjDetail.html
+
+/private/sxcj/toissue
+	com.hits.modules.sxcj.Discredit_infoAction
+	Discredit_infoAction.toIssue(...) : boolean   
+	OK:raw
+
+/private/sxcj/revoke
+	com.hits.modules.sxcj.Discredit_infoAction
+	Discredit_infoAction.revoke(...) : boolean   
+	OK:raw
+
+/private/sxcj/checkcount
+	com.hits.modules.sxcj.Discredit_infoAction
+	Discredit_infoAction.checkCount(...) : String    
+	OK:raw
+
+/private/sxcj/toupdate
+	com.hits.modules.sxcj.Discredit_infoAction
+	Discredit_infoAction.toUpdate(...) : void      
+	OK:->:/private/sxcj/sxcjUpdate.html
+
+/private/sxcj/addsave
+	com.hits.modules.sxcj.Discredit_infoAction
+	Discredit_infoAction.addSave(...) : boolean   
+	OK:raw
+
+/private/sxcj/yjajax
+	com.hits.modules.sxcj.Discredit_infoAction
+	Discredit_infoAction.yjAjax(...) : String    
+	OK:raw
+
+/private/sxcj/tofindxyzt
+	com.hits.modules.sxcj.Discredit_infoAction
+	Discredit_infoAction.tofindXyzt(...) : String    
+	OK:raw
+
+/private/sxcj/sxqxajax
+	com.hits.modules.sxcj.Discredit_infoAction
+	Discredit_infoAction.sxqxAjax(...) : String    
+	OK:raw
+
+/private/sxcj/checkht
+	com.hits.modules.sxcj.Discredit_infoAction
+	Discredit_infoAction.checkHt(...) : String    
+	OK:raw
+
+/private/sxcj/cjcsajax
+	com.hits.modules.sxcj.Discredit_infoAction
+	Discredit_infoAction.cjcsAjax(...) : String    
+	OK:raw
+
+/private/sxcj/update
+	com.hits.modules.sxcj.Discredit_infoAction
+	Discredit_infoAction.Update(...) : boolean   
+	OK:raw
+
+/private/zjgl/qtzz/add
+	com.hits.modules.zjgl.Zjgl_qtzzAction
+	Zjgl_qtzzAction.add(...)       : String    
+	OK:raw
+
+/private/zjgl/qtzz
+	com.hits.modules.zjgl.Zjgl_qtzzAction
+	Zjgl_qtzzAction.user(...)      : void      
+	OK:->:/private/zjgl/qtzz.html
+
+/private/zjgl/qtzz/qtzzlist
+	com.hits.modules.zjgl.Zjgl_qtzzAction
+	Zjgl_qtzzAction.qtzzlist(...)  : String    
+	OK:raw
+
+/private/zjgl/qtzz/detail
+	com.hits.modules.zjgl.Zjgl_qtzzAction
+	Zjgl_qtzzAction.detail(...)    : void      
+	OK:->:/private/zjgl/qtzzDetail.html
+
+/private/zjgl/qtzz/toupdate
+	com.hits.modules.zjgl.Zjgl_qtzzAction
+	Zjgl_qtzzAction.toUpdate(...)  : void      
+	OK:->:/private/zjgl/qtzzupdate.html
+
+/private/zjgl/qtzz/toadd
+	com.hits.modules.zjgl.Zjgl_qtzzAction
+	Zjgl_qtzzAction.toadd(...)     : void      
+	OK:->:/private/zjgl/qtzzadd.html
+
+/private/zjgl/qtzz/del
+	com.hits.modules.zjgl.Zjgl_qtzzAction
+	Zjgl_qtzzAction.del(...)       : String    
+	OK:raw
+
+/private/zjgl/qtzz/updatesave
+	com.hits.modules.zjgl.Zjgl_qtzzAction
+	Zjgl_qtzzAction.updateSave(...) : String    
+	OK:raw
+
+/private/formyy2/add
+	com.hits.modules.form.YYFormAction2
+	YYFormAction2.add(...)         : boolean   
+	OK:raw
+
+/private/formyy2/list
+	com.hits.modules.form.YYFormAction2
+	YYFormAction2.list(...)        : JSONObject
+	OK:raw
+
+/private/formyy2/delete
+	com.hits.modules.form.YYFormAction2
+	YYFormAction2.delete(...)      : boolean   
+	OK:raw
+
+/private/formyy2/update
+	com.hits.modules.form.YYFormAction2
+	YYFormAction2.update(...)      : boolean   
+	OK:raw
+
+/private/formyy2/tomakeup
+	com.hits.modules.form.YYFormAction2
+	YYFormAction2.tomakeup(...)    : void      
+	OK:->:/private/formyy/tableBulu.html
+
+/private/formyy2/topreview
+	com.hits.modules.form.YYFormAction2
+	YYFormAction2.topreview(...)   : void      
+	OK:->:/private/formyy/tablePreview.html
+
+/private/formyy2/checkonly
+	com.hits.modules.form.YYFormAction2
+	YYFormAction2.checkOnly(...)   : boolean   
+	OK:raw
+
+/private/formyy2/loadxyzt
+	com.hits.modules.form.YYFormAction2
+	YYFormAction2.loadxyzt(...)    : JSONObject
+	OK:raw
+
+/private/formyy2/deleteids
+	com.hits.modules.form.YYFormAction2
+	YYFormAction2.deleteIds(...)   : boolean   
+	OK:raw
+
+/private/formyy2/tolist
+	com.hits.modules.form.YYFormAction2
+	YYFormAction2.tolist(...)      : String    
+	OK:->:${obj}
+
+/private/formyy2/toadd
+	com.hits.modules.form.YYFormAction2
+	YYFormAction2.toadd(...)       : void      
+	OK:->:/private/formyy2/tableAdd.html
+
+/private/formyy2/toupdate
+	com.hits.modules.form.YYFormAction2
+	YYFormAction2.toupdate(...)    : void      
+	OK:->:/private/formyy/tableUpdate.html
+
+/public/info/index
+	com.hits.modules.gtxt.xyzt_infoPublicAction
+	xyzt_infoPublicAction.xyztInfo(...) : void      
+	OK:->:/public/gtxy/xyztIndex.html
+
+/public/info/warnexceptionpage
+	com.hits.modules.gtxt.xyzt_infoPublicAction
+	xyzt_infoPublicAction.warnExceptionPage(...) : void      
+	OK:->:/public/gtxy/warnExceptionPage.html
+
+/public/info/addwarnexception
+	com.hits.modules.gtxt.xyzt_infoPublicAction
+	xyzt_infoPublicAction.addWarnException(...) : Boolean   
+	OK:raw
+

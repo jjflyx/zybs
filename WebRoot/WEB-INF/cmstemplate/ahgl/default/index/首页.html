@@ -1,0 +1,363 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<HTML xmlns="http://www.w3.org/1999/xhtml">
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=utf-8">
+<TITLE>安徽省公路局</TITLE>
+<SCRIPT type="text/javascript" src="${baseRes!}/js/jquery-1.9.1.min.js"></SCRIPT>
+<SCRIPT type="text/javascript" src="${baseRes!}/js/hits.js"></SCRIPT>
+<SCRIPT type="text/javascript" src="${baseRes!}/js/jquery.KinSlideshow-1.2.1.min.js"></SCRIPT>
+<SCRIPT type="text/javascript" src="${baseRes!}/js/MSClass.js"></SCRIPT>
+<LINK rel="stylesheet" type="text/css" href="${baseRes!}/css/index.css">
+<!--[if IE 6]>
+<script language="javascript" type="text/javascript" src="${baseRes!}/js/DD_belatedPNG.min.js"></script>
+<![endif]-->
+<!--漂浮图片开始-->
+<SCRIPT language="javascript" src="images/shpj-float.js"></SCRIPT>
+<DIV id="floatAdd" style="z-index:9999; width:500px; overflow:hidden;">
+	<A href="http://60.173.215.11//pub/ahgl/zwgk/ztbd/fdlz/" target="_blank"><IMG src="images/ad2.jpg" width="270" height="115" border="0"></A>
+	<A href="javascript:closead();" title="关闭"><IMG src="images/shpj-close.png" border="0"></A>
+</DIV>
+<SCRIPT type="text/javascript">
+<!--
+var ad1=new AdMove("floatAdd");
+ad1.Run();
+//-->
+</SCRIPT>
+<!--漂浮图片结束-->
+</HEAD>
+<BODY>
+[#include "../include/top.html"/]
+
+<DIV class="width1004">
+    <DIV class="inews_pic">
+      <DIV id="KinSlideshow" style="width:494px; height:284px; overflow:hidden;">
+                [@cms_content_list count='5' orderBy='4' typeId='2' titLen='5' image='1' channelId='00030002' channelOption='1']
+                [#list tag_list as a]                
+                
+                <A href="${base!}/${a.path}/${a.content_id}.html" target="_blank" title="${a.title}"><IMG src="${a.title_img}" alt="${a.title}" width="494" height="284"></A>
+                [/#list]
+                [/@cms_content_list]
+            </DIV>
+			<SCRIPT type="text/javascript">
+            $(function(){
+                $("#KinSlideshow").KinSlideshow({
+                        moveStyle:"left",intervalTime:3,
+                        mouseEvent:"mouseover",
+                        titleBar:{titleBar_height:36,titleBar_bgColor:"#000000",titleBar_alpha:0.3},
+                        titleFont:{TitleFont_size:14,TitleFont_color:"#ffffff",TitleFont_weight:"bold"},
+                        btn:{btn_bgColor:"#ffffff",btn_bgHoverColor:"#0076c9",btn_fontColor:"#000",btn_fontHoverColor:"#fff",btn_borderColor:"#666",btn_borderHoverColor:"#FF0000",btn_borderWidth:0}
+                });
+            })
+            </SCRIPT>
+    </DIV>
+    <DIV class="inews_list">
+<DIV class="toutiao">
+<TABLE width="100%" border="0" cellspacing="0" cellpadding="0" class="toutiao">
+[@cms_content_list dateFormat='yyyy-MM-dd' count='1' titLen='30'  append='...' orderBy='4' channelId='00030001']
+          [#list tag_list as a]
+  <TR>
+    <TD width="62"><IMG src="${baseRes!}/img/glyw.gif" width="62" height="54"></TD>
+    <TD class="toutiao_r"><A href="[#if a.link??]${a.link}[#else]${base!}/${a.path}/${a.content_id}.html[/#if]" title="${a.title}" target="_blank"><SPAN style="[#if a.title_color??]color:${a.title_color};[/#if][#if a.is_bold='Y']font-weight:bold;[/#if]">[#if a.short_title??][@text_cut s=a.short_title len=titLen append='...'/][#else][@text_cut s=a.title len=titLen append='...'/][/#if]</SPAN></A></TD>
+  </TR>
+ [/#list]
+          [/@cms_content_list] 
+</TABLE>
+
+      	</DIV>
+     
+        <UL>
+[@cms_content_list dateFormat='yyyy-MM-dd' count='9' titLen='26'  append='...' orderBy='4' channelId='00030001']
+          [#list tag_list as a]
+     [#if a_index>0]
+                    	                    	<LI><A href="[#if a.link??]${a.link}[#else]${base!}/${a.path}/${a.content_id}.html[/#if]" title="${a.title}" target="_blank"><SPAN style="[#if a.title_color??]color:${a.title_color};[/#if][#if a.is_bold='Y']font-weight:bold;[/#if]">[#if a.short_title??][@text_cut s=a.short_title len=titLen append='...'/][#else][@text_cut s=a.title len=titLen append='...'/][/#if]</SPAN></A><SPAN class="timespan">${a.pub_time?date(dateFormat)}</SPAN></LI>
+[/#if]
+ [/#list]
+          [/@cms_content_list] 
+                   </UL>
+    </DIV>
+    <DIV class="clear"></DIV>
+    <DIV class="imain_right">
+    	<DIV class="part">
+        	<DIV class="part2_title fontYH">
+            	<H2>通知公告</H2>
+            </DIV>
+            <DIV class="part2_con">
+            	<UL class="part2_conNotice" id="TextScroll" style="height:230px; overflow:hidden;">
+[@cms_content_list dateFormat='yyyy-MM-dd' count='10' titLen='35'  append='...' orderBy='4' channelId='00030008']
+          [#list tag_list as a]
+
+                    	                    	<LI><A href="[#if a.link??]${a.link}[#else]${base!}/${a.path}/${a.content_id}.html[/#if]" title="${a.title}" target="_blank"><SPAN style="[#if a.title_color??]color:${a.title_color};[/#if][#if a.is_bold='Y']font-weight:bold;[/#if]">[#if a.short_title??][@text_cut s=a.short_title len=titLen append='...'/][#else][@text_cut s=a.title len=titLen append='...'/][/#if]</SPAN></A><SPAN class="timespan">${a.pub_time?date(dateFormat)}</SPAN></LI>
+
+ [/#list]
+          [/@cms_content_list] 
+                   
+                </UL><DIV class="clear"></DIV>
+<SCRIPT type="text/javascript">
+/*********文字翻屏滚动***************/
+$(function(){
+	var _wrap=$('#TextScroll');//定义滚动区域
+	var _interval=3000;//定义滚动间隙时间
+	var _moving;//需要清除的动画
+	_wrap.hover(function(){
+		clearInterval(_moving);//当鼠标在滚动区域中时,停止滚动
+	},function(){
+		_moving=setInterval(function(){
+			var _field=_wrap.find('li:first');//此变量不可放置于函数起始处，li:first取值是变化的
+			var _h=_field.height();//取得每次滚动高度
+			_field.animate({marginTop:-_h+'px'},900,function(){//通过取负margin值，隐藏第一行
+				_field.css('marginTop',0).appendTo(_wrap);//隐藏后，将该行的margin值置零，并插入到最后，实现无缝滚动
+			})
+		},_interval)//滚动间隔时间取决于_interval
+	}).trigger('mouseleave');//函数载入时，模拟执行mouseleave，即自动滚动
+}); 
+</SCRIPT>
+            </DIV>
+        </DIV>
+<DIV class="part">
+        	<DIV class="part2_title fontYH">
+            	<H2>媒体聚集</H2>
+            </DIV>
+            <DIV class="part2_con">
+            	<UL class="part2_conList" style="height:205px;">
+
+[@cms_content_list dateFormat='yyyy-MM-dd' count='8' titLen='18'  append='...' orderBy='4' channelId='00030009']
+          [#list tag_list as a]
+
+                    	                    	<LI><A href="[#if a.link??]${a.link}[#else]${base!}/${a.path}/${a.content_id}.html[/#if]" title="${a.title}" target="_blank"><SPAN style="[#if a.title_color??]color:${a.title_color};[/#if][#if a.is_bold='Y']font-weight:bold;[/#if]">[#if a.short_title??][@text_cut s=a.short_title len=titLen append='...'/][#else][@text_cut s=a.title len=titLen append='...'/][/#if]</SPAN></A></LI>
+
+ [/#list]
+          [/@cms_content_list] 
+                
+                </UL><DIV class="clear"></DIV>
+            </DIV>
+        </DIV>
+    	<DIV class="part">
+        	<DIV class="part2_title fontYH">
+            	<H2>专题专栏</H2>
+            </DIV>
+            <DIV class="part2_con">
+            	<UL class="part2_conZt">
+                    <LI><DIV class="zt_img"><IMG src="${baseRes!}/img/pic_zt1.gif" width="72" height="72"></DIV><H3><A href="${bsae!}/ztzl/4055641.html" target="_blank">微笑服务　温馨交通</A></H3><P>公路文化建设的一个鲜明独特品牌载体是公路文明创建...</P></LI>
+                    <LI><DIV class="zt_img"><IMG src="${baseRes!}/img/pic_zt2.gif" width="72" height="72"></DIV><H3><A href="${bsae!}/ztzl/4055642.html" target="_blank">加快国省干线公路建设</A></H3><P>国省干线公路施工标准化活动组织开展情况进行督查和指导...</P></LI>
+                    <LI><DIV class="zt_img"><IMG src="${baseRes!}/img/pic_zt5x.gif" width="72" height="72"></DIV><H3><A href="${bsae!}/ztzl/yj2015qggxglyhgljc/" target="_blank">2015全国干线公路养护检查</A></H3><P>迎接2015年全国干线公路养护管理检查，扎实做好各项迎检准备工作...</P></LI>
+                    <LI><DIV class="zt_img"><IMG src="${baseRes!}/img/pic_zt4.gif" width="72" height="72"></DIV><H3><A href="${bsae!}/ztzl/4055525.html" target="_blank">安徽农村公路</A></H3><P>以宣传贯彻《安徽省农村公路条例》为契机全面推进农村公路事业健康...</P></LI>
+                </UL>
+            </DIV>
+        </DIV>
+    	
+        <DIV class="part"> <A href="http://www.bookan.com.cn/ahglglj/index.aspx" target=_blank><IMG src="${baseRes!}/img/pic_zgsw.gif" width="326" height="142"></A>
+        </DIV>
+    </DIV>
+    <DIV class="imain_main">
+    	<DIV class="part">
+        	<DIV class="part_title fontYH">
+        	  <H2>政府信息公开</H2>
+        	</DIV>
+            <DIV class="part_con">
+           	   <UL class="xxgk_icon">
+                	<LI class="first"><A href="http://xxgk.ahjt.gov.cn:8090/xxgkweb/blue/index.jsp?unit=002986281" target="_blank"><P><I class="iconimg icon_xxgk1"></I></P>政府信息公开目录</A></LI>
+                	<LI><A href="http://xxgk.ahjt.gov.cn:8090/xxgkweb/blue/index.jsp?unit=002986281&type=zhidu" target="_blank"><P><I class="iconimg icon_xxgk2"></I></P>政府信息公开制度</A></LI>
+                	<LI><A href="http://xxgk.ahjt.gov.cn:8090/xxgkweb/blue/index.jsp?unit=002986281&type=zhinan" target="_blank"><P><I class="iconimg icon_xxgk3"></I></P>政府信息公开指南</A></LI>
+                	<LI class="end"><A href="http://xxgk.ahjt.gov.cn:8090/xxgkweb/blue/index.jsp?unit=002986281&type=shenqing" target="_blank"><P><I class="iconimg icon_xxgk4"></I></P>依申请公开</A></LI>
+                    <DIV class="clear"></DIV>
+               </UL>
+               <DL class="xxgk_ml">
+               	<DT>信息公开指引目录</DT>
+                  <DD>
+                   	<A href="http://xxgk.ahjt.gov.cn:8090/xxgkweb/blue/index.jsp?unit=002986281&type=mulu&xxfl_id=010000&sort=0&name=%E6%9C%BA%E6%9E%84%E9%A2%86%E5%AF%BC" target="_blank">机构领导</A>  |  <A href="http://xxgk.ahjt.gov.cn:8090/xxgkweb/blue/index.jsp?unit=002986281&type=mulu&xxfl_id=010000&sort=0&name=%E6%9C%BA%E6%9E%84%E8%AE%BE%E7%BD%AE" target="_blank">机构设置</A>  |  <A href="http://xxgk.ahjt.gov.cn:8090/xxgkweb/blue/index.jsp?unit=002986281&type=mulu&xxfl_id=010000&sort=0&name=%E4%BA%BA%E4%BA%8B%E4%BF%A1%E6%81%AF" target="_blank">人事信息</A>  |  <A href="http://xxgk.ahjt.gov.cn:8090/xxgkweb/blue/index.jsp?unit=002986281&type=mulu&xxfl_id=010000&sort=0&name=%E6%94%BF%E7%AD%96%E6%B3%95%E8%A7%84" target="_blank">政策法规</A>  |  <A href="http://xxgk.ahjt.gov.cn:8090/xxgkweb/blue/index.jsp?unit=002986281&type=mulu&xxfl_id=010000&sort=0&name=%E8%A1%8C%E4%B8%9A%E7%AE%A1%E7%90%86" target="_blank">行业管理</A>  |  <A href="http://xxgk.ahjt.gov.cn:8090/xxgkweb/blue/index.jsp?unit=002986281&type=mulu&xxfl_id=010000&sort=0&name=%E8%A7%84%E5%88%92%E8%AE%A1%E5%88%92" target="_blank">规划计划</A>  |<BR>
+                    	<A href="http://xxgk.ahjt.gov.cn:8090/xxgkweb/blue/index.jsp?unit=002986281&type=mulu&xxfl_id=010000&sort=0&name=%E8%B4%A2%E5%8A%A1%E7%AE%A1%E7%90%86" target="_blank">财务管理</A>  |  <A href="http://xxgk.ahjt.gov.cn:8090/xxgkweb/blue/index.jsp?unit=002986281&type=mulu&xxfl_id=010000&sort=0&name=%E8%A1%8C%E6%94%BF%E6%89%A7%E6%B3%95" target="_blank">行政执法</A>  |  <A href="http://xxgk.ahjt.gov.cn:8090/xxgkweb/blue/index.jsp?unit=002986281&type=mulu&xxfl_id=010000&sort=0&name=%E5%AE%89%E5%85%A8%E5%BA%94%E6%80%A5" target="_blank">安全应急</A>  |  <A href="http://xxgk.ahjt.gov.cn:8090/xxgkweb/blue/index.jsp?unit=002986281&type=mulu&xxfl_id=010000&sort=0&name=%E7%B2%BE%E7%A5%9E%E6%96%87%E6%98%8E" target="_blank">精神文明</A>  |  <A href="http://xxgk.ahjt.gov.cn:8090/xxgkweb/blue/index.jsp?unit=002986281&type=mulu&xxfl_id=010000&sort=0&name=%E6%94%BF%E5%BA%9C%E4%BF%A1%E6%81%AF%E5%85%AC%E5%BC%80%E4%B8%93%E9%A2%98" target="_blank">政府信息公开专题</A>  |<BR>
+       	         <!-- <a href="#">政府信息公开工作专题</a>  |  <a href="#">人大代表建议、政协委员提案</a>  | -->
+                 </DD>
+               </DL>
+            </DIV>
+        </DIV>
+    	<DIV class="part">
+        	<DIV class="part_title fontYH">
+        	  <UL class="tabs_ul">
+              	<LI><A href="${base!}/zwdt/gljs/index.html" target="_blank" id="xw_title_0" onmouseover="tabitem(this,5)" class="on"><STRONG>公路建设</STRONG></A></LI>
+              	<LI><A href="${base!}/zwdt/glyh/index.html" target="_blank" id="xw_title_1" onmouseover="tabitem(this,5)"><STRONG>公路养护</STRONG></A></LI>
+              	<LI><A href="${base!}/zwdt/glzf/index.html" target="_blank" id="xw_title_2" onmouseover="tabitem(this,5)"><STRONG>公路执法</STRONG></A></LI>
+              	<LI><A href="${base!}/zwdt/jswm/index.html" target="_blank" id="xw_title_3" onmouseover="tabitem(this,5)"><STRONG>精神文明</STRONG></A></LI>
+                <LI><A href="${base!}/zwdt/zyjh/index.html" target="_blank" id="xw_title_4" onmouseover="tabitem(this,5)"><STRONG>重要讲话</STRONG></A></LI>
+              </UL>
+        	</DIV>
+            <DIV class="part_con" style="height:224px;">
+            	<DIV id="xw_content_0">
+                <UL class="part_conList">
+                 [@cms_content_list dateFormat='yyyy-MM-dd' count='8' titLen='35'  append='...' orderBy='4' channelId='00030003']
+          [#list tag_list as a]
+
+                    	                    	<LI><A href="[#if a.link??]${a.link}[#else]${base!}/${a.path}/${a.content_id}.html[/#if]" title="${a.title}" target="_blank"><SPAN style="[#if a.title_color??]color:${a.title_color};[/#if][#if a.is_bold='Y']font-weight:bold;[/#if]">[#if a.short_title??][@text_cut s=a.short_title len=titLen append='...'/][#else][@text_cut s=a.title len=titLen append='...'/][/#if]</SPAN></A><SPAN class="timespan">${a.pub_time?date(dateFormat)}</SPAN></LI>
+
+ [/#list]
+          [/@cms_content_list] 
+                </UL><DIV class="clear"></DIV>
+                </DIV>
+            	<DIV id="xw_content_1" style="display:none;">
+                <UL class="part_conList">
+       [@cms_content_list dateFormat='yyyy-MM-dd' count='8' titLen='35'  append='...' orderBy='4' channelId='00030004']
+          [#list tag_list as a]
+
+                    	                    	<LI><A href="[#if a.link??]${a.link}[#else]${base!}/${a.path}/${a.content_id}.html[/#if]" title="${a.title}" target="_blank"><SPAN style="[#if a.title_color??]color:${a.title_color};[/#if][#if a.is_bold='Y']font-weight:bold;[/#if]">[#if a.short_title??][@text_cut s=a.short_title len=titLen append='...'/][#else][@text_cut s=a.title len=titLen append='...'/][/#if]</SPAN></A><SPAN class="timespan">${a.pub_time?date(dateFormat)}</SPAN></LI>
+
+ [/#list]
+          [/@cms_content_list] 
+                </UL><DIV class="clear"></DIV>
+                </DIV>
+            	<DIV id="xw_content_2" style="display:none;">
+                <UL class="part_conList">
+     [@cms_content_list dateFormat='yyyy-MM-dd' count='8' titLen='35'  append='...' orderBy='4' channelId='00030005']
+          [#list tag_list as a]
+
+                    	                    	<LI><A href="[#if a.link??]${a.link}[#else]${base!}/${a.path}/${a.content_id}.html[/#if]" title="${a.title}" target="_blank"><SPAN style="[#if a.title_color??]color:${a.title_color};[/#if][#if a.is_bold='Y']font-weight:bold;[/#if]">[#if a.short_title??][@text_cut s=a.short_title len=titLen append='...'/][#else][@text_cut s=a.title len=titLen append='...'/][/#if]</SPAN></A><SPAN class="timespan">${a.pub_time?date(dateFormat)}</SPAN></LI>
+
+ [/#list]
+          [/@cms_content_list] 
+                </UL><DIV class="clear"></DIV>
+                </DIV>
+            	<DIV id="xw_content_3" style="display:none;">
+                <UL class="part_conList">
+     [@cms_content_list dateFormat='yyyy-MM-dd' count='8' titLen='35'  append='...' orderBy='4' channelId='00030006']
+          [#list tag_list as a]
+
+                    	                    	<LI><A href="[#if a.link??]${a.link}[#else]${base!}/${a.path}/${a.content_id}.html[/#if]" title="${a.title}" target="_blank"><SPAN style="[#if a.title_color??]color:${a.title_color};[/#if][#if a.is_bold='Y']font-weight:bold;[/#if]">[#if a.short_title??][@text_cut s=a.short_title len=titLen append='...'/][#else][@text_cut s=a.title len=titLen append='...'/][/#if]</SPAN></A><SPAN class="timespan">${a.pub_time?date(dateFormat)}</SPAN></LI>
+
+ [/#list]
+          [/@cms_content_list] 
+                </UL><DIV class="clear"></DIV>
+                </DIV>
+            	<DIV id="xw_content_4" style="display:none;">
+                <UL class="part_conList">
+      [@cms_content_list dateFormat='yyyy-MM-dd' count='8' titLen='35'  append='...' orderBy='4' channelId='00030007']
+          [#list tag_list as a]
+
+                    	                    	<LI><A href="[#if a.link??]${a.link}[#else]${base!}/${a.path}/${a.content_id}.html[/#if]" title="${a.title}" target="_blank"><SPAN style="[#if a.title_color??]color:${a.title_color};[/#if][#if a.is_bold='Y']font-weight:bold;[/#if]">[#if a.short_title??][@text_cut s=a.short_title len=titLen append='...'/][#else][@text_cut s=a.title len=titLen append='...'/][/#if]</SPAN></A><SPAN class="timespan">${a.pub_time?date(dateFormat)}</SPAN></LI>
+
+ [/#list]
+          [/@cms_content_list] 
+                </UL><DIV class="clear"></DIV>
+                </DIV>
+            </DIV>
+        </DIV>
+    	<DIV class="part">
+        	<DIV class="part_title fontYH">
+        	  <H2>办事服务</H2>
+        	</DIV>
+            <DIV class="part_con">
+               <DL class="bsfw_gs">
+               	  <DT><A href="http://www1.ahlz.cn/news/acceptance.aspx?lx=acceptance" target="_blank">受理事项</A></DT>
+                  <DD>
+                  	<UL class="bsfw_list">
+  [@cms_content_list dateFormat='yyyy-MM-dd' count='8' titLen='17'  append='...' orderBy='4' channelId='00060002']
+          [#list tag_list as a]
+
+                    	                    	<LI><A href="[#if a.link??]${a.link}[#else]${base!}/${a.path}/${a.content_id}.html[/#if]" title="${a.title}" target="_blank"><SPAN style="[#if a.title_color??]color:${a.title_color};[/#if][#if a.is_bold='Y']font-weight:bold;[/#if]">[#if a.short_title??][@text_cut s=a.short_title len=titLen append='...'/][#else][@text_cut s=a.title len=titLen append='...'/][/#if]</SPAN></A></LI>
+
+ [/#list]
+          [/@cms_content_list] 
+                    	
+                    </UL>
+                  </DD>
+               </DL>
+               <DL class="bsfw_gs">
+               	  <DT><A href="http://www1.ahlz.cn/news/show_handledlist.aspx?typeid=40" target="_blank">许可公示</A></DT>
+                  <DD>
+                  	<UL class="bsfw_list">
+ [@cms_content_list dateFormat='yyyy-MM-dd' count='8' titLen='17'  append='...' orderBy='4' channelId='00060005']
+          [#list tag_list as a]
+
+                    	                    	<LI><SPAN title="${a.title}" style="[#if a.title_color??]color:${a.title_color};[/#if][#if a.is_bold='Y']font-weight:bold;[/#if]">[#if a.short_title??][@text_cut s=a.short_title len=titLen append='...'/][#else][@text_cut s=a.title len=titLen append='...'/][/#if]</SPAN></LI>
+
+ [/#list]
+          [/@cms_content_list] 
+                    	
+                    </UL>
+                  </DD>
+               </DL>
+               <DIV class="clear"></DIV>
+            </DIV>
+        </DIV>
+    	<DIV class="part">
+        	<DIV class="part_title fontYH">
+        	  <H2>公众服务</H2>
+        	</DIV>
+            <DIV class="part_con">
+            	<DIV class="gzfw_img"><A href="http://60.166.52.120:8001/gzcx/web/map.jsp" target="_blank"><IMG src="${baseRes!}/img/txah.gif"></A></DIV>
+                <DIV class="gzfw_list">
+                	<DIV class="gzfw_title fontYH">
+                    	<UL class="tabs_ul">
+                        	<LI><A href="http://www.ahgslz.com/zwxx/?Ty=578" target="_blank" id="gzfw_title_0" class="on"><STRONG>整点路况</STRONG></A></LI>
+                        	<LI><A href="http://60.166.52.120:8001/gzcx/sslk.do?type=3" target="_blank" id="gzfw_title_1"><STRONG>交通事故</STRONG></A></LI>
+                            <LI><A href="http://60.166.52.120:8001/gzcx/sslk.do?type=1" target="_blank" id="gzfw_title_2"><STRONG>施工动态</STRONG></A></LI>
+                        </UL>
+                    </DIV>
+                    <DIV class="gzfw_con">
+                    	<DIV id="gzfw_content_0">
+                        <UL class="gzfw_conList">
+                        	<IFRAME src="http://www.ahgslz.com/api2" frameborder="no" width="325" height="160" scrolling="no"></IFRAME>
+                        </UL><DIV class="clear"></DIV>
+                        </DIV>
+                    	
+                    </DIV>
+                </DIV>
+            </DIV>
+        </DIV>
+    </DIV>
+    <DIV class="clear"></DIV>
+    <DIV class="part">
+    	<DIV class="part3_title fontYH">
+        	<H2>公路概况</H2>
+        </DIV>
+        <DIV class="part3_con">
+        	<DIV class="glgk_con_gljs">
+            	<H2>公路介绍</H2>
+                <P><IMG align="right" src="${baseRes!}/img/pic_gk1.gif" alt=""><A href="${base}/glgk/gljs/index.html" target="_blank">　　截止到2014年底，全省公路总里程达174373.262公里。<BR>　　按行政等级分：国道5127.964公里，占总里程的2.94%,其中国家高速公路2686.03 1公里；省道 8127.106公里，占总里程的4.66%；县道...</A></P>
+            </DIV>
+       	  <DIV class="glgk_con_fzgh">
+            	<H2>发展规划</H2>
+                <P><IMG align="right" src="${baseRes!}/img/pic_gk2.gif" alt=""><A href="${base}/glgk/fzgh/index.html" target="_blank">
+            <STRONG>总体目标</STRONG><BR>　　实施2356战略:完善两个网络：国省干线公路网和农村公路网。完成300亿投资：确保“十二五”完成国省干线公路投资300亿元。推进五个体系：权责一致的公路管理体系，规范有序的建养管理体系...</P></A>
+            </DIV>
+        	<DIV class="glgk_con_jscj">
+            	<H2>建设成就</H2>
+                <P><IMG align="right" src="${baseRes!}/img/pic_gk3.gif" alt=""><A href="${base}/glgk/jscj/index.html" target="_blank">
+                    　　2014年,全省普通国省干线公路累计完成投资365.71亿元，占年度计划的121%，完工里程1260公里，其中一级公路565公里，二级公路390公里，路面改善305公里。至2014年底，一级公路...</P></A>
+            </DIV>
+            <DIV class="clear"></DIV>
+        </DIV>
+    </DIV>
+</DIV>
+[#include "../include/foot.html"/]
+</BODY>
+</HTML>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

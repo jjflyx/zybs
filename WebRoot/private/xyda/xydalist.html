@@ -1,0 +1,461 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html style="overflow-y:auto">
+<head>
+    <title>$!app_name</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!-- 框架 -->
+    <link href="${base}/include/css/default.css" rel="stylesheet" type="text/css"/>
+    <script type='text/javascript'>
+        var CONTEXTPATH = '${base}';
+        var stylePath = '$!stylename';
+
+    </script>
+    <script src="${base}/include/js/main.js"></script>
+    <script src="${base}/include/js/string.js"></script>
+    <!-- 分页  注意顺序 -->
+    <link href="${base}/include/css/themes/gray/easyui.css" rel="stylesheet" type="text/css"/>
+    <script src="${base}/include/js/jquery.easyui.min.js"></script>
+    <!-- 树 -->
+    <script type="text/javascript" src="${base}/include/controls/ztree/jquery.ztree.core-3.5.min.js"></script>
+    <link rel="stylesheet" href="${base}/include/controls/ztree/zTreeStyle/zTreeStyle.css" type="text/css">
+
+    <script>
+        function getWidth(percent){
+            return document.body.clientWidth*percent;
+        }
+        
+        var xyztlx = $!xyztlx;
+        function loadData(){
+            $("#dg1").datagrid({
+                width:"auto",
+                height:"auto",
+                nowrap: false,
+                striped: true,
+                border: true,
+                collapsible:false,//是否可折叠的
+                url : "${base}/private/xyda/xydalist",//首次查询路径
+                queryParams:{"xy_type":$("#xy_type").val(),"xyzt_type":$("#xyzt_type").val(),"name":$("#name").val(),"xystatus":$("#xystatus").val()},//首次查询参数
+                idField:"xyzt_id",
+                treeField:"name",
+                singleSelect:false,//是否单选
+                rownumbers:true,//行号
+                fit: true,//自动大小
+                fitColumns: true,//行自适应
+                pagination:true,//分页控件
+                loadMsg:'数据加载中...',
+                columns : [ [
+                    {
+                        field : "xyzt_name",
+                        title : "信用主体",
+                        align : 'center',
+                        width : 300
+                    },
+                    {
+                        field : "xyzt_type",
+                        title : "类型",
+                        align : 'center',
+                        width : getWidth(0.05),
+                        formatter : function(val,rec){
+                            if(val!=null && val!=""){
+                                val = xyztlx[val];
+                            }
+                            return val;
+                        }
+                    },
+                    {
+                        field : "xyzt_code",
+                        title : "统一社会信用代码",
+                        align : 'center',
+                        width : getWidth(0.25)
+                    } ,
+                    {
+                        field : "status",
+                        title : "信用状态",
+                        align : 'center',
+                        width : getWidth(0.2)
+                    } ,
+                    {
+                        field : "e",
+                        title : "浏览",
+                        width : getWidth(0.1),
+                        align : "center",
+                        formatter:function(val,rec){
+                        val = '<img src=${base}/images/icons/icon003a15.gif />';
+                        return "<a href=\"javascript:;\" onClick=\"detailInfo("+rec.xyzt_id+");\">"+val+"</a>";  
+                        }
+                    }
+                ] ],
+                /*frozenColumns:[[
+                    {field:"id",checkbox:true}
+                ]],*/
+                onDblClickRow:function(row)
+                {
+                    //toupdate(row.id);
+                }
+                
+                //,
+                // onLoadSuccess:function(){
+                //   initCheckbox();
+                // }
+
+            });
+            //设置分页控件  
+            var p = $("#dg1").datagrid("getPager");  
+            $(p).pagination({  
+                beforePageText: "第",//页数文本框前显示的汉字  
+                afterPageText: "页    共 {pages} 页",  
+                displayMsg: "当前显示 {from} - {to} 条记录   共 {total} 条记录",  
+                onBeforeRefresh:function(){ 
+                }
+            }); 
+            
+        }
+        
+        function detailInfo(id){
+            var iHeight = 560;
+            var iWidth = 850;
+            var iTop = (window.screen.height-30-iHeight)/2; //获得窗口的垂直位置;
+            var iLeft = (window.screen.width-10-iWidth)/2; //获得窗口的水平位置;
+            window.open ("${base}/private/xyda/detailXyda?xyzt_id="+id, "失惩信息查看", 'height='+iHeight+',,innerHeight='+iHeight+',width='+iWidth+',innerWidth='+iWidth+',top='+iTop+',left='+iLeft+',toolbar=no,menubar=no,scrollbars=auto,resizeable=no,location=no,status=no');
+        }
+        function detailInfojl(){
+            var iHeight = 560;
+            var iWidth = 800;
+            var iTop = (window.screen.height-30-iHeight)/2; //获得窗口的垂直位置;
+            var iLeft = (window.screen.width-10-iWidth)/2; //获得窗口的水平位置;
+            window.open ("${base}/private/zjgl/xyda/checkJl", "失惩信息查看", 'height='+iHeight+',,innerHeight='+iHeight+',width='+iWidth+',innerWidth='+iWidth+',top='+iTop+',left='+iLeft+',toolbar=no,menubar=no,scrollbars=auto,resizeable=no,location=no,status=no');
+            }
+
+        //转到新增页面
+        function add()
+        {
+            var d = new Dialog("Add");
+            d.Width = 500;
+            d.Height = 330;
+            d.Title = "新建菜单";
+            d.URL = "${base}/private/zjgl/sxcj/toadd";
+            d.OKEvent = function() {
+                if ($DW.Verify.hasError()) {
+                    return;
+                }
+                //var dc = $DW.Form.getData("form1");
+                addSave();
+            }
+            d.onLoad = function() {
+                $DW.$("name").focus();
+            }
+            d.show();
+        }
+        function addSave(){
+            
+            jQuery.ajax({
+                type: 'POST',
+                url : "${base}/private/zjgl/sxcj/add" ,
+                data : $DW.$("#form1").serialize(),
+                success : function (res) {
+                    if(res=="true"){
+                        $D.close();
+                        Dialog.alert("添加成功！");
+
+                        loadData();
+                    }else{
+                        Dialog.alert("添加失败！");
+                    }
+
+                    return false;
+                },
+                fail : function(res) {
+                    Dialog.alert("系统错误?!");
+                }
+            });
+        }
+        //转到修改页面
+        function update()
+        {
+            var arr = DataGrid.getSelectedValueID("dg1");
+            if (!arr || arr.length == 0) {
+                Dialog.alert("请先选择要编辑的菜单！");
+                return;
+            }
+            var d = new Dialog("Update");
+            d.Width = 500;
+            d.Height = 300;
+            d.Title = "修改菜单";
+            d.URL = "${base}/private/zjgl/sxcj/toUpdate";
+            d.OKEvent = function() {
+                if ($DW.Verify.hasError()) {
+                    return;
+                }else{
+                    updateSave();
+                }
+                //var dc = $DW.Form.getData("form1");
+                $DW.$("form1").submit();
+            }
+            d.onLoad = function() {
+                $DW.$("#name").focus();
+            }
+            d.show();
+
+        }
+        //转到修改页面
+        function toupdate(id)
+        {
+            var d = new Dialog("Update");
+            d.Width = 500;
+            d.Height = 300;
+            d.Title = "修改菜单";
+            d.URL = "${base}/private/sys/res/toupdate?id="+id;
+            d.onLoad = function(){
+                $DW.$Z("name").focus();
+            }
+            d.OKEvent = function(){
+                updateSave();
+            };
+            d.show();
+        }
+        function updateSave(){
+            if($DW.Verify.hasError()){
+                return;
+            }
+            jQuery.ajax({
+                type: 'POST',
+                url : "${base}/private/zjgl/sxcj/updateSave" ,
+                data : $DW.$("#form1").serialize(),
+                success : function (res) {
+
+                    if(res!=""){
+                        $D.close();
+                        Dialog.alert("修改成功！");
+                        loadData();
+                    }else{
+                        Dialog.alert("修改失败！");
+                    }
+
+                    return false;
+                },
+                fail : function(res) {
+                    Dialog.alert("系统错误?!");
+                }
+            });
+
+        }
+
+
+        //转到排序页面
+        function sort()
+        {
+            var d = new Dialog("Sort");
+            d.Width = 450;
+            d.Height = 350;
+            d.Title = "菜单排序";
+            d.URL = "${base}/private/sys/res/toSort";
+            d.OKEvent = function() {
+                $DW.getIdsTree();
+                sortUpdate();
+            }
+            //d.ShowMessageRow = true;
+            //d.MessageTitle = "菜单排序";
+            //d.Message = "只能改变同级的先后顺序，并要保证原先的上下级关系不变！";
+            d.show();
+        }
+        function sortUpdate(){
+            if($DW.Verify.hasError()){
+                return;
+            }
+            if($DW.$("#commit").val()==0){
+                $DW.$("#commit").val(1);
+                jQuery.ajax({
+                    type: 'POST',
+                    url : "${base}/private/sys/res/sort" ,
+                    data : $DW.$("#form1").serialize(),
+                    success : function (res) {
+
+                        if(res=="true"){
+                            $D.close();
+                            Dialog.alert("排序成功！");
+                            loadData();
+
+                        }else{
+                            Dialog.alert("排序失败！");
+                        }
+
+                        return false;
+                    },
+                    fail : function(res) {
+                        Dialog.alert("系统错误?!");
+                    }
+                });
+            }else{
+                Dialog.alert("正在提交，请稍候！");
+                return false;
+            }
+        }
+        function del() {
+            var ids = [];
+            var arr = $('#dg1').datagrid('getSelections');
+            if (!arr || arr.length == 0) {
+                Dialog.alert("请先选择要删除的资源菜单！");
+                return;
+            }
+            for(var i=0; i<arr.length; i++){
+                ids.push(arr[i].id);
+                if(arr[i].id=="0001"||arr[i].id.substring(0,8)=="00010001"){
+                    Dialog.alert("系统菜单不可删除！");
+                    return;
+                }
+            }
+            Dialog.confirm("注意：这是级联删除，下级菜单会被一起删除，您确认要删除吗？", function() {
+                jQuery.ajax({
+                    url : "${base}/private/sys/res/del?id="+ids,
+
+                    success : function (res) {
+
+                        if(res=="true"){
+                            Dialog.alert("删除成功！");
+
+                            loadData();
+                        }else{
+                            Dialog.alert("删除失败！");
+                        }
+
+                        return false;
+                    },
+                    fail : function(res) {
+                        Dialog.alert("系统错误?!");
+                    }
+                });
+
+
+            });
+        }
+        function sel(obj){
+            var id=obj.value;
+            var qx=document.getElementsByName("id");
+            for(var i = 0; i < qx.length; i ++)
+            {
+                if(qx[i].type == "checkbox")
+                {
+                    var v=qx[i].value;
+                    if(v!=""&&v.length>id.length&&v.startWith(id)){
+                        if(obj.checked){
+                            qx[i].checked=true;
+                        } else{
+                            qx[i].checked=false;
+                        }
+                    }
+                    if(v!=""&&v.length<id.length&&id.startWith(v)){
+                        if(obj.checked){
+                        } else{
+                            qx[i].checked=false;
+                        }
+                    }
+
+                }
+            }
+
+        }
+        function change(){
+            var subtype = Page.getValue("subtype");
+            if(subtype==1){
+            var option = 
+                         "<option value='0'>探矿权市场信用</option>"+
+                         "<option value='1'>采矿权市场信用</option>";
+                $("#subtype1").html(option);
+                }
+            else if(subtype==3){
+                var option = "";
+                option = 
+                         "<option>土地价格评估服务</option>"+
+                         "<option>土地规划服务信用</option>"+
+                         "<option>土地登记代理服务信用</option>"+
+                         "<option>矿产权价格评估服务信用</option>"+
+                         "<option>地质灾害危险性评估服务信用</option>"+
+                         "<option>国土资源监测服务信用</option>";
+                $("#subtype1").html(option);
+                }
+            else if(subtype==4){
+                var option = "";
+                option = 
+                         "<option>农村土地整治项目设计、施工、监理信用</option>"+
+                         "<option>地质灾害治理工程勘查、设计、施工、监理信用</option>"+
+                         "<option>矿山地质环境治理项目勘查、设计、施工、监理信用</option>"+
+                         "<option>实施地质勘查信用</option>";
+                $("#subtype1").html(option);
+                }else{
+                    var option = "";
+                    option = 
+                             "<option>无</option>";
+                    $("#subtype1").html(option);
+                    }
+            }
+        Page.onLoad(function() {
+            loadData();
+
+        });
+        $(window).resize(function () {
+            clearTimeout(timer);
+            timer=setTimeout(function(){
+                $('#dg1').datagrid('resize');
+                $('div.panel-body').css('width','auto'); //////
+            },100);
+        });
+    </script>
+</head>
+<body leftmargin="0" topmargin="0" class="easyui-layout">
+            <form name='form1' id="from1" method='post'>
+                <input type="hidden" name="doAction" value=""> <input
+                    type="hidden" name="sys_menuid" value="$!sys_menuid"> <input
+                    type="hidden" name="checkids" value=""> <input
+                    type="hidden" name="deltype" value="1">
+                    <div region="north" border="false"
+		 style="overflow: hidden; padding: 10px 10px 0px 10px">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0"
+                       class="blockTable">
+                    <tr>
+                        <td class="blockTd">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="6">
+                                <tr>
+                                    <td>
+                                        &nbsp;
+                                       <!--   业务类别：<select id="xy_type" name="xy_type" onchange="loadData();">
+                                                    <option value="">请选择</option>
+                                                    #foreach($obj in $csvalueList)
+                                                        <option value="$!obj.value">
+                                                            <script type="text/javascript">
+                                                                document.write(gettreecode('$!obj.value'));
+                                                            </script>$!obj.name
+                                                        </option>
+                                                    #end
+                                                </select>
+                                        &nbsp;-->
+                                        信用主体类型：<select id="xyzt_type" name="xyzt_type" onchange="loadData()">
+                    <option value="">请选择</option>
+                    #foreach($!ztmap in $!ztMap)
+                    <option value="$!ztmap.value">$!ztmap.name</option>
+                    #end
+                </select>
+                                        &nbsp;
+                                        关键字：<input type="text" name="name" id="name" size="20" placeholder="信用主体名称"></input>
+                                        &nbsp;
+                	信用状态：                       
+				<select id="xystatus" name="xystatus" onchange="loadData();">
+					<option value="">请选择</option> 
+					<option value="1">黑榜</option>
+					<option value="2">红榜</option>
+					<option value="3">正常</option>
+				</select>
+                                        <input type="button" name="check" id="check" value="查询" onclick="loadData()"></input>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                </div>
+	<div region="center" border="false"
+		 style="width: 100%; height: 100%; padding: 0px 10px 10px;">
+		<div id="dg1" style="width: 100%; height: 100%;"></div>
+	</div>
+            </form>
+</body>
+</html>

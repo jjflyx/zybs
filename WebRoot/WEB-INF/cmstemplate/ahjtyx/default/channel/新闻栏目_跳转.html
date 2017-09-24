@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<HTML xmlns="http://www.w3.org/1999/xhtml">
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=utf-8">
+<TITLE>安徽省交通运输联网管理中心</TITLE>
+<LINK rel="stylesheet" type="text/css" href="${baseRes!}/css/list.css">
+<SCRIPT type="text/javascript" src="${baseRes!}/js/jquery.min.js"></SCRIPT>
+<SCRIPT type="text/javascript" src="${baseRes!}/js/hits.js"></SCRIPT>
+<SCRIPT type="text/javascript" src="${baseRes!}/js/jquery.KinSlideshow-1.2.1.min.js"></SCRIPT>
+<!--[if IE 6]>
+<script language="javascript" type="text/javascript" src="res/jtlw/js/DD_belatedPNG.min.js"></script>
+<![endif]-->
+</HEAD>
+<BODY leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+ [@cms_channel_list hasContent='0' titLen='28'  append='...'  channelId=channel.channel_id?substring(0,channel.channel_id?length)]
+        [#list tag_list as c]
+           [#if c_index=0]
+<SCRIPT>
+window.location.href=" [#if c.linkurl??]${c.linkurl}[#else]${base!}/${c.path}/index.html[/#if]";
+</SCRIPT>
+         
+        [/#if]
+        [/#list]
+        [/@cms_channel_list]
+
+
+        
+
+</BODY>
+</HTML>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

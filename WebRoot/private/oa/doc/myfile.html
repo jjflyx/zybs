@@ -1,0 +1,478 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>$!app_name</title>
+
+<!-- 框架 -->
+	<link href="${base}/include/css/default.css" rel="stylesheet" type="text/css"/>
+
+	<script type='text/javascript'>
+		var CONTEXTPATH = '${base}';
+	</script>
+    <script src="${base}/include/js/main.js"></script>
+    <script language="JavaScript" type="text/javascript" src="${base}/include/controls/my97/WdatePicker.js"></script>
+    
+<LINK rel="stylesheet" type="text/css" href="${base}/images/doc/css/common.css">
+<LINK rel="stylesheet" type="text/css" href="${base}/images/doc/css/page.css">
+<script type="text/javascript">
+var page=1;
+var rows=15;
+var floderid="$!floderid";
+var listtype="$!listtype";
+var oldlisttype="$!listtype";
+var type="";
+var filecol="ctime";
+var filetype="desc";
+var share="";
+function initCheckbox(){
+	$(".file-ctrl").hide();
+	$("#js_data_list_inner").find("li").hover(function(){
+		$(this).addClass('hover');
+		$(this).find(".file-ctrl").show();
+	},function(){
+		$(this).removeClass('hover');
+		$(this).find(".file-ctrl").hide();
+	});
+	$("#js_data_list_inner").find("li").click(function(){
+		$(this).toggleClass("focus");
+
+		//$(this).nextAll().removeClass("focus")		
+		//$(this).prevAll().removeClass("focus")		
+	});
+	$("#filter-thumb").find("li").each(function(){
+		if(listtype==$(this).attr("val")){
+			$(this).addClass("focus");
+		}
+		 
+	}); 
+}
+function initTop(){
+	$(".filter-order").hover(function(){
+		$(this).find("div").show();	
+	},function(){
+		$(this).find("div").hide();	
+	});
+	
+	
+	$("#js_fileter_box").find("div.checkbox").click(function(){
+		$(this).toggleClass("checked"); 
+		if($(this).hasClass("checked")){
+			$("#js_data_list_inner").find("li").each(function(){
+				$(this).nextAll().addClass("focus");
+				$(this).prevAll().addClass("focus");
+			});
+		}else{
+			$("#js_contain_main_box").find("li").each(function(){
+				$(this).nextAll().removeClass("focus");
+				$(this).prevAll().removeClass("focus");
+			});
+		}
+		//var id="";
+		//$("#js_contain_main_box").find("li.focus").each(function(){
+		//	 id+=$(this).find(":checkbox").val()+",";
+		//});
+		//alert(id);
+	}); 
+
+	$("#js_fileter_box").find("div.filter-type").find("li").click(function(){
+		$(this).toggleClass("focus"); 
+		$(this).nextAll().removeClass("focus");
+		$(this).prevAll().removeClass("focus");
+		var val=$(this).attr("val");
+		
+		if(val=="all"){
+			type="";
+		}else if(val=="share"){
+			if($(this).hasClass("focus")){
+				share="Y";
+			}else{
+				share="";
+			}
+						
+		}else{
+			if($(this).hasClass("focus")){
+				type=val;
+			}else{
+				type="";
+				$("#js_fileter_box").find("div.filter-type").find("li:first").addClass("focus");
+			}
+		}
+		loadData(); 
+	});
+	$("#filter-thumb").find("li").click(function(){
+		$(this).toggleClass("focus"); 
+		$(this).nextAll().removeClass("focus");
+		$(this).prevAll().removeClass("focus");
+		listtype=$(this).attr("val");
+		loadData();
+   
+	}); 
+	$("#fileasc").find("li").click(function(){	
+		$("#fileasc").find("a.filter-menu").html("<span>"+$(this).find('a').html()+"</span>");
+		var val=$(this).attr("val");
+		if(val=="a_user_ptime"){
+			filecol="ctime";
+			filetype="desc";
+		}else if(val=="d_user_ptime"){
+			filecol="ctime";
+			filetype="asc";
+		}else if(val=="a_file_name"){
+			filecol="name";
+			filetype="desc";
+		}else if(val=="d_file_name"){
+			filecol="name";
+			filetype="asc";
+		}else if(val=="a_file_size"){
+			filecol="filesize";
+			filetype="desc";
+		}else if(val=="d_file_size"){
+			filecol="filesize";
+			filetype="asc";
+		}	
+		loadData();  
+		 
+	}); 
+}
+function addfloder()
+{
+	var d = new Dialog("AddFloder");
+	d.Width = 360;
+	d.Height = 100;
+	d.Title = "新建文件夹";
+	d.URL = "${base}/private/oa/doc/toaddfloder?floderid="+floderid;
+	d.OKEvent = function() {           
+			doAddfloder();                       
+	}
+	d.show();
+}
+function doAddfloder(){
+	if($DW.Verify.hasError()){
+		  return;
+	}
+	jQuery.ajax({
+		url : "${base}/private/oa/doc/checkname",
+		data : $DW.$("#form1").serialize(),
+		type: 'POST',
+		success : function (res) {	
+			if(res=="true"){
+				Dialog.alert("文件夹已存在！");	
+				return false;
+			}  
+			doAddfloderSave();
+		},
+		fail : function(res) {
+			Dialog.alert("系统错误?!");
+		}
+	});  	
+				 
+}
+//弹出文件上传窗口
+function addfile()
+{
+	var d = new Dialog("AddFile");
+	d.Width = 360;
+	d.Height = 140;
+	d.Title = "上传文件";
+	d.URL = "${base}/private/file/uploadOne?filetype=images";
+	d.OKEvent = function() {           
+		if($DW.Verify.hasError()){
+			  return;
+		}
+		 
+		if($DW.$("#filepath").val()==""){//判断是否上传成功 filename/filesize/filepath
+			 
+			Dialog.alert("没有上传文件？");
+		}else{
+			doAddfile();
+		}                    
+	}
+	d.show();
+	d.OKButton.value="保存";
+}
+//上传成功后保存入库
+function doAddfile(){
+	jQuery.ajax({
+		url : "${base}/private/oa/doc/doaddfile?floderid="+floderid, 
+		data : $DW.$("#form1").serialize(),
+		type: 'POST',
+		success : function (res) {
+			if(res!=""){
+				loadData();
+				$D.close();
+			}else{
+				Dialog.alert("保存失败！");	
+				 
+			}
+		},
+		fail : function(res) {
+			Dialog.alert("系统错误?!");
+		}
+	});
+				 
+} 
+function doAddfloderSave(){
+	jQuery.ajax({
+		url : "${base}/private/oa/doc/doaddfloder", 
+		data : $DW.$("#form1").serialize(),
+		type: 'POST',
+		success : function (res) {
+			if(res!=""){
+				loadData();
+				$D.close();
+			}else{
+				Dialog.alert("新建失败！");	
+				 
+			}
+		},
+		fail : function(res) {
+			Dialog.alert("系统错误?!");
+		}
+	});
+} 
+function addfiles()
+{
+	var d = new Dialog("AddFiles");
+	d.Width = 550;
+	d.Height = 315;
+	d.Title = "上传文件";
+	d.URL = "${base}/private/file/uploadMore?filetype=images";
+	d.OKEvent = function() {           
+		alert("|"+$DW.$("#uploader").pluploadQueue().files[0].name);                   
+	}
+	d.show();
+	d.OKButton.value="保存";
+}
+function loadData(){
+	Page.MinMessage.Show({
+        text: '正在加载中', 
+        type: 'load', 
+        timeout: 500
+    });
+	jQuery.ajax({
+		url : "${base}/private/oa/doc/getfile?floderid="+floderid+"&rows="+rows+"&page="+page+"&type="+type+"&listtype="+listtype+"&filecol="+filecol+"&filetype="+filetype+"&share="+share+"&oldlisttype="+oldlisttype+"&rnd="+Math.random(), 
+		success : function (res) {			 
+			jxjson(res);
+			
+			
+		},
+		fail : function(res) {
+			Dialog.alert("系统错误?!");
+		}
+});
+}
+function jxjson(res){
+	
+	$("#js_data_list_inner").html("");
+	var jsonobj =jQuery.parseJSON(res);
+	var total=jsonobj.total;
+	var pagetotal=parseInt(total%rows)==0?parseInt(total/rows):parseInt(total/rows)+1;	 
+	var pageprev="";
+	var pagenum="";
+	var pagenext="";
+	
+	oldlisttype=jsonobj.oldlisttype;
+	if(listtype=="L"){
+		jQuery.each(jsonobj.floder, function(index, obj) {
+			var t="i-share";
+			var s="tp-folder";
+			if(obj.isshare=="Y"){
+				t="i-share:hover";
+				s="tp-folder-shared";
+			}
+			var html="<LI><INPUT value=\"FO"+obj.floderid+"\" type=\"checkbox\" ><DIV class=\"checkbox\"></DIV>";
+			html+="<DIV style=\"POSITION: absolute; WIDTH: 34px; HEIGHT: 50px; TOP: 0px; LEFT: 0px\" checkbox=\"1\"></DIV><I class=\"file-type "+s+"\"></I>";
+			html+="<DIV class=\"file-name\"><A href=\"javascript:getfloder('"+obj.floderid+"');\">"+obj.name+"</A></DIV><DIV class=\"file-info\">";
+			html+="<EM>"+obj.ctime.substring(0,10)+"</EM><SPAN class=\"file-ctrl\"><A class=\"ico-lio  i-open\" href=\"javascript:getfloder('"+obj.floderid+"');\" btn=\"goto_dir\" data_title=\"打开\">打开</A><A class=\"ico-lio "+t+"\" href=\"javascript:sharefloder('"+obj.floderid+"');\" data_title=\"分享\">分享</A></SPAN></DIV></LI>";
+			$("#js_data_list_inner").append(html);
+		});
+		jQuery.each(jsonobj.file, function(index, obj) {
+			var t="i-share";
+			if(obj.isshare=="Y"){
+				t="i-share:hover";
+			}
+			var e=obj.name.substring(obj.name.indexOf(".")+1);
+			var et="tp-"+e;
+			var html="<LI><INPUT value=\"FL"+obj.fileid+"\" type=\"checkbox\" ><DIV class=\"checkbox\"></DIV>";
+			html+="<DIV style=\"POSITION: absolute; WIDTH: 34px; HEIGHT: 50px; TOP: 0px; LEFT: 0px\" checkbox=\"1\"></DIV><I class=\"file-type "+et+"\"></I>";
+			html+="<DIV class=\"file-name\"><SPAN><A href=\"javascript:getfile('"+obj.fileid+"');\">"+obj.name+"</A></SPAN></DIV><DIV class=\"file-info\">";
+			html+="<EM>"+obj.ctime+"</EM><EM>"+obj.filesize+"MB</EM><SPAN class=\"file-ctrl\"><A class=\"ico-lio  i-download\" href=\"javascript:downfile('"+obj.fileid+"');\" data_title=\"下载\">下载</A><A class=\"ico-lio "+t+"\" href=\"javascript:sharefile('"+obj.fileid+"');\" data_title=\"分享\">分享</A></SPAN></DIV></LI>";
+			$("#js_data_list_inner").append(html);
+		});
+	
+	
+		 $("#js_data_list_outer").removeClass("list-icon");
+		 $("#js_data_list_outer").removeClass("list-thumb");		
+	}else{
+	 
+		jQuery.each(jsonobj.floder, function(index, obj) {
+			var t="i-share";
+			var s="tb-folder";
+			if(obj.isshare=="Y"){
+				t="i-share:hover";
+				s="tb-folder-shared";
+			}
+			var html="<LI><INPUT value=\"FO"+obj.floderid+"\" type=\"checkbox\" ><DIV class=\"checkbox\"></DIV>";
+			html+="<DIV style=\"POSITION: absolute; WIDTH: 34px; HEIGHT: 50px; TOP: 0px; LEFT: 0px\" checkbox=\"1\"></DIV><I class=\"file-thumb "+s+"\"></I>";
+			html+="<DIV class=\"file-name\"><A href=\"javascript:getfloder('"+obj.floderid+"');\">"+obj.name+"</A></DIV><DIV class=\"file-info\">";
+			html+=obj.ctime.substring(0,10)+"</DIV><DIV class=\"file-opt\"><A class=\"ico-lio  i-open\" href=\"javascript:getfloder('"+obj.floderid+"');\" btn=\"goto_dir\" data_title=\"打开\">打开</A><A class=\"ico-lio "+t+"\" href=\"javascript:sharefloder('"+obj.floderid+"');\" data_title=\"分享\">分享</A></SPAN></DIV></LI>";
+			$("#js_data_list_inner").append(html);
+		});
+		jQuery.each(jsonobj.file, function(index, obj) {
+			var t="i-share";
+			if(obj.isshare=="Y"){
+				t="i-share:hover";
+			}
+			var e=obj.name.substring(obj.name.indexOf(".")+1);
+			var et="tb-"+e;
+			var html="<LI><INPUT value=\"FL"+obj.fileid+"\" type=\"checkbox\" ><DIV class=\"checkbox\"></DIV>";
+			html+="<DIV style=\"POSITION: absolute; WIDTH: 34px; HEIGHT: 50px; TOP: 0px; LEFT: 0px\" checkbox=\"1\"></DIV><I class=\"file-thumb "+et+"\"></I>";
+			html+="<DIV class=\"file-name\"><SPAN><A href=\"javascript:getfile('"+obj.fileid+"');\">"+obj.name+"</A></SPAN></DIV><DIV class=\"file-info\">";
+			html+=obj.filesize+"MB</DIV><DIV class=\"file-opt\"><A class=\"ico-lio  i-download\" href=\"javascript:downfile('"+obj.fileid+"');\" data_title=\"下载\">下载</A><A class=\"ico-lio "+t+"\" href=\"javascript:sharefile('"+obj.fileid+"');\" data_title=\"分享\">分享</A></SPAN></DIV></LI>";
+			$("#js_data_list_inner").append(html);
+		});
+		 $("#js_data_list_outer").addClass("list-icon");
+		 $("#js_data_list_outer").addClass("list-thumb");
+	}
+	initCheckbox();
+	$("#pagectl").html("");
+	if(page>1){
+		pageprev="<a href=\"javascript:gotoPage("+(page-1)+")\" class=\"btn btn-prev\">上一页</a>";
+	}else{
+		pageprev="<span class=\"btn btn-prev\">上一页</span>";
+	}
+	
+	for(var i=1;i<=pagetotal;i++){
+		pagenum+="<a href=\"javascript:gotoPage("+i+");\"";
+		if(i==page){
+			pagenum+="class=\"focus\"";
+		}
+		pagenum+=">"+i+"</a>";		
+	}
+	if(page<pagetotal){
+		pagenext="<a href=\"javascript:gotoPage("+(page+1)+")\" class=\"btn btn-next\">下一页</a>";
+	}else{
+		pagenext+="<span class=\"btn btn-next\">下一页</span>";
+	} 
+	$("#pagectl").html("<div class=\"pagination\"><div class=\"con\">"+pageprev+pagenum+pagenext+"</div></div>");
+ 
+}
+function gotoPage(p){
+	page=p;
+	loadData();
+	
+}
+function getfloder(fid){
+	floderid=fid;
+	jQuery.ajax({
+			url : "${base}/private/oa/doc/getfloder?floderid="+fid , 
+			success : function (res) {
+				$("#flodername").html(res+"<EM></EM>");
+				$("#floderid").val(floderid);
+				loadData();
+				return false;
+			},
+			fail : function(res) {
+				Dialog.alert("系统错误?!");
+			}
+	});
+	 
+}
+function initButton(){
+	   Page.initBtn();
+	   $!initBtn
+	   
+}
+Page.onLoad(function(){
+	      
+	   initButton();
+	   initTop();
+	   getfloder('$!floderid');   	
+}); 
+</script>
+</head>
+<body leftmargin="0" topmargin="0" style="overflow-x: hidden; overflow-y: auto">
+<input type="hidden" id="floderid" value=""/> 
+<DIV id="js_contain_main_box" class="container noside">
+	<DIV id="js_cantain_box" class="col-main">
+		<DIV style="Z-INDEX: 999999" id="js_top_bar_box" class="operate-panel">
+			<DIV class="opt-button">
+				<A class="button" href="javascript:addfile();"><I class="ico-btn ib-upload"></I><SPAN>上传文件</SPAN></A>
+				<A class="button" href="javascript:addfiles();"><I class="ico-btn ib-upload"></I><SPAN>批量上传</SPAN></A>
+				<A class="button btn-gray" href="javascript:addfloder();"><I class="ico-btn ib-newdir"></I><SPAN style="FONT-SIZE: 12px; FONT-WEIGHT: normal">新建文件夹</SPAN></A>
+				<A class="button btn-gray" href="javascript:;"><I class="ico-btn ib-share"></I><SPAN style="FONT-SIZE: 12px; FONT-WEIGHT: normal">取消分享</SPAN></A>
+				<A class="button btn-gray" href="javascript:;"><I class="ico-btn ib-recycle"></I><SPAN style="FONT-SIZE: 12px; FONT-WEIGHT: normal">删除</SPAN></A>
+				<DIV class="top-search">
+				<FORM id="js_search_file_form" ><INPUT id="js_search_name_input" type="text" name="search_name" placeholder="搜索文件"><a class="searchbutton" href="javascript:;"><I>搜索</I></a>
+				</FORM></DIV>
+				<A style="DISPLAY: none" class="button btn-gray" href="javascript:;" rel="more_btn"><B>更多操作</B><I class="arrow"></I></A>
+			</DIV>
+			<DIV class="opt-side"></DIV>
+		</DIV>
+		<DIV style="Z-INDEX: 99999" class="directory-path">
+			
+			<DIV class="path-contents" id="flodername"> 
+			</DIV>
+		</DIV>
+		<DIV id="js_fileter_box" class="list-filter">
+			<DIV class="checkbox"></DIV>
+			<INPUT style="DISPLAY: none" id="js_check_all_top" type="checkbox" check="all">
+			<DIV class="filter-type" id="filter-type">
+				<UL>
+					<LI val="all" class="focus"><A><I class="lf-all"></I><SPAN>全部</SPAN></A></LI>
+					<LI val="document"><A><I class="lf-document"></I><SPAN>文档</SPAN></A></LI>
+					<LI val="images"><A><I class="lf-photo"></I><SPAN>图片</SPAN></A></LI>
+					<LI val="music"><A><I class="lf-music"></I><SPAN>音乐</SPAN></A></LI>
+					<LI val="video"><A><I class="lf-video"></I><SPAN>视频</SPAN></A></LI>
+					<LI val="archive"><A><I class="lf-archive"></I><SPAN>压缩包</SPAN></A></LI>
+				</UL>
+				<UL>  
+					<LI val="share"><A href="javascript:;"><I class="lf-share"></I><SPAN>共享</SPAN></A></LI>
+				</UL>
+			</DIV>
+			<DIV style="PADDING-LEFT: 5px" class="filter-sub">
+				<DIV id="fileasc" style="PADDING-LEFT: 0px; PADDING-RIGHT: 5px" class="filter-order">
+					<A class="filter-menu"><SPAN>时间从新到旧</SPAN><I></I></A>
+					<DIV style="DISPLAY: none;">
+						<UL>
+							<LI val="a_file_name"><A>按文件名倒序</A></LI>
+							<LI val="d_file_name"><A>按文件名顺序</A></LI>
+							<LI val="a_user_ptime"><A>时间从新到旧</A></LI>
+							<LI val="d_user_ptime"><A>时间从旧到新</A></LI>
+							<LI val="a_file_size"><A>文件从大到小</A></LI>
+							<LI val="d_file_size"><A>文件从小到大</A></LI>
+						</UL>
+					</DIV>
+				</DIV>
+				<UL class="filter-thumb" id="filter-thumb">
+					<LI val="L" style="PADDING-RIGHT: 5px"><A><I class="ls-list"></I><SPAN>列表</SPAN></A></LI>
+					<LI val="T"><A><I class="ls-thumb"></I><SPAN>图标</SPAN></A></LI>
+				</UL>
+			</DIV>
+		</DIV>
+		<DIV id="js_data_list_outer" class="page-list">
+			<DIV style="MIN-HEIGHT: 100%; BACKGROUND: #fff; CURSOR: default; _height: 100%;" id="js_data_list">
+				<UL style="OVERFLOW: hidden; _zoom: 1" id="js_data_list_inner">
+				
+				</UL>
+			</DIV>
+		</DIV>
+		 <DIV  id="pagectl"class="page-footer" style="text-align:center;">
+ 		
+
+		</DIV>
+		 
+	</DIV>
+</DIV>
+<DIV style="Z-INDEX: 99" class="sub-nav">
+	<UL>
+		<LI>
+			<A id="js_recycle_full_box" href="javascript:;">
+				<I class="sn-recycle"></I><SPAN>回收站</SPAN><SPAN style="DISPLAY: none">&nbsp;</SPAN>
+			</A>
+		</LI>
+ 
+	</UL>
+</DIV> 
+</body>
+</html>

@@ -1,0 +1,407 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<title>$!app_name</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<!-- 框架 -->
+		<link rel="stylesheet" type="text/css" href="${base}/include/css/blue/style.css"/>
+		<script type='text/javascript'>
+			var CONTEXTPATH = '${base}';
+			var stylePath = '$!stylename';
+		</script>
+		<script src="${base}/include/js/main.js"></script>
+		<script src="${base}/include/js/string.js"></script>
+		<!-- 分页  注意顺序 -->
+		<link href="${base}/include/css/themes/gray/easyui.css"
+			rel="stylesheet" type="text/css" />
+		<script src="${base}/include/js/jquery.easyui.min.js"></script>
+		<!-- 树 -->
+		<script type="text/javascript"
+			src="${base}/include/controls/ztree/jquery.ztree.core-3.5.min.js"></script>
+		<link rel="stylesheet"
+			href="${base}/include/controls/ztree/zTreeStyle/zTreeStyle.css"
+			type="text/css">
+
+		<script>
+	function getWidth(percent){
+       return document.body.clientWidth*percent;
+	}
+	function loadData(){
+		$("#dg1").treegrid({
+			width:"auto",
+        	height:"auto",
+        	nowrap: false,  
+        	striped: true,  
+        	border: true,  
+        	collapsible:false,//是否可折叠的 
+			url : "${base}/private/sys/res/listAll?subtype="+Page.getValue("subtype"),//首次查询路径
+			queryParams:{"id":""},//首次查询参数
+			idField:"id",
+			treeField:"name",
+			singleSelect:false,//是否单选 
+			rownumbers:true,//行号  
+			fit: true,//自动大小  
+			fitColumns: true,//行自适应
+			pagination:false,//分页控件  
+			loadMsg:'数据加载中...',
+			columns : [ [
+			{
+				field : "name",
+				title : "资源名称",
+				width : 320
+			},
+			{
+				field : "qyzt",
+				title : "状态",
+				width : 80
+			},
+			{
+				field : "descript",
+				title : "资源说明",
+				width : getWidth(0.10)
+			} ,
+			{
+				field : "url",
+				title : "资源URL",
+				width : getWidth(0.15)
+			} ,
+			{
+				field : "bts",
+				title : "资源按钮",
+				width : getWidth(0.25)
+			} 
+			] ],
+        	 frozenColumns:[[  
+        	            {field:"id",checkbox:true}
+        	 ]],
+			 onDblClickRow:function(row)
+        	 {
+        	     toupdate(row.id);
+        	 }
+			//,
+        	// onLoadSuccess:function(){
+        	//	 initCheckbox();
+        	// }
+
+		});
+	}
+
+    //转到新增页面
+    function add()
+    {
+        var d = new Dialog("Add");
+        d.Width = 500;
+        d.Height = 330;
+        d.Title = "新建菜单";
+        d.URL = "${base}/private/sys/res/toAdd";
+        d.OKEvent = function() {
+            if ($DW.Verify.hasError()) {
+                return;
+            }
+            //var dc = $DW.Form.getData("form1");
+            addSave();
+        }
+        d.onLoad = function() {
+            $DW.$("name").focus();
+        }
+        d.show();
+    }
+    
+    function addSave(){     
+		if($DW.Verify.hasError()){
+		  return;
+	     }
+		var bt="";
+		$DW.$("input[name='bt']:checked").each(function(){
+			 bt+=$(this).val();
+			
+		});
+		$DW.$("#button").val(bt);
+		jQuery.ajax({
+			 	type: 'POST',
+    			url : "${base}/private/sys/res/addSave" ,
+    			data : $DW.$("#form1").serialize(),
+    			success : function (res) { 
+    				if(res=="true"){
+    					$D.close();
+    					Dialog.alert("添加成功！");
+    					
+    					loadData();
+    				}else{
+    					Dialog.alert("添加失败！");
+    				}
+    				 
+    				return false;
+    			},
+    			fail : function(res) {
+    				Dialog.alert("系统错误?!");
+    			}
+    		}); 
+	}
+    //转到修改页面
+    function update()
+    {
+        var arr = $('#dg1').treegrid('getSelections');
+        if (!arr || arr.length == 0) {
+            Dialog.alert("请先选择要编辑的菜单！");
+            return;
+        }
+        var d = new Dialog("Update");
+        d.Width = 500;
+        d.Height = 300;
+        d.Title = "修改菜单";
+        d.URL = "${base}/private/sys/res/toupdate?id=" + arr[0].id;
+        d.OKEvent = function() {
+            if ($DW.Verify.hasError()) {
+                return;
+            }else{
+            	updateSave();
+            }
+            $DW.$("form1").submit();
+        }
+        d.onLoad = function() {
+            $DW.$("#name").focus();
+        }
+        d.show();
+
+    }  
+   
+    //转到修改页面
+    function toupdate(id)
+    {
+        var d = new Dialog("Update");
+        d.Width = 500;
+        d.Height = 300;
+        d.Title = "修改菜单";
+        d.URL = "${base}/private/sys/res/toupdate?id="+id;
+       	d.onLoad = function(){
+       		$DW.$Z("name").focus();
+       	}
+       	d.OKEvent = function(){
+       		updateSave();
+       		
+       	};
+       	d.show();
+    }
+    
+    function updateSave(){     
+  		 if($DW.Verify.hasError()){
+  		  return;
+  	     }
+  		 jQuery.ajax({
+  				type: 'POST',
+      			url : "${base}/private/sys/res/updateSave" ,
+      			data : $DW.$("#form1").serialize(),
+      			success : function (res) { 
+      			
+      				if(res!=""){
+      					$D.close();
+      					Dialog.alert("修改成功！");
+      					loadData();
+      				}else{
+      					Dialog.alert("修改失败！");
+      				}
+      				
+      				return false;
+      			},
+      			fail : function(res) {
+      				Dialog.alert("系统错误?!");
+      			}
+      		});
+  	}
+    
+
+    //转到排序页面
+    function sort()
+    {
+        var d = new Dialog("Sort");
+        d.Width = 450;
+        d.Height = 350;
+        d.Title = "菜单排序";
+        d.URL = "${base}/private/sys/res/toSort";
+        d.OKEvent = function() {
+        	 $DW.getIdsTree();
+        	 sortUpdate();
+        }
+        //d.ShowMessageRow = true;
+        //d.MessageTitle = "菜单排序";
+        //d.Message = "只能改变同级的先后顺序，并要保证原先的上下级关系不变！";
+        d.show();
+    }
+    function sortUpdate(){
+    	if($DW.Verify.hasError()){
+    		  return;
+    	     }
+    	if($DW.$("#commit").val()==0){
+    		$DW.$("#commit").val(1);
+    		 jQuery.ajax({
+    				type: 'POST',
+        			url : "${base}/private/sys/res/sort" ,
+        			data : $DW.$("#form1").serialize(),
+        			success : function (res) { 
+        			
+        				if(res=="true"){
+        					$D.close();
+        					Dialog.alert("排序成功！");
+        					loadData();
+
+        				}else{
+        					Dialog.alert("排序失败！");
+        				}
+        				
+        				return false;
+        			},
+        			fail : function(res) {
+        				Dialog.alert("系统错误?!");
+        			}
+        		});
+    	}else{
+    		 Dialog.alert("正在提交，请稍候！");
+             return false;
+    	}
+    }
+    function del() {
+    	var ids = [];
+		var arr = $('#dg1').treegrid('getSelections');
+	    if (!arr || arr.length == 0) {
+	        Dialog.alert("请先选择要删除的资源菜单！");
+	        return;
+	    }
+	    for(var i=0; i<arr.length; i++){
+	        ids.push(arr[i].id);
+			if(arr[i].id=="0001"||arr[i].id.substring(0,8)=="00010001"){
+				Dialog.alert("系统菜单不可删除！");
+				return;
+			}
+	    }
+          Dialog.confirm("注意：这是级联删除，下级菜单会被一起删除，您确认要删除吗？", function() {
+       	   jQuery.ajax({
+      			url : "${base}/private/sys/res/del?id="+ids,
+      		
+      			success : function (res) {  
+      				
+      				if(res=="true"){ 
+      					Dialog.alert("删除成功！");      					 
+      					loadData();
+      				}else{
+      					Dialog.alert("删除失败！");
+      				}
+      				 
+      				return false;
+      			},
+      			fail : function(res) {
+      				Dialog.alert("系统错误?!");
+      			}
+      		});
+       	   
+       	   
+          });
+      }
+    function sel(obj){
+         var id=obj.value;
+         var qx=document.getElementsByName("id");
+         for(var i = 0; i < qx.length; i ++)
+           {
+               if(qx[i].type == "checkbox")
+                {
+                  var v=qx[i].value;
+                  if(v!=""&&v.length>id.length&&v.startWith(id)){
+                      if(obj.checked){
+                          qx[i].checked=true;
+                      } else{
+                           qx[i].checked=false;
+                      }
+                  }
+                   if(v!=""&&v.length<id.length&&id.startWith(v)){
+                      if(obj.checked){
+                      } else{
+                           qx[i].checked=false;
+                      }
+                  }
+
+                }
+           }
+        
+    }
+	Page.onLoad(function() {
+	   loadData();
+     });
+	$(window).resize(function () {
+		clearTimeout(timer);
+		timer=setTimeout(function(){
+		  $('#dg1').treegrid('resize');
+		  $('div.panel-body').css('width','auto'); //////
+		 },100);
+		});
+</script>
+	</head>
+	<body leftmargin="0" topmargin="0" class="easyui-layout">
+		<form name='form1' id="from1" method='post'>
+			<input type="hidden" name="doAction" value="">
+			<input type="hidden" name="sys_menuid" value="$!sys_menuid">
+			<input type="hidden" name="checkids" value="">
+			<input type="hidden" name="deltype" value="1">
+
+			<div region="north" border="false"
+				style="overflow: hidden; padding: 10px 10px 0px 10px">
+				<table width="100%" border="0" cellpadding="0" cellspacing="3">
+						<tr>
+							<td width="60" align="left" nowrap>
+								类型：
+							</td>
+							<td width="120" align="left">
+									<select name="subtype" id="subtype" onchange="loadData()">
+										#foreach($obj in $subtypeList)
+											<option value="$!obj.subtype">
+												$!obj.name
+											</option>
+										#end
+										</select>
+							</td>
+							<td width="85%">
+							</td>
+						</tr>
+					</table>
+				<table width="100%" border="0" align="center" cellpadding="0"
+					cellspacing="0" class="table_auto czbutton_bk margin_top5">
+					<tr>
+						<td>
+							<div class="czbutton">
+								<ul>
+									<li id='BtnAdd'>
+										<a href='javascript:void(0);' onClick="add();"> <img
+												src="${base}/include/img/cz_add.png" width="14" height="14"
+												class="png" /><b>新建&nbsp;</b> </a>
+									</li>
+									<li id='BtnUpdate'>
+										<a href='javascript:void(0);' onClick="update();"> <img
+												src="${base}/include/img/bj.png" width="16" height="16" /><b>编辑&nbsp;</b>
+										</a>
+									</li>
+									<li id='BtnDel'>
+										<a href='javascript:void(0);' onClick="del();"><img
+												src="${base}/include/img/cz_del.png" width="14" height="14" /><b>删除&nbsp;</b>
+										</a>
+									</li>
+									<li id='BtnAdd'>
+										<a href='javascript:void(0);' onclick="sort();"><img
+												src="${base}/include/img/jy.png" width="16" height="16" /><b>排序&nbsp;</b>
+										</a>
+									</li>									
+								</ul>
+							</div>
+							<div class="clear"></div>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div region="center" border="false"
+				style="width: 100%; height: 100%; padding: 0px 10px 10px;">
+				<div id="dg1" style="width: 100%; height: 100%;"></div>
+			</div>
+
+
+		</form>
+
+	</body>
+</html>

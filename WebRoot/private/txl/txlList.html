@@ -1,0 +1,293 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>$!app_name</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!-- 框架 -->
+<link rel="stylesheet" type="text/css"
+	href="${base}/include/css/blue/style.css" />
+<script type='text/javascript'>
+	var CONTEXTPATH = '${base}';
+	var stylePath = '$!stylename';
+</script>
+
+<script src="${base}/include/js/main.js"></script>
+<script src="${base}/include/js/string.js"></script>
+<!-- 分页  注意顺序 -->
+<link href="${base}/include/css/themes/gray/easyui.css" rel="stylesheet" type="text/css" />
+<script src="${base}/include/js/jquery.easyui.min.js"></script>
+<!-- 树 -->
+<link rel="stylesheet" href="${base}/include/controls/ztree/zTreeStyle/zTreeStyle.css" type="text/css">
+<script type="text/javascript" src="${base}/include/controls/ztree/jquery.ztree.core-3.5.min.js"></script>
+<SCRIPT type="text/javascript">
+var txl_group_json = $!txl_group_json;
+	var setting = {
+		async : {
+			enable : true,
+			url : "${base}/private/txl_group/listAll",
+			autoParam : [ "id" ]
+		},
+		view : {
+			nameIsHTML : true
+		}
+	};
+	function initTree() {
+		var myTree = jQuery.fn.zTree.init(jQuery("#treeDemo"), setting);
+	}
+
+	function initButton() {
+		Page.initBtn();
+		$!initBtn
+	}
+	
+	function getWidth(percent) {
+		return document.body.clientWidth * percent;
+	}
+	function loadData(){
+		$("#dg1").treegrid({
+			width:"auto",
+        	height:"auto",
+        	nowrap: true,  
+        	striped: true,  
+        	border: true,  
+        	collapsible:false,//是否可折叠的 
+			url : "${base}/private/txl/list",//首次查询路径
+			queryParams:{"groupid":$("#groupid").val()},//首次查询参数
+			idField:"id",
+			treeField:"loginname",
+			singleSelect:false,//是否单选 
+			rownumbers:true,//行号  
+			fit: false,//自动大小  
+			fitColumns: true,//行自适应
+			pagination:true,//分页控件
+			loadMsg:'数据加载中...',
+			columns : [ [
+			{
+				field : "realname",
+				title : "联系人",
+				width : 130
+			},
+			{
+				field : "groupid",
+				title : "分组",
+				width : 80,
+				formatter:function(val,rec){  
+					  if(val){
+						  return txl_group_json[val];
+					  }
+	                  return val; 
+	            }  
+			},
+			{
+				field : "phone",
+				title : "电话",
+				width : 100
+			},
+			{
+				field : "bz",
+				title : "备注",
+				width :getWidth(0.6),
+				formatter:function(val,rec){  
+				  
+                  return val; 
+                }  
+			}
+			] ],
+        	 frozenColumns:[[  
+        	            {field:"id",checkbox:true}
+        	 ]],
+			 onDblClickRow:function(row)
+        	 {
+        	     toupdate(row.id);
+        	 }
+			
+		});
+        var p = $("#dg1").datagrid("getPager");
+        $(p).pagination({
+            beforePageText: "第",//页数文本框前显示的汉字
+            afterPageText: "页    共 {pages} 页",
+            displayMsg: "当前显示 {from} - {to} 条记录   共 {total} 条记录",
+            onBeforeRefresh:function(){
+                $(this).pagination('loading');
+
+                $(this).pagination('loaded');
+            }
+        });
+	}
+	
+	Page.onLoad(function() {
+		initTree();
+		loadData();
+		initButton();
+	});
+	$(window).resize(function() {
+		clearTimeout(timer);
+		timer = setTimeout(function() {
+			$('#dg1').datagrid('resize');
+			$('div.panel-body').css('width', 'auto'); //////
+		}, 100);
+	});
+
+	
+	 function list(typeid){
+        	  $("#groupid").val(typeid);
+        	  loadData();
+        	   	    
+    }
+	 function openW2(url,title) {
+			
+			var openUrl = url;// 弹出窗口的 url
+			var iWidth=500 ;
+			var iHeight=300 ;
+			var iTop = (window.screen.availHeight-30-iHeight)/2; // 获得窗口的垂直位置;
+			var iLeft = (window.screen.availWidth-10-iWidth)/2; // 获得窗口的水平位置;
+			
+			var w = window.open(openUrl,title,"height="+iHeight+", width="+iWidth+", top="+iTop+", left="+iLeft); 
+			if (!w) {
+				Dialog.alert("发现弹出窗口被阻止，请更改浏览器设置，以便正常使用本功能!");
+				return;
+			}
+		}
+	 function openW(url,title) {
+			
+			var openUrl = url;// 弹出窗口的 url
+			var iWidth=(screen.availWidth - 450) ;
+			var iHeight=(screen.availHeight-100) ;
+			var iTop = (window.screen.availHeight-30-iHeight)/2; // 获得窗口的垂直位置;
+			var iLeft = (window.screen.availWidth-10-iWidth)/2; // 获得窗口的水平位置;
+			
+			var w = window.open(openUrl,title,"height="+iHeight+", width="+iWidth+", top="+iTop+", left="+iLeft); 
+			if (!w) {
+				Dialog.alert("发现弹出窗口被阻止，请更改浏览器设置，以便正常使用本功能!");
+				return;
+			} 
+		}
+	 
+	 //转到新增页面
+	    function add(){
+	        var title = "新建联系人";
+	        var url = "${base}/private/txl/toadd?groupid="+$("#groupid").val();
+	        openW(url,title);
+	    }
+	   
+	    //转到修改页面
+	    function update()
+	    {
+	        var arr = DataGrid.getSelectedValueID("dg1");
+	        if (!arr || arr.length == 0) {
+	            Dialog.alert("请先选择要编辑的联系人！");
+	            return;
+	        }
+	        
+	        var title = "修改通信录";
+	        var url = "${base}/private/txl/toUpdate?id=" + arr[0];
+	        openW2(url,title);
+
+	    }
+	    //转到修改页面
+	    function toupdate(id)
+	    {
+	        var title = "修改通信录";
+	        var url = "${base}/private/txl/toUpdate?id="+id;
+	        openW2(url,title);
+	    }
+	   
+
+	    function del() {
+	    	var ids = new Array();
+	    	var arr = $("#dg1").treegrid("getSelections");
+	    	if(arr.length==0){
+	    		Dialog.alert("请选择要删除的联系人！");
+	    		return;
+	    	}
+	    	for(var r in arr){
+	    		if(arr[r].id){
+	    			ids.push(arr[r].id);
+	    		}
+	    		
+	    	}
+	      	   jQuery.ajax({
+	     			url : "${base}/private/txl/delete?ids="+ids,
+	     		
+	     			success : function (res) {  
+	     				
+	     				if(res=="true"){ 
+	                       loadData();
+	     				}else{
+	     					Dialog.alert("删除失败！");
+	     				}
+	                   arr.length = 0;
+	                   return false;
+	     			},
+	     			fail : function(res) {
+	     				Dialog.alert("系统错误?!");
+	     			}
+	     		});
+	      }
+</SCRIPT>
+</head>
+<body leftmargin="0" topmargin="0"  style="overflow-y:auto;">
+<div class="ifrpage">
+	<table width="100%"  height="100%" border="0" cellspacing="0" cellpadding="0">
+		<tr valign="top" >
+			<td width="200" style="padding-right:10px;">
+				<table  width="100%" border="0" cellpadding="0"
+					cellspacing="0"  class="blockTable">
+					<tr>
+						<td class="blocktitle">
+							<table width="100%" border="0" align="center" cellpadding="0"
+								cellspacing="0">
+								<tr>
+									<td width="40" height="33" align="center"><img
+										src="${base}/images/icons/icon042a1.gif" /></td>
+									<td height="33" class="font14">分组列表</td>
+								</tr>
+							</table></td>
+					</tr>
+					<tr>
+						<td >
+							<div ztype='_Tree'
+								style='-moz-user-select: none; height: 450px; width: 99%;border:1px solid #CCCCCC;overflow-y:auto;'
+								id='tree1' class='treeItemN'>
+								<ul id="treeDemo" class="ztree"  ></ul>
+							</div></td>
+					</tr>
+				</table></td>
+			<td width="80%"  valign="top">
+				<form name="form1" id="form1" method="post" >
+					<input type="hidden" name="typeid" id="typeid" value=""> <input
+						type="hidden" name="lock" id="lock" value="0"> <input
+						type="hidden" name="groupid" id="groupid" value="">
+					<table width="100%" border="0" cellpadding="0" cellspacing="3">
+						<tr>
+							<td>
+								<div class="czbutton">
+								<ul>
+									<li id='BtnAdd'>
+										<a href='javascript:void(0);' onClick="add();"> <img
+												src="${base}/include/img/cz_add.png" width="14" height="14"
+												class="png" /><b>新建&nbsp;</b> </a>
+									</li>
+									<li id='BtnUpdate'>
+										<a href='javascript:void(0);' onClick="update();"> <img
+												src="${base}/include/img/bj.png" width="16" height="16" /><b>编辑&nbsp;</b>
+										</a>
+									</li>
+									<li id='BtnDel'>
+										<a href='javascript:void(0);' onClick="del();"><img
+												src="${base}/include/img/cz_del.png" width="14" height="14" /><b>删除&nbsp;</b>
+										</a>
+									</li>
+								</ul>
+							</div>
+							</td>
+						</tr>
+					</table>
+				</form>
+				<div id="dg1" style="width: 100%; height: 100%;"></div>
+			</td>
+		</tr>
+	</table>
+	</div>
+</body>
+</html>

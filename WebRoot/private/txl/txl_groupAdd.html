@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html style="overflow:auto;">
+<head>
+    <title>$!app_name</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<!-- 框架 -->
+	<link href="${base}/include/css/default.css" rel="stylesheet" type="text/css"/>
+	<script type='text/javascript'>
+		var CONTEXTPATH = '${base}';
+		var stylePath = '$!stylename';
+	</script>
+    <script src="${base}/include/js/main.js"></script>
+    <script src="${base}/include/js/string.js"></script>
+    <!-- 网页编辑器ueditor  -->
+    <script type="text/javascript" charset="utf-8" src="${base}/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="${base}/ueditor/ueditor.all.js"></script>
+    <script type="text/javascript" charset="utf-8" src="${base}/ueditor/lang/zh-cn/zh-cn.js"></script>
+     <link rel="stylesheet" type="text/css" href="${base}/include/css/page.css"/>
+    <script type="text/javascript" charset="utf-8">
+   
+    jQuery(document).ready(function(){
+    	customHeightSet();
+    	$(".clearCSS").removeClass();
+    });
+    window.onresize = function(){
+    	customHeightSet();
+    }  
+        $(document).ready(function(){         // 解决IE浏览器兼容问题
+           
+        }) ;
+        
+       
+        function addSave(){     
+    		if(Verify.hasError()){
+    		  return;
+    	     }
+           
+    		jQuery.ajax({
+    			 	type: 'POST',
+        			url : "${base}/private/txl_group/add" ,
+        			data : $("#form1").serialize(),
+        			success : function (res) { 
+        				if(res=="true"){
+        						if(window.opener){
+        							window.opener.loadData();
+        						}
+        						window.close();
+        					
+        				}else{
+        					Dialog.alert("添加失败！");
+        				}
+        			},
+        			fail : function(res) {
+        				Dialog.Dialog.alert("系统错误?!");
+        			}
+        		}); 
+    	}
+        
+    </script>
+	<!-- 分页  注意顺序 -->
+	<link href="${base}/include/css/themes/gray/easyui.css" rel="stylesheet" type="text/css"/> 	
+	<script src="${base}/include/js/jquery.easyui.min.js"></script>	
+    <script src="${base}/include/js/jquery.datagrid.js"></script>
+  
+</head>
+ <body  >
+ <div class="pageM editpage" id="pageScroll" style="overflow-x: hidden; overflow-y: auto;">
+	  <form name='form1' id="form1" method='post' action='${base}/private/txl_group/add'>
+       <input type="hidden" name="button" id="button" value=""/>
+         <input type="hidden" id="checkedtypeid" value="$!obj.typeid"/>
+    <table width="100%" height="100%" border="0" bgcolor="#F5F5F5"  class="tableViews table_auto" style="border-width:0;">
+		<tr >
+			<td align="center" style="border-width:0;">
+			<table align="center" cellpadding="2"
+				cellspacing="0" style="border-top:1px solid #d3d3d3;border-left:1px solid #d3d3d3;">
+				<tr>
+					<th>分组名:</th>
+					<td><input type="text" name="name" verify="分组名|NotNull"/></td>
+				</tr>
+				<tr style="display:none;">
+					<th>内部人员:</th>
+					<td>
+					<select name="isInsider" >
+						<option value="1" selected>是</option>
+						<option value="0">否</option>
+					</select>
+					</td>
+				</tr>
+				
+				<tr>
+					<th>备注:</th>
+					<td><textarea rows="20" cols="30" name="bz"></textarea></td>
+				</tr>
+				
+			</table>
+			</td>
+		</tr>
+	</table>
+	</form>
+	</div>
+	<div class="pageBtnarea" style="position:relative;">
+		<table width="92%" border="0" cellspacing="0" cellpadding="0" >
+			<tr>
+				<td align="center">
+					<input class="button" type="button" name="Submit" onClick="addSave()"  value="保存" />
+					<input class="button" type="button" name="Submit2" onClick="window.close();" value="关闭" />
+				</td>
+			</tr>
+		</table>
+		</div>
+	
+	</body> 
+</html>

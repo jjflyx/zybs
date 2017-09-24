@@ -1,0 +1,546 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+<head>
+
+    <title>$!app_name</title>
+     
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link href="${base}/include/css/default.css" rel="stylesheet" type="text/css"/> 
+	<script type='text/javascript'>
+		var CONTEXTPATH = '${base}';
+	</script>
+    <script src="${base}/include/js/main.js"></script>
+    <script src="${base}/include/js/string.js"></script>
+   	<!-- 分页  注意顺序 -->
+	<link href="${base}/include/css/themes/gray/easyui.css" rel="stylesheet" type="text/css"/> 	
+	<script src="${base}/include/js/jquery.easyui.min.js"></script>	
+    <script type="text/javascript"
+	src="${base}/include/controls/ztree/jquery.ztree.core-3.5.min.js"></script> 
+	<link rel="stylesheet" href="${base}/include/controls/ztree/zTreeStyle/zTreeStyle.css" type="text/css">
+	<!-- 文件上传 -->
+	<script src="${base}/include/controls/swfupload/swfupload.js" type="text/javascript"></script>	
+    <script src="${base}/include/controls/swfupload/swfupload.queue.js"></script>
+    <script src="${base}/include/controls/swfupload/fileprogress.js"></script>
+    <script src="${base}/include/controls/swfupload/handlers.js"></script>
+     <script src="${base}/include/controls/swfupload/ext.js"></script>
+	<link href="${base}/include/controls/swfupload/process.css" rel="stylesheet" type="text/css"/>
+
+    <SCRIPT type="text/javascript">
+           <!--
+           var swfu;
+           function initTree(){
+				var setting = {
+                        async: {
+                            enable: true,
+                            url:"${base}/private/cms/res/filetree",
+                            autoParam:["id"],
+							otherParam:{"site_id":Page.getValue("site")}
+                        },
+                        view:{
+                             nameIsHTML: true
+                        } 
+                 }; 
+        	    jQuery.fn.zTree.init(jQuery("#treeDemo"), setting);
+			}
+           function addDir()
+           {           
+	        	var d = new Dialog("Add");
+	           	d.Width = 320;
+	           	d.Height = 100;
+	           	d.Title = "新建目录";
+	           	d.URL = "${base}/private/cms/res/toaddDir";
+	           	d.onLoad = function(){	 
+	           		 $DW.$Z("name").focus();
+	           	}
+	           	d.OKEvent = function(){
+	           		
+	           		addDirSave();
+	           	}; 
+	           	d.show();
+           }
+           function addDirSave(){  	
+        	   if($DW.Verify.hasError()){
+	          		  return;
+	          	    }
+        		 jQuery.ajax({
+        			 	type: 'POST',
+            			url : "${base}/private/cms/res/addDir?path=" +Page.getValue("path")+"&site_id="+Page.getValue("site"),
+            			data : $DW.$("#form1").serialize(),
+            			success : function (res) { 
+            				if(res=="true"){
+            					$D.close();
+            					Dialog.alert("添加成功！");
+            					initTree();
+            					openPath(Page.getValue("path"));
+            				}else{
+            					Dialog.alert("添加失败！");
+            				}
+            				 
+            				return false;
+            			},
+            			fail : function(res) {
+            				Dialog.alert("系统错误?!");
+            			}
+            		});
+        	}
+           function openFile(pt)
+           {           
+	        	var d = new Dialog("File");
+	           	d.Width = 800;
+	           	d.Height = 400;
+	           	d.Title = "编辑模板";
+	           	d.URL = "${base}/private/cms/res/editfile?name="+pt+"&path=" +Page.getValue("path");
+	           	d.onLoad = function(){	 
+	           		   
+	           	}
+	           	d.OKEvent = function(){
+	           		if($DW.Verify.hasError()){
+	          		  return;
+	          	    }
+	           		fileSave();
+	           	}; 
+	           	d.show();
+				d.OKButton.value="保 存";
+				d.CancelButton.value="关 闭";
+				top.Page.MinMessage.Show({
+			        text: '正在加载', 
+			        type: 'load', 
+			        timeout: 600
+	            });
+           }
+           function fileSave(){  
+        	    $DW.Page.MinMessage.Show({
+			        text: '正在保存', 
+			        type: 'load' 
+			    });
+
+        		 jQuery.ajax({
+        			 	type: 'POST',
+            			url : "${base}/private/cms/res/savefile",
+            			data : $DW.$("#form1").serialize(),
+            			success : function (res) {
+            				$DW.Page.MinMessage.Hide();
+            				if(res=="true"){
+            					$DW.Page.MinMessage.Show({
+            				        text: '保存成功', 
+            				        type: 'load', 
+            				        timeout: 600
+            		            });
+
+            				}else{
+            					$DW.Page.MinMessage.Show({
+            				        text: '保存失败', 
+            				        type: 'load', 
+            				        timeout: 600
+            		            });
+            				}
+            				 
+            				return false;
+            			},
+            			fail : function(res) {
+            				Dialog.alert("系统错误?!");
+            			}
+            		});
+        	   }
+           function rename(pt)
+           {           
+	        	var d = new Dialog("Add");
+	           	d.Width = 320;
+	           	d.Height = 100;
+	           	d.Title = "重命名";
+	           	d.URL = "${base}/private/cms/res/torename?name="+pt;
+	           	d.onLoad = function(){	 
+	           		  $DW.$Z("name").focus();
+	           	}
+	           	d.OKEvent = function(){
+	           		if($DW.Verify.hasError()){
+	          		  return;
+	          	    }
+	           		renameSave();
+	           	}; 
+	           	d.show();
+           }
+           function renameSave(){  		 
+      		 jQuery.ajax({
+      			 	type: 'POST',
+          			url : "${base}/private/cms/res/rename?path=" +Page.getValue("path")+"&site_id="+Page.getValue("site"),
+          			data : $DW.$("#form1").serialize(),
+          			success : function (res) { 
+          				if(res=="true"){
+          					$D.close();
+          					Dialog.alert("修改成功！");
+          					initTree();
+          					openPath(Page.getValue("path"));
+          				}else{
+          					Dialog.alert("修改失败！");
+          				}
+          				 
+          				return false;
+          			},
+          			fail : function(res) {
+          				Dialog.alert("系统错误?!");
+          			}
+          		});
+      	   }
+           function delname(pt) {
+               Dialog.confirm("确定删除？", function() {
+            	   jQuery.ajax({
+           			url : "${base}/private/cms/res/delname" ,
+           			data : {"name":pt,"path":Page.getValue("path")},
+           			success : function (res) {  
+           				if(res=="true"){ 
+           					Dialog.alert("删除成功！");
+           					initTree();
+          					openPath(Page.getValue("path"));
+           				}else{
+           					Dialog.alert("删除失败！");
+           				}
+           				 
+           				return false;
+           			},
+           			fail : function(res) {
+           				Dialog.alert("系统错误?!");
+           			}
+           		});
+            	   
+            	   
+               });
+           }
+           function del(){
+       	    var ids = [];
+       		var arr = $('#dg1').datagrid('getSelections');
+       	    if (!arr || arr.length == 0) {
+       	        Dialog.alert("请先选择要删除的内容！");
+       	        return;
+       	    }
+       	    for(var i=0; i<arr.length; i++){
+       	        ids.push(arr[i].name);
+       	    }
+       	    Dialog.confirm("确定删除？", function(){
+       	    	jQuery.ajax({
+       	    	 	type: 'POST',
+       	    		url : "${base}/private/cms/res/delnames" ,
+       	    		data : {"names":ids.toString(),"path":Page.getValue("path")},
+       	    		success : function (res) { 
+       	    			if(res=="true"){    				
+       	    				Dialog.alert("删除成功！");
+       	    				initTree();
+          					openPath(Page.getValue("path"));
+       	    			}else{
+       	    				Dialog.alert("删除失败！");
+       	    			}			 
+       	    			return false;
+       	    		},
+       	    		fail : function(res) {
+       	    			Dialog.alert("系统错误!");
+       	    		}
+       	    	});
+       	    }, "", 250, 100);    
+       	}
+           
+           function initUpload() {
+
+			   var uploadUrl = "${base}/private/cms/res/uploadOneSave";
+				//在firefox、chrome下，上传不能保留登录信息，所以必须加上jsessionid。
+				//var jsessionid = jQuery.cookie("JSESSIONID");alert(jsessionid);
+				//if(jsessionid) {
+				//	uploadUrl += ";jsessionid="+jsessionid;
+				//} 
+				swfu=new SWFUpload({
+					upload_url : uploadUrl,
+					flash_url : "${base}/include/controls/swfupload/swfupload.swf",
+					file_size_limit : "1000 MB",
+					post_params: {"path" : Page.getValue("path")},
+					file_types : "*.*",
+					file_types_description : "All Files",
+					file_queue_limit : 0,
+					custom_settings : {
+						progressTarget : "fsUploadProgress",
+						cancelButtonId : "btnCancel"
+					},
+					debug: false,
+					
+					button_image_url : "${base}/include/controls/swfupload/button_notext.png",
+					button_placeholder_id : "spanButtonPlaceHolder",
+					button_text: "<span class='btnText'>上传文件</span>",
+					button_width: 81,
+					button_height: 24,
+					button_text_top_padding: 5,
+					button_text_left_padding: 20,
+					button_text_style: '.btnText{color:#666666; cursor:pointer;}',
+					
+					file_queued_handler : fileQueued,
+					file_queue_error_handler : fileQueueError,
+					file_dialog_complete_handler : fileDialogComplete,
+					upload_start_handler : uploadStart,
+					upload_progress_handler : uploadProgress,
+					upload_error_handler : uploadError,
+					upload_success_handler : uploadSuccess,
+					upload_complete_handler : uploadComplete,
+					queue_complete_handler : queueComplete2
+				});
+
+		   } 
+		   function queueComplete2(numFilesUploaded) {
+			    initTree();
+				openPath(Page.getValue("path"));
+			}
+
+         //弹出文件上传窗口
+           function upload()
+           {
+           	var d = new Dialog("AddFile");
+           	d.Width = 360;
+           	d.Height = 140;
+           	d.Title = "上传模板";
+           	d.URL = "${base}/private/cms/res/upload?path="+Page.getValue("path");
+           	d.OKEvent = function() {           
+           		if($DW.Verify.hasError()){
+           			  return;
+           		}                   
+           	}
+           	d.CancelEvent = function() {  
+           		$D.close();
+           		initTree();
+           		loadGrid();                  
+           	}
+           	d.show();
+           	d.CancelButton.value="关 闭";
+           	d.OKButton.hide();
+
+           }
+           function getWidth(percent){
+        	   return document.body.clientWidth*percent;
+		   }
+           
+           function loadGrid(){
+        	   $("#dg1").datagrid({
+        	        width:"auto",
+        	   		height:"auto",
+        	        nowrap: false,  
+        	        striped: false,  
+        	        border: true,  
+        	        collapsible:false,//是否可折叠的  
+        	        fit: true,//自动大小  
+        	        url:"${base}/private/cms/res/list",  
+        	        //sortName: 'code',  
+        	        //sortOrder: 'desc', 
+        	        queryParams:{"path":Page.getValue("path")},
+        	        remoteSort:false,   
+        	        idField:"name", 
+        	        singleSelect:false,//是否单选  
+        	        pagination:false,//分页控件  
+        	        rownumbers:true,//行号  
+        	        fitColumns: true,//行自适应
+        	        loadMsg:'数据加载中...',
+        	        columns:[[
+						{title : '',field : 'icon',width:32,align : 'left',
+							formatter: function(value,row,index){
+								if(row.icon=="dir")
+								{
+									return "<img src='${base}/images/icons/treeicon09.gif'";
+								}else{
+									var tmp="html";
+									
+									if(row!=null&&row!= 'undefined'&&row.name!=null&&row.name!= 'undefined'){
+									     var name=row.name;
+									 
+										tmp=name.substring(name.indexOf(".")+1).toLowerCase();
+										 
+									}
+									return "<img src='${base}/images/default/FileType/"+tmp+".gif'";
+								}
+							}
+							
+						},
+						{title : '文件名',field : 'name',width:getWidth(0.25),align : 'left'},
+						{title : '大小',field : 'size',width:getWidth(0.22),align : 'left'},
+						{title : '最后修改时间',field : 'time',width:getWidth(0.22),align : 'left'},
+						{title : '操作选项', field: 'aa',width:getWidth(0.15),align : 'center',
+							formatter: function(value,row,index){
+								if(row.icon=="dir")
+								{
+									return "<a href='javascript:rename(\""+row.name+"\")'>重命名</a> | 修改  | <a href='javascript:delname(\""+row.name+"\")'>删除</a>";
+								}else{
+									var tmp=" 修改 |";
+									
+									if(row!=null&&row!= 'undefined'&&row.name!=null&&row.name!= 'undefined'){
+									     var name=row.name;
+									 
+										name=name.substring(name.indexOf(".")+1).toLowerCase();
+										if(name=="css"||name=="js"||name=="html"||name=="txt"||name=="tpl")
+										{
+											tmp=" <a href='javascript:openFile(\""+row.name+"\")'>修改</a> |";
+										}
+									}
+									return "<a href='javascript:rename(\""+row.name+"\")'>重命名</a> |"+tmp+" <a href='javascript:delname(\""+row.name+"\")'>删除</a>";
+								}
+							}
+						}
+        	        ]],frozenColumns:[[  
+        	          	            {field:"id",checkbox:true}
+        	          	        	 ]]
+        	    });  
+           }
+           
+           function openPath(str){ 
+        	   $("#path").val(str);
+               if(str.indexOf("/")==0)
+                   str=str.substring(1);
+        	   $("#tip").html("/"+str+"/");
+        	   loadGrid();
+               swfu.setPostParams({ "path":str });
+           }
+           function changeSite(){
+        	   
+        	   jQuery.ajax({
+      	    	 	type: 'POST',
+      	    		url : "${base}/private/cms/res/getPath" ,
+      	    		data : {"site_id":Page.getValue("site")},
+      	    		success : function (res) { 
+      	    			if(res!=""){    				    	    				
+      	    				initTree();
+         					openPath(res);
+      	    			
+      	    			}			 
+      	    			return false;
+      	    		},
+      	    		fail : function(res) {
+      	    			Dialog.alert("系统错误!");
+      	    		}
+      	    	});
+           }
+           function initSite(){
+        	   var selector=$("#site"); 
+        	   var str;
+ 				selector.empty();
+ 				#foreach($o in $obj)
+ 				str=gettreecode('$!o.site_id')+'$!o.site_sname';
+ 				selector.append("<option value=\"$!o.site_id\" #if("$!site_id"=="$!o.site_id")selected#end>"+str+"</option>");
+ 				#end
+           }
+           Page.onLoad(function(){
+        	    initSite();
+        	    initTree();
+                initUpload();
+                openPath("$!site_path");
+
+ 
+           }); 
+           $(window).resize(function () {
+          		clearTimeout(timer);
+          		timer=setTimeout(function(){
+          		  $('#dg1').treegrid('resize');
+          		  $('div.panel-body').css('width','auto'); 
+          		 },200);
+          		});
+           //-->
+       </SCRIPT>
+</head>
+<body leftmargin="0" topmargin="0" style="overflow-x: hidden; overflow-y: auto">
+<form name="form1" id="form1" >
+<input type="hidden" name="path" id="path" value="$!site_path">
+	<table width="100%" border="0" cellspacing="6" cellpadding="0"
+		style="border-collapse: separate; border-spacing: 6px;">
+		<tr valign="top">
+			<td width="180">
+				<table width="210" height="100%" border="0" cellspacing="0"
+					cellpadding="6" class="blockTable">
+					<tr>
+						<td style="padding: 6px;" class="blockTd" align="right">
+						<ul style="text-align:left;padding:2px 0 0 10px;"> 
+								网站：<select id="site" name="site" onchange="changeSite()">
+								</select>
+								</ul>
+														</td>
+					</tr>
+					<tr>
+						<td style="padding: 6px;" class="blockTdn">
+							<div ztype='_Tree'
+								style='-moz-user-select: none; height: 425px; width: 200px;'
+								id='tree1' class='treeItemN'>
+								
+
+								<ul id="treeDemo" class="ztree"></ul>
+							</div>
+
+						</td>
+					</tr>
+					
+					
+				</table>
+			</td>
+			<td width="100%" valign="top">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0"
+					style="border-collapse: separate; border-spacing: 0px;">
+					<tr valign="top">
+						<td>
+							<table width="100%" border="0" cellpadding="0" cellspacing="0"
+								class="blockTable">
+								<tr>
+									<td class="blockTd">
+										<table width="100%" border="0" cellspacing="0" cellpadding="6">
+											
+											<tr>
+												<td style="padding: 0 8px 1px;"><a
+													href='javascript:void(0);' ztype='zPushBtn'
+													class='zPushBtn' hidefocus='true' tabindex='-1'
+													onselectstart='return false' id='BtnAdd' onClick="addDir();"><img
+														src="${base}/images/icons/icon029a2.gif"
+														width="20" height="20" /><b>新建目录&nbsp;</b></a> 
+														
+														 <a
+													href='javascript:void(0);' ztype='zPushBtn'
+													class='zPushBtn' hidefocus='true' tabindex='-1'
+													onselectstart='return false' id='BtnDel'
+													onClick="del();"><img
+														src="${base}/images/icons/icon022a3.gif"
+														width="20" height="20" /><b>删除&nbsp;</b></a> 
+														 
+														
+														当前路径：<span id="tip"></span>
+												</td>
+												<td algin="right" width="85">
+												    <span id="spanButtonPlaceHolder"></span>
+													
+												 </td>
+												 <td algin="left" width="80">
+												   	 
+														<a
+													href='javascript:void(0);' ztype='zPushBtn'
+													class='zPushBtn' hidefocus='true' tabindex='-1'
+													onselectstart='return false' id='btnCancel'
+													onclick="swfu.cancelQueue();"><img
+														src="${base}/images/icons/icon404a3.gif"
+														width="20" height="20" /><b>取消&nbsp;</b></a>
+												 </td>
+											</tr>
+											<tr><td colspan="3">
+											<div class="flash" id="fsUploadProgress"></div>  
+											
+											</td></tr>
+											<tr>
+												 <td style="padding:0px 5px;"height="350" colspan="3">                                             
+                                            <table width="100%" height="100%" id="dg1" size="10" cellpadding="2" cellspacing="0">
+												<tr><td></td></tr>
+											</table>                                          
+                                            </td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+
+
+
+
+			</td>
+		</tr>
+	</table>
+	</form>
+</body>
+</html>

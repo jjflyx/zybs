@@ -1,0 +1,37 @@
+﻿/* CSS Document */
+body{ font-family:"宋体"; font-size:14px; margin:0px; color:#4d4d4d;background:#ebebeb;}
+a,a:link,a:visited{ color:#4d4d4d; text-decoration:none;}
+a:hover{ color:#FF0000; text-decoration:underline;}
+img{ border:0px;}
+.padding20{padding:20px 20px;}
+td{line-height:26px;}
+.font12{font-size:12px;}
+
+/* 导航样式*/
+.menubg{background:url(../img/zt1_04.jpg) repeat-x;border-bottom:1px solid #bbcfd6;height:44px;font-size:14px;font-weight:bold;color:#0e88c7}
+a.menutext:link,a.menutext:visited{color:#0e88c7;text-decoration:none;}
+a.menutext:hover{color:#ff0000;text-decoration:underline;}
+
+/* 带边框内容样式*/
+.tablebox{border:1px solid #ababab;}
+.titletxet{font-size:16px;font-family:'microsoft yahei',"黑体" ;color:#0e88c7;font-weight:bold;}
+.rightline{background:url(../img/zt1_12.jpg) 0 50% repeat-x;}
+
+/* 更多样式*/
+a.more:link,a.more:visited{color:#0e88c7;text-decoration:none;font-size:12px;margin-right:15px;}
+a.more:hover{color:#0e88c7;text-decoration:underline;font-size:12px;margin-right:15px;}
+
+/* 无边框新闻样式*/
+.newtitlebg{background:#e0ebee;height:28px;}
+.newtitletext{background:#0e88c7;height:28px;font-size:16px;font-family:'microsoft yahei',"黑体" ;color:#fff;text-align:center;}
+
+/* 图片文字样式*/
+a.pictext:link,a.pictext:visited{color:#0e88c7;text-decoration:none;}
+a.pictext:hover{color:#0e88c7;text-decoration:underline;}
+
+
+/* 版权信息*/
+.foot{background:url(../img/zt1_38.jpg) repeat-x;height:62px;border-top:4px solid #0e88c7;}
+
+/* 新闻详情页标题样式*/
+.nytitle{font-size:24px;font-family:'microsoft yahei',"黑体" ;color:#0e88c7;height:60px;line-height:60px;}

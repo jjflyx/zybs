@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>$!app_name</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<!-- 框架 -->
+	<script type='text/javascript'>
+		var CONTEXTPATH = '${base}';
+		var stylePath = '$!stylename';
+	</script>
+	<link href="${base}/private/ratifyFollow/css/$!stylename/style.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" type="text/css" href="${base}/private/zjgl/css/page.css" />
+	<style>
+		html,body{ *overflow:hidden;}
+	</style>
+	<script type="text/javascript" src="${base}/include/js/jquery.min.js"></script>
+	<script type="text/javascript" src="${base}/include/js/string.js"></script>
+	<script>
+		function customHeightSet() {
+			var otherH_1 = jQuery(".pageBtnarea").outerHeight()
+					+ parseInt(jQuery(".pageM").css("paddingTop"))
+					+ parseInt(jQuery(".pageM").css("paddingBottom"));
+			var pageH = document.documentElement.clientHeight;
+			jQuery("#pageScroll").height(pageH - otherH_1);
+		}
+		jQuery(document).ready(function() {
+			customHeightSet();
+		});
+		window.onload = function() {
+			customHeightSet();
+		}
+		window.onresize = function() {
+			customHeightSet();
+		}
+
+		function dy(){
+			bdhtml=window.document.body.innerHTML;
+			sprnstr="<!--startprint-->";
+			eprnstr="<!--endprint-->";
+			prnhtml=bdhtml.substr(bdhtml.indexOf(sprnstr)+17);
+			prnhtml=prnhtml.substring(0,prnhtml.indexOf(eprnstr));
+			window.document.body.innerHTML=prnhtml;
+			window.print();
+		}
+	</script>
+</head>
+
+<body>
+<form name='form1' id="form1" method='post'>
+	<!--startprint-->
+	<div class="pageM viewpage" id="pageScroll">
+		<table width="100%" border="0" align="center" cellpadding="0"
+			   cellspacing="0" class="table_titlebk">
+			<tr>
+				<td class="table_title" align="center">
+					探矿权使用费信息
+				</td>
+			</tr>
+		</table>
+		<div class="conBody">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0"
+				   class="tableViews">
+				<tr>
+					<th>
+						办件号：
+					</th>
+					<td colspan="3">
+						$!{l_tkht.bjh}
+					</td>
+
+				</tr>
+				<tr>
+					<th>勘查许可证号：</th>
+					<td colspan="3">$!{l_tkqsyf.xkzh}</td>
+				</tr>
+				<tr>
+					<th>受让人(信用主体)：</th>
+					<td>$!{l_tkqsyf.xyname}</td>
+					<th>统一社会信用代码：</th>
+					<td>$!{code}</td>
+				</tr>
+				<tr>
+					<th>
+						缴纳方式：
+					</th>
+					<td colspan="3">
+						#if($!{l_tkqsyf.jf_type}=="1")
+						属地单位<!--下级单位：<span style="font-weight: 200;">$!{l_tkqsyf.zp_unit}</span>-->
+						#else
+						本单位
+						#end
+					</td>
+				</tr>
+				<tr>
+					<th>缴存方式：</th>
+					<td colspan="3">
+						$!fk_type
+						<hr />
+						#if($have_yw)
+						$!have_yw
+						#else
+						#foreach($yw in $ywList)
+						应缴纳日期：$!{yw.ylxrq_y} &nbsp;应缴纳金额：$!{yw.ylxx_y}（单位：万元） &nbsp;备注：$!{yw.bz}<br />
+							#if(${is_sj}=="1")
+								实际缴纳日期：#if($!{yw.sjlxrq_s})$!{yw.sjlxrq_s}#else尚未缴费#end &nbsp;实际纳金额：$!{yw.sjlxx_s}（单位：万元） &nbsp;
+								<sapn style="color:darksalmon">
+									#if(${yw.sfwc}=="1")
+										已完成
+									#else
+										未完成
+									#end
+								</sapn>
+								<br />
+							#end
+						#end
+						#end
+					</td>
+				</tr>
+			</table>
+		</div>
+		</table>
+		#if($!qk==1)
+ 			<span style="color: red">备注：$!fkjl</span>
+		#end
+	</div>
+</form>
+<!--endprint-->
+<div class="pageBtnarea Noprint">
+	<input type="button" class="button" name="dis" id="dis" value="页面打印" onClick="dy();" />
+	<input type="button" class="button" name="btnCancal" id="btnCancal" value="关闭" onclick="window.close()">
+</div>
+
+</body>
+</html>

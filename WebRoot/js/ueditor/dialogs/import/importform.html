@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>导入表单</title>
+<style type="text/css">
+*{
+	margin: 0;
+	padding: 0;
+}
+
+.base {
+	margin: 10px 10px 0 10px;
+	border: 1px solid #ddd;
+}
+
+.base table {
+	margin: 0 10px 0 10px;
+}
+
+.base table tr {
+	height: 40px;
+}
+
+.base table th {
+	width: 120px;
+	font-size: 13px;
+}
+</style>
+	<script type="text/javascript" src="../../../dynamic.jsp"></script>
+	<script type="text/javascript" src="../../../util/jquery.js"></script>
+	<script type="text/javascript" src="../../../util/jquery.form.js"></script>
+	<script type="text/javascript" src="../internal.js"></script>
+<script type="text/javascript">
+	$(function() {
+		var url = __ctxPath + "/flow/importFormFormDef.do";
+		$("#importForm").attr("action",url);
+	});
+
+	//初始化导入的内容
+	function showResponse(responseText) {
+		if(responseText == 'false'){
+			alert("导入表单失败！");
+			return false;
+		}else{
+			editor.setContent(responseText);
+		}
+	};
+	
+	//确定
+	dialog.onok = function() {
+		var path = $('#importInput').val();
+		if (/.*\.(html|htm|txt)$/gi.test(path)) {
+			var options = {
+				//dataType:'json', 
+				success : showResponse
+			};
+			$("#importForm").ajaxSubmit(options);
+		} else {
+			alert("请导入html、htm、txt文件!");
+			return false;
+		}
+	};
+</script>
+</head>
+<body>
+	<fieldset class="base">
+		<form id="importForm" name="importForm" method="post" enctype="multipart/form-data">
+			<table>
+				<tr>
+					<th><var id="lang_selectFile"></var>:</th>
+					<td><input type="file" id="importInput" name="importInput" size="20" /></td>
+				</tr>
+			</table>
+		</form>
+	</fieldset>
+</body>
+</html>

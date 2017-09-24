@@ -1,0 +1,237 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+    <title>$!app_name</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script type='text/javascript'>
+        var CONTEXTPATH = '${base}';
+        var stylePath = '$!stylename';
+    </script>
+    <link href="${base}/private/ratifyFollow/css/$!stylename/style.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="${base}/private/zjgl/css/page.css" />
+    <script src="${base}/include/js/main.js"></script>
+    <script src="${base}/include/js/string.js"></script>
+    <link href="${base}/include/css/themes/gray/easyui.css" rel="stylesheet" type="text/css" />
+    <script src="${base}/include/js/jquery.easyui.min.js"></script>
+    
+    <style media="print" type="text/css"> 
+.Noprint{display:none;} 
+</style> 
+
+    <script>
+    
+	    function customHeightSet(){			
+	    	var otherH_1	=jQuery(".pageBtnarea").outerHeight() + parseInt($(".pageM").css("paddingTop")) + parseInt($(".pageM").css("paddingBottom"));
+	    	var pageH	=document.documentElement.clientHeight;
+	    	jQuery("#pageScroll").height(pageH-otherH_1);
+	    }
+	    jQuery(document).ready(function(){
+	    	customHeightSet();
+	    	appendDiv();
+	    });
+	    window.onload = function(){
+	    	customHeightSet();			
+	    }
+	    window.onresize = function(){
+	    	customHeightSet();
+	    }
+	function dy(){
+			bdhtml=window.document.body.innerHTML;
+			sprnstr="<!--startprint-->";
+			eprnstr="<!--endprint-->";
+			prnhtml=bdhtml.substr(bdhtml.indexOf(sprnstr)+17);
+			prnhtml=prnhtml.substring(0,prnhtml.indexOf(eprnstr));
+			window.document.body.innerHTML=prnhtml;
+			window.print();
+			window.document.body.innerHTML=bdhtml
+		}
+	function printThis() {
+		document.all.WebBrowser.ExecWB(7,1);
+	}
+	
+        
+    </script>
+</head>
+<body leftmargin="0" topmargin="0" class="easyui-layout">
+<form name='form1' id="form1" method='post' action="${base}/private/slzx/slj_info/add">
+    <input type="hidden" name="sxcjid" id="sxcjid" value="$!sxcj.id"/>
+    
+    <div class="pageM viewpage" id="pageScroll">
+    <!--startprint-->
+        <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="table_titlebk" id="tbbkxy">
+			<tr>
+				<td class="table_title" align="center">
+					涉及信用主体
+				</td>
+			</tr>
+		</table>
+		<div class="conBody">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0"  class="tableViews" id="tbvixy">
+				<colgroup>
+					<col width="17%" />
+					<col width="33%" />
+					<col width="17%" />
+					<col width="33%" />
+				</colgroup>
+				<tr>
+					<th>信用主体名称：</th>
+					<td  >$!xyzt.name</td>
+					<th>信用主体类型：</th>
+					<td>$!ztMap.get("$!xyzt.type")</td>
+				</tr>
+
+				#if($!xyzt.type == 1)
+				<tr>
+					#if($!xyzt.code)
+					<th>统一社会信用代码：</th>
+					<td #if(!$!xyzt.zzjgdm) colspan="3" #end>$!xyzt.code</td> 
+					#end 
+					#if($!xyzt.zzjgdm)
+					<th>组织机构代码：</th>
+					<td #if(!$!xyzt.code) colspan="3" #end>$!xyzt.zzjgdm</td> 
+					#end
+				</tr>
+				#elseif($!xyzt.type == 2)
+				<tr>
+					#if($!xyzt.code)
+					<th>统一社会信用代码：</th>
+					<td #if(!$!xyzt.zzjgdm) colspan="3" #end>$!xyzt.code</td> 
+					#end 
+					#if($!xyzt.zzjgdm)
+					<th>组织机构代码：</th>
+					<td #if(!$!xyzt.code) colspan="3" #end>$!xyzt.zzjgdm</td> 
+					#end
+				</tr>
+				#else
+				<tr>
+					<th>身份证号：</th>
+					<td colspan="3">$!xyzt.code</td>
+				</tr>
+				#end
+			</table>
+		</div>
+			
+        
+        <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="table_titlebk" id="tbbkcj">
+			<tr>
+				<td class="table_title" align="center">
+					惩戒信息
+				</td>
+			</tr>
+		</table>
+		<div class="conBody">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0"  class="tableViews" id="tbvicj">
+				<colgroup>
+					<col width="17%" />
+					<col width="33%" />
+					<col width="17%" />
+					<col width="33%" />
+				</colgroup>
+				#if($glxm)
+					<tr>
+						<th>关联项目：</th>
+						<td>$!glxm</td>
+						<th>所属类别：</th>
+						<td>$!xylx</td>
+					</tr>
+        		#end
+        		<tr>
+                    <th>惩戒机构：</th>
+                    <td>$!cjjg.get("$!sxcj.unit")</td>
+                    <th>惩戒作出时间：</th>
+                    <td>$!sxcj.discipline_date</td>
+                </tr>
+                <tr>
+                    <th>惩戒状态：</th>
+                    <td colspan="3">$!cjztTable.get($!sxcj.type)</td>
+                </tr>
+				<tr>
+					#if($sxcj.perform_date)
+                    <th>被惩戒时限：</th>
+                    #if($!sxcj.end_date)
+                    <td>$!sxcj.start_date 至 $!sxcj.end_date</td>
+                    #else
+                    <td>$!sxcj.start_date 起</td>
+                    #end
+                    <th>实际履行日期：</th>
+                    <td>$!sxcj.perform_date</td>
+                    #else
+                    <th>被惩戒时限：</th>
+                    #if($!sxcj.end_date)
+                    <td colspan="3">$!sxcj.start_date 至 $!sxcj.end_date</td>
+                    #else
+                    <td colspan="3">$!sxcj.start_date 起</td>
+                    #end
+                    #end
+				</tr>
+				#if($!sxcj.sxxw_id != '0000')
+                <tr>
+                    <th>失信行为：</th>
+                    <td colspan="3">
+                        $!sxxw
+                    </td>
+                </tr>
+                <tr>
+                    <th>具体情形：</th>
+                    <td colspan="3">
+                         $!binfo.sxqx
+                    </td>
+                </tr>
+                <tr>
+                    <th>惩戒措施：</th>
+                    <td colspan="3">
+                        #if("$!binfo.cjcs"=="")$!sxcj.cjcs_other#else$!binfo.cjcs#end
+                        #if($syfss||$txmfss)
+                        $!year年度：
+                        #if($txmfss)
+                       同一项目发生<font color="red">$!txmfss</font>次
+                        #end
+                        #if($syfss)
+                       不同项目发生<font color="red">$!syfss</font>次
+                        #end
+                        #end
+                    </td>
+                </tr>
+                <tr>
+                    <th>惩戒依据：</th>
+                    <td colspan="3">
+                         #if($!binfo.yj == "")
+                         暂无
+                         #else
+                         	$!binfo.yj
+                         #end
+                    </td>
+                </tr>
+                #else
+                	 <tr>
+                    <th>失信行为：</th>
+                    <td colspan="3">
+                    	其它
+                    </td>
+                </tr>
+                <tr>
+                    <th>具体情形：</th>
+                    <td colspan="3">
+                        $!sxcj.sxqx_other
+                    </td>
+                </tr>
+                <tr>
+                    <th>惩戒措施：</th>
+                    <td colspan="3">
+                        $!sxcj.cjcs_other
+                    </td>
+                </tr>
+                #end
+			</table>
+		</div>
+        <!--endprint-->
+    </div>
+    <div class="pageBtnarea Noprint">
+    	 <input type="button" class="button" name="dis" id="dis" value="页面打印" onClick="dy();" /> 
+    	<!-- <input class="button" type="button" value="打印预览" name="B3"  onclick="printThis()">  -->
+		<input class="button" type="button" name="btnCancal" value="取消" 	onClick="window.close()" /> 
+	</div>
+</form>
+</body>
+</html>

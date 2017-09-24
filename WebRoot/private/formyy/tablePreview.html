@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>$!app_name</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!-- 框架 -->
+<script type='text/javascript'>
+	var CONTEXTPATH = '${base}';
+	var stylePath = '$!stylename';
+</script>
+<link href="${base}/private/ratifyFollow/css/blue/style.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="${base}/css/form.css" />
+<script src="${base}/include/js/main.js"></script>
+<script src="${base}/include/js/string.js"></script>
+<script src="${base}/include/controls/my97/WdatePicker.js"></script>
+
+<script src="${base}/include/js/ajaxfileupload.js"></script>
+<script src="${base}/js/util/preview.js"></script>
+<script>
+function customHeightSet() {
+	var otherH_1 = jQuery(".pageBtnarea").outerHeight()
+			+ parseInt($(".pageM").css("paddingTop"))
+			+ parseInt($(".pageM").css("paddingBottom"));
+	var pageH = document.documentElement.clientHeight;
+	jQuery("#pageScroll").height(pageH - otherH_1);
+}
+jQuery(document).ready(function() {
+	customHeightSet();
+});
+window.onresize = function(){
+	customHeightSet();
+}
+</script>
+</head>
+<body class="dialogBody Preview">
+<div class="pageM editpage" id="pageScroll" style="position:relative;">
+<input type="hidden" name="formdefid" value="$!formdefid" />
+<input type="hidden" name="filename" id="filename"/>
+<input type="hidden" name="filepath" id="filepath"/>
+<input type="hidden" name="filesize" id="filesize"/>
+$!body
+#if($!qk==1)
+ <span style="color: red">备注：$!fkjl</span>
+#end
+</div>
+<div class="pageBtnarea">
+	<div >
+		<input type="button" class="button" name="Close" value="关闭"  onclick="window.close()" /> 
+	</div>
+</div>
+
+</body>
+<script type="text/javascript">
+$(function (){
+	
+	$("tr.toolBar").each(function (){
+		$(this).parent().find("tr").each(function (){
+			$(this).children().eq(0).remove();
+		});
+		$(this).remove();
+		
+	});
+	
+	$('#pageScroll input').each(function(){
+		var type=$(this).attr('type');
+		if(type=='hidden'){
+			var clas=$(this).attr('clas');
+
+			if(clas=='checkbox'){
+				var value=$(this).val();
+				var parent=$(this).parent();
+				parent.html('');
+				parent.append(value);
+			}else if(clas=='radio'){
+				var value=$(this).attr("selectedtext");
+				var parent=$(this).parent();
+				parent.html('');
+				
+// 				var name=$(this).attr("name");
+// 				alert($('input[name="radioinput_'+name+'"]:checked')[0].nextSibling.nodeValue);
+				parent.append(value);
+			}else if(clas=='xyzt'){
+				//信用主体
+				var xyzt=$(this).attr('showxyzt');
+				if(xyzt){
+					$("input[name='"+$(this).attr("name")+"_name']").val(xyzt);
+				}
+			}
+			
+			
+		}else if(type=='text'){
+			var value=$(this).val();
+			
+			var controltype=$(this).attr("controltype");
+			if(controltype){
+				value='<a href="'+CONTEXTPATH+controltype+'" target="_black">'+value+'</a>';
+			}
+			
+			$(this).after(value);
+		}
+		$(this).remove();
+	});
+	
+	
+	$('#pageScroll select').each(function(i){
+		var val=$(this).val().replace(/\s+/g,"");//去空格
+		var values=$(this).find("option:selected").text();
+		if(!val){
+			values='';
+		}
+		
+		var iscasde=$(this).attr("iscascade");
+		if(iscasde){
+			var firstcasde=iscasde.substring(0,iscasde.lastIndexOf("_"))+"_0";
+			var firstval=$("select[iscascade='"+firstcasde+"']").val();
+			if(val!=firstval){
+				values=" / "+values;
+			}
+		}
+		$(this).after(values);
+		$(this).remove();
+	});
+	
+	$('#pageScroll button.btn-attachement').each(function(){
+		$(this).remove();
+	});
+	
+	$('#pageScroll button.btn-userselector').each(function(){
+		$(this).remove();
+	});
+	
+	$('#pageScroll textarea').each(function(){
+		var value=$(this).val();
+		$(this).after(value);
+		$(this).remove();
+	});
+});
+	
+</script>
+
+</html>

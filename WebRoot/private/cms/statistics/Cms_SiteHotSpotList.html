@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html style="overflow-x: hidden; overflow-y: auto">
+<head>
+    <title>$!app_name</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<!-- 框架 -->
+	<link href="${base}/include/css/default.css" rel="stylesheet" type="text/css"/>
+	<script type='text/javascript'>
+		var CONTEXTPATH = '${base}';
+	</script>
+    <script src="${base}/include/js/main.js"></script>
+    <script src="${base}/include/js/string.js"></script>
+	<!-- 分页  注意顺序 -->
+	<link href="${base}/include/css/themes/gray/easyui.css" rel="stylesheet" type="text/css"/> 	
+	<script src="${base}/include/js/jquery.easyui.min.js"></script>	
+    <!-- 树 -->
+    <script type="text/javascript" src="${base}/include/controls/ztree/jquery.ztree.core-3.5.min.js"></script>
+    <script type="text/javascript" src="${base}/include/controls/my97/WdatePicker.js"></script>
+	<link rel="stylesheet" href="${base}/include/controls/ztree/zTreeStyle/zTreeStyle.css" type="text/css">
+    <SCRIPT type="text/javascript">
+           <!--
+           function getWidth(percent){
+        	   return document.body.clientWidth*percent;
+		   }
+           
+           function loadGrid(){
+        	   $("#dg1").datagrid({
+        	        width:"auto",
+        	   		height:"auto",
+        	        nowrap: true,
+        	        striped: true,  
+        	        border: true,  
+        	        collapsible:true,//是否可折叠的
+        	        fit: false,//自动大小
+        	        url:"${base}/private/cms/stat/hotSpotList",
+                   queryParams: {"site": $("#site").val(), "startTime": $("#startTime").val(), "endTime": $("#endTime").val()},
+        	        remoteSort:false,
+        	        singleSelect:false,//是否单选  
+        	        pagination:false,//分页控件
+        	        rownumbers:true,//行号  
+        	        fitColumns: true,//行自适应
+					pageSize: 10,
+        	        pageList:[5,10,15,20,30,40,50],
+        	        loadMsg:'数据加载中...',
+        	        columns:[[
+                        {title : '标题',field : 'title',width:getWidth(0.10),align : 'center' },
+                        {title : '所属栏目',field : 'channel_id',width:getWidth(0.04),align : 'center',
+                            formatter: function (value, row, index) {
+                                var str = row.site_id +""+ row.channel_id ;
+                                var str2 = $("select[name=channel] option[value = "+str+" ]").text();
+                                return str2;
+                            }
+                        },
+                        {title : '所属站点',field : 'site_id',width:getWidth(0.04),align : 'center',
+                            formatter: function (value, row, index) {
+                                var str = row.site_id + "";
+                                var str2 = $("select[name=site] option[value = "+str+" ]").text();
+                                return str2;
+                            }
+                        },
+                        {title : '访问量',field : 'content_traffic',width:getWidth(0.04),align : 'center' }
+        	        ]],
+        	        onDblClickRow:function(rowIndex,row) // 双击事件
+        	        {
+//        	        	updateId(row.config_key);
+        	        },
+                   onRefresh:function(){
+                       $("#dg1").datagrid("clearSelections");
+                   }
+        	    });  
+        	    //设置分页控件  
+        	    var p = $("#dg1").datagrid("getPager");  
+        	    $(p).pagination({  
+        	        beforePageText: "第",//页数文本框前显示的汉字  
+        	        afterPageText: "页    共 {pages} 页",  
+        	        displayMsg: "当前显示 {from} - {to} 条记录   共 {total} 条记录",  
+        	        onBeforeRefresh:function(){ 
+        	        },
+                    onRefresh:function(){
+                        $("#dg1").datagrid("clearSelections");
+                    }
+        	    });  
+           }
+           Page.onLoad(function() {
+        	   loadGrid();
+           }); 
+           $(window).resize(function () {
+       		clearTimeout(timer);
+       		timer=setTimeout(function(){
+       		  $('#dg1').datagrid('resize');
+       		  $('div.panel-body').css('width','auto'); 
+       		 },200);
+       		});
+           //-->
+       </SCRIPT>
+</head>
+<body leftmargin="0" topmargin="0"
+	style="overflow-x: hidden; overflow-y: auto">
+
+<table width="100%" border="0" cellspacing="6" cellpadding="0"
+		style="border-collapse: separate; border-spacing: 6px;">
+		<tr valign="top">
+			<td width="100%">
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse: separate; border-spacing: 0;">
+    <tr valign="top">
+      <td>
+	   <form name="form1" id="form1" method="post" > 
+        <input type="hidden" name="checkids" id="checkids" value="">
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="blockTable">
+                                      <tr>
+                                        <td class="blockTd">
+                                        
+                                        <table width="100%" border="0" cellspacing="0" cellpadding="6" >
+                                          <tr>
+                                            <td valign="middle"><img src="${base}/images/icons/icon021a1.gif" width="20" height="20" />
+                                            &nbsp;<span>站点发布统计</span></td>
+                                          </tr>
+                                          <tr>
+                                              <td style="padding: 8px 0 4px 6px;" id="btnlist">
+                                                 
+                                              </td>
+                                          </tr>
+                                            <tr>
+                                                <td height="0" colspan="2" algin="right" width="85%">
+                                                    <div style="display: none">
+                                                        栏目<select name="channel" id="channel">
+                                                        #foreach($channel in $channelList)
+                                                            <option value="$!channel.site_id$!channel.channel_id" >$!channel.name</option>
+                                                        #end
+                                                        </select>&nbsp;
+                                                     </div>
+                                                    <div style="float: left; padding-right:10px;">
+                                                        站点:<select name="site" id="site">
+                                                                    <option value="all" selected="selected">全部</option>
+                                                                    #foreach($obj in $siteList)
+                                                                    <option value="$!obj.site_id" >$!obj.site_name</option>
+                                                                    #end
+                                                                </select>&nbsp;
+                                                        发布时间:  <input type="text" id="startTime" name="startTime" value="$!startTime"  verify="开始日期|NotNull" style="width:160px;height:16px;background:#F4F9FB url(${base}/include/controls/my97/skin/datePicker.gif) no-repeat right;"
+                                                                      onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" >
+                                                        到 <input type="text" id="endTime" name="endTime" value="$!endTime"  verify="结束日期|NotNull" style="width:160px;height:16px;background:#F4F9FB url(${base}/include/controls/my97/skin/datePicker.gif) no-repeat right;"
+                                                                 onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" >
+                                                    </div>
+                                                    <div style=""><a
+                                                            href='javascript:void(0);' ztype='zPushBtn'
+                                                            class='zPushBtn' hidefocus='true' tabindex='-1'
+                                                            onselectstart='return false' id='BtnSearch'
+                                                            onClick="loadGrid();"><img
+                                                            src="${base}/images/icons/icon403a3.gif"
+                                                            width="20" height="20"/><b>查询&nbsp;</b></a></div>
+
+                                                </td>
+                                            </tr>
+                                          <tr>
+                                            <td style="padding:0px 5px;">                                             
+                                            <table width="100%" height="100%" id="dg1" size="10" cellpadding="2" cellspacing="0">
+												<tr><td></td></tr>
+											</table>                                          
+                                            </td>
+                                          </tr>
+                                        </table></td>
+                                      </tr>
+                                    </table>
+                                    
+	   </form>
+	  </td>
+    </tr>
+ </table>
+ </td>
+    </tr>
+ </table>
+</body>
+</html>

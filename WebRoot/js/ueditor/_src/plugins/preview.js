@@ -1,0 +1,1 @@
+UE.commands["preview"]={execCommand:function(){var a=window.open("","_blank",""),b=a.document;b.open();b.write(this.getAllHtml());b.close();},notNeedUndo:1};

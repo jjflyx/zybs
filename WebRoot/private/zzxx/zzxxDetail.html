@@ -1,0 +1,443 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>$!app_name</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!-- 框架 -->
+<script type='text/javascript'>
+    var CONTEXTPATH = '${base}';
+    var stylePath = '$!stylename';
+</script>
+<link href="${base}/private/ratifyFollow/css/$!stylename/style.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="${base}/private/zjgl/css/page.css" />
+
+<style>
+html,body{ *overflow:hidden;}
+</style>
+<script type="text/javascript" src="${base}/include/js/jquery.min.js"></script>
+<script type="text/javascript" src="${base}/include/js/string.js"></script>
+<script src="${base}/js/util/preview.js"></script>
+<script>
+    function customHeightSet() {
+        var otherH_1 = jQuery(".pageBtnarea").outerHeight()
+                + parseInt(jQuery(".pageM").css("paddingTop"))
+                + parseInt(jQuery(".pageM").css("paddingBottom"));
+        var pageH = document.documentElement.clientHeight;
+        jQuery("#pageScroll").height(pageH - otherH_1);
+    }
+    jQuery(document).ready(function() {
+        customHeightSet();
+    });
+    
+    //通过code和typeid获取信息
+function ajaxCodeCascadeName(typeid,code){
+	var result;
+	jQuery.ajax({
+  		type : "post",
+		dataType : "json",
+		url : CONTEXTPATH+"/private/cs/value/getAjaxCodeValue",
+		data : {"typeid":typeid,"code":code},
+		async:false,
+		cache : false,
+		success : function(optionData) {
+			if(optionData){
+				result=optionData.name;
+			}
+		},
+		error : function() {
+			Dialog.alert("访问数据失败！");
+		}
+	});
+	return result;
+}
+    window.onload = function() {
+        customHeightSet();
+    }
+    window.onresize = function() {
+        customHeightSet();
+    }
+    //设置IE浏览器的打印默认样式，去掉页眉页脚
+    var hkey_root = "HKEY_CURRENT_USER";
+    var hkey_path = "\\Software\\Microsoft\\Internet Explorer\\PageSetup\\";
+    function pagesetup_null() {
+        try {
+            var RegWsh = new ActiveXObject("WScript.Shell");
+            var hkey_key = "header";
+            RegWsh.RegWrite(hkey_root + hkey_path + hkey_key, "");
+            hkey_key = "footer";
+            RegWsh.RegWrite(hkey_root + hkey_path + hkey_key, "");
+        } catch (e) {
+            alert(e);
+        }
+    }
+
+    function printThis() {
+        $('#noPrint_mood').hide();
+        $('#noPrint_top').hide();
+        bdhtml = window.document.body.innerHTML;
+        sprnstr = "<!--startprint-->";
+        eprnstr = "<!--endprint-->";
+        prnhtml = bdhtml.substr(bdhtml.indexOf(sprnstr) + 17);
+        prnhtml = prnhtml.substring(0, prnhtml.indexOf(eprnstr));
+        window.document.body.innerHTML = prnhtml;
+        pagesetup_null();
+        window.print();
+        window.history.go(0);
+    }
+    
+    function toPrintFun(id){
+        var url='${base}/private/print/rxdhjld?letterid='+id+'&sys_menu=信件打印&sys_random=' + Math.random();
+        var title='信件打印';
+        var iWidth=1020; //弹出窗口的宽度;
+        var iHeight=600; //弹出窗口的高度;  
+        openWin3(url,title,iWidth,iHeight);
+    }
+</script>
+</head>
+
+<body>
+<form name='form1' id="form1" method='post'>
+            <input type="hidden" name="doAction" value="">
+            <input type="hidden" name="id" value="$!obj.id">
+            <input type="hidden" name="zbid" id="zbid" value="">
+            <input type="hidden" name="pjCount" id="pjCount" value="" />
+            <input type="hidden" name="jbid" id="jbid" value="">
+            <input type="hidden" name="isold" id="isold" value="0">
+    
+    <div class="pageM viewpage" id="pageScroll">
+    <!--startprint-->
+        <table width="100%" border="0" align="center" cellpadding="0"
+			   cellspacing="0" class="table_titlebk">
+			<tr>
+				<td class="table_title" align="center">
+                    #if($!zzinfo.xy_type == "00050002")
+                    土地规划资质
+                    #else
+                    法人资质信息
+                    #end
+				</td>
+			</tr>
+		</table>
+        <div class="conBody">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0"
+                class="tableViews">
+                <colgroup>
+                    <col width="20%" />
+                    <col width="32%" />
+                    <col width="20%" />
+                    <col width="32%" />
+                </colgroup>
+                
+                <!-- 信用主体信息 -->
+                <tr>
+                    <th>信用主体：</th>
+                    <td>$!xyzt.name</td>
+                    <th>信用主体类型：</th>
+                    <td>$!ztMap.get("$!xyzt.type")</td>
+                </tr>
+                
+                #if($!xyzt.type == "1")
+                <tr>
+                    <th>统一社会信用代码：</th>
+                    <td>$!xyzt.code</td>
+                    <th>组织机构代码：</th>
+                    <td>$!xyzt.zzjgdm</td>
+                </tr>
+                #elseif($!xyzt.type == "0")
+                <tr>
+                    <th >身份证号：</th>
+                    <td>$!xyzt.code</td>
+                    <th>手机号码：</th>
+                    <td>$!xyzt.phone</td>
+                </tr>
+                #end
+                 #if($!zzinfo.xy_type == "00050001")
+                <!-- 土地评估 -->
+                <tr>
+                    <th >资质证书号：</th>
+                    <td>$!zzinfo.zz_code</td>
+                    <th> 资质证书发放单位：</th>
+                    <td>$!zzinfo.zz_unit</td>
+                </tr>
+                
+                <tr>
+                    <th >执业范围：</th>
+                    <td colspan="3">$!zzinfo.zyfw</td>
+                    <!--<th> 当前分值：</th>-->
+                    <!--<td>$!zzinfo.count</td>-->
+                </tr>
+                
+                <tr>
+                    <th>社会贡献及荣誉：</th>
+                    <td colspan="3">
+                        $!zzinfo.gxry
+                    </td>
+                </tr>
+                <tr>
+                    <th>其他信息：</th>
+                    <td colspan="3">
+                        $!zzinfo.ext
+                    </td>
+                </tr>
+                #elseif($!zzinfo.xy_type == "00050002")
+                <!-- 土地规划 -->
+                <tr>
+                    <th >资质名称：</th>
+                    <td>$!zzinfo.zz_name</td>
+                    <th> 资质级别：</th>
+                    <td>$!zzjbMap.get("$!zzinfo.zz_jb")</td>
+                </tr>
+                <tr>
+                    <th >是否省内机构：</th>
+                    <td>#if($!zzinfo.if_sn == 0) 是 #else 否 #end</td>
+                    <th> 资质有效期：</th>
+                    <td>$!zzinfo.start_date 至 $!zzinfo.end_date</td>
+                </tr>
+                #elseif($!zzinfo.xy_type == "00050003" )
+                 <!-- 土地登记代理-->
+                 <tr>
+                    <th>资质名称：</th>
+                    <td colspan="3">$!zzinfo.zz_name</td>
+                </tr>
+                <tr>
+                    <th>执业范围：</th>
+                    <td colspan="3">$!zzjbMap.get("$!zzinfo.zz_jb") / $!zzinfo.zyfw</td>
+                </tr>
+                
+                <tr>
+                    <th>年检情况：</th>
+                    <td colspan="3">
+                        $!zzinfo.njqx
+                    </td>
+                </tr>
+                
+                 #elseif( $!zzinfo.xy_type == "00050004")
+                 <!--  矿产权价格评估服务-->
+                 <tr>
+                    <th >资质名称：</th>
+                    <td>$!zzinfo.zz_name</td>
+                    <th> 资质级别：</th>
+                    <td>$!zzjbMap.get("$!zzinfo.zz_jb")</td>
+                </tr>
+                <tr>
+                    <th >执业范围：</th>
+                    <td colspan="3">$!zzinfo.zyfw</td>
+                </tr>
+                
+                <tr>
+                    <th>年检情况：</th>
+                    <td colspan="3">
+                        $!zzinfo.njqx
+                    </td>
+                </tr>
+                
+                 #elseif($!zzinfo.xy_type == "0006")
+                  <!-- 测绘地理市场信用 -->
+                        <tr>
+                            <th> 法定代表人：</th>
+                            <td>
+                                <label id="frName">$!xyzt.fr_name</label>
+                            </td>
+                            <th> 单位地址：</th>
+                            <td>
+                                <label id="commaryAddr">$!xyzt.company_addr</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th> 企业类型：</th>
+                            <td>
+                                <label id="companyType">$!xyzt.company_type</label>
+                            </td>
+                            <th> 成立日期：</th>
+                            <td>
+                                <label id="acreateTime">$!xyzt.acreate_time</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                	资质证书号：
+                            </th>
+                            <td>
+                               $!zzinfo.zz_code
+                            </td>
+                            <th>许可决定日期：</th>
+                            <td>
+                                $!zzinfo.start_date
+                            </td>
+                        </tr>
+                        <tr>
+                        	<th>资质级别：</th>
+                            <td>
+                                $!chdlzzjbMap.get("$!zzinfo.zz_jb")
+                            </td>
+                            <th>
+                                	人员规模：
+                            </th>
+                            <td>
+                                $!zzinfo.staffSize
+                            </td>
+                        </tr>
+                        <tr>
+                         	<th>
+                                	仪器设备：
+                            </th>
+                            <td>
+                                $!zzinfo.apparatus
+                            </td>
+                            <th>
+                                	专业范围：
+                            </th>
+                            <td>
+                               $!zzinfo.major
+                            </td>
+                        </tr>
+                        <tr>
+                        	<th>
+                                	资质变更记录：
+                            </th>
+                            <td colspan="3">
+                               $!zzinfo.changeRecord
+                            </td>
+                         </tr>
+                        #elseif($!zzinfo.xy_type == "00050005" ||$!zzinfo.xy_type == "00070002")
+                  <!-- 地质灾害危险性评估   地质灾害治理工程 -->
+                        <tr>
+                            <th> 单位地址：</th>
+                            <td colspan="3">
+                                <label id="commaryAddr">$!xyzt.company_addr</label>
+                            </td>
+                        </tr>
+                         <tr>
+                    <th >资质证书号：</th>
+                    <td>$!zzinfo.zz_code</td>
+                    <th> 资质级别：</th>
+                    <td>$!zzjbMap.get("$!zzinfo.zz_jb")</td></tr>
+                         <tr>
+      						<th> 资质类别：</th>
+                    		<td>
+                    			#if($!zzinfo.xy_type == "00050005")
+      								$!zhpgHt.get($!zzinfo.zz_lb)
+      							#elseif($!zzinfo.xy_type == "00070002")
+      								$!zhzlHt.get($!zzinfo.zz_lb)
+      							#end
+                   			</td>
+                            <th> 资质有效期：</th>
+                    		<td>$!zzinfo.start_date 至 $!zzinfo.end_date</td>
+                		</tr>
+                        	 <tr>
+                            <th> 法定代表人：</th>
+                            <td>
+                                <label id="frName">$!xyzt.fr_name</label>
+                            </td>
+                            <th> 法定代表人的职称类别、等级：</th>
+                            <td>
+                                $!zzinfo.fr_zcdj
+                            </td>
+                        </tr>
+                        <tr>
+                            <th> 技术负责人：</th>
+                            <td>
+                                $!zzinfo.jsfzr
+                            </td>
+                           	<th> 技术负责人的职称类别、等级：</th>
+                            <td>
+                               $!zzinfo.jsfzr_zcdj
+                            </td>
+                        </tr>
+                        <tr>
+                    <th >执业范围：</th>
+                    <td colspan="3">$!zzinfo.zyfw</td>
+                    
+                </tr>
+                        #elseif($!zzinfo.xy_type == "00070001" )
+                 <!-- 农村土地整治项目 -->
+                <tr>
+                    <th >资质名称：</th>
+                    <td>$!zzinfo.zz_name</td>
+                <th> 资质有效期：</th>
+                    <td>$!zzinfo.start_date 至 $!zzinfo.end_date</td>
+                </tr>
+                <tr>
+                	<th> 资质类别：</th>
+                    <td>
+                    	$!tdzzHt.get($!zzinfo.zz_lb)
+                    </td>
+                	<th> 资质级别：</th>
+                    <td>
+                    $!tdzzHt.get($!zzinfo.zz_jb)
+                    </td>
+                </tr>
+                 #elseif($!zzinfo.xy_type == "00070003")
+                 <!-- 矿山地质环境治理项目 -->
+                 <tr>
+                    <th >资质名称：</th>
+                    <td>$!zzinfo.zz_name</td>
+                <th >资质证书号：</th>
+                    <td>$!zzinfo.zz_code</td>
+                </tr>
+                 <tr>
+                     <th> 资质级别：</th>
+                     <td>$!zzjbMap.get("$!zzinfo.zz_jb")</td>
+                     <th> 资质有效期：</th>
+                     <td>$!zzinfo.start_date 至 $!zzinfo.end_date</td>
+                 </tr>
+                 <tr>
+                    <th> 发证机关：</th>
+                    <td colspan="3">$!zzinfo.zz_unit</td>
+                    </tr>
+                 #elseif($!zzinfo.xy_type == "00070004")
+                <!-- 实施地质勘查信用 -->
+                <tr>
+                    <th >资质证书号：</th>
+                    <td>$!zzinfo.zz_code</td>
+                    <th> 资质级别：</th>
+                    <td>$!zzjbMap.get("$!zzinfo.zz_jb")</td>
+                </tr>
+                 <tr>
+                    <th> 地质勘查资质类别：</th>
+                    <td>$!lblist.get("$!zzinfo.zz_lb")</td>
+                    <th> 资质证书发放单位：</th>
+                    <td>$!zzinfo.zz_unit</td>
+                    </tr>
+                <tr>
+                     <th> 资质有效期：</th>
+                     <td>$!zzinfo.start_date 至 $!zzinfo.end_date</td>
+                     <th >执业范围：</th>
+                    <td>$!zzinfo.zyfw</td>
+                </tr>
+                
+                #end
+                <tr>
+                  <th> 资质状态：</th>
+                  <td colspan="3"> 正常</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+	    <div class="pageBtnarea">
+	<div >
+				<!--<input type="button" class="button" name="printThis"  value="页面打印" onClick="printThis()" />-->
+				<!--<input type="button" class="button" name="toPrintFun"  value="打印" onClick="toPrintFun('$!obj.id')" />-->
+				<input type="button" class="button" name="btnCancal" id="btnCancal" value="关闭" onclick="window.close()">
+			</div>
+		</div>
+    <!--endprint-->
+    </form>
+    
+    <form action="${base}/DownFile" id="printform1" name="printform1" method="post">
+                        <input type="hidden" name="type" id="type"/>
+                        <textarea rows="" cols="" style="display: none;" name="htmlbody" id="htmlbody"></textarea>
+                        <div id="printnote1" style="display:none;">
+                            
+                        </div>
+    </form>
+    <script>
+        function exportF(type){
+            
+            document.getElementById("type").value=type;
+            document.getElementById("htmlbody").value = document.getElementById("printnote1").innerHTML;
+            printform1.submit();
+        }
+    </script>
+</body>
+</html>

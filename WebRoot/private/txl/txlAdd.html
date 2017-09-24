@@ -1,0 +1,201 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html style="overflow:auto;">
+<head>
+    <title>$!app_name</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<!-- 框架 -->
+	<link href="${base}/include/css/default.css" rel="stylesheet" type="text/css"/>
+	<script type='text/javascript'>
+		var CONTEXTPATH = '${base}';
+		var stylePath = '$!stylename';
+	</script>
+    <script src="${base}/include/js/main.js"></script>
+    <script src="${base}/include/js/string.js"></script>
+    <!-- 网页编辑器ueditor  -->
+    <script type="text/javascript" charset="utf-8" src="${base}/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="${base}/ueditor/ueditor.all.js"></script>
+    <script type="text/javascript" charset="utf-8" src="${base}/ueditor/lang/zh-cn/zh-cn.js"></script>
+     <link rel="stylesheet" type="text/css" href="${base}/include/css/page.css"/>
+    <script type="text/javascript" charset="utf-8">
+   
+    jQuery(document).ready(function(){
+    	customHeightSet();
+    	$(".clearCSS").removeClass();
+    });
+    window.onresize = function(){
+    	customHeightSet();
+    }  
+        $(document).ready(function(){         // 解决IE浏览器兼容问题
+        	isIn($!txl_group.isInsider);
+        }) ;
+        
+       
+        function addSave(){     
+    		if(Verify.hasError()){
+    		  return;
+    	     }
+           
+    		jQuery.ajax({
+    			 	type: 'POST',
+        			url : "${base}/private/txl/add" ,
+        			data : $("#form1").serialize(),
+        			success : function (res) { 
+        				if(res=="true"){
+        						if(window.opener){
+        							window.opener.loadData();
+        						}
+        						window.close();
+        					
+        				}else{
+        					Dialog.alert("添加失败！");
+        				}
+        			},
+        			fail : function(res) {
+        				Dialog.Dialog.alert("系统错误?!");
+        			}
+        		}); 
+    	}
+        function selectUser(){
+        	var ishjzx="$!ishjzx";
+        	 var selecedId="?type=all";
+             var urltmep="${base}/private/txl/selectUser"+selecedId+"&reqtype="+ishjzx+"&sys_random="+ Math.random();
+             if(ishjzx=='true'){
+                var title='选择用户';
+                var iWidth=600; //弹出窗口的宽度;
+             	var iHeight=300; //弹出窗口的高度;  
+                	openWin3(urltmep,title,iWidth,iHeight);
+         	}else{
+         		var d = new Dialog("Add");
+                 d.Width = 600;
+                 d.Height = 300;
+                 d.Title = "选择用户";
+                 d.URL = urltmep,
+                 d.OKEvent = function(){
+                 	confirmUser();
+                 };    	    		
+                 d.show();
+         	}
+        }
+        //确认用户
+        function confirmUser(){
+        	var id_array=new Array();
+    		$DW.$("input[name='checkUser']:checked").each(function(){
+    			id_array.push($(this).val());//向数组中添加元素
+    		});
+    		var idstr = id_array.join(',');//将数组元素连接起来以构建一个字符串
+    		var url1 = "${base}/private/sys/user/getUser?idstr="+idstr;
+    		$.ajax({
+    			url:url1,
+    			success:function(result){
+    				var str = eval(result);
+    				var str1 = "";
+    				var str2 = "";
+    				for(var i = 0;i<str.length;i++){
+    					str1 += str[i].realname+"-"+str[i].loginname+";";
+    					str2 += str[i].loginname+";";
+    				}
+    				$("#loginname").val(str2);
+    				$("#realname").val(str1);
+    			},
+    			fail:function(e){
+    				Dialog.alert(e);
+    			}
+    		});
+    		$D.close();
+        }
+        function isIn2(value){
+        	
+        	$.getJSON("${base}/private/txl/isvalid?groupid="+value,function(msg){
+        		isIn(msg);
+        	});
+        }
+        function isIn(value){
+        	if(!value){
+        		value=1;
+        	}
+        	if(value==1){
+        		$("#loginname").attr("readonly","true");
+        		$("#loginname").attr("verify","工号|NotNull");
+        		$("[name='realname']").removeAttr("verify");
+        		$("[name='phone']").parent().parent().hide();
+        		$("[name='realname']").parent().parent().hide();
+        		$("#loginname").parent().parent().show();
+        		$("#sel").show();
+        		
+        	}else{
+        		$("[name='realname']").attr("verify","姓名|NotNull");
+        		$("#loginname").removeAttr("verify");
+        		$("#loginname").parent().parent().hide();
+        		$("[name='phone']").parent().parent().show();
+        		$("[name='realname']").parent().parent().show();
+        		$("#sel").hide();
+        		
+        	}
+        }
+        
+    </script>
+	<!-- 分页  注意顺序 -->
+	<link href="${base}/include/css/themes/gray/easyui.css" rel="stylesheet" type="text/css"/> 	
+	<script src="${base}/include/js/jquery.easyui.min.js"></script>	
+    <script src="${base}/include/js/jquery.datagrid.js"></script>
+  
+</head>
+ <body  >
+ <div class="pageM editpage" id="pageScroll" style="overflow-x: hidden; overflow-y: auto;">
+	  <form name='form1' id="form1" method='post' action='${base}/private/txl_group/add'>
+         <input type="hidden" name="id" value="$!obj.id"/>
+    <table width="100%" height="100%" border="0" bgcolor="#F5F5F5"  class="tableViews table_auto" style="border-width:0;">
+		<tr >
+			<td align="center" style="border-width:0;">
+			<table align="center" cellpadding="2"
+				cellspacing="0" style="border-top:1px solid #d3d3d3;border-left:1px solid #d3d3d3;">
+				
+				<tr>
+					<th>工号:</th>
+					<td><textarea rows="50" cols="30" id="loginname" name="loginname" verify="工号|NotNull"  readonly></textarea><input type="button" id="sel" class="button" value="选择" onclick="selectUser();"/></td>
+				</tr>
+				<tr>
+					<th>姓名:</th>
+					<td><input type="text" name="realname"  value="" /></td>
+				</tr>
+				
+				<tr>
+					<th>电话:</th>
+					<td><input type="text" name="phone"  value=""/></td>
+				</tr>
+				<tr>
+					<th>分组:</th>
+					<td>
+						<select name="groupid" verify="分组|NotNull" onchange="isIn2(this.value);">
+							<option value=" ">请选择</option>
+							#foreach($obj in $groups)
+								<option value="$!obj.id">$!obj.name</option>
+							#end
+						</select>
+						<script>selected(form1.groupid,'$!txl_group.id')</script>
+					</td>
+				</tr>
+				<tr>
+					<th>备注:</th>
+					<td><textarea rows="20" cols="30" name="bz">$!obj.bz</textarea></td>
+				</tr>
+				
+			</table>
+			</td>
+		</tr>
+	</table>
+	</form>
+	</div>
+	<div class="pageBtnarea" style="position:relative;">
+		<table width="92%" border="0" cellspacing="0" cellpadding="0" >
+			<tr>
+				<td align="center">
+					<input class="button" type="button" name="Submit" onClick="addSave()"  value="保存" />
+					<input class="button" type="button" name="Submit2" onClick="window.close();" value="关闭" />
+				</td>
+			</tr>
+		</table>
+		</div>
+	
+	</body> 
+</html>

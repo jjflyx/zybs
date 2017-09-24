@@ -1,0 +1,214 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>$!app_name</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script type='text/javascript'>
+        var CONTEXTPATH = '${base}';
+        var stylePath = '$!stylename';
+
+    </script>
+    <link href="${base}/include/css/blue/style.css" rel="stylesheet" type="text/css" />
+    <link href="${base}/include/css/page.css" rel="stylesheet" type="text/css" />
+    <script src="${base}/include/js/main.js"></script>
+    <script src="${base}/include/js/string.js"></script>
+    <!--<link href="${base}/include/css/themes/gray/easyui.css" rel="stylesheet" type="text/css" />-->
+    <script src="${base}/include/js/jquery.easyui.min.js"></script>
+    <link href="${base}/include/controls/my97/skin/WdatePicker.css" rel="stylesheet" type="text/css"/>
+    <script language="javascript" type="text/javascript" src="${base}/include/controls/my97/WdatePicker.js"></script>
+    <script src="${base}/include/js/ajaxfileupload.js"></script>
+    <script>
+        function ht(){
+            $("#hideDIV").attr("style","");
+        }
+        var ztMap = $!ztMap;
+        function toAddfr(){
+            var ctype = 1;
+            var d = new Dialog("Addfr");
+            d.Width = 700;
+            d.Height = 350;
+            d.Title = "添加信用主体";
+            d.URL = "${base}/private/jlxx/toAddfr?frbutton=1&ctype="+ctype;
+            d.OKEvent = function(){
+                if($DW.doSave()){
+                    var ids = $DW.$("#checkids_id").val();
+                    var names = $DW.$("#checkids_name").val();
+                    var types = $DW.$("#checkids_type").val();
+                    var codes = $DW.$("#checkids_code").val();
+                    var code = codes.split(",");
+                    $("#name").val(names);
+                    $("#xyzt_id").val(ids);
+                    $("#type").val(ztMap[types]);
+                    $("#code").val(code[0]);
+                    //$("#code").text(codes[]]);
+                    //$("#type_code").attr("style","display:");
+                    //alert(codes);
+                    //alert("xyzt_id:"+$("#xyzt_id").val()+"----"+"types:"+ztMap[types[0]]);
+                    $D.close();
+                }
+            }
+            d.show();
+        }
+        function dosave(){
+            if(Verify.hasError()){
+                return;
+            }
+          //添加上传路径html
+    		$("#file_html").val(encode64($("#file_list").html()));
+            jQuery.ajax({
+                type: 'POST',
+                url : "${base}/private/jlxx/addSave" ,
+                data : $("#form1").serialize(),
+                success : function (res) { 
+                    if(res=="true"){ 
+                        Dialog.alert("添加成功!",function(){
+                            window.close();
+                        });
+                        opener.loadData();
+                    }else{
+                        Dialog.alert("添加失败！");
+                    }
+                    return false;
+                },
+                fail : function(res) {
+                    Dialog.alert("系统错误?!");
+                }
+            }); 
+        }
+        function loadFileClickOut(obj){
+        	var inputname=$(obj).attr("fileinputname");
+        	var d = new top.Dialog("filedialog");
+        	d.Width = 360;
+        	d.Height = 160;
+        	d.Title = "文件上传";
+        	d.URL = CONTEXTPATH+"/private/file/uploadOne";
+        	d.OKEvent = function(){
+        		$('input[name="'+inputname+'"]').val($DW.$("#filename").val());
+        		setFileList($DW.$("#filepath").val(),$DW.$("#filename").val(),$DW.$("#filesize").val());
+        		$D.close();
+        	};
+        	d.CancelEvent = function(){
+        		$D.close();
+        	};
+        	d.onLoad = function() {
+
+        	}
+        	d.ButtonCenter=true;
+        	d.show();
+        	d.OKButton.value=" 确定";
+        	d.CancelButton.value=" 取消 ";
+        }
+        function setFileList(filePath, fileName, fileSize) {
+    		$("#file_list").html(
+    				"&nbsp;<a href='${base}"+filePath+"' >" + fileName + "("
+    				+ fileSize + "MB)</a><br />");
+    	}
+        
+    </script>
+</head>
+<body leftmargin="0" topmargin="0" class="easyui-layout">
+<form name='form1' id="form1" method='post'
+      action="${base}/private/slzx/slj_info/add">
+    <input type="hidden" name="id" id="id" value="$!obj.id">
+    <input type="hidden" name="flowid" id="flowid" value="$!flowid">
+    <input type="hidden" name="fromnum" id="fromnum" value="$!fromnum">
+    <input type="hidden" name="phone" id="phone" value="$!fromnum">
+    <input type="hidden" name="fromtime" id="fromtime" value="$!fromtime">
+    <input type="hidden" name="loginname" id="loginname" value="$!user.loginname">
+    <input type="hidden" name="jlry_type" id="jlry_type" value="0"/>
+    <input type="hidden" name="xyzt_id" id="xyzt_id" value=""/>
+    <input type="hidden" name="issue" id="issue" value="0">
+    <input type="hidden" name="xy_type" id="xy_type" value="$!xytype"/>
+    <div region="center" border="false"
+         style="width: 100%; height: 100%; padding: 0px 10px 10px;">
+        <table width="98%" border="0" align="center" cellpadding="0"
+               cellspacing="0" class="table_auto margin_top15 table_titlebk">
+            <tr>
+                <td class="table_title" align="center">
+                    奖励信息
+                </td>
+            </tr>
+        </table>
+        <table width="98%" border="0" align="center" cellpadding="0"  cellspacing="0" class="table_auto table_nrbk">
+            <tr>
+                <td valign="top" class="padding10">
+                    <table width="100%" border="0" cellpadding="0" cellspacing="3">
+                        <tr>
+                            <td align="right" width="130">信用主体：</td>
+                            <td width="*"><input type="text" name="name" id="name" size="25" maxlength="40" readonly="readonly" placeholder="点击右边图标即可添加" verify="信用主体|NotNull"/>
+                                &nbsp;&nbsp;<img src="${base}/include/img/cz_find.png" style=" vertical-align:middle;cursor: pointer;" onclick="toAddfr();"></img>
+                                <!--<input class="button" type="button" name="addfr_button" id="addfr_button" onclick="toAddfr();" value="添加"/>-->
+                            </td>
+
+                        </tr>
+                        
+                        <tr>
+                            <td align="right" width="130">信用主体类型：</td>
+                            <td ><input type="text" id="type" name="type" size="25" readonly="readonly" class="readonlyText"/></td>
+                        </tr>
+                        
+                        <tr>
+                            <td align="right" width="130">统一社会信用代码：</td>
+                            <td ><input type="text" id="code" name="code" size="25" readonly="readonly" class="readonlyText"/></td>
+                        </tr>
+                        
+                        
+                        <tr>
+                            <td align="right" width="130">奖励机构：</td>
+                            <td>
+                                <input type="hidden" id="unit" name="unit" value="$!unit"/>
+                                <input type="text" value="$!unitname" size="25" readonly="readonly" class="readonlyText"/>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td align="right" width="130">奖励作出时间：</td>
+                            <td>
+                                <input class="Wdate" style="width:160px;height:16px;background:#F4F9FB url(${base}/include/controls/my97/skin/datePicker.gif) no-repeat right;" name="jl_date" id="jl_date" size="20" maxlength="50"  onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" verify="奖励作出时间|NotNull&&ngtToday"/>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td align="right" valign="top" width="130">奖励内容：</td>
+                            <td>
+                                <textarea rows="3" cols="70" name="note" id="note" verify="奖励内容|NotNull"></textarea>
+                            </td>
+                        </tr>
+						<tr bgcolor="#ffffff">
+							<td align="right" width="130">上传附件：</td>
+							<td>
+								<span class="attachement" style="padding: 2px; display: inline-block;" name="editable-input"> 
+									<input type="text" name="fj">
+									<input name="file_html" id="file_html" type="hidden">
+									<button class="btn-text btn-attachement" onclick="loadFileClickOut(this);" type="button" fileinputname="fj" id="fj_button">选择</button>
+								</span>
+							</td>
+						</tr>
+						<tr bgcolor="#ffffff" id="file_tr" style="display: none;">
+							<td align="right" width="130"> 文件列表：</td>
+							<td>
+								<span id="file_list"></span>
+							</td>
+						</tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    
+    <div region="south" border="false"
+         style="overflow: hidden; padding: 10px 10px 0px 10px">
+        <table width="98%" border="0" cellspacing="0" cellpadding="0" >
+            <tr>
+                <td align="center">
+                    <input class="button" type="button" name="btnOk" value="确认"
+                           onclick="dosave();"/>
+                    <input class="button" type="button" name="btnOk" value="关闭"
+                           onclick="window.close();"/>
+                </td>
+            </tr>
+        </table>
+    </div>
+</form>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>安徽省交通运输厅</title>
+    <script type="text/javascript" src="${baseRes!}/js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="${baseRes!}/js/hits.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="${baseRes!}/css/index.css"/>
+</head>
+
+<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+[#include "../include/通用头部.html"/]
+
+<div class="site_body">
+    <div class="site_postion">
+        <div class="postion_icon ">您当前的位置：<a href="${base!}/index.html">首页</a> > [#list channelList as n]<a href="${base!}/${n.path}/index.html" >${n.name}</a>[#if n_has_next] > [/#if][/#list]</div>
+    </div>
+
+    <div class="site_nr">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td width="50"> </td>
+                <td>
+                    <table width="96%" border="0" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td class="titlefont16">
+                                <font color="#000000"><strong>一、行政许可事项：</strong></font>
+                            </td>
+                        </tr>
+                    </table>
+                    <table width="96%" border="0" cellpadding="0" cellspacing="0">
+
+                        [@cms_content_list  titLen='60' append='...' orderBy='5' channelId='001000050001']
+                        [#list tag_list as a]
+                        <tr>
+
+                            <td height="27" class="fontV" title="${a.title}"><i><font color="#a9a9a9"><strong>${a.short_title}</strong></font></i>
+                                <a href="${a.link}" target="_blank" class="index_bs_text"> [@text_cut s=a.title len=titLen append='...'/]</a> </td>
+                        </tr>
+                        [/#list]
+                        [/@cms_content_list]
+
+                    </table>
+                    <table width="96%" border="0" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td class="titlefont16">
+                                <font color="#000000"><strong>二、非行政许可事项：</strong></font>
+                            </td>
+                        </tr>
+                    </table>
+                    <table width="96%" border="0" cellpadding="0" cellspacing="0">
+                    </table>
+
+                    <table width="96%" border="0" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td class="titlefont16">
+                                <font color="#000000"><strong>三、其他权力事项：</strong></font>
+                            </td>
+                        </tr>
+                    </table>
+                    <table width="96%" border="0" cellpadding="0" cellspacing="0">
+
+                        [@cms_content_list   titLen='60' append='...' orderBy='5' channelId='001000050002']
+                        [#list tag_list as a]
+                        <tr>
+
+                            <td height="27" class="fontV" title="${a.title}"><i><font color="#a9a9a9">
+                                <strong>${a.short_title}</strong></font></i><a href="${a.link}" target="_blank" class="index_bs_text"> [@text_cut s=a.title len=titLen append='...'/]</a>
+                            </td>
+                        </tr>
+                        [/#list]
+                        [/@cms_content_list]
+
+                    </table>
+
+                    <table width="96%" border="0" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td class="titlefont16">
+                                <font color="#000000"><strong>四、服务类事项：</strong></font>
+                            </td>
+                        </tr>
+                    </table>
+                    <table width="96%" border="0" cellpadding="0" cellspacing="0">
+
+                        [@cms_content_list   titLen='60' append='...' orderBy='5' channelId='001000050003']
+                        [#list tag_list as a]
+                        <tr>
+                            <td height="27" class="fontV" title="${a.title}"><i><font color="#a9a9a9"><strong>${a.short_title}</strong></font></i>
+                                <a href="${a.link}" target="_blank" class="index_bs_text"> [@text_cut s=a.title len=titLen append='...'/]</a>
+                            </td>
+                        </tr>
+                        [/#list]
+                        [/@cms_content_list]
+
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+[#include "../include/通用版底.html"/]
+</body>
+</html>
+
+
+
+
+
+
+
