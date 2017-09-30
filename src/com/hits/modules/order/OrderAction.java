@@ -68,7 +68,6 @@ public class OrderAction extends BaseAction{
 		unitMap=daoCtl.list(dao, sql);
 		req.setAttribute("unitMap", unitMap);
 		req.setAttribute("isfhMap",comUtil.isfhMap);
-		System.out.println("============>"+comUtil.isfhMap.get(1).get("0001"));
 	}
 	
 	//订单页面
