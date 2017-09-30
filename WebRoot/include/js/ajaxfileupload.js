@@ -64,7 +64,6 @@ jQuery.extend({
     },
 
     ajaxFileUpload: function(s) {
-    	alert("11111111111");
         // TODO introduce global settings, allowing the client to modify them for all requests, not only timeout		
         s = jQuery.extend({}, jQuery.ajaxSettings, s);
         var id = new Date().getTime()        
@@ -143,17 +142,17 @@ jQuery.extend({
                 jQuery(io).unbind()
 
                 setTimeout(function()
-									{	try 
-										{
-											jQuery(io).remove();
-											jQuery(form).remove();	
-											
-										} catch(e) 
-										{
-											jQuery.handleError(s, xml, null, e);
-										}									
+				{	try 
+					{
+						jQuery(io).remove();
+						jQuery(form).remove();	
+						
+					} catch(e) 
+					{
+						jQuery.handleError(s, xml, null, e);
+					}									
 
-									}, 100)
+				}, 100)
 
                 xml = null
 

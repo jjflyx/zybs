@@ -33,6 +33,7 @@ public class comUtil {
     public static Hashtable<String, String> xzqh = new Hashtable<String, String>();//行政区划
     public static Hashtable<String, String> xzqh_cv = new Hashtable<String, String>();//行政区划
     public static Hashtable<String, String> unitMap = new Hashtable<String, String>();//系统单位
+    public static Hashtable<String, String> statusMap = new Hashtable<String, String>();//状态类型
     public static Hashtable<String, String> yhjgHt = new Hashtable<String, String>();//所有单位所在省厅或市县局或行业协会
     public static List<List<String>> unittype = new ArrayList<List<String>>();//单位类型
     public static List<List<String>> status = new ArrayList<List<String>>();//状态
@@ -40,11 +41,9 @@ public class comUtil {
     public static List<List<String>> biaozhu = new ArrayList<List<String>>();//标注
     public static List<List<String>> ryzt = new ArrayList<List<String>>();//人员状态
     public static Hashtable<String, String> unittypeMap = new Hashtable<String, String>();//单位类型
-    public static Hashtable<String, String> statusMap = new Hashtable<String, String>();//状态类型
-    public static Hashtable<String, String> sjlxqkMap = new Hashtable<String, String>();//实际履行情况
-    public static Hashtable<String, String> biaozhuMap = new Hashtable<String, String>();//标注
     public static Hashtable<String, String> ryztMap = new Hashtable<String, String>();//人员状态
     public static List<Map> isfhMap = new ArrayList<Map>();//是否发货
+    public static Hashtable<String, String> isfhHash = new Hashtable<String, String>();
     public static List<Cs_value> qyztList = new ArrayList<Cs_value>();//企业状态
     public static List<Cs_value> qylxList = new ArrayList<Cs_value>();//企业类型
     public static List<Cs_value> sxxwtypeList = new ArrayList<Cs_value>();//企业状态
@@ -105,7 +104,6 @@ public class comUtil {
 		setHt(dao, daoCtl, "00010015");
 		setHt(dao, daoCtl, "00010016");
 		setHt(dao, daoCtl, "00010034");//许可状态
-		setHt(dao, daoCtl, "00010037");//货号规格
 		setHt(dao, daoCtl, "00010038");//是否发货
 		setHt(dao, daoCtl, "00020001");
 		setHt(dao, daoCtl, "00020003");
@@ -216,6 +214,7 @@ public class comUtil {
 			xzqh_cv=daoCtl.getHTable(dao, sql_cv);
 			xzqhList_cv=daoCtl.list(dao, sql_cv);
 		}else if("00010038".equals(typeid)){
+			isfhHash = daoCtl.getHTable(dao, sql);
 			isfhMap=daoCtl.list(dao, sql);
 		}else if("00020006".equals(typeid)){
 			djjg=daoCtl.getHTable(dao, sql);

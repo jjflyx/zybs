@@ -46,102 +46,30 @@
 	iWidth = 800;
 	//转到新增页面
 	function add() {
-		var iHeight = 340;
+		var iHeight = 400;
 		var iWidth = 800;
 		var title = '新增订单';
 		var url = '${base}/private/order/toAdd?sys_random=' + Math.random();
 		openWin3(url, title, iWidth, iHeight);
 	}
-
-	function addSave() {
-		if ($DW.Verify.hasError()) {
-			return;
-		}
-		jQuery.ajax({
-			url : "${base}/private/ddgl/addsave",
-			data : $DW.$("#form1").serialize(),
-			success : function(res) {
-				if (res == "true") {
-					Dialog.alert("操作成功！", function() {
-						$D.close();
-						loadData();
-					});
-				} else {
-					alert("操作失败！");
-					submit = false;
-				}
-				return false;
-			},
-			error : function(res) {
-				alert("系统错误?!");
-			}
-		});
-
+	//转到新增页面
+	function toupdate(htid) {
+		var iHeight = 400;
+		var iWidth = 800;
+		var title = '修改订单';
+		var url = '${base}/private/order/toUpdate?htid=' + htid;
+		openWin3(url, title, iWidth, iHeight);
 	}
 
-	function toupdate() {
-		var arr = $('#dg1').datagrid('getSelected');
-		if (!arr || arr.length == 0) {
-			Dialog.alert("请先选择要编辑的用户！");
-			return;
-		}
-		var d = new Dialog("Update");
-		d.Width = 630;
-		d.Height = 460;
-		d.Title = "编辑用户" + arr.userid;
-		d.URL = "${base}/private/sys/user/toupdate?userid=" + arr.userid;
-		d.OKEvent = function() {
-			updateSave();
-		};
-		d.show();
+	//转到浏览页面
+	function topreview(htid){
+		var iHeight = 400;
+		var iWidth = 800;
+		var title = '浏览订单';
+		var url = '${base}/private/order/toPreview?htid=' + htid;
+		openWin3(url, title, iWidth, iHeight);
 	}
-	function toupdateId(id) {
 
-		if (!id || id.length == 0) {
-			Dialog.alert("请先选择要编辑的用户！");
-			return;
-		}
-		var d = new Dialog("Update");
-		d.Width = 630;
-		d.Height = 460;
-		d.Title = "编辑用户" + id;
-		d.URL = "${base}/private/sys/user/toupdate?userid=" + id;
-		d.OKEvent = function() {
-			updateSave();
-		};
-		d.show();
-	}
-	function updateSave() {
-		if ($DW.Verify.hasError()) {
-			return;
-		}
-		if ($DW.dosave()) {
-			jQuery.ajax({
-				type : 'POST',
-				url : "${base}/private/sys/user/update",
-				data : $DW.$("#form1").serialize(),
-				success : function(res) {
-					if (res == "true") {
-						$D.close();
-						Dialog.alert("更新成功！");
-						loadData();
-					} else {
-						var jobj = jQuery.parseJSON(res).msg;
-						if (jobj != "false") {
-							Dialog.alert(jobj);
-						} else {
-							Dialog.alert("更新失败！");
-						}
-					}
-
-					return false;
-				},
-				fail : function(res) {
-					Dialog.alert("系统错误!");
-				}
-			});
-		}
-	}
 	function del() {
 		var ids = [];
 		var arr = $('#dg1').datagrid('getSelections');
@@ -183,8 +111,9 @@
 	function getWidth(percent) {
 		return document.body.clientWidth * percent;
 	}
+	var loginname='$!loginname';
+	var isfhHash = $!isfhHash;
 	function loadData() {
-		var SearchUserName = Page.getValue("unitid");
 		$("#dg1")
 				.datagrid(
 						{
@@ -195,83 +124,80 @@
 							border : true,
 							collapsible : false,//是否可折叠的  
 							fit : false,//自动大小  
-							url : "${base}/private/order/orderList",
-							queryParams : {
-								"SearchUserName" : SearchUserName
-							},
-							//sortName: 'code',  
-							//sortOrder: 'desc',  
+							url : "${base}/private/order/orderList?"+ $("#form1").serialize(),
+							sortName: 'yfjk',  
+							sortOrder: 'desc',  
 							remoteSort : false,
-							idField : "userid",
-							singleSelect : true,//是否单选
+							idField : "htid",
+							singleSelect : false,//是否单选 
 							pagination : true,//分页控件  
 							rownumbers : true,//行号  
 							fitColumns : true,//行自适应
 							pageSize : 10,
 							pageList : [ 5, 10, 15, 20, 30, 40, 50 ],
 							loadMsg : '数据加载中...',
-							onDblClickRow : function(rowIndex, row) {
-								toupdateId(row.userid);
-							},
 							columns : [ [
 									{
 										title : '订单名称',
 										field : 'ddmc',
 										align : "center",
-										width : getWidth(0.15),
-									},
-									{
-										title : '客户名称',
-										field : 'khmc',
-										align : "center",
-										width : getWidth(0.15),
-									},
-									{
-										title : '联系方式',
-										field : 'lxfs',
-										align : "center",
 										width : getWidth(0.1),
 									},
 									{
-										title : '类型',
-										field : 'status',
+										title : '客户名称',
+										field : 'unit',
 										align : "center",
-										width : getWidth(0.08),
+										width : getWidth(0.1)
+									},
+									
+									{
+										title : '货品规格',
+										field : 'hhgg',
+										align : "center",
+										width : getWidth(0.16)
 									},
 									{
 										title : '应付价款',
 										field : 'yfjk',
 										align : "center",
-										width : getWidth(0.08),
+										width : getWidth(0.08)
 									},
 									{
 										title : '应发货日期',
 										field : 'yfhrq',
 										align : "center",
-										width : getWidth(0.15),
+										width : getWidth(0.15)
 									},
 									{
-										title : '是否发货',
+										title : '是否付款',
 										field : 'isfh',
 										align : "center",
 										width : getWidth(0.08),
+										formatter : function(val,rec){
+				                            if(val!=null && val!=""){
+				                            	val = isfhHash[val];
+				                            }
+				                            return val;
+				                        }
 									},
+
 									{
 										field : "e",
 										title : "操作",
 										width : getWidth(0.1),
 										align : "center",
 										formatter : function(val, rec) {
-											var s1 = "<a href='javascript:update("
-														+ rec.sxcjid
-														+ ");'>修改</a>";
-											var s2 = "<a href='javascript:;toIssue("
-														+ rec.sxcjid
-														+ ")'>发货</a>";
-											var s3 = "<a href='javascript:detail("
-													+ rec.sxcjid + ");'>浏览</a>";
-											
-											return s3 + " | " + s1 + " | " + s2;
+											val = "";
+											val += "<a href='javascript:void(0);' onClick=\"topreview(\'"
+													+ rec.htid
+													+ "','');\">浏览</a> |";
+											if(rec.actor==loginname){
+												val += " <a href='javascript:void(0);' onClick=\"toupdate(\'"
+													+ rec.htid+ "');\">修改</a> |";
+											}
+											val += " <a href='javascript:void(0);' onClick=\"toupdate(\'"
+												+ rec.htid+ "');\">删除</a> |";
+											return val.substr(0, val.lastIndexOf("|"));
 										}
 									} ] ],
 							frozenColumns : [ [ {
@@ -317,12 +243,19 @@
 				<tr>
 					<td class="blockTd">
 						<table width="100%" border="0" cellspacing="0" cellpadding="6">
-
 							<tr>
 								<td style="padding: 8px 0 4px 6px;" id="btnlist"><span
-									style="float: left;"> &nbsp; 客户名称：<input type="text"
-										name="unitid" id="unitid" size="20" /> <input type="button"
-										name="check" onclick="loadData();" value="查询" /> <!-- <a class="Djtoggle" id="Djtoggle" name="Djtoggle" style="cursor: pointer;">点击有惊喜</a> -->
+									style="float: left;"> &nbsp; 客户名称：
+						<select id="unitid" name="unitid" onchange="loadData()">
+							<option value="">请选择</option> #foreach($!unit in $!unitMap)
+							<option value="$!unit.id">$!unit.name</option> #end
+					</select>&nbsp;&nbsp;是否付款：
+					<select id="isfh" name="isfh" onchange="loadData()">
+							<option value="">请选择</option> #foreach($!isfh in $!isfhMap)
+							<option value="$!isfh.id">$!isfh.name</option> #end
+					</select>
+					<input type="button"
+										name="check" onclick="loadData();" value="查询" /> 
 								</span> <span style="float:right;"> <a
 										href='javascript:void(0);' ztype='zPushBtn' class='zPushBtn'
 										hidefocus='true' tabindex='-1' onselectstart='return false'

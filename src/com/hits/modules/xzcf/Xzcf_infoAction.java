@@ -407,8 +407,6 @@ public class Xzcf_infoAction extends BaseAction{
 		req.setAttribute("xzcf", xzcf);
 		req.setAttribute("xyzt", xyzt);
 		req.setAttribute("ztMap", JSONObject.fromObject(comUtil.xyztlx));
-		req.setAttribute("sjlxqkmap", comUtil.sjlxqkMap);
-		req.setAttribute("biaozhumap", comUtil.biaozhuMap);
 		req.setAttribute("today", DateUtil.getToday());
 		req.setAttribute("fileList", daoCtl.getMulRowValue(dao, Sqls.create("select filename,filepath||'*'||filesize from file_info where tablekey='"+id+"' and tablename='xzcf_info' order by create_time asc")));
 	}
@@ -598,8 +596,6 @@ public class Xzcf_infoAction extends BaseAction{
 		req.setAttribute("xzcf", xzcf);
 		req.setAttribute("xyzt", xyzt);
 		req.setAttribute("ztMap", JSONObject.fromObject(comUtil.xyztlx));
-		req.setAttribute("sjlxqk", comUtil.sjlxqkMap);
-		req.setAttribute("biaozhu", comUtil.biaozhuMap);
 		req.setAttribute("fileList", daoCtl.getMulRowValue(dao, Sqls.create("select filename,filepath from file_info where tablekey='"+id+"' and tablename='xzcf_info' order by create_time asc")));
 	}
 
@@ -653,8 +649,6 @@ public class Xzcf_infoAction extends BaseAction{
 		req.setAttribute("xzcf", xzcf);
 		req.setAttribute("xyzt", xyzt);
 		req.setAttribute("ztMap", JSONObject.fromObject(comUtil.xyztlx));
-		req.setAttribute("sjlxqk", comUtil.sjlxqkMap);
-		req.setAttribute("biaozhu", comUtil.biaozhuMap);
 		req.setAttribute("fileList", daoCtl.getMulRowValue(dao, Sqls.create("select filename,filepath from file_info where tablekey='"+id+"' and tablename='xzcf_info' order by create_time asc")));
 	}
 
@@ -732,7 +726,6 @@ public class Xzcf_infoAction extends BaseAction{
 		req.setAttribute("yjlist", yjlist);
 		req.setAttribute("cslist", cslist);
 		req.setAttribute("ztMap", JSONObject.fromObject(comUtil.xyztlx));
-		req.setAttribute("biaozhu", comUtil.biaozhuMap);
 		req.setAttribute("fileList", daoCtl.getMulRowValue(dao, Sqls.create("select filename,filepath from file_info where tablekey='"+id+"' and tablename='xzcf_info' order by create_time asc")));
 	}
 	@At
@@ -815,7 +808,6 @@ public class Xzcf_infoAction extends BaseAction{
 		req.setAttribute("yjlist", yjlist);
 		req.setAttribute("cslist", cslist);
 		req.setAttribute("ztMap", JSONObject.fromObject(comUtil.xyztlx));
-		req.setAttribute("sjlxqk", comUtil.sjlxqkMap);
 		req.setAttribute("fileList", daoCtl.getMulRowValue(dao, Sqls.create("select filename,filepath from file_info where tablekey='"+id+"' and tablename='xzcf_info' order by create_time asc")));
 	}
 	@At

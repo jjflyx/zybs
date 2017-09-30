@@ -16,8 +16,11 @@ import org.nutz.dao.entity.annotation.Table;
 @Table("l_jsgg")
 public class OrderBean {
 	@Column
-	@Id
-	private int  htid;//合同id
+	@Name
+	/*@Prev({
+		@SQL(db = DB.MYSQL, value="SELECT LAST_INSERT_ID()")
+	})*/
+	private String  htid;//合同id
 	@Column
 	private String  actor;//创建人
 	@Column
@@ -46,7 +49,24 @@ public class OrderBean {
 	private String  lxfs;//联系方式
 	@Column
 	private String  khxm;//客户名称
+	@Column
+	private String  isfh;//是否发货
+	@Column
+	private String  ccdx;//尺寸大小
 	
+	
+	public String getCcdx() {
+		return ccdx;
+	}
+	public void setCcdx(String ccdx) {
+		this.ccdx = ccdx;
+	}
+	public String getIsfh() {
+		return isfh;
+	}
+	public void setIsfh(String isfh) {
+		this.isfh = isfh;
+	}
 	public String getKhxm() {
 		return khxm;
 	}
@@ -72,13 +92,13 @@ public class OrderBean {
 	public void setHhgg(String hhgg) {
 		this.hhgg = hhgg;
 	}
-	public int getHtid() {
+
+	public String getHtid() {
 		return htid;
 	}
-	public void setHtid(int htid) {
+	public void setHtid(String htid) {
 		this.htid = htid;
 	}
-
 	public String getXzqh_unit() {
 		return xzqh_unit;
 	}

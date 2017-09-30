@@ -625,6 +625,26 @@ public class ObjectCtl {
 		dao.execute(sql); 
 		return new QueryResult(sql.getList(Map.class), pager);
 	}
+	/**
+	 * 根据查询条件分页,返回封装好的QueryResult对象
+	 * 
+	 * @param dao
+	 * @param obj
+	 * @param curPage
+	 * @param pageSize
+	 * @param cnd
+	 * @return
+	 */
+	public <T> QueryResult listPage(Dao dao, Class<T> obj, int curPage,
+			int pageSize, Sql sql,Condition cnd) {
+		Pager pager = dao.createPager(curPage, pageSize);
+		sql.setPager(pager);
+		sql.setCallback(Sqls.callback.records());
+		dao.execute(sql); 
+		pager.setRecordCount(dao.count(obj, cnd));// 记录数需手动设置
+		return new QueryResult(sql.getList(Map.class), pager);
+		
+	}
 
 	/**
 	 * 根据自定义SQL分页,返回封装好的QueryResult对象

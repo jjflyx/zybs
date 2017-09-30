@@ -1031,8 +1031,6 @@ public class Discredit_infoAction extends BaseAction {
 		}
 		req.setAttribute("qytypeMap", comUtil.qytype);
 		req.setAttribute("qyztMap", comUtil.qyzt);
-		req.setAttribute("sjlxqk", comUtil.sjlxqkMap);
-		req.setAttribute("biaozhu", comUtil.biaozhuMap);
 		//判断情形是否需要进行约谈
 		if(EmptyUtils.isNotEmpty(sxcj.getSxqx_id()) && sxcj.getSxqx_id().equals("00200001")){
 			int count = daoCtl.getIntRowValue(dao, Sqls.create("select count(1) from discredit_info where xyzt_id = '"+sxcj.getXyzt_id()+"' and sxqx_id = '"+sxcj.getSxqx_id()+"'"));

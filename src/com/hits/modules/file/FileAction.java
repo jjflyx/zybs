@@ -104,7 +104,6 @@ public class FileAction extends BaseAction {
 		if(ss.indexOf(suffixname)<0){
 			js.put("error", "错误：不允许的文件扩展名，允许："+ss);
 			js.put("msg", "");
-			System.out.println("22222222222222222222222222");
 			return js;
 		}
 		long len=tmpFile.getFile().length();

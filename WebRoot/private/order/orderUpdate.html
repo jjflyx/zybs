@@ -1,568 +1,213 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <title>$!app_name</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <script type='text/javascript'>
-        var CONTEXTPATH = '${base}';
-        var stylePath = '$!stylename';
-    </script>
-    <link href="${base}/include/css/blue/style.css" rel="stylesheet" type="text/css" />
-    <link href="${base}/include/css/page.css" rel="stylesheet" type="text/css" />
-    <script src="${base}/include/js/main.js"></script>
-    <script src="${base}/include/js/string.js"></script>
-    <link href="${base}/include/css/themes/gray/easyui.css" rel="stylesheet" type="text/css" />
-    <script src="${base}/include/js/jquery.easyui.min.js"></script>
-    <link href="${base}/include/controls/my97/skin/WdatePicker.css" rel="stylesheet" type="text/css"/>
-    <script src="${base}/js/util/preview.js"></script>
-    <script language="javascript" type="text/javascript" src="${base}/include/controls/my97/WdatePicker.js"></script>
-    <script>
-    var iWidth=800; //弹出窗口的宽度;
-	var iHeight=600; //弹出窗口的高度; 
-        function ht(){
-            $("#hideDIV").attr("style","");
-        }
-
-        function add(){
-            var d = new Dialog("add");
-            d.Width = 850;
-            d.Height = 460;
-            d.Title = "添加合同";
-            d.URL = "${base}/private/zjgl/sxcj/addht";
-            d.OKEvent = function() {
-                $D.close();
-            }
-            d.show();
-        }
-        var ztMap = $!ztMap;
-        //无合同添加信用主体    
-        function toAddfr(){
-            var ctype = 0;
-            var d = new Dialog("Addfr");
-            d.Width = 700;
-            d.Height = 350;
-            d.Title = "添加信用主体";
-            d.URL = "${base}/private/jlxx/toAddfr?ctype="+ctype;
-            d.OKEvent = function(){
-                if($DW.doSave()){
-                    var ids = $DW.$("#checkids_id").val();
-                    var names = $DW.$("#checkids_name").val();
-                    var types = $DW.$("#checkids_type").val();
-                    var codes = $DW.$("#checkids_code").val();
-                    var code = codes.split(",");
-                    $("#name").val(names);
-                    $("#xyzt_id").val(ids);
-                    $("#xyzt_type").val(ztMap[types[0]]);
-                    $("#code").val(code[0]);
-                    $("#xwtr").show();
-                    $D.close();
-                }
-            }
-            d.show();
-        }
-
-        function change1(){
-            var s = Page.getValue("subtype1");
-            if(s == 5){
-                $("#tr_sx1").attr("style","");
-            }
-        }
-
-        $(document).ready(function() {
-            $(".radioItem").change(function() {
-                var selectedvalue = $("input[name='local']:checked").val();
-                if (selectedvalue == 0) {
-                    $("#tbody_yht").show();
-                    $("#zt_img").attr("style","display:none");
-                    $("#ht_name").attr("verify","合同名称|NotNull");
-                } else {
-                    $("#tbody_yht").hide();
-                    $("#zt_img").attr("style","display:");
-                    $("#ht_name").attr("verify","");
-                }
-            });
-        });
-
-        /*function checkbox(){
-         if($("#checkbox1").is(":checked")){
-         $("#td_sx").attr("style","display:");
-         }else{
-         $("#td_sx").attr("style","display:none");
-         }
-         }*/
-        var oldcheckboxVal = "";
-        function checkboxOnclick(){
-            $("input[name='checkbox']").click(function() {
-            $("#qxtr_other").hide();
-            $("#cstr_other").hide();
-            $("#sxqx_other").val("");
-            $("#cjcs_other").val("");
-            $("#checkbox_other").attr("checked",false);
-                var Source = window.event.srcElement;//指向触发事件的元素
-                //var b = Source.value;
-                //alert("tagName : " + Source.tagName + "\n" + "value : " + Source.value );
-                //var radio_value = $("input[type=radio]").val();
-                var arr_checkbox = document.getElementsByName("checkbox");
-                for(var i=0;i<arr_checkbox.length;i++){
-                    if($("input[name='checkbox']:checked").length > 1){
-//                            Dialog.alert("此处只能选择一项");
-                        $("input[name='checkbox']").attr("checked",false);
-                        //对当前点击的checkbox置空
-                        Source.checked = true;
-                    }
-                    //checkbox不为空
-                    if($("input[name='checkbox']:checked").length == 0){
-                        Source.checked = true;
-                    }
-                    var a = arr_checkbox[i].value;
-                    if(arr_checkbox[i].checked == true){
-                        $("#qxtr").show();
-                        addqx(a);
-                    }
-                    if(arr_checkbox[i].checked == false){
-                        $("#span_qx"+a+"").html("");
-                    }
-                }
-
-            });
-        }
-        //添加失信情形
-        function addqx(id){
-            $.ajax({
-                type: "post",
-                url : "${base}/private/sxcj/sxqxAjax?sxxwid="+id ,
-                dataType : "json",
-                success : function (res) {
-                    var qx = "";
-                    var old_name = "";
-                    $.each(res,function(n,array){
-                        if(old_name != array.sxqx){
-                            old_name = array.sxqx ;
-                            qx += "<span id='span_qx"+id+"'><input style='vertical-align: middle;' type='checkbox' id='checkbox_qx"+id+"' name='checkbox_qx' onclick='addcs("+array.cjcs+");' value='"+array.id+"'/><span>"+array.sxqx+"</span></br></span>";
-                        }
-                    })
-                    $("#qx_td").html(qx);
-                }
-            });
-        }
-
-        //添加惩戒措施
-        function addcs(cjcs){
-            var Source = window.event.srcElement;//指向触发事件的元素
-            if($("input[name='checkbox_qx']:checked").length == 0){
-               Source.checked = true;
-            }
-            var Source = window.event.srcElement;//指向触发事件的元素
-            var id = Source.value;//获取当前点击框value
-            var bz = $("#bz1").val();
-            var arr_checkbox = document.getElementsByName("checkbox_qx");
-            //单选 
-            if(bz == 0){
-                for(var i=0;i<arr_checkbox.length;i++){
-                    var a = arr_checkbox[i].value;
-                    if($("input[name=checkbox_qx]:checked").length > 1){
-                        $("input[name='checkbox_qx']").attr("checked",false);
-                        //对当前点击的checkbox置空
-                        Source.checked = true;
-                    }
-                }
-            }
-            for(var i=0;i<arr_checkbox.length;i++){
-                if(arr_checkbox[i].checked == true){
-                	
-                	var checkbox_value = Source.value;
-                	//判断是否为需要显示约谈次数
-                	if(checkbox_value == "00200001"){
-                		checkCount(checkbox_value);
-                	}else{
-                		$("#yt_tr").attr("style","display:none");
-                		$("#yt_date").attr("verify","");
-                	}
-                	
-                    var text = "";//单选存储
-                    text = $("input[name=checkbox_qx]:checked").next().text();
-                    $("#sxqx_name").val(text);
-                    //alert("id:"+id);
-                    //alert("name:"+$("#sxqx_name").val());
-                    if(cjcs==1){
-	                    $.ajax({
-	                        type: "post",
-	                        url : "${base}/private/sxcj/cjcsAjax?sxqxid="+id ,
-	                        dataType : "json",
-	                        data : $("#form1").serialize(),
-	                        success : function (res) {
-	                            var cs = "";
-	                            $.each(res,function(n,array){
-	                                cs += "<span id='span_cs"+id+"'><input style='vertical-align: middle;' type='checkbox' id='checkbox_cs"+id+"' name='checkbox_cs'  value='"+array.id+"'/>"+array.cjcs+"</br></span>";
-	                            })
-	                            $("#cs_td").html(cs);
-	                        }
-	                    });
-                    }
-                    $.ajax({
-                        type: "post",
-                        url : "${base}/private/sxcj/yjAjax?id="+id ,
-                        dataType : "json",
-                        success : function (res) {
-                            var yj = "";
-                            var yj_name = "";
-                            var sxyj = "";
-                            $.each(res,function(n,array){
-                                if(yj_name != array.name) {
-                                    yj_name = array.name;
-                                    if(array.yj == null || array.yj == " "){
-                                    	sxyj = "暂无";
-                                    }else{
-                                    	sxyj = array.yj;
-                                    }
-                                    yj += "<span id='span_yj" + id + "'>" + sxyj + "</br></span>";
-                                }
-                            })
-                            $("#yj_td").html(yj);
-                        }
-                    });
-                }
-                if(arr_checkbox[i].checked == false){
-                    $("#span_cs"+a+"").html("");
-                }
-            }
-            if(cjcs==1){
-	            $("#cstr").show();
-	            $("#cstr_other").hide();
-	            $("#cjcs_other").val("");
-            }else{
-            	$("#cstr").hide();
-	            $("#cstr_other").show();
-            }
-            $("#yjtr").show();
-        }
-		
-      //查询约谈次数
-        function checkCount(sxqxid){
-        	var xyzt_id = $("#xyzt_id").val();
-        	$.ajax({
-                type: "post",
-                url : "${base}/private/sxcj/checkCount?sxqxid="+sxqxid+"&xyzt_id="+xyzt_id,
-                success : function (res) {
-                    $("#yt_td").text(res);
-                    $("#yt_tr").attr("style","display:");
-                    $("#yt_date").attr("verify","约谈时间时间|NotNull");
-                }
-            });
-        }
-        
-        function doSave(){
-            var checkbox = $("input[name=checkbox]:checked").val();
-            if(checkbox!="0000"){
-            	$("#sxqx_other").removeAttr("verify");
-            	$("#cjcs_other").removeAttr("verify");
-            }
-            if(Verify.hasError()){
-                return ;
-            }
-            var start_date = $("#start_date").val();
-            var end_date = $("#end_date").val();
-            if($("input[name=checkbox]:checked").length == 0){
-               Dialog.alert("请选择失信行为");
-               return;
-            }
-            var checkbox_str = [];
-            $('input[name="checkbox"]:checked').each(function(){
-                checkbox_str.push($(this).val());
-            });
-
-            #if($sxcj.src_type=="0")
-            if(checkbox!="0000"){
-	            if($("input[name=checkbox_qx]:checked").length == 0){
-	               Dialog.alert("请选择失信情形");
-	               return;
-	            }
-	            if($("input[name=checkbox_cs]")[0]!=undefined&&$("input[name=checkbox_cs]:checked").length == 0){
-	               Dialog.alert("请选择惩戒措施");
-	               return;
-	            }
-            }
-            if(end_date != ""){
-	            if(start_date > end_date){
-	                Dialog.alert("被惩罚时限结束时间不得小于开始时间");
-	                return;
-	            }
-            }
-
-            var checkbox_qx_str = [];
-            $('input[name="checkbox_qx"]:checked').each(function(){
-                checkbox_qx_str.push($(this).val());
-            });
-            var checkbox_cs_str = [];
-            $('input[name="checkbox_cs"]:checked').each(function(){
-                checkbox_cs_str.push($(this).val());
-            });
-            if(checkbox_str.length == 0){
-            	$("#sxxw_other").val("0000");
-            }else{
-            	$("#sxxw_other").val("");
-            }
-            #end
-
-            if($("#reason").val().trim()==""){
-                Dialog.alert("修改原因不能为空！",function(){
-                    $("#reason").focus();
-                });
-                return ;
-            }
-            if($("#basis").val().trim()==""){
-                Dialog.alert("修改依据不能为空！",function(){
-                    $("#basis").focus();
-                });
-                return ;
-            }
-            $("#sxxw_id").val(checkbox_str);
-            $("#sxqx_id").val(checkbox_qx_str);
-            $("#cjcs_id").val(checkbox_cs_str);
-            jQuery.ajax({
-                type: 'POST',
-                url : "${base}/private/sxcj/Update" ,
-                data : $("#form1").serialize(),
-                success : function (res) {
-                    if(res){
-                        Dialog.alert("修改成功！",function(){
-                        	refreshloadDataTab();
-                        });
-                    }else{
-                        Dialog.alert("修改失败！");
-                    }
-                    return false;
-                },
-                fail : function(res) {
-                    Dialog.alert("系统错误?!");
-                }
-            });
-        }
-    jQuery(document).ready(function() {
-        customHeightSet();
-    });
-    window.onresize = function() {
-        customHeightSet();
-    }
-        window.onload = function(){
-            checkboxOnclick();
-            customHeightSet();
-            var id = $("#sxqx_idhidden").val();
-            if(id == "00200001"){
-            	$("#yt_tr").attr("style","display:");
-            	$("#yt_date").attr("verify","约谈时间时间|NotNull");
-            }
-            var xyml=$!sxcj.xy_type;
-            if(xyml == "00070001"){
-            	$("div[name='xwdiv']").hide();
-                $("div[id='xwdiv_$!httype']").show();
-            }
-            var otherxw = $("#sxxw_otherhidden").val();
-            if(otherxw == "0000"){
-	            $("#qxtr").hide();
-	            $("#cstr").hide();
-	            $("#yjtr").hide();
-	            $("#qxtr_other").show();
-                $("#cstr_other").show();
-                $("#yt_tr").hide();
-            }
-        }
-        function preview(url){
-			var url="${base}"+url;
-       		var title='预览表单';
-       		openWin3(url,title,iWidth,iHeight);
-        }
-    </script>
+<title>$!app_name</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<script type='text/javascript'>
+		var CONTEXTPATH = '${base}';
+		var stylePath = '$!stylename';
+	</script>
+	<link href="${base}/private/ratifyFollow/css/blue/style.css" rel="stylesheet" type="text/css" />
+	<script src="${base}/include/js/main.js"></script>
+	<script src="${base}/include/js/string.js"></script>
+	<!--<link href="/gtCredit/include/css/themes/gray/easyui.css" rel="stylesheet" type="text/css" />-->
+	<script src="${base}/include/js/jquery.easyui.min.js"></script>
+	<link href="${base}/include/controls/my97/skin/WdatePicker.css" rel="stylesheet" type="text/css"/>
+	<script language="javascript" type="text/javascript" src="${base}/include/controls/my97/WdatePicker.js"></script>
+	<script src="${base}/include/js/ajax_select.js"></script>
+	<script src="${base}/js/util/preview.js"></script>
+<script>
+	function updateSave(){
+		setFile1(form1.sbfile);
+		jQuery.ajax({
+			type : 'POST',
+			url : "${base}/private/order/updateSave",
+			data : $("#form1").serialize(),
+			timeout : 30000,
+			success : function(res) {
+				if (res == "true") {
+					Dialog.alert("修改成功！", function() {
+						refreshloadDataTab();
+					});
+				} else {
+					Dialog.alert("修改失败！");
+				}
+				return false;
+			},
+			fail : function(res) {
+				Dialog.alert("系统错误?!");
+			}
+		});
+	}
+	
+	function getUnit(unitid)
+{	
+	jQuery.ajax({
+		url : "${base}/private/order/getUnit?unitid="+unitid,
+		success : function (res) {	
+			var a=res.split(";");
+			$("#khxm").attr("value",a[0]);
+			$("#lxfs").attr("value",a[1]);
+		}
+	});   
+}
+	
+	function customHeightSet() {
+	var otherH_1 = jQuery(".pageBtnarea").outerHeight()
+			+ parseInt($(".pageM").css("paddingTop"))
+			+ parseInt($(".pageM").css("paddingBottom"));
+	var pageH = document.documentElement.clientHeight;
+	jQuery("#pageScroll").height(pageH - otherH_1);
+	}
+	jQuery(document).ready(function() {
+		customHeightSet();
+	});
+	window.onresize = function() {
+		customHeightSet();
+	}
+	window.onload = function() {
+		customHeightSet();
+	}
+</script>
 </head>
 <body leftmargin="0" topmargin="0">
-<form name='form1' id="form1" method='post'>
-	<input type="hidden" name="warnid" id="warnid" value="$!warnid"/>
-    <input type="hidden" name="sxqx_name" id="sxqx_name"/>
-    <input type="hidden" name="sxxw_id" id="sxxw_id">
-    <input type="hidden" name="sxqx_id" id="sxqx_id">
-    <input type="hidden" name="sxqx_idhidden" id="sxqx_idhidden" value="$!sxcj.sxqx_id">
-    <input type="hidden" name="sxxw_otherhidden" id="sxxw_otherhidden" value="$!sxcj.sxxw_id">
-    <input type="hidden" name="cjcs_id" id="cjcs_id">
-    <input type="hidden" name="id" id="id" value="$!sxcj.id"/>
-    <input type="hidden" name="xyzt_id" id="xyzt_id" value="$!sxcj.xyzt_id">
-    <input type="hidden" name="contract_id" id="contract_id" value="$!sxcj.contract_id"/>
-    <input type="hidden" name="type" id="type" value="$!sxcj.type"/>
-    <input type="hidden" name="src" id="src" value="$!sxcj.src"/>
-    <input type="hidden" name="actor" id="actor" value="$!sxcj.actor"/>
-    <input type="hidden" name="create_date" id="create_date" value="$!sxcj.create_date"/>
-    <input type="hidden" name="issue" id="issue" value="$!sxcj.issue"/>
-    <input type="hidden" name="unitid" id="unitid" value="$!sxcj.unitid"/>
-    <input type="hidden" name="xy_type" id="xy_type" value="$!sxcj.xy_type"/>
-    <input type="hidden" name="tablekey" id="tablekey" value="$!sxcj.tablekey"/>
-    <input type="hidden" name="yyid" id="yyid" value="$!yyid"/>
-    <div class="pageM viewpage pageAdd" id="pageScroll">
-        <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="table_titlebk">
-            <tr>
-                <td class="table_title" align="center">
-                    失信惩戒信息
-                </td>
-            </tr>
-        </table>
-            <table width="98%" border="0" cellpadding="0" cellspacing="3"  class="table_auto table_nrbk">
-                <!-- 涉及合同模块 -->
-                #if("$!glxm"!="")
-                <tr>
-                    <td align="right">关联项目：</td>
-                    <td algin="left" colspan="3"><a href='javascript:void(0);' onClick="preview('$!url');">$!glxm</a></td>
-                </tr>
-                #end
-                
-                <tr>
-                    <td align="right">信用主体：</td>
-                    <td id="xyzt_name" name="xyzt_name">
-                        $!xyzt.name
-                    </td>
-                    <td align="right">信用主体类型：</td>
-                    <td>$!ztMap.get("$!xyzt.type")</td>
-                </tr>
-                 #if($!xyzt.type == 1 || $!xyzt.type == 2)
-                <tr>
-                    #if($!xyzt.code)
-                    <td align="right">统一社会信用代码：</td>
-                    <td >$!xyzt.code</td>
-                    #end
-                    #if($!xyzt.zzjgdm)
-                    <td align="right">组织机构代码：</td>
-                    <td >$!xyzt.zzjgdm</td>
-                    #end
-                </tr>
-                #else
-                <tr>
-                    <td align="right" >身份证号：</td>
-                    <td algin="left" colspan="3">$!xyzt.code</td>
-                </tr>
-                #end
-                <tr>
-                    <td align="right" width="15%">惩戒机构：</td>
-                    <td width="30%">
-                    	<input type="hidden" id="unit" name="unit" value="$!sxcj.unit"/>
-                        $!cjjg.get("$!sxcj.unit")
-                    </td>
-                    
-                    <script type="text/javascript">selected(document.form1.unit,"$!sxcj.unit")</script>
-                    
-                    <td align="right" width="15%">惩戒作出时间：</td>
-                    <td width="*%"><input class="Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'});" name="discipline_date" id="discipline_date" size="20" maxlength="50" value="$!sxcj.discipline_date" verify="惩戒做出时间|NotNull"/></td>
-                </tr>
-
-                <tr>
-                    <td align="right" >被惩戒时限：</td>
-                    <td colspan="3">
-                        <input class="Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'});" name="start_date" id="start_date" size="20" maxlength="50" value="$!sxcj.start_date" verify="开始时间|NotNull"></input>&nbsp;&nbsp;至&nbsp;
-                        <input class="Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'start_date\')}'});" name="end_date" id="end_date" size="20" maxlength="50" value="$!sxcj.end_date"></input>
-                    </td>
-                </tr>
-
-                <tr id="xwtr">
-                    <td align="right" valign="top">失信行为：</td>
-                    <td colspan="3">
-                        #foreach($!obj in $!xwlist)
-                        <div name='xwdiv' id="xwdiv_$!httyMap.get('$!obj.ht_type')">
-                        <input style="vertical-align:middle;" type="checkbox" id="checkbox$!obj.id" name="checkbox" value="$!obj.id" />$!obj.sxxw </br>
-                        <input type="hidden" id="bz$velocityCount" name="bz" value="$!obj.bz"/>
-                        </div>
-                        #end
-                    </td>
-                </tr>
-                <script type="text/javascript">checked(document.getElementsByName("checkbox"),"$!sxcj.sxxw_id")</script>
-                #if($sxcj.src_type=="0")
-                <tr id="qxtr">
-                    <td align="right" valign="top">失信情形：</td>
-                    <td colspan="3" >
-                        <span id="qx_td">
-                            #set($i="")
-                            #foreach($!qx in $!qxlist)
-                            #if($i != $!qx.sxqx)
-                            #set($i=$!qx.sxqx)
-                            <input style="vertical-align: middle;" type='checkbox' id='checkbox_qx$!qx.id' name='checkbox_qx' onclick='addcs($!qx.cjcs);' value="$!qx.id"/><span>$!qx.sxqx</span></br>
-                            #end
-                            #end
-                        </span>
-                    </td>
-                </tr>
-                <script type="text/javascript">checked(document.getElementsByName("checkbox_qx"),"$!sxcj.sxqx_id")</script>
-                <tr id="qxtr_other" #if("$!sxcj.sxqx_other"=="") style="display: none;" #end>
-	                <td align="right" valign="top">失信情形：</td>
-	                <td colspan="3" >
-	                	<textarea rows="5" cols="100" style="width:90%;" name="sxqx_other" id="sxqx_other" verify="失信情形|NotNull">$!sxcj.sxqx_other</textarea>
-	                </td>
-            	</tr>
-
-				<tr id="yt_tr" style="display:none">
-					<td align="right">约谈时间：</td>
-		            <td><input class="Wdate" onclick="WdatePicker();" name="yt_date" id="yt_date" size="20" maxlength="50" value="$!sxcj.yt_date"/></td>
-					<td align="right" valign="top">已约谈次数:</td>
-					<td id="yt_td">$!count</td>
+<div class="pageM editpage" id="pageScroll" style="position:relative;">
+	<form name='form1' id="form1" method='post'>
+	<input type="hidden" name="htid" id="htid" value="$!order.htid" />
+	<input type="hidden" name="actor" id="actor" value="$!order.actor" />
+	<input type="hidden" name="xzqh_unit" id="xzqh_unit" value="$!order.xzqh_unit" />
+		<input type="hidden" name="filename" id="filename" value="" />
+	<input type="hidden" name="filepath" id="filepath" value="" />
+	<input type="hidden" name="filesize" id="filesize" value="" />
+		<div class="pageM viewpage pageAdd" id="pageScroll">
+			<table width="100%" border="0" align="center" cellpadding="0"
+				cellspacing="0" class="table_titlebk">
+				<tr>
+					<td class="table_title" align="center">中业标识广告加工制作订单</td>
 				</tr>
-                <tr id="cstr"  #if("$!sxcj.cjcs_id"=="") style="display: none;" #end>
-                    <td align="right" valign="top">惩戒措施：</td>
-                    <td colspan="3" id="cs_td">
-                    #if("$!sxcj.cjcs_id"!="") 
-                        #set($i="")
-                        #foreach($!cs in $!cslist)
-                        #if($i != $!qx.sxqx)
-                        #set($i=$!qx.sxqx)
-                        <input style='vertical-align: middle;' type='checkbox' id='checkbox_cs$!cs.id' name='checkbox_cs'  value='$!cs.id'/>$!cs.cjcs</br>
-                        #end
-                        #end
-                        #end
-                    </td>
-                </tr>
-                #foreach ($!id in $!sxcj.cjcs_id.split(","))
-                <script type="text/javascript">checked(document.getElementsByName("checkbox_cs"),"$!id")</script>
-                #end
-                <tr id="cstr_other" #if("$!sxcj.cjcs_other"=="") style="display: none;" #end>
-                <td align="right" valign="top">惩戒措施：</td>
-                <td colspan="3">
-                	<textarea rows="5" cols="100" style="width:90%;" name="cjcs_other" id="cjcs_other"  verify="惩戒措施|NotNull">$!sxcj.cjcs_other</textarea>
-                </td>
-            </tr>
-                
-                <tr id="yjtr">
-                    <td align="right" valign="top">惩戒依据：</td>
-                    <td colspan="3" id="yj_td">
-                        #foreach($!yj in $yjlist)
-                         #if(!$yj.yj)
-                         暂无
-                         #else
-                         $!yj.yj
-                         #end
-                        #end
-                    </td>
-                </tr>
-                #end
-                <tr>
-                    <td align="right" valign="top">修改原因：</td>
-                    <td colspan="3"><textarea style="width:90%;" id="reason" name="reason" cols="113" rows="3"></textarea></td>
-                </tr> 
-                
-                <tr>
-                    <td align="right" valign="top">修改依据：</td>
-                    <td colspan="3"><textarea style="width:90%;" id="basis" name="basis" cols="113" rows="3"></textarea></td>
-                </tr> 
-                <tr> 
-                        	<td dateclass="forth" align="right">证明材料：</td> 
-                        <td colspan="3">
-                        <input type="hidden" id="fj" name="fj">
-                        <input id="filename" name="filename" type="text" value=""  readonly="readonly">
-                        <input id="filepath" name="filepath" type="hidden">
-                        <input name="filesize" type="hidden">
-                        <button class="btn-text btn-attachement" onclick="loadFile();" type="button" fileinputname="fj" id="fj_button">选择</button></td> 
-                </tr> 
-                </tbody>
-            </table>
-    </div>
-    <div class="pageBtnarea">
-            <input class="button" type="button" name="btnOk" value="提交"
-                   onclick="doSave()" />
-            <input class="button" type="button" name="btnOk" value="关闭"
-                   onclick="window.close();" />
-    </div>
-</form>
+			</table>
+			<table width="100%" border="0" cellpadding="0" cellspacing="3"
+				class="table_auto table_nrbk">
+				<tr>
+					<td align="right" width="15%">订单名称：</td>
+					<td algin="left" width="30%"><input type="text" name="ddmc"
+						id="ddmc" maxlength="50" value="$!order.ddmc"/></td>
+					<td align="right">客户名称：</td>
+					<td width="*%">
+						<select id="unitid" name="unitid" verify="NotNull" onchange="getUnit(this.value)">
+							<option value="">请选择</option> #foreach($!unit in $!unitMap)
+							<option value="$!unit.id">$!unit.name</option> #end
+					</select>
+					<script type="text/javascript">selected(document.form1.unitid,"$!order.unitid")</script>
+					</td>
+				</tr>
+				<tr>
+					<td align="right" width="15%">客户姓名：</td>
+					<td width="30%"><input type="text" id="khxm" name="khxm" value="$!order.khxm"/></td>
+					<td align="right" width="15%">联系方式：</td>
+					<td width="30%"><input type="text" id="lxfs" name="lxfs"/ value="$!order.lxfs"></td>
+				</tr>
+				<tr>
+					<td align="right">订货日期：</td>
+					<td width="*%"><input class="Wdate"
+						onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});" value="$!order.add_time"
+						name="add_time" id="add_time" size="20"
+						maxlength="50" verify="订货日期|NotNull" />
+					</td>
+					<td align="right" width="15%">应发货时间：</td>
+					<td width="*%"><input class="Wdate"
+						onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"  value="$!order.yfhrq"
+						name="yfhrq" id="yfhrq" size="20"
+						maxlength="50" verify="应发货时间|NotNull" /></td>
+				</tr>
+				<tr>
+					<td align="right" width="15%">类型：</td>
+					<td width="30%">
+					<select onchange="selectCascade(this,'00010039')" verify="NotNull" iscascade="kz_0" loadselect="loadSelect(this,'00010039',1)" name="hhgg" id="hhgg" selectedvalue="$!order.hhgg">
+      				<option value=" ">请选择</option>
+      				</select>
+      				</td>
+      				<td align="right" width="15%">尺寸大小：</td>
+					<td width="30%"><input type="text" id="ccdx" name="ccdx" value="$!order.ccdx"/>cm</td>
+				</tr>
+				<tr>
+					<td align="right" width="15%">价格：</td>
+					<td width="*%"><input typt="text" name="yfjk" id="yfjk" value="$!order.yfjk"/></td>
+					<td align="right" width="15%">是否发货：</td>
+					<td algin="left" width="30%">
+					<select id="isfh" name="isfh" verify="NotNull">
+							<option value="">请选择</option> #foreach($!isfh in $!isfhMap)
+							<option value="$!isfh.value">$!isfh.name</option> #end
+					</select>
+					<script type="text/javascript">selected(document.form1.isfh,"$!order.isfh")</script>
+					</td>
+				</tr>
+				<!-- <tr>
+					<td align="right">收货地址：</td>
+					<td colspan="3" style="padding:0">
+						<table width="100%" border="0" cellspacing="0" cellpadding="0"
+							class="tableIn">
+							<tbody>
+								<tr>
+									<td><input type="text" class="input" placeholder="请标注送货地点"
+										id="shdz" name="shdz" style="width: 60%" readonly
+										onclick="getPointValue();" /><input type="button" class="button"
+										value="地图标注" onclick="getPointValue();" /></td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr> -->
+				
+				<tr>
+					<td align="right" width="15%">附件：</td>
+					<td colspan="3">
+						<table>
+			<tr>
+				<td>
+					 <table>
+			<tr>
+				<td>
+					<select id="sbfile" name='sbfile'style='width: 350px;height: 65px;' multiple size="3">
+					#if($!fileList.size()>0)
+						#foreach($obj in $!fileList)
+						<option value="$obj.get(1)">$!obj.get(0)</option>
+						#end
+					#end
+					</select>
+					<button type="button"  fileinputname="fj" class="btn-text btn-attachement" 
+					onclick="selectUpload(form1.sbfile);">选择</button>
+					<button type="button" fileinputname="fj" class="btn-text btn-attachement-del"
+					 onclick="del_fujian(form1.sbfile);">删除</button>
+						(文件大小不能超过5MB！)
+					<td>
+				</td>
+			</tr>
+			</table>
+				</td>
+			</tr>
+			</table>
+					</td>
+			</tr>
+			</td> 
+				</tr>
+				
+				<tr>
+					<td align="right" width="15%">备注1：</td>
+					<td algin="left" colspan="3"><textarea rows="3" style="width: 77.5%" name = "bz" id="bz" >$!order.bz</textarea></td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+		
+	</form>
+	<div align="center" style="padding-bottom: 10px;">
+			<input class="button" type="button" name="btnOk" value="修改"
+				   onclick="updateSave()" />
+			<input class="button" type="button" name="btnOk" value="关闭"
+				   onclick="window.close();" />
+		</div>
+	</div>
+	
 </body>
 </html>

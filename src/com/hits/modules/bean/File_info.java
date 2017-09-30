@@ -16,7 +16,7 @@ public class File_info
 	@Column
 	@Name
 	@Prev({
-		@SQL(db = DB.ORACLE, value="SELECT sys_guid() FROM dual")
+		@SQL(db = DB.MYSQL, value="SELECT LAST_INSERT_ID()")
 	})
 	private String id;
 	@Column
