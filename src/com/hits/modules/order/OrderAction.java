@@ -11,11 +11,13 @@ import javax.servlet.http.HttpSession;
 import net.sf.json.JSONObject;
 
 import org.nutz.dao.Cnd;
+import org.nutz.dao.Condition;
 import org.nutz.dao.Dao;
 import org.nutz.dao.QueryResult;
 import org.nutz.dao.Sqls;
 import org.nutz.dao.sql.Criteria;
 import org.nutz.dao.sql.Sql;
+import org.nutz.dao.util.cri.SqlExpressionGroup;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.mvc.Mvcs;
@@ -74,16 +76,20 @@ public class OrderAction extends BaseAction{
 	@At
 	@Ok("raw")
 	public String orderList(HttpServletRequest req,@Param("unitid") String unitid,@Param("isfh") String isfh,HttpSession session,
-			@Param("name") String name,@Param("page") int curPage, @Param("rows") int pageSize){
+			@Param("name") String name,@Param("page") int curPage, @Param("rows") int pageSize,@Param("sort") String sort,@Param("order") String order){
 		Sys_user user=(Sys_user) session.getAttribute("userSession");
 		Criteria cri = Cnd.cri();
 		String sql="select * from l_jsgg where (actor = '"+user.getLoginname()+"' or unitid = '"+user.getUnitid()+"') ";
-		cri.where().and("actor","=",user.getLoginname());
+		cri.where().and(Cnd.exps("actor", "=", user.getLoginname()).or("unitid", "=", user.getUnitid()));
 		if(EmptyUtils.isNotEmpty(unitid)){
 			cri.where().and("unitid","like",unitid+"%");
 			sql+=" and unitid like '"+unitid+"%'";
 		}
-		sql += "order by add_time desc";
+		if(EmptyUtils.isNotEmpty(isfh)){
+			cri.where().and("isfh","=",isfh);
+			sql+=" and isfh = '"+isfh+"'";
+		}
+		sql += " order by add_time desc";
 		QueryResult qr = daoCtl.listPage(dao,OrderBean.class ,curPage, pageSize,Sqls.create(sql),cri);
 		List<Map<String,Object>> list = (List<Map<String, Object>>) qr.getList();
 		sql="select code,name from Cs_value where typeid = '00010039'";
