@@ -558,89 +558,55 @@ public class BaobiaoAction extends BaseAction {
 	@At
 	@Ok("->:/private/baobiao/xxsb.html")
 	public void xxsb(HttpSession session, HttpServletRequest req, @Param("startdate") String startdate,
-			 @Param("enddate") String enddate, @Param("type") String type,@Param("xzqh") String xzqh){
+			 @Param("enddate") String enddate, @Param("type") String type){
 		try {
-			xzqh = EmptyUtils.isEmpty(xzqh)?"340000" : xzqh;
 			Sys_user user=(Sys_user) session.getAttribute("userSession");
-			if(user.getRolelist().contains("645")){
-				req.setAttribute("sxld", "1");
-				xzqh=daoCtl.detailByName(dao, Sys_unit.class, user.getUnitid()).getXzqh();
-			}
 			Gson gson = new Gson();
 			enddate = EmptyUtils.isEmpty(enddate)?DateUtil.getToday():enddate;
 			startdate = EmptyUtils.isEmpty(startdate)?DateUtil.getFirstMonDay(enddate):startdate;
 			req.setAttribute("startdate",startdate);
 			req.setAttribute("enddate",enddate);
-			//行政区划
-			
-			List<Sys_unit> unitList = null;
-			unitList =daoCtl.list(dao, Sys_unit.class, Sqls.create("select id,name from sys_unit where unittype = 90 order by id"));
-			//如果是340000表示是省级的，省级需要包含行业协会信息
-			if("340000".equals(xzqh)){
-				
-				req.setAttribute("unitList",unitList);
-				req.setAttribute("unitGson",gson.toJson(unitList));
-			}
-			req.setAttribute("xzqhObj",daoCtl.detailByCnd(dao,Cs_value.class, Cnd.where("typeid","=","00010004").and("state","=",0).and("value","=",xzqh)));
-			if(xzqh.substring(2,xzqh.length()).equals("0000")){
-				xzqh = xzqh.substring(0,2)+"__00";
-			}else if(xzqh.substring(4,xzqh.length()).equals("00")){
-				xzqh = xzqh.substring(0,4)+"__";
-			}
-
-			//得到列，行政区划
-			List<Cs_value> xzqhList = daoCtl.list(dao,Cs_value.class,Sqls.create(" select value,name from cs_value where typeid='00010004' and state=0 and value like '"+xzqh+"'  order by location asc,id asc "));
+			//得到列，订货单位
+			List<Sys_unit> xzqhList = daoCtl.list(dao,Sys_unit.class,Sqls.create(" select id,name from sys_unit where unittype = 88 order by id asc "));
 			req.setAttribute("xzqhList",xzqhList);
-			req.setAttribute("xzqhGson",gson.toJson(xzqhList));
-			List<Cs_value> xyList = daoCtl.list(dao,Cs_value.class,Sqls.create(" select code,name from cs_value where typeid = '00010005' and state = 0 and code like '____' order by location asc "));
-			Map<String,String> xyMap = daoCtl.getHTable(dao,Sqls.create("select code,name from cs_value where typeid = '00010005' and state = 0 and code like '____'"));
-			for(Map.Entry<String, String> entry:xyMap.entrySet()){
-				xyMap.put(entry.getKey(), PinyinUtil.cn2py(xyMap.get(entry.getKey()).replace("、","")));
-			}
-			req.setAttribute("xyGson",gson.toJson(xyList));
-
 			String charsStr = "";
 			//图形报表Map
 			Map<String,String> xyNameMap = daoCtl.getHTable(dao,Sqls.create(" select code,name from cs_value where typeid = '00010005' and state = 0 and code < '0008' order by location asc"));
 			List<String> xyCode = daoCtl.getStrRowValues(dao,Sqls.create(" select code,name from cs_value where typeid = '00010005' and state = 0 and code < '0008' order by location asc"));
-
 			req.setAttribute("xyNameMap",gson.toJson(xyNameMap));
 			//开始处理报表数据
-			Map<String,Map<String,String>> allMap = new HashMap<String, Map<String, String>>();
-			String groupBy="xy_type";
+			Map<String,String> allMap = new HashMap<String, String>();//订单数量
+			Map<String,String> wfkMap = new HashMap<String, String>();//未付款
+			Map<String,String> yfkMap = new HashMap<String, String>();//已付款
+			Map<String,String> zjMap = new HashMap<String, String>();//总计
+			//查询订货单位的订单数量
+			String sqlstr=" select unitid,count(*) from l_jsgg where add_time between '" + startdate + "' and '" + enddate + "' group by unitid";
+			allMap = daoCtl.getHTable(dao,Sqls.create(sqlstr));
+			//查询订货单位未付款信息
+			sqlstr = "select unitid ,sum(yfjk) from l_jsgg where isfh='0002' and add_time between '" + startdate + "' and '" + enddate + "' group by unitid";
+			wfkMap = daoCtl.getHTable(dao, Sqls.create(sqlstr));
+			//查询订货单位已付款信息
+			sqlstr = "select unitid ,sum(yfjk) from l_jsgg where isfh='0001' and add_time between '" + startdate + "' and '" + enddate + "' group by unitid";
+			yfkMap = daoCtl.getHTable(dao, Sqls.create(sqlstr));
+			//订货单位所有账目信息
+			sqlstr = "select unitid ,sum(yfjk) from l_jsgg where add_time between '" + startdate + "' and '" + enddate + "' group by unitid";
+			zjMap = daoCtl.getHTable(dao, Sqls.create(sqlstr));
 			JSONArray array = new JSONArray();
-			
-			//行业协会总体展示数据
-			String hyxhId = "";
-			for(Sys_unit unit : unitList){
-				hyxhId += unit.getId()+",";
-			}
-			hyxhId = hyxhId.substring(0,hyxhId.length()-1);
-			if("34__00".equals(xzqh)){
-				Map<String,String> csMap = daoCtl.getHTable(dao,Sqls.create("select cz,count(l.id) from  sys_log l,sys_user us,sys_unit un where l.loginname=us.loginname and us.unitid=un.id and  un.unittype=90 and  create_time between '" + startdate + " 00:00:00' and '" + enddate + " 23:59:59' group by cz"));
-				req.setAttribute("hyxhMap", csMap);
-			}
-
-			for(Cs_value csValue : xzqhList){
-				String xzqhStr = csValue.getValue();
-				if(xzqhStr.substring(4,xzqhStr.length()).equals("00")){
-					xzqhStr = xzqhStr.substring(0,4)+"__";
-				}
-				String sqlstr=" select cz,count(l.id) from  sys_log l,sys_user us,sys_unit un where l.loginname=us.loginname and us.unitid=un.id and unitid not in("+hyxhId+") and un.xzqh like '"+xzqhStr+"' and  create_time between '" + startdate + " 00:00:00' and '" + enddate + " 23:59:59' group by cz";
-				Map<String,String> csMap = daoCtl.getHTable(dao,Sqls.create(sqlstr));
-				allMap.put(csValue.getValue(),csMap);
+			for(Sys_unit unit : xzqhList){
+				String unitid = unit.getId();
 				JSONObject jsonroot = new JSONObject();
-				jsonroot.put("id", csValue.getValue());
-				jsonroot.put("name",csValue.getName());
-				for(Map.Entry<String, String> entry:csMap.entrySet()){
-					if(EmptyUtils.isNotEmpty(xyMap.get(entry.getKey()))){
-						jsonroot.put(xyMap.get(entry.getKey()),entry.getValue());
-					}
-				}
-				array.add(jsonroot);
+				jsonroot.put("id", unit.getId());
+				jsonroot.put("name",unit.getName());
 			}
 			req.setAttribute("charsData", array.toString());
 			req.setAttribute("allMap",allMap);
+			req.setAttribute("wfkMap",wfkMap);
+			req.setAttribute("yfkMap",yfkMap);
+			req.setAttribute("zjMap",zjMap);
+			req.setAttribute("ddzs", daoCtl.getStrRowValue(dao, Sqls.create("select count(*) from l_jsgg where add_time between '" + startdate + "' and '" + enddate + "'")));
+			req.setAttribute("wfkzs", daoCtl.getStrRowValue(dao, Sqls.create("select sum(yfjk) from l_jsgg where isfh='0002' and add_time between '" + startdate + "' and '" + enddate + "'")));
+			req.setAttribute("yfkzs", daoCtl.getStrRowValue(dao, Sqls.create("select sum(yfjk) from l_jsgg where isfh='0001' and add_time between '" + startdate + "' and '" + enddate + "'")));
+			req.setAttribute("jkzj", daoCtl.getStrRowValue(dao, Sqls.create("select sum(yfjk) from l_jsgg where add_time between '" + startdate + "' and '" + enddate + "'")));
 		}catch (Exception e){
 			e.printStackTrace();
 		}

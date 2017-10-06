@@ -56,30 +56,21 @@ window.onresize = function(){
 				<tr>
 					<td dateclass="forth" align="right">订货日期：</td>
 					<td>$!order.add_time<br></td> 
-					<td dateclass="forth" align="right">应发货时间：</td>
-					<td>$!order.yfhrq<br></td> 
-				</tr>
-				<tr>
 					<td dateclass="forth" align="right">类型：</td>
-					<td width="30%">
-					<select onchange="selectCascade(this,'00010039')" verify="NotNull" iscascade="hhgg_0" loadselect="loadSelect(this,'00010039',1)" name="hhgg" id="hhgg" selectedvalue="">
-      				<option value=" ">请选择</option>
-      				</select>
-      				</td>
-      				<td dateclass="forth" align="right">>尺寸大小：</td>
-					<td width="30%"><input type="text" id="ccdx" name="ccdx"/>cm</td>
+					<td>$!order.hhgg</td>
+					<!-- <td dateclass="forth" align="right">应发货时间：</td>
+					<td>$!order.yfhrq<br></td>  -->
 				</tr>
+				<!-- <tr>
+					
+      				<td dateclass="forth" align="right">尺寸大小：</td>
+					<td width="30%"><input type="text" id="ccdx" name="ccdx"/>cm</td>
+				</tr> -->
 				<tr>
-					<td align="right" width="15%">价格：</td>
-					<td width="*%"><input typt="text" name="yfjk" id="yfjk" /></td>
-					<td align="right" width="15%">是否发货：</td>
-					<td algin="left" width="30%">
-					<select id="isfh" name="isfh" verify="NotNull">
-							<option value="">请选择</option> #foreach($!isfh in $!isfhMap)
-							<option value="$!isfh.value">$!isfh.name</option> #end
-					</select>
-					<script type="text/javascript">selected(document.form1.isfh,"0001")</script>
-					</td>
+					<td dateclass="forth" align="right">价格：</td>
+					<td>$!order.yfjk</td>
+					<td  dateclass="forth"align="right" width="15%">是否付款：</td>
+					<td>$!order.isfh</td>
 				</tr>
 				<!-- <tr>
 					<td align="right">收货地址：</td>
@@ -98,31 +89,22 @@ window.onresize = function(){
 					</td>
 				</tr> -->
 				
+				<tr> 
+      <td dateclass="forth" align="right">上传附件：</td> 
+      <td colspan="3">
+      #if($!fileList.size()>0)
+			#foreach($obj in $!fileList)
+			<a href="${base}$obj.get(1)">$!obj.get(0)</a></br>
+			#end
+		#else
+		无附件
+		#end
+		</td>
+     </tr> 
+			
 				<tr>
-					<td align="right" width="15%">附件：</td>
-					<td colspan="3">
-      <table>
-			<tr>
-				<td>
-					<select id="sbfile" name='sbfile'
-						style='width: 350px;height: 65px;' multiple size="3"
-						class="Noprint">
-					</select>
-					<button type="button"  fileinputname="fj" class="btn-text btn-attachement" 
-					onclick="selectUpload(form1.sbfile);">选择</button>
-					<button type="button" fileinputname="fj" class="btn-text btn-attachement-del"
-					 onclick="del_fujian(form1.sbfile);">删除</button>
-						(文件大小不能超过5MB！)
-				</td>
-			</tr>
-			</table></td> 
-			</tr>
-			</td> 
-				</tr>
-				
-				<tr>
-					<td align="right" width="15%">备注：</td>
-					<td algin="left" colspan="3"><textarea rows="3" style="width: 77.5%" name = "bz" id="bz"></textarea></td>
+					<td dateclass="forth" align="right" width="15%">备注：</td>
+					<td algin="left" colspan="3">$!order.bz</td>
 				</tr>
     
    </table>

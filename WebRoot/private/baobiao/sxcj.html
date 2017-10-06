@@ -104,12 +104,6 @@
 					<input id="startdate" name="startdate" type="text" size="12" readonly class="Wdate" onClick="WdatePicker()" value="$!startdate" />
 					至
 					<input id="enddate" name="enddate" type="text" size="12" class="Wdate" onClick="WdatePicker()" value="$!enddate"  readonly="readonly" />
-					#if($!sxld!=1)
-					&nbsp;&nbsp;行政区划：
-					<input type="hidden"  name="xzqhValue" id="xzqhValue" value="$!xzqhObj.value"/>
-					<input type="hidden"  id="xzqhName" value="$!xzqhObj.name" />
-					#parse("private/global/xzqh.html")
-					#end
 					&nbsp;&nbsp;
 					<input class="button" type="button" id="dosearch" name="dosearch" value="查   询" onclick="loadData();" />
 					&nbsp;&nbsp;
@@ -184,31 +178,17 @@
 		<div id="biaotou">
 			<!--导出时表头需要背景色时，请给表头的tr加上  bgcolor="#ebebeb" -->
 			<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="tableList" id="table_head">
-            <caption><h3 id="titlename">失信惩戒统计报表（$!startdate 至 $!enddate）</h3></caption>
+            <caption><h3 id="titlename">中业标识订单统计报表（$!startdate 至 $!enddate）</h3></caption>
             <thead>
 					<tr align="center" id="trForthead">
 					<td width="40" rowspan="2">序号</td>
-					<td width="*" rowspan="2">行政区划</td>
+					<td width="*" rowspan="2">订货单位</td>
 					<td width="70" rowspan="2">土地市场<br>信用</td>
 					<td colspan="2">矿业权市场信用</td>
 					<td width="70" rowspan="2">测绘地理<br>市场</td>
 					<td colspan="6">国土资源中介服务市场</td>
 					<td colspan="4">国土资源工程项目市场</td>
 					</tr>
-					<tr align="center">
-					<td width="50">采矿<br/>信用</td>
-					<td width="50">探矿<br/>信用</td>
-					<td width="50">土地<br/>评估</td>
-					<td width="50">土地<br/>规划</td>
-					<td width="50">土地<br/>登记</td>
-					<td width="50">矿产<br/>评估</td>
-					<td width="50">地质<br/>评估</td>
-					<td width="50">监测<br/>服务</td>
-					<td width="50">土地<br/>整治</td>
-					<td width="50">地质<br/>治理</td>
-					<td width="50">矿山<br/>治理</td>
-					<td width="50">地质<br/>勘察</td>
-				</tr>
                     </thead>
 			</table>
 		</div>

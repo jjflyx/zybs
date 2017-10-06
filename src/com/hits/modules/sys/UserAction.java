@@ -55,7 +55,6 @@ public class UserAction extends BaseAction {
 	public void user(HttpSession session, HttpServletRequest req) {
 		Sys_user user = (Sys_user) session.getAttribute("userSession");
 		String unitid = user.getUnitid();
-
 		req.setAttribute("unitid", unitid);
 	}
 
@@ -67,7 +66,6 @@ public class UserAction extends BaseAction {
 		id = StringUtil.null2String(id);
 		JSONArray array = new JSONArray();
 		Criteria cri = Cnd.cri();
-		System.out.println("=========>"+user.getSysrole());
 		if (user.getSysrole()) // 判断是否为系统管理员角色
 		{
 			cri.where().and("id", "like", id + "____");

@@ -36,7 +36,7 @@ public class OrderBean {
 	@Column
 	private String  yfjk;//应付价款
 	@Column
-	private String  status;//状态
+	private String  create_time;//状态
 	@Column
 	private String  add_time;//添加时间
 	@Column
@@ -117,11 +117,11 @@ public class OrderBean {
 	public void setYfjk(String yfjk) {
 		this.yfjk = yfjk;
 	}
-	public String getStatus() {
-		return status;
+	public String getCreate_time() {
+		return create_time;
 	}
-	public void setStatus(String status) {
-		this.status = status;
+	public void setCreate_time(String create_time) {
+		this.create_time = create_time;
 	}
 	public String getAdd_time() {
 		return add_time;

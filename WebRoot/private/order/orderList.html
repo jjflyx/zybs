@@ -114,8 +114,7 @@
 	var loginname='$!loginname';
 	var isfhHash = $!isfhHash;
 	function loadData() {
-		$("#dg1")
-				.datagrid(
+		$("#dg1").datagrid(
 						{
 							width : "auto",
 							height : "auto",
@@ -125,9 +124,7 @@
 							collapsible : false,//是否可折叠的  
 							fit : false,//自动大小  
 							url : "${base}/private/order/orderList?"+ $("#form1").serialize(),
-							sortName: 'yfjk',  
-							sortOrder: 'desc',  
-							remoteSort : false,
+							remoteSort : true,
 							idField : "htid",
 							singleSelect : false,//是否单选 
 							pagination : true,//分页控件  
@@ -160,11 +157,12 @@
 										title : '应付价款',
 										field : 'yfjk',
 										align : "center",
+										sortable:true,
 										width : getWidth(0.08)
 									},
 									{
-										title : '应发货日期',
-										field : 'yfhrq',
+										title : '订单日期',
+										field : 'add_time',
 										align : "center",
 										width : getWidth(0.15)
 									},
@@ -231,13 +229,8 @@
 </SCRIPT>
 </head>
 <body leftmargin="0" topmargin="0" class="easyui-layout">
-	<form name='form1' id="from1" method='post'>
-		<input type="hidden" name="doAction" value=""> <input
-			type="hidden" name="sys_menuid" value="$!sys_menuid"> <input
-			type="hidden" name="type" id="type" value="$!type"> <input
-			type="hidden" name="xylx" id="xylx" value="$!xylx">
-		<div region="north" border="false"
-			style="overflow: hidden; padding: 10px 10px 0px 10px">
+	<form name='form1' id="form1" method='post'>
+		<div region="north" border="false" style="overflow: hidden; padding: 10px 10px 0px 10px">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0"
 				class="blockTable">
 				<tr>
@@ -252,7 +245,7 @@
 					</select>&nbsp;&nbsp;是否付款：
 					<select id="isfh" name="isfh" onchange="loadData()">
 							<option value="">请选择</option> #foreach($!isfh in $!isfhMap)
-							<option value="$!isfh.id">$!isfh.name</option> #end
+							<option value="$!isfh.value">$!isfh.name</option> #end
 					</select>
 					<input type="button"
 										name="check" onclick="loadData();" value="查询" /> 

@@ -142,6 +142,7 @@ public class OrderAction extends BaseAction{
 					order.setActor(user.getLoginname());
 					order.setXzqh_unit(daoCtl.detailByName(dao, Sys_unit.class, order.getUnitid()).getXzqh());
 					order.setHtid(getHtid());
+					order.setCreate_time(DateUtil.getCurDateTime());
 					dao.insert(order);
 					//附件
 					String[] paths=path.split(";");
@@ -253,14 +254,16 @@ public class OrderAction extends BaseAction{
 	@Ok("->:/private/order/orderDetail.html")
 	public void toPreview(@Param("htid") String id,HttpServletRequest req,HttpSession session){
 		OrderBean order = daoCtl.detailByName(dao, OrderBean.class, id);
-		req.setAttribute("order", order);
+		order.setHhgg(YWCL.getValueFromCs(daoCtl, dao, "00010039", order.getHhgg()));
+		order.setIsfh(YWCL.getValueFromCs(daoCtl, dao, "00010038", order.getIsfh()));
 		req.setAttribute("unit",daoCtl.detailByName(dao, Sys_unit.class, order.getUnitid()) );
-		req.setAttribute("fileList", daoCtl.getMulRowValue(dao, Sqls.create("select filename,filepath||'*'||filesize from file_info where tablekey='"+id+"' and tablename='l_jsgg' order by create_time asc")));
-		//req.setAttribute("isfhMap", comUtil.isfhMap);
+		req.setAttribute("fileList", daoCtl.getMulRowValue(dao, Sqls.create("select filename,filepath from file_info where tablekey='"+id+"' and tablename='l_jsgg' order by create_time asc")));
+		req.setAttribute("isfhMap", comUtil.isfhMap);
 		Sql sql=Sqls.create("select id,name from sys_unit where unittype=88");
 		List<Map> unitMap = new ArrayList<Map>();
 		unitMap=daoCtl.list(dao, sql);
 		req.setAttribute("unitMap", unitMap);
+		req.setAttribute("order", order);
 	}
     
     public synchronized static String getHtid() {

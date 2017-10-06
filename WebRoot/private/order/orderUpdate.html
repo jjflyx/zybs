@@ -7,15 +7,14 @@
 		var CONTEXTPATH = '${base}';
 		var stylePath = '$!stylename';
 	</script>
-	<link href="${base}/private/ratifyFollow/css/blue/style.css" rel="stylesheet" type="text/css" />
-	<script src="${base}/include/js/main.js"></script>
-	<script src="${base}/include/js/string.js"></script>
-	<!--<link href="/gtCredit/include/css/themes/gray/easyui.css" rel="stylesheet" type="text/css" />-->
-	<script src="${base}/include/js/jquery.easyui.min.js"></script>
-	<link href="${base}/include/controls/my97/skin/WdatePicker.css" rel="stylesheet" type="text/css"/>
-	<script language="javascript" type="text/javascript" src="${base}/include/controls/my97/WdatePicker.js"></script>
-	<script src="${base}/include/js/ajax_select.js"></script>
-	<script src="${base}/js/util/preview.js"></script>
+		<link rel="stylesheet" type="text/css" href="${base}/css/form.css" />
+<link href="${base}/private/ratifyFollow/css/blue/style.css" rel="stylesheet" type="text/css" />
+<script src="${base}/include/js/main.js"></script>
+<script src="${base}/include/js/string.js"></script>
+<script src="${base}/include/controls/my97/WdatePicker.js"></script>
+
+<script src="${base}/include/js/ajaxfileupload.js"></script>
+<script src="${base}/js/util/preview.js"></script>
 <script>
 	function updateSave(){
 		setFile1(form1.sbfile);
@@ -114,26 +113,27 @@
 						name="add_time" id="add_time" size="20"
 						maxlength="50" verify="订货日期|NotNull" />
 					</td>
-					<td align="right" width="15%">应发货时间：</td>
-					<td width="*%"><input class="Wdate"
-						onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"  value="$!order.yfhrq"
-						name="yfhrq" id="yfhrq" size="20"
-						maxlength="50" verify="应发货时间|NotNull" /></td>
-				</tr>
-				<tr>
 					<td align="right" width="15%">类型：</td>
 					<td width="30%">
 					<select onchange="selectCascade(this,'00010039')" verify="NotNull" iscascade="kz_0" loadselect="loadSelect(this,'00010039',1)" name="hhgg" id="hhgg" selectedvalue="$!order.hhgg">
       				<option value=" ">请选择</option>
       				</select>
       				</td>
+					<!-- <td align="right" width="15%">应发货时间：</td>
+					<td width="*%"><input class="Wdate"
+						onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"  value="$!order.yfhrq"
+						name="yfhrq" id="yfhrq" size="20"
+						maxlength="50" verify="应发货时间|NotNull" /></td> -->
+				</tr>
+				<!-- <tr>
+					
       				<td align="right" width="15%">尺寸大小：</td>
 					<td width="30%"><input type="text" id="ccdx" name="ccdx" value="$!order.ccdx"/>cm</td>
-				</tr>
+				</tr> -->
 				<tr>
 					<td align="right" width="15%">价格：</td>
 					<td width="*%"><input typt="text" name="yfjk" id="yfjk" value="$!order.yfjk"/></td>
-					<td align="right" width="15%">是否发货：</td>
+					<td align="right" width="15%">是否付款：</td>
 					<td algin="left" width="30%">
 					<select id="isfh" name="isfh" verify="NotNull">
 							<option value="">请选择</option> #foreach($!isfh in $!isfhMap)
@@ -189,11 +189,9 @@
 			</table>
 					</td>
 			</tr>
-			</td> 
-				</tr>
 				
 				<tr>
-					<td align="right" width="15%">备注1：</td>
+					<td align="right" width="15%">备注：</td>
 					<td algin="left" colspan="3"><textarea rows="3" style="width: 77.5%" name = "bz" id="bz" >$!order.bz</textarea></td>
 				</tr>
 				</tbody>

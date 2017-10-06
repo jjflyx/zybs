@@ -114,32 +114,33 @@
 						name="add_time" id="add_time" size="20"
 						maxlength="50" verify="订货日期|NotNull" />
 					</td>
-					<td align="right" width="15%">应发货时间：</td>
-					<td width="*%"><input class="Wdate"
-						onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});" 
-						name="yfhrq" id="yfhrq" size="20"
-						maxlength="50" verify="应发货时间|NotNull" /></td>
-				</tr>
-				<tr>
 					<td align="right" width="15%">类型：</td>
 					<td width="30%">
 					<select onchange="selectCascade(this,'00010039')" verify="NotNull" iscascade="hhgg_0" loadselect="loadSelect(this,'00010039',1)" name="hhgg" id="hhgg" selectedvalue="">
       				<option value=" ">请选择</option>
       				</select>
       				</td>
+					<!-- <td align="right" width="15%">应发货时间：</td>
+					<td width="*%"><input class="Wdate"
+						onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});" 
+						name="yfhrq" id="yfhrq" size="20"
+						maxlength="50" verify="应发货时间|NotNull" /></td> -->
+				</tr>
+				<!-- <tr>
+					
       				<td align="right" width="15%">尺寸大小：</td>
 					<td width="30%"><input type="text" id="ccdx" name="ccdx"/>cm</td>
-				</tr>
+				</tr> -->
 				<tr>
 					<td align="right" width="15%">价格：</td>
 					<td width="*%"><input typt="text" name="yfjk" id="yfjk" /></td>
-					<td align="right" width="15%">是否发货：</td>
+					<td align="right" width="15%">是否付款：</td>
 					<td algin="left" width="30%">
 					<select id="isfh" name="isfh" verify="NotNull">
 							<option value="">请选择</option> #foreach($!isfh in $!isfhMap)
 							<option value="$!isfh.value">$!isfh.name</option> #end
 					</select>
-					<script type="text/javascript">selected(document.form1.isfh,"0001")</script>
+					<script type="text/javascript">selected(document.form1.isfh,"0002")</script>
 					</td>
 				</tr>
 				<!-- <tr>

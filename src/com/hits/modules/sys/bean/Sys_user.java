@@ -22,9 +22,6 @@ public class Sys_user  implements Serializable{
 	private static final long serialVersionUID = 1L;
 	@Column 
 	@Id
-	@Prev({
-		@SQL(db = DB.ORACLE, value="SELECT SYS_USER_S.nextval FROM dual")
-	})
 	private long userid;
 	@Column
 	@Name

@@ -100,18 +100,12 @@
 					<input id="startdate" name="startdate" type="text" size="12" readonly class="Wdate" onClick="WdatePicker()" value="$!startdate" />
 					至
 					<input id="enddate" name="enddate" type="text" size="12" class="Wdate" onClick="WdatePicker()" value="$!enddate"  readonly="readonly" />
-					#if($!sxld!=1)
-					&nbsp;&nbsp;行政区划：
-					<input type="hidden"  name="xzqhValue" id="xzqhValue" value="$!xzqhObj.value"/>
-					<input type="hidden"  id="xzqhName" value="$!xzqhObj.name" />
-					#parse("private/global/xzqh.html")
-					#end
 					&nbsp;&nbsp;
 					<input class="button" type="button" id="dosearch" name="dosearch" value="查   询" onclick="loadData();" />
 					&nbsp;&nbsp;
 					<input class="button" type="button" id="dosearch" name="dosearch" value="导出Excel" onclick="toprintln();" />
 					&nbsp;&nbsp;
-					<input type="button" class="button" id="showExcel" onclick="getExcel();" value="Excel报表" style="display: none;" />
+					<input type="button" class="button" id="showExcel" onclick="getExcel();" value="Excel报表"  />
 				</td>
 			</tr>
 			<tr id="bz1" style="display:block">
@@ -120,21 +114,20 @@
 			</tr>
 		</table>
 	</div>
-	
 	<!-- content area -->
 	<div region="center" border="false" id="printnote" style="height: 100%; padding: 0px 0px 10px 10px;" >
 		<div id="biaotou">
 			<!--导出时表头需要背景色时，请给表头的tr加上  bgcolor="#ebebeb" -->
 			<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="tableList" id="table_head">
-            <caption><h3 id="titlename">信息上报统计报表（$!startdate 至 $!enddate）</h3></caption>
+            <caption><h3 id="titlename">中业标识订单统计报表（$!startdate 至 $!enddate）</h3></caption>
             <thead>
 					<tr align="center" id="trForthead">
 						<td width="40">序号</td>
-						<td >行政区划</td>
-						<td width="200">新增</td>
-						<td width="200">更新</td>
-						<td width="200">撤销</td>
-						<td width="200">发布</td>
+						<td >订货单位</td>
+						<td width="200">订单数</td>
+						<td width="200">未付款</td>
+						<td width="200">已付款</td>
+						<td width="200">总计</td>
 					</tr>
 					
                     </thead>
@@ -144,89 +137,73 @@
 			<div class="IE6height1">
 				<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="tableList" style="border-top:0;" id='table_body'>
 					<tbody>
-					#if($hyxhMap)
 					#set($sum=0)
-					<tr align="center" bgcolor="#FFFFFF">
-						#set($sum=$sum + 1)
-                    	<td>$!sum</td>
-                    	<td>行业协会</td>
-						<td>
-							#if($!hyxhMap.get("新增"))
-								<a href="javascript:;" onclick="showTab('$!startdate','$!enddate','hyxh','新增');">$!hyxhMap.get("新增")</a>
-							#else
-								0
-							#end
-						</td>
-						<td>
-							#if($!hyxhMap.get("修改"))
-								<a href="javascript:;" onclick="showTab('$!startdate','$!enddate','hyxh','修改');">$!hyxhMap.get("修改")</a>
-							#else
-								0
-							#end
-						</td>
-						<td>
-							#if($!hyxhMap.get("撤销"))
-								<a href="javascript:;" onclick="showTab('$!startdate','$!enddate','hyxh','撤销');">$!hyxhMap.get("撤销")</a>
-							#else
-								0
-							#end
-						</td>
-						<td>
-							#if($!hyxhMap.get("发布"))
-								<a href="javascript:;" onclick="showTab('$!startdate','$!enddate','hyxh','发布');">$!hyxhMap.get("发布")</a>
-							#else
-								0
-							#end
-						</td>
-                    </tr>
-                    #end
-					
-					#if($hyxhMap)
-					#set($sum=1)
-					#else
-					#set($sum=0)
-					#end
 					#foreach($!xzqh in $!xzqhList)
 					<tr align="center" bgcolor="#FFFFFF" #if($velocityCount==1)id="trForName"#end>
 						#set($sum= $sum + 1)
 						<td width="40">$!sum</td>
 						<td>
-							#if($!xzqh.name == "安徽省")
-							省厅
-							#else
 							$!xzqh.name
-							#end
 						</td>
 						<td width="200">
-							#if($!allMap.get("$!xzqh.value").get("新增"))
-							<a href="javascript:;" onclick="showTab('$!startdate','$!enddate','$!xzqh.value','新增');">$!allMap.get("$!xzqh.value").get("新增")</a>
+							#if($!allMap.get("$!xzqh.id"))
+							<a href="javascript:;" onclick="showTab('$!startdate','$!enddate','$!xzqh.value','新增');">$!allMap.get("$!xzqh.id")</a>
 							#else
 							0
 							#end
 						</td>
 						<td width="200">
-							#if($!allMap.get("$!xzqh.value").get("修改"))
-							<a href="javascript:;" onclick="showTab('$!startdate','$!enddate','$!xzqh.value','修改');">$!allMap.get("$!xzqh.value").get("修改")</a>
+							#if($!wfkMap.get("$!xzqh.id"))
+							$!wfkMap.get("$!xzqh.id")
 							#else
 							0
 							#end
 						</td>
 						<td width="200">
-							#if($!allMap.get("$!xzqh.value").get("撤销"))
-							<a href="javascript:;" onclick="showTab('$!startdate','$!enddate','$!xzqh.value','撤销');">$!allMap.get("$!xzqh.value").get("撤销")</a>
+							#if($!yfkMap.get("$!xzqh.id"))
+							$!yfkMap.get("$!xzqh.id")
 							#else
 							0
 							#end
 						</td>
 						<td width="200">
-							#if($!allMap.get("$!xzqh.value").get("发布"))
-							<a href="javascript:;" onclick="showTab('$!startdate','$!enddate','$!xzqh.value','发布');">$!allMap.get("$!xzqh.value").get("发布")</a>
+							#if($!zjMap.get("$!xzqh.id"))
+							$!zjMap.get("$!xzqh.id")
 							#else
 							0
 							#end
 						</td>
 					</tr>
 					#end
+					#set($sum= $sum + 1)
+					<tr align="center" bgcolor="#FFFFFF">
+                    	<td>$!sum</td>
+                    	<td>总计</td>
+						<td>
+							$!ddzs
+						</td>
+						<td>
+							#if($!wfkzs=='')
+							0
+							#else
+							$!wfkzs
+							#end
+						</td>
+						<td>
+							#if($!yfkzs=='')
+							0
+							#else
+							$!yfkzs
+							#end
+						</td>
+						<td>
+							#if($!jkzj=='')
+							0
+							#else
+							$!jkzj
+							#end
+						</td>
+                    </tr>
 					</tbody>
 				</table>
 			</div>
