@@ -1,15 +1,23 @@
 package com.hits.modules.order;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONObject;
 
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.nutz.dao.Cnd;
 import org.nutz.dao.Condition;
 import org.nutz.dao.Dao;
@@ -192,7 +200,6 @@ public class OrderAction extends BaseAction{
 		}else{
 			return null;
 		}
-		
 	}
 	
 	/**
@@ -270,6 +277,20 @@ public class OrderAction extends BaseAction{
 		req.setAttribute("unitMap", unitMap);
 		req.setAttribute("order", order);
 	}
+	
+	/**
+	 * 删除合同
+	 * @return
+	 */
+	@At
+    @Ok("raw")
+    public boolean delete(final @Param("htid") String htid){
+		boolean resule = false;
+		if(EmptyUtils.isNotEmpty(htid)){
+			resule= daoCtl.deleteByName(dao, OrderBean.class, htid);
+		}
+		return resule;
+    }
     
     public synchronized static String getHtid() {
 		String letterid="";
@@ -282,6 +303,88 @@ public class OrderAction extends BaseAction{
 		 //查询最新的工号
 		 letterid=daoCtl.getSubMenuId(dao, "l_jsgg", "htid", letterid);
 		 return letterid;
+	}
+    
+    //导出合同信息
+    @At
+	public void dcXxsb(HttpServletRequest req,HttpSession session,@Param("htid")String htid,
+			@Param("startdate")String startdate,@Param("enddate")String enddate,
+			HttpServletResponse response) {
+		try {
+			String sqlstr = "";
+			String hyxhId="";
+			List<String> hyxhList = daoCtl.getStrRowValues(dao,Sqls.create(" select id from sys_unit where unittype = 90 order by id "));
+			hyxhId = hyxhId.substring(0,hyxhId.length()-1);
+			sqlstr = "select t.id,t.type,t.content,t.create_time,t.login_ip,t.bowser,t.letter_id,t.class_name,t.method_name,t.title,t.reason,t.basis,t.cz,t.success,t.url,t.note,t.loginname||'/'||u.realname as loginname from  Sys_log t,sys_user u,sys_unit un where t.loginname=u.loginname and u.unitid=un.id "+
+					"and un.unittype=90";
+			
+			if(EmptyUtils.isNotEmpty(cz)){
+				sqlstr+=" and t.cz='"+cz+"' ";
+			}
+			
+			if(EmptyUtils.isNotEmpty(startdate)&&EmptyUtils.isNotEmpty(enddate)){
+				sqlstr += "and t.create_time between '" + startdate + " 00:00:00' and '" + enddate + " 23:59:59'";
+			}
+			sqlstr+=" and t.type <> 0";
+			
+			List<Map> list=daoCtl.list(dao, Sqls.create(sqlstr));
+			// 第一步，创建一个webbook，对应一个Excel文件  
+			HSSFWorkbook wb = new HSSFWorkbook();  
+			// 第二步，在webbook中添加一个sheet,对应Excel文件中的sheet  
+			HSSFSheet sheet = wb.createSheet("中业标识订单信息");  
+			sheet.setColumnWidth(1, 20 * 256); //设置列宽
+			// 第三步，在sheet中添加表头第0行,注意老版本poi对Excel的行数列数有限制short  
+			int rowIndex = 0;
+			HSSFRow row = sheet.createRow(rowIndex++);  
+			// 第四步，创建单元格，并设置值表头 设置表头居中  
+			HSSFCellStyle style = wb.createCellStyle();  
+			style.setAlignment(HSSFCellStyle.ALIGN_CENTER); // 创建一个居中格式  
+		String[] headers = {"序号","订单名称","客户名称","货品规格","订单日期","应付价款"};
+		for (int i = 0; i < headers.length; i++) { // 输出头部
+			HSSFCell cell =  row.createCell((short) i);
+			cell.setCellValue(headers[i]);
+			cell.setCellStyle(style);
+		}
+		for(int i=0;i<list.size();i++){
+			row = sheet.createRow(i+1);
+			Map map=list.get(i);
+			HSSFCell cell =  row.createCell((short) 0);
+			cell.setCellValue(i+1);
+			cell.setCellStyle(style);
+			cell=  row.createCell((short) 1);
+			cell.setCellValue(StringUtil.null2String(map.get("loginname")));
+			cell.setCellStyle(style);
+			cell=  row.createCell((short) 2);
+			cell.setCellValue(StringUtil.null2String(map.get("title")));
+			cell.setCellStyle(style);
+			cell=  row.createCell((short) 3);
+			cell.setCellValue(StringUtil.null2String(map.get("content")));
+			cell.setCellStyle(style);
+			cell=  row.createCell((short) 4);
+			cell.setCellValue(StringUtil.null2String(map.get("cz")));
+			cell.setCellStyle(style);
+			cell=  row.createCell((short) 5);
+			cell.setCellValue(StringUtil.null2String(map.get("create_time")));
+			cell.setCellStyle(style);
+			cell=  row.createCell((short) 6);
+			cell.setCellValue(StringUtil.null2String(map.get("login_ip")));
+			cell.setCellStyle(style);
+		}
+			
+			
+			response.setContentType("application/vnd.ms-excel;charset=ISO8859-1");
+			//response.setHeader("Content-Disposition", "attachment; filename=法人资质信息.xls");// 设定输出文件头
+			String fileName="信息上报信息";
+			response.setHeader("Content-Disposition", "attachment;filename=\""+ new String(fileName.getBytes("gb18030"),"ISO8859-1") + ".xls" + "\"");
+			OutputStream output;
+			output = response.getOutputStream();
+			wb.write(output);
+			output.flush();
+			output.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 }

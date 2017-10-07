@@ -70,17 +70,11 @@
 		openWin3(url, title, iWidth, iHeight);
 	}
 
-	function del() {
-		var ids = [];
-		var arr = $('#dg1').datagrid('getSelections');
-		if (!arr || arr.length == 0) {
-			Dialog.alert("请先选择要删除的用户！");
-			return;
-		}
+	function del(htid) {
 		Dialog.confirm("确定删除？", function() {
 			jQuery.ajax({
 				type : 'POST',
-				url : "${base}/private/sys/user/delete?ids=" + ids,
+				url : "${base}/private/order/delete?htid=" + htid,
 				success : function(res) {
 					if (res == "true") {
 						Dialog.alert("删除成功！");
@@ -193,7 +187,7 @@
 												val += " <a href='javascript:void(0);' onClick=\"toupdate(\'"
 													+ rec.htid+ "');\">修改</a> |";
 											}
-											val += " <a href='javascript:void(0);' onClick=\"toupdate(\'"
+											val += " <a href='javascript:void(0);' onClick=\"del(\'"
 												+ rec.htid+ "');\">删除</a> |";
 											return val.substr(0, val.lastIndexOf("|"));
 										}
