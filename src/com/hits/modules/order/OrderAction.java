@@ -59,10 +59,11 @@ public class OrderAction extends BaseAction{
 	
 	@At("")
 	@Ok("->:/private/order/orderList.html")
-	public void order(HttpSession session, HttpServletRequest req) {
+	public void order(HttpSession session, HttpServletRequest req,@Param("startdate") String startdate,@Param("enddate") String enddate,@Param("unitid") String unitid) {
 		Sys_user user = (Sys_user) session.getAttribute("userSession");
-		String unitid = user.getUnitid();
 		req.setAttribute("unitid", unitid);
+		req.setAttribute("startdate", startdate);
+		req.setAttribute("enddate", enddate);
 		req.setAttribute("isfhHash", JSONObject.fromObject(comUtil.isfhHash));
 		req.setAttribute("loginname",user.getLoginname());
 		Sql sql=Sqls.create("select id,name from sys_unit where unittype=88");
@@ -75,7 +76,7 @@ public class OrderAction extends BaseAction{
 	//订单页面
 	@At
 	@Ok("raw")
-	public String orderList(HttpServletRequest req,@Param("unitid") String unitid,@Param("isfh") String isfh,HttpSession session,
+	public String orderList(HttpServletRequest req,@Param("unitid") String unitid,@Param("isfh") String isfh,HttpSession session,@Param("startdate") String startdate,@Param("enddate") String enddate,
 			@Param("name") String name,@Param("page") int curPage, @Param("rows") int pageSize,@Param("sort") String sort,@Param("order") String order){
 		Sys_user user=(Sys_user) session.getAttribute("userSession");
 		Criteria cri = Cnd.cri();
@@ -88,6 +89,10 @@ public class OrderAction extends BaseAction{
 		if(EmptyUtils.isNotEmpty(isfh)){
 			cri.where().and("isfh","=",isfh);
 			sql+=" and isfh = '"+isfh+"'";
+		}
+		if(EmptyUtils.isNotEmpty(startdate)&&EmptyUtils.isNotEmpty(enddate)){
+			cri.where().and("add_time",">=",startdate).and("add_time","<=",enddate);
+			sql+=" and add_time >= '"+startdate+"' and add_time <= '"+enddate+"'";
 		}
 		sql += " order by add_time desc";
 		QueryResult qr = daoCtl.listPage(dao,OrderBean.class ,curPage, pageSize,Sqls.create(sql),cri);

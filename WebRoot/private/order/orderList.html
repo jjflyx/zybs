@@ -211,11 +211,6 @@
 			displayMsg : "当前显示 {from} - {to} 条记录   共 {total} 条记录",
 		});
 	}
-	function lockSearch() {
-		Page.setValue("lock", "1");
-		loadData();
-		Page.setValue("lock", "0");
-	}
 	Page.onLoad(function() {
 		loadData();
 	});
@@ -230,6 +225,8 @@
 </head>
 <body leftmargin="0" topmargin="0" class="easyui-layout">
 	<form name='form1' id="form1" method='post'>
+		<input type="hidden" name="startdate" id="startdate" value="$!startdate">
+		<input type="hidden" name="enddate" id="enddate" value="$!enddate">
 		<div region="north" border="false" style="overflow: hidden; padding: 10px 10px 0px 10px">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0"
 				class="blockTable">
@@ -242,7 +239,9 @@
 						<select id="unitid" name="unitid" onchange="loadData()">
 							<option value="">请选择</option> #foreach($!unit in $!unitMap)
 							<option value="$!unit.id">$!unit.name</option> #end
-					</select>&nbsp;&nbsp;是否付款：
+					</select>
+					<script type="text/javascript">selected(document.form1.unitid,"$!unitid")</script>
+					&nbsp;&nbsp;是否付款：
 					<select id="isfh" name="isfh" onchange="loadData()">
 							<option value="">请选择</option> #foreach($!isfh in $!isfhMap)
 							<option value="$!isfh.value">$!isfh.name</option> #end

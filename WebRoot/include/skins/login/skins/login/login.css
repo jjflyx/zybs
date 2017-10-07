@@ -20,7 +20,7 @@ body{ font-family:"宋体"; font-size:12px; margin:0px; line-height:160%; color:
 .login_logo{ background:url(img/logo.gif) 0 50% no-repeat; height:70px; float:left; width:689px;}
 .login_nav{ height:30px; line-height:30px; background:url(img/topnav.gif) #f0f0f0 right repeat-y; float:left; width:500px; margin-top:25px; text-align:right; padding-right:100px; color:#0066cc;}
 .login_nav a:link,.login_nav a:visited{ color:#0066cc;}
-.login_body{ background:url(img/loginbg.jpg) 50% 100% no-repeat; padding-top:25px; height:460px;}
+.login_body{ background:url(img/loginbg.jpg) 50% 100% no-repeat; padding-top:10px; height:450px;}
 .login_body_wrapper{ width:1000px; margin:0px auto;}
 .body_left{ float:left;  height:460px; width:520px; margin-left:60px; _margin-left:30px;}
 .body_right{ float:right; width:312px; margin-right:60px; _margin-right:30px;}

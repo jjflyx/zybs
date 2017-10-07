@@ -83,10 +83,8 @@
 		printform.submit();
 	}
 	
-	function showTab(startdate,enddate,xzqh,cz){
-		var name=""
-		var url="${base}/private/baobiao/xxsbYm?startdate="+startdate+"&enddate="+enddate+"&xzqh="+xzqh+"&cz="+cz;
-		parent.addTab(name,url);
+	function showTab(startdate,enddate,unitid){
+		window.location.href="${base}/private/order?startdate="+startdate+"&enddate="+enddate+"&unitid="+unitid;
 	}
 	</script>
 </head>
@@ -147,7 +145,7 @@
 						</td>
 						<td width="200">
 							#if($!allMap.get("$!xzqh.id"))
-							<a href="javascript:;" onclick="showTab('$!startdate','$!enddate','$!xzqh.value','新增');">$!allMap.get("$!xzqh.id")</a>
+							<a href="javascript:;" onclick="showTab('$!startdate','$!enddate','$!xzqh.id',);">$!allMap.get("$!xzqh.id")</a>
 							#else
 							0
 							#end
