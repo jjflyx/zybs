@@ -307,7 +307,7 @@ public class OrderAction extends BaseAction{
     
     //导出合同信息
     @At
-	public void dcXxsb(HttpServletRequest req,HttpSession session,@Param("htid")String htid,
+	public void dcXxsb(HttpServletRequest req,HttpSession session,@Param("unitid")String unitid,
 			@Param("startdate")String startdate,@Param("enddate")String enddate,
 			HttpServletResponse response) {
 		try {
@@ -315,17 +315,13 @@ public class OrderAction extends BaseAction{
 			String hyxhId="";
 			List<String> hyxhList = daoCtl.getStrRowValues(dao,Sqls.create(" select id from sys_unit where unittype = 90 order by id "));
 			hyxhId = hyxhId.substring(0,hyxhId.length()-1);
-			sqlstr = "select t.id,t.type,t.content,t.create_time,t.login_ip,t.bowser,t.letter_id,t.class_name,t.method_name,t.title,t.reason,t.basis,t.cz,t.success,t.url,t.note,t.loginname||'/'||u.realname as loginname from  Sys_log t,sys_user u,sys_unit un where t.loginname=u.loginname and u.unitid=un.id "+
-					"and un.unittype=90";
-			
-			if(EmptyUtils.isNotEmpty(cz)){
-				sqlstr+=" and t.cz='"+cz+"' ";
+			sqlstr = "select ddmc,unitid,hhgg,add_time,yfjk from l_jsgg";
+			if(EmptyUtils.isNotEmpty(unitid)){
+				sqlstr+=" and unitid='"+unitid+"' ";
 			}
-			
 			if(EmptyUtils.isNotEmpty(startdate)&&EmptyUtils.isNotEmpty(enddate)){
-				sqlstr += "and t.create_time between '" + startdate + " 00:00:00' and '" + enddate + " 23:59:59'";
+				sqlstr += "and add_time between '" + startdate + "' and '" + enddate + "'";
 			}
-			sqlstr+=" and t.type <> 0";
 			
 			List<Map> list=daoCtl.list(dao, Sqls.create(sqlstr));
 			// 第一步，创建一个webbook，对应一个Excel文件  
@@ -370,17 +366,14 @@ public class OrderAction extends BaseAction{
 			cell.setCellValue(StringUtil.null2String(map.get("login_ip")));
 			cell.setCellStyle(style);
 		}
-			
-			
-			response.setContentType("application/vnd.ms-excel;charset=ISO8859-1");
-			//response.setHeader("Content-Disposition", "attachment; filename=法人资质信息.xls");// 设定输出文件头
-			String fileName="信息上报信息";
-			response.setHeader("Content-Disposition", "attachment;filename=\""+ new String(fileName.getBytes("gb18030"),"ISO8859-1") + ".xls" + "\"");
-			OutputStream output;
-			output = response.getOutputStream();
-			wb.write(output);
-			output.flush();
-			output.close();
+		response.setContentType("application/vnd.ms-excel;charset=ISO8859-1");
+		String fileName="中业标识订单表";
+		response.setHeader("Content-Disposition", "attachment;filename=\""+ new String(fileName.getBytes("gb18030"),"ISO8859-1") + ".xls" + "\"");
+		OutputStream output;
+		output = response.getOutputStream();
+		wb.write(output);
+		output.flush();
+		output.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
