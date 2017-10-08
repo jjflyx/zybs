@@ -107,7 +107,7 @@
 	}
 	
 	function EXP() {
-		form1.action = "${base}/private/baobiao/dcXxsb";
+		form1.action = "${base}/private/order/dcXxsb";
 		form1.submit();
 	}
 
@@ -249,6 +249,7 @@
 					</select>
 					<input type="button"
 										name="check" onclick="loadData();" value="查询" /> 
+										<input class="button" type="button" id="dosearch" name="dosearch" value="导出Excel" onclick="EXP();" />
 								</span> <span style="float:right;"> <a
 										href='javascript:void(0);' ztype='zPushBtn' class='zPushBtn'
 										hidefocus='true' tabindex='-1' onselectstart='return false'

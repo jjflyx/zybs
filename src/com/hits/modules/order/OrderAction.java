@@ -43,6 +43,7 @@ import com.hits.common.filter.GlobalsFilter;
 import com.hits.common.filter.UserLoginFilter;
 import com.hits.common.util.DateUtil;
 import com.hits.common.util.StringUtil;
+import com.hits.modules.bean.Cs_value;
 import com.hits.modules.bean.File_info;
 import com.hits.modules.com.YWCL;
 import com.hits.modules.com.comUtil;
@@ -312,23 +313,33 @@ public class OrderAction extends BaseAction{
 			HttpServletResponse response) {
 		try {
 			String sqlstr = "";
-			String hyxhId="";
-			List<String> hyxhList = daoCtl.getStrRowValues(dao,Sqls.create(" select id from sys_unit where unittype = 90 order by id "));
-			hyxhId = hyxhId.substring(0,hyxhId.length()-1);
-			sqlstr = "select ddmc,unitid,hhgg,add_time,yfjk from l_jsgg";
+			String sqlzj = "";
+			sqlstr = "select ddmc,unitid,hhgg,add_time,yfjk from l_jsgg where isfh='0002' ";
+			sqlzj = "select sum(yfjk) as zj from l_jsgg where isfh='0002'";
 			if(EmptyUtils.isNotEmpty(unitid)){
 				sqlstr+=" and unitid='"+unitid+"' ";
+				sqlzj+=" and unitid='"+unitid+"' ";
 			}
 			if(EmptyUtils.isNotEmpty(startdate)&&EmptyUtils.isNotEmpty(enddate)){
 				sqlstr += "and add_time between '" + startdate + "' and '" + enddate + "'";
+				sqlzj += "and add_time between '" + startdate + "' and '" + enddate + "'";
 			}
-			
+			sqlstr += " order by add_time desc";
 			List<Map> list=daoCtl.list(dao, Sqls.create(sqlstr));
+			String zj = daoCtl.getStrRowValue(dao, Sqls.create(sqlzj));
+			for(Map yytjmap:list){
+				yytjmap.put("unitid",daoCtl.detailByName(dao, Sys_unit.class, yytjmap.get("unitid").toString()).getName());
+				yytjmap.put("hhgg", daoCtl.detailBySql(dao, Cs_value.class, Sqls.create("select * from cs_value where code ='"+yytjmap.get("hhgg")+"' and typeid='00010039'")).getName());
+			}
 			// 第一步，创建一个webbook，对应一个Excel文件  
 			HSSFWorkbook wb = new HSSFWorkbook();  
 			// 第二步，在webbook中添加一个sheet,对应Excel文件中的sheet  
 			HSSFSheet sheet = wb.createSheet("中业标识订单信息");  
 			sheet.setColumnWidth(1, 20 * 256); //设置列宽
+			sheet.setColumnWidth(2, 30 * 256); //设置列宽
+			sheet.setColumnWidth(3, 20 * 256); //设置列宽
+			sheet.setColumnWidth(4, 30 * 256); //设置列宽
+			sheet.setColumnWidth(5, 20 * 256); //设置列宽
 			// 第三步，在sheet中添加表头第0行,注意老版本poi对Excel的行数列数有限制short  
 			int rowIndex = 0;
 			HSSFRow row = sheet.createRow(rowIndex++);  
@@ -341,31 +352,30 @@ public class OrderAction extends BaseAction{
 			cell.setCellValue(headers[i]);
 			cell.setCellStyle(style);
 		}
+		HSSFCell cell =  row.createCell((short) 0);
 		for(int i=0;i<list.size();i++){
 			row = sheet.createRow(i+1);
 			Map map=list.get(i);
-			HSSFCell cell =  row.createCell((short) 0);
 			cell.setCellValue(i+1);
 			cell.setCellStyle(style);
 			cell=  row.createCell((short) 1);
-			cell.setCellValue(StringUtil.null2String(map.get("loginname")));
+			cell.setCellValue(StringUtil.null2String(map.get("ddmc")));
 			cell.setCellStyle(style);
 			cell=  row.createCell((short) 2);
-			cell.setCellValue(StringUtil.null2String(map.get("title")));
+			cell.setCellValue(StringUtil.null2String(map.get("unitid")));
 			cell.setCellStyle(style);
 			cell=  row.createCell((short) 3);
-			cell.setCellValue(StringUtil.null2String(map.get("content")));
+			cell.setCellValue(StringUtil.null2String(map.get("hhgg")));
 			cell.setCellStyle(style);
 			cell=  row.createCell((short) 4);
-			cell.setCellValue(StringUtil.null2String(map.get("cz")));
+			cell.setCellValue(StringUtil.null2String(map.get("add_time")));
 			cell.setCellStyle(style);
 			cell=  row.createCell((short) 5);
-			cell.setCellValue(StringUtil.null2String(map.get("create_time")));
-			cell.setCellStyle(style);
-			cell=  row.createCell((short) 6);
-			cell.setCellValue(StringUtil.null2String(map.get("login_ip")));
+			cell.setCellValue(StringUtil.null2String(map.get("yfjk")));
 			cell.setCellStyle(style);
 		}
+		cell=  row.createCell((short) 6);
+		cell.setCellValue("总计："+zj);
 		response.setContentType("application/vnd.ms-excel;charset=ISO8859-1");
 		String fileName="中业标识订单表";
 		response.setHeader("Content-Disposition", "attachment;filename=\""+ new String(fileName.getBytes("gb18030"),"ISO8859-1") + ".xls" + "\"");
