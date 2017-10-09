@@ -1,32 +1,14 @@
 package com.hits.modules.baobiao;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import com.hits.common.util.PinyinUtil;
-
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.nutz.dao.Cnd;
 import org.nutz.dao.Dao;
-import org.nutz.dao.QueryResult;
 import org.nutz.dao.Sqls;
-import org.nutz.dao.sql.Sql;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.mvc.annotation.At;
@@ -39,18 +21,9 @@ import com.google.gson.Gson;
 import com.hits.common.action.BaseAction;
 import com.hits.common.filter.GlobalsFilter;
 import com.hits.common.filter.UserLoginFilter;
-import com.hits.modules.bean.Cs_value;
-import com.hits.modules.com.comUtil;
-import com.hits.modules.gtxt.bean.L_ckqht;
-import com.hits.modules.gtxt.bean.L_gt_xzxkxx;
-import com.hits.modules.sxcj.bean.Discredit_info;
 import com.hits.modules.sys.bean.Sys_unit;
-import com.hits.modules.sys.bean.Sys_user;
 import com.hits.util.DateUtil;
 import com.hits.util.EmptyUtils;
-import com.hits.util.PageObj;
-import com.hits.util.StringUtil;
-import com.hits.util.SysLogUtil;
 
 
 /**
@@ -73,7 +46,6 @@ public class BaobiaoAction extends BaseAction {
 	public void xxsb(HttpSession session, HttpServletRequest req, @Param("startdate") String startdate,
 			 @Param("enddate") String enddate, @Param("type") String type){
 		try {
-			Sys_user user=(Sys_user) session.getAttribute("userSession");
 			Gson gson = new Gson();
 			enddate = EmptyUtils.isEmpty(enddate)?DateUtil.getToday():enddate;
 			startdate = EmptyUtils.isEmpty(startdate)?DateUtil.getFirstMonDay(enddate):startdate;
@@ -82,7 +54,6 @@ public class BaobiaoAction extends BaseAction {
 			//得到列，订货单位
 			List<Sys_unit> xzqhList = daoCtl.list(dao,Sys_unit.class,Sqls.create(" select id,name from sys_unit where unittype = 88 order by id asc "));
 			req.setAttribute("xzqhList",xzqhList);
-			String charsStr = "";
 			//图形报表Map
 			Map<String,String> xyNameMap = daoCtl.getHTable(dao,Sqls.create(" select code,name from cs_value where typeid = '00010005' and state = 0 and code < '0008' order by location asc"));
 			List<String> xyCode = daoCtl.getStrRowValues(dao,Sqls.create(" select code,name from cs_value where typeid = '00010005' and state = 0 and code < '0008' order by location asc"));
@@ -106,7 +77,6 @@ public class BaobiaoAction extends BaseAction {
 			zjMap = daoCtl.getHTable(dao, Sqls.create(sqlstr));
 			JSONArray array = new JSONArray();
 			for(Sys_unit unit : xzqhList){
-				String unitid = unit.getId();
 				JSONObject jsonroot = new JSONObject();
 				jsonroot.put("id", unit.getId());
 				jsonroot.put("name",unit.getName());

@@ -70,6 +70,7 @@ public class OrderAction extends BaseAction{
 	@Ok("->:/private/order/orderList.html")
 	public void order(HttpSession session, HttpServletRequest req,@Param("startdate") String startdate,@Param("enddate") String enddate,@Param("unitid") String unitid) {
 		Sys_user user = (Sys_user) session.getAttribute("userSession");
+		req.setAttribute("superadmin",user.getLoginname());
 		req.setAttribute("unitid", unitid);
 		req.setAttribute("startdate", startdate);
 		req.setAttribute("enddate", enddate);
@@ -356,6 +357,7 @@ public class OrderAction extends BaseAction{
 		for(int i=0;i<list.size();i++){
 			row = sheet.createRow(i+1);
 			Map map=list.get(i);
+			cell=  row.createCell((short) 0);
 			cell.setCellValue(i+1);
 			cell.setCellStyle(style);
 			cell=  row.createCell((short) 1);

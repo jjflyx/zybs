@@ -13,8 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
-import com.hits.modules.sxcj.bean.Discredit_info;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.nutz.dao.Chain;
@@ -796,17 +794,7 @@ public class YYFormAction extends BaseAction {
 									}
 									//义务表主键
 									String ywid = daoCtl.getStrRowValue(dao, Sqls.create(YWCL.getPKSql(tablename)));
-									Discredit_info disinfo = dao.fetch(Discredit_info.class,Cnd.where(Cnd.exps(ywid, "=", sd.get(primary)).and("type", "<>", "2").and("src", "=", "0")));
-									if(EmptyUtils.isEmpty(disinfo)){//未产生失信进入预警
-										dao.update(tablename, Chain.make("is_warn", 0), Cnd.where(ywid, "=", sd.get(primary)));
-									}else{//失信已产生，根据调整内容，更新失信记录为已撤销
-										dao.update(tablename, Chain.make("is_warn", 1), Cnd.where(ywid, "=", sd.get(primary)));
-										String tableid=table.getTableid()+"";
-										if("2".equals(table.getForm_type())){
-											tableid=daoCtl.getStrRowValue(dao, Sqls.create("select tableid from form_table where form_type=1 and tablekey='"+table.getTablekey()+"'"));
-										}
-										delSum.set(YWCL.updateDisinfoByRule(daoCtl, dao, tableid, disinfo));//失信为已撤销状态
-									}
+									
 								}
 								delSum.set(dao.clear("Early_warning_info", Cnd.where("htid", "=", mainid)));
 							}

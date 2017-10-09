@@ -29,7 +29,6 @@ import org.nutz.dao.DB;
 public class Form_table {
 	@Column
 	@Id
-	@Prev({ @SQL(db = DB.ORACLE, value = "SELECT FORM_TABLE_S.nextval FROM dual") })
 	private int tableid;
 	@Column
 	private int formdefid;

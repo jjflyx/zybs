@@ -22,8 +22,12 @@
 <link rel="stylesheet"
 	href="${base}/include/controls/ztree/zTreeStyle/zTreeStyle.css"
 	type="text/css">
-<script type="text/javascript"
-	src="${base}/include/controls/my97/WdatePicker.js"></script>
+<link href="${base}/private/ratifyFollow/css/blue/style.css" rel="stylesheet" type="text/css" />
+<script src="${base}/include/controls/my97/WdatePicker.js"></script>
+<script src="${base}/js/util/preview.js"></script>
+<script src="${base}/include/js/ajaxfileupload.js"></script>
+<script src="${base}/js/util/preview.js"></script>
+
 <style type="text/css">
 </style>
 <SCRIPT type="text/javascript">
@@ -98,8 +102,7 @@
 
 	function initButton() {
 		Page.initBtn();
-		$
-		!initBtn
+		$!initBtn
 	}
 
 	function getWidth(percent) {
@@ -194,8 +197,10 @@
 												val += " <a href='javascript:void(0);' onClick=\"toupdate(\'"
 													+ rec.htid+ "');\">修改</a> |";
 											}
+											if(rec.actor==loginname){
 											val += " <a href='javascript:void(0);' onClick=\"del(\'"
 												+ rec.htid+ "');\">删除</a> |";
+											}
 											return val.substr(0, val.lastIndexOf("|"));
 										}
 									} ] ],
@@ -222,19 +227,33 @@
 			$('div.panel-body').css('width', 'auto'); //////
 		}, 100);
 	});
+	function clearTT() {
+		$("#cx_td input[type=text]").each(function() {
+			$(this).val("");
+		});
+		$("#cx_td input[type=hidden]").each(function() {
+			if ($(this).prop("name") != "querySql") {
+				$(this).val("");
+			}
+		});
+		$("#cx_td select").each(function() {
+			$(this).val("");
+		});
+		document.getElementById("startdate").value="";
+		document.getElementById("enddate").value="";
+	}
 </SCRIPT>
 </head>
 <body leftmargin="0" topmargin="0" class="easyui-layout">
 	<form name='form1' id="form1" method='post'>
-		<input type="hidden" name="startdate" id="startdate" value="$!startdate">
-		<input type="hidden" name="enddate" id="enddate" value="$!enddate">
 		<div region="north" border="false" style="overflow: hidden; padding: 10px 10px 0px 10px">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0"
 				class="blockTable">
 				<tr>
-					<td class="blockTd">
+					<td class="blockTd" id="cx_td" nowrap="nowrap">
 						<table width="100%" border="0" cellspacing="0" cellpadding="6">
 							<tr>
+							#if($!superadmin=='jjf')
 								<td style="padding: 8px 0 4px 6px;" id="btnlist"><span
 									style="float: left;"> &nbsp; 客户名称：
 						<select id="unitid" name="unitid" onchange="loadData()">
@@ -242,14 +261,24 @@
 							<option value="$!unit.id">$!unit.name</option> #end
 					</select>
 					<script type="text/javascript">selected(document.form1.unitid,"$!unitid")</script>
+					#end
 					&nbsp;&nbsp;是否付款：
 					<select id="isfh" name="isfh" onchange="loadData()">
 							<option value="">请选择</option> #foreach($!isfh in $!isfhMap)
 							<option value="$!isfh.value">$!isfh.name</option> #end
 					</select>
-					<input type="button"
-										name="check" onclick="loadData();" value="查询" /> 
-										<input class="button" type="button" id="dosearch" name="dosearch" value="导出Excel" onclick="EXP();" />
+					&nbsp;&nbsp;
+					订单时间：
+					<input id="startdate" name="startdate" type="text" size="12" readonly class="Wdate" onClick="WdatePicker()" value="$!startdate" />
+					至
+					<input id="enddate" name="enddate" type="text" size="12" class="Wdate" onClick="WdatePicker()" value="$!enddate"  readonly="readonly" />
+					&nbsp;&nbsp;<input type="button"
+										name="check" onclick="loadData();" value="查询" />
+										
+										<input type="button" id="dosearch" name="dosearch" value="导出Excel" onclick="EXP();" />
+										<input class="button"
+										type="button" name="btnCl" id="btnCl" onClick="clearTT();"
+										value="清除" /> </span>  
 								</span> <span style="float:right;"> <a
 										href='javascript:void(0);' ztype='zPushBtn' class='zPushBtn'
 										hidefocus='true' tabindex='-1' onselectstart='return false'
@@ -267,6 +296,7 @@
 			style="width: 100%; height: 100%; padding: 0px 10px 10px;">
 			<div id="dg1" style="width: 100%; height: 100%;"></div>
 		</div>
+		
 	</form>
 </body>
 </html>
