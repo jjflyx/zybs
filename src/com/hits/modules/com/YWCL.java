@@ -23,7 +23,6 @@ import org.nutz.dao.Sqls;
 import org.nutz.mvc.Mvcs;
 
 import com.hits.common.dao.ObjectCtl;
-import com.hits.modules.sxcj.bean.Discredit_info;
 import com.hits.modules.sys.bean.Sys_user;
 import com.hits.modules.tasks.bean.Tasks;
 import com.hits.util.DateUtil;
@@ -260,99 +259,7 @@ public class YWCL {
 		}
 		return value;
 	}
-	public static int updateDisinfoByRule(ObjectCtl daoCtl,Dao dao,String tableid,Discredit_info disinfo){
-		int re=1;
-		try {
-			List<Map> rlist=daoCtl.list(dao, Sqls.create("select * from gtxt_rule where rule like '"+tableid+"@@%'"));
-			for (Map<String,String> map : rlist) {
-				String[] ruleList = StringUtil.null2String(map.get("rule")).split("@@");
-				List<Map> subtabobj=daoCtl.list(dao, Sqls.create("select tablekey,formdefid from  FORM_TABLE where tableid = '"+ruleList[0]+"'"));
-				System.out.println("select tablekey,formdefid from  FORM_TABLE where tableid = '"+ruleList[0]+"'");
-				if(EmptyUtils.isEmpty(subtabobj)){
-					break;
-				}
-				String tableName = StringUtil.null2String(subtabobj.get(0).get("tablekey"));
-				String tableName_id = StringUtil.null2String(subtabobj.get(0).get("formdefid"));
-				String tableMain = "l_"+daoCtl.getStrRowValue(dao, Sqls.create("select tablekey from  FORM_TABLE where formdefid = '"+tableName_id+"' and ismain = 1 "));
-				System.out.println("tableMain : "+tableMain);
-				String formdefid_y = daoCtl.getStrRowValue(dao, Sqls.create("select formdefid from  FORM_TABLE where tablekey = '"+tableName+"' and form_type = 1 "));
-				String formdefid_s = daoCtl.getStrRowValue(dao, Sqls.create("select formdefid from  FORM_TABLE where tablekey = '"+tableName+"' and form_type = 2 "));
-				String xylx_id = daoCtl.getStrRowValue(dao, Sqls.create(" select xyml from FORM_DEF where defid = '"+formdefid_s+"' "));
-				//义务表外键
-				String htid_col = daoCtl.getStrRowValue(dao, Sqls.create(getFKSql("L_"+tableName.toUpperCase())));
-				//义务表主键
-				String ywid = daoCtl.getStrRowValue(dao, Sqls.create(getPKSql("L_"+tableName.toUpperCase())));
-				//主表主键
-				String tableMain_Pk = daoCtl.getStrRowValue(dao, Sqls.create(getPKSql(tableMain.toUpperCase())));
-				String sxqx_id = map.get("sxqx_id");
-				String httype = daoCtl.getStrRowValue(dao, Sqls.create("select ht_type from breach_info where id='"+sxqx_id+"'"));
-				String httypeSql="";
-				if(httype!=null&&!"".equals(httype)){//失信惩戒标准有具体的合同类型
-				httypeSql=htid_col+" in (select "+tableMain_Pk+" from "+tableMain+" where httype='"+httype+"') and";
-				}
-				String ylxrq_y = "";
-				String slxrq_y = "";
-				String sql_select = "";
-				String sql_body = "";
-				for(int i=1; i < ruleList.length;i++){
-					String[] strs = ruleList[i].split("☆☆");
-					if(strs[0].indexOf("rq_") == -1 ){
-						//sql_body += " and to_number("+ strs[0]+") "+getSymbol(strs[1])+" nvl(to_number("+strs[2]+"),0)  ";	
-						sql_select+=strs[0]+","+strs[2]+",round(to_number("+ strs[0]+")-nvl(to_number("+strs[2]+"),0)) as val"+i+",";
-					}else{
-						ylxrq_y = strs[0];
-						slxrq_y = strs[2];
-						//sql_body += " and TO_DATE("+ strs[0]+",'YYYY-mm-dd')  "+getSymbol(strs[1])+" nvl(TO_DATE("+strs[2]+",'YYYY-mm-dd')+10,sysdate+10) ";
-						sql_select+=strs[0]+","+strs[2]+",round(TO_DATE("+ strs[0]+",'YYYY-mm-dd')  - nvl(TO_DATE("+strs[2]+",'YYYY-mm-dd'),sysdate)) as val"+i+",";
-					}
-				}
-				String sql_head = "select "+sql_select+"round((to_date("+ylxrq_y+",'yyyy-mm-dd')-to_date(to_char(sysdate,'YYYY-MM-DD'),'YYYY-MM-DD')),0) as value "
-						+ "  from l_" + tableName +" where "+httypeSql+" "+ywid+"='"+disinfo.getYwid()+"'";
-				
-				String sql = sql_head + sql_body ;
-				System.out.println("sql ************************: ");
-				System.out.println(sql);
-				List<Map> list = daoCtl.list(dao, Sqls.create(sql));
-				if(list.size()>0){//
-					String syts=StringUtil.null2String(list.get(0).get("value"));
-					String slxrq=StringUtil.null2String(list.get(0).get(slxrq_y));
-					if(EmptyUtils.isNotEmpty(syts)&&EmptyUtils.isEmpty(slxrq)){
-						if(Integer.parseInt(syts) >11){
-							//如果剩余日期大于11，撤销失信记录
-							re=dao.update("discredit_info", Chain.make("type", 2), Cnd.where("id", "=", disinfo.getId()));
-							dao.update("l_"+tableName, Chain.make("is_warn", 0), Cnd.where(ywid, "=", disinfo.getYwid()));
-						}else if(Integer.parseInt(syts) <=11&&Integer.parseInt(syts) >=0){
-							//如果剩余日期在0-10之间
-							dao.update("l_"+tableName, Chain.make("is_warn", 0), Cnd.where(ywid, "=", disinfo.getYwid()));
-							re=dao.update("discredit_info", Chain.make("type", 2), Cnd.where("id", "=", disinfo.getId()));
-						}
-					}else{
-						boolean sfwc=true;
-						for(int i=1; i < ruleList.length;i++){
-							String[] strs = ruleList[i].split("☆☆");
-							if(strs[0].indexOf("rq_") == -1 ){
-								int tmp=StringUtil.StringToInt(StringUtil.null2String(list.get(0).get("val"+i)));
-								if(getSymbol(strs[1], tmp)==false){
-									sfwc=false;
-									continue;
-								}
-							}
-						}
-						if(sfwc){//义务已完成
-							re=dao.update("discredit_info", Chain.make("type", 1).add("perform_date", slxrq), Cnd.where("id", "=", disinfo.getId()));
-						}
-					}
-				}else{
-					dao.update("l_"+tableName, Chain.make("is_warn", 0), Cnd.where(ywid, "=", disinfo.getYwid()));
-					re=dao.update("discredit_info", Chain.make("type", 2), Cnd.where("id", "=", disinfo.getId()));
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			re=-1;
-		}
-		return re;
-	}
+	
 		private static String getSymbol(String str){
 			String symbol = "=";
 			if("大于".equals(str)){

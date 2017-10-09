@@ -24,9 +24,6 @@ public class Form_def
 {
 	@Column
 	@Id
-	@Prev({
-		@SQL(db = DB.ORACLE, value="SELECT FORM_DEF_S.nextval FROM dual")
-	})
 	private int defid;
 	@Column
 	private String formtitle;

@@ -16,9 +16,6 @@ import org.nutz.dao.entity.annotation.Table;
 public class Sys_role {
 	@Column 
 	@Id
-	@Prev({
-		@SQL(db = DB.ORACLE, value="SELECT SYS_ROLE_S.nextval FROM dual")
-	})
 	private int id;
 	@Column
 	private String name;

@@ -20,7 +20,6 @@ import org.nutz.dao.DB;
 public class Form_field implements Comparable<Form_field>{
 	@Column
 	@Id
-	@Prev({ @SQL(db = DB.ORACLE, value = "SELECT FORM_FIELD_S.nextval FROM dual") })
 	private int fieldid;
 	@Column
 	private int tableid;
