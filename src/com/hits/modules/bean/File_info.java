@@ -15,9 +15,6 @@ public class File_info
 {
 	@Column
 	@Name
-	@Prev({
-		@SQL(db = DB.MYSQL, value="SELECT LAST_INSERT_ID()")
-	})
 	private String id;
 	@Column
 	private String filename;
