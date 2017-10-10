@@ -84,7 +84,9 @@
 	}
 	
 	function showTab(startdate,enddate,unitid){
-		window.location.href="${base}/private/order?startdate="+startdate+"&enddate="+enddate+"&unitid="+unitid;
+		name="";
+		url="${base}/private/order?startdate="+startdate+"&enddate="+enddate+"&unitid="+unitid;
+		parent.addTab(name,url);
 	}
 	</script>
 </head>
@@ -209,6 +211,69 @@
 		<div id="chartdiv"  style="height: 500px;display: none;">
 
 		</div>
+	</div>
+	<!-- 柱状图 -->
+	<div class="content-area" id="chars_area" style="display:none;">
+		<div id="content-area-inner-main">
+			<!--<p class="text" align="center">Open the chart in pretty photo using jQuery</p>-->
+			<div id="messageBox" style="margin-left:100px; margin-right:100px; display:none;"></div>
+			<p>&nbsp;</p>
+			<div class="clear"></div>
+			<div class="gen-chart-render">
+				<div id="prettyphoto-container">
+					<div id="chartContainer"></div>
+				</div>
+				<script type="text/javascript">
+					var xzqhGson=$!xzqhGson;
+					var xyGson=$!xyGson;
+					var charsData=$!charsData;
+					var unitGson=#if($!unitGson) $!unitGson #else "" #end;
+
+					/* $(document).ready(function() {
+						$('#chartContainer').prettyPhoto({opacity: 0.35, showTitle: true, allowresize: false });
+					}); */
+
+					function showPrettyPhoto()
+					{
+						$("#printnote").hide();
+						$("#chars_area").show();
+						$("#showExcel").show();
+						$("#showChars").hide();
+					}
+					var dataString = "<chart caption='守信奖励统计报表' showValues='0' xAxisName='信用类型' yAxisName='件数' numberPrefix=''>";
+					dataString += "<categories>";
+					//迭代横轴
+					$.each(xyGson, function(i, item){
+						dataString += "<category label='"+item.name+"' />";
+					});
+					$.each(unitGson, function(u, item){
+						dataString += "<category label='"+item.name+"' />";
+					});
+					dataString += "</categories>";
+
+					$.each(charsData, function(j, jitem){
+						dataString += "<dataset seriesName='"+jitem.name+"'>"+
+								"<set  value='" + jitem.tdscxy + "' />" +
+								"<set  value='" + jitem.ckqscxy + "' />" +
+								"<set  value='" + jitem.tkqscxy + "' />" +
+								"<set  value='" + jitem.chdlscxy + "' />" +
+								"<set  value='" + jitem.tdjgpgfw + "' />" +
+								"<set  value='" + jitem.tdghfwxy + "' />" +
+								"<set  value='" + jitem.tddjdlfwxy + "' />" +
+								"<set  value='" + jitem.kcqjgpgfwxy + "' />" +
+								"<set  value='" + jitem.dzzhwxxpgfwxy + "' />" +
+								"<set  value='" + jitem.gtzyjcfwxy + "' />" +
+								"<set  value='" + jitem.nctdzzxmsjsgjlxy + "' />" +
+								"<set  value='" + jitem.dzzhzlgckcsjsgjlxy + "' />" +
+								"<set  value='" + jitem.ksdzhjzlxmkcsjsgjlxy + "' />" +
+								"<set  value='" + jitem.ssdzkcxy + "' /></dataset>";
+					});
+					dataString += "</chart>";
+					$("#chartContainer").insertFusionCharts({swfUrl: "${base}/include/fusionCharts/Charts/MSColumn3D.swf", dataSource: dataString, dataFormat: "xml", width: "100%", height: "100%", id: "myChartID"});
+				</script>
+				<!--<input type="button" onclick="showPrettyPhoto();" value="open chart in pretty photo" />-->
+			</div>
+			<div class="underline-dull"></div>    </div>
 	</div>
 </form>
 <form action="${base}/DownFile" name="printform" method="post">

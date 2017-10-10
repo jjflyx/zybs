@@ -3,10 +3,18 @@ package com.hits.modules.baobiao;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.servlet.ServletUtilities;
+import org.jfree.data.category.DefaultCategoryDataset;
 import org.nutz.dao.Dao;
 import org.nutz.dao.Sqls;
 import org.nutz.ioc.loader.annotation.Inject;
