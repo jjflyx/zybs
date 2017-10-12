@@ -17,7 +17,10 @@
 <script src="${base}/js/util/preview.js"></script>
 <script>
 	function addSave(){
-		setFile1(form1.sbfile);
+		if(Verify.hasError()){
+           	  	return;
+             } 
+        setFile1(form1.sbfile);
 		jQuery.ajax({
 			type : 'POST',
 			url : "${base}/private/order/addSave",
@@ -91,7 +94,7 @@
 				class="table_auto table_nrbk">
 				<tr>
 					<td align="right" width="15%">订单名称：</td>
-					<td algin="left" width="30%"><input type="text" name="ddmc"
+					<td algin="left" width="30%"><input type="text" name="ddmc" verify="订单名称|NotNull"
 						id="ddmc" maxlength="50" /></td>
 					<td align="right">客户名称：</td>
 					<td width="*%">
@@ -133,7 +136,7 @@
 				</tr> -->
 				<tr>
 					<td align="right" width="15%">价格：</td>
-					<td width="*%"><input typt="text" name="yfjk" id="yfjk" /></td>
+					<td width="*%"><input typt="text" name="yfjk" id="yfjk" verify="应发货时间|NotNull"/></td>
 					<td align="right" width="15%">是否付款：</td>
 					<td algin="left" width="30%">
 					<select id="isfh" name="isfh" verify="NotNull">

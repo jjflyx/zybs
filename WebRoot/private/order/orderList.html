@@ -206,7 +206,6 @@
 									} ] ],
 							frozenColumns : [ [ {
 								field : "userid",
-								checkbox : true
 							} ] ]
 						});
 		//设置分页控件  
@@ -253,7 +252,7 @@
 					<td class="blockTd" id="cx_td" nowrap="nowrap">
 						<table width="100%" border="0" cellspacing="0" cellpadding="6">
 							<tr>
-							#if($!superadmin=='jjf')
+							#if($!czrunitid == '0016')
 								<td style="padding: 8px 0 4px 6px;" id="btnlist"><span
 									style="float: left;"> &nbsp; 客户名称：
 						<select id="unitid" name="unitid" onchange="loadData()">
@@ -279,13 +278,13 @@
 										<input class="button"
 										type="button" name="btnCl" id="btnCl" onClick="clearTT();"
 										value="清除" /> </span>  
-								</span> <span style="float:right;"> <a
+								#if($!czrunitid == '0016') <span style="float:right;"> <a
 										href='javascript:void(0);' ztype='zPushBtn' class='zPushBtn'
 										hidefocus='true' tabindex='-1' onselectstart='return false'
 										id='a' onClick="add();"><img
 											src="${base}/images/icons/icon022a2.gif" width="20"
 											height="20" /><b>新建&nbsp;</b></a>
-								</span></td>
+								</span>#end</td>
 							</tr>
 						</table>
 					</td>

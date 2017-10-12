@@ -70,8 +70,8 @@ public class OrderAction extends BaseAction{
 	@Ok("->:/private/order/orderList.html")
 	public void order(HttpSession session, HttpServletRequest req,@Param("startdate") String startdate,@Param("enddate") String enddate,@Param("unitid") String unitid) {
 		Sys_user user = (Sys_user) session.getAttribute("userSession");
-		req.setAttribute("superadmin",user.getLoginname());
-		req.setAttribute("unitid", unitid);
+		req.setAttribute("unitid", unitid);//从统计分析跳转过来的unitid
+		req.setAttribute("czrunitid", user.getUnitid());//当前登录用户的单位id
 		req.setAttribute("startdate", startdate);
 		req.setAttribute("enddate", enddate);
 		req.setAttribute("isfhHash", JSONObject.fromObject(comUtil.isfhHash));
@@ -90,8 +90,13 @@ public class OrderAction extends BaseAction{
 			@Param("name") String name,@Param("page") int curPage, @Param("rows") int pageSize,@Param("sort") String sort,@Param("order") String order){
 		Sys_user user=(Sys_user) session.getAttribute("userSession");
 		Criteria cri = Cnd.cri();
-		String sql="select * from l_jsgg where (actor = '"+user.getLoginname()+"' or unitid = '"+user.getUnitid()+"') ";
-		cri.where().and(Cnd.exps("actor", "=", user.getLoginname()).or("unitid", "=", user.getUnitid()));
+		String sql="";
+		if(user.getUnitid().equals("0016")){
+			sql="select * from l_jsgg where 1=1 ";
+		}else{
+			sql="select * from l_jsgg where (actor = '"+user.getLoginname()+"' or unitid = '"+user.getUnitid()+"') ";
+			cri.where().and(Cnd.exps("actor", "=", user.getLoginname()).or("unitid", "=", user.getUnitid()));
+		}
 		if(EmptyUtils.isNotEmpty(unitid)){
 			cri.where().and("unitid","like",unitid+"%");
 			sql+=" and unitid like '"+unitid+"%'";
