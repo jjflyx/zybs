@@ -670,7 +670,7 @@ public class ObjectCtl {
 	 */
 	public <T> JSONObject listPageJsonSql(Dao dao, Sql sql, int curPage,int pageSize) {
 		Pager pager = dao.createPager(curPage, pageSize);
-        pager.setRecordCount(Daos.queryCount(dao, sql.toString()));// 记录数需手动设置
+        //pager.setRecordCount(Daos.queryCount(dao, sql.toString()));// 记录数需手动设置
 		sql.setPager(pager);
 		sql.setCallback(Sqls.callback.records());
 		dao.execute(sql); 
