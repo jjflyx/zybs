@@ -57,8 +57,8 @@ public class LoginAction extends BaseAction {
 		if (Strings.isBlank(loginname) || Strings.isBlank(password))
 			return "用户名及密码不能为空！";
 		
-		//if (EmptyUtils.isNotEmpty(vcode)&&!vcode.equals(verifcode))
-			//return "验证码不正确！"; 
+		if (EmptyUtils.isNotEmpty(vcode)&&!vcode.equals(verifcode))
+			return "验证码不正确！"; 
 		Sys_user user = daoCtl.detailByName(dao,Sys_user.class, "oldloginname", loginname);
 		if(user!=null){
 			return "您的新账号是："+user.getLoginname()+",请用新账号登陆";
