@@ -145,7 +145,7 @@ public class Sys_logAction extends BaseAction {
 			@Param("mk_id")String mk_id,@Param("cz_id")String cz_id,@Param("unitid") String unitid,
 			@Param("SearchUserName") String SearchUserName,@Param("type") String type,@Param("letterid")String letterid) {
 		Sys_user user = (Sys_user) session.getAttribute("userSession");
-		String qsql="select t.id,t.type,t.content,t.create_time,t.login_ip,t.bowser,t.letter_id,t.class_name,t.method_name,t.title,t.reason,t.basis,t.cz,t.success,t.url,t.note,t.loginname||'/'||u.realname as loginname from  Sys_log t,sys_user u where t.loginname=u.loginname and type='"+type+"' ";
+		String qsql="select t.id,t.type,t.content,t.create_time,t.login_ip,t.bowser,t.letter_id,t.class_name,t.method_name,t.title,t.reason,t.basis,t.cz,t.success,t.url,t.note, concat_ws('/',t.loginname,u.realname) as loginname from  Sys_log t,sys_user u where t.loginname=u.loginname and type='"+type+"' ";
 		if(!user.getUnitid().equals("00080007")&&!user.getUnitid().equals("00080023")&&!user.getUnitid().equals("00080045")&&!user.getSysrole()){
 			qsql+=" and u.unitid like '"+user.getUnitid()+"%'";
 		}

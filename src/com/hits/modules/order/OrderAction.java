@@ -315,7 +315,7 @@ public class OrderAction extends BaseAction{
     //导出合同信息
     @At
 	public void dcXxsb(HttpServletRequest req,HttpSession session,@Param("unitid")String unitid,
-			@Param("startdate")String startdate,@Param("enddate")String enddate,
+			@Param("startdate")String startdate,@Param("enddate")String enddate,@Param("czrunitid")String czrunitid,
 			HttpServletResponse response) {
 		try {
 			String sqlstr = "";
@@ -325,6 +325,10 @@ public class OrderAction extends BaseAction{
 			if(EmptyUtils.isNotEmpty(unitid)){
 				sqlstr+=" and unitid='"+unitid+"' ";
 				sqlzj+=" and unitid='"+unitid+"' ";
+			}
+			if(EmptyUtils.isNotEmpty(czrunitid)){
+				sqlstr+=" and unitid='"+czrunitid+"' ";
+				sqlzj+=" and unitid='"+czrunitid+"' ";
 			}
 			if(EmptyUtils.isNotEmpty(startdate)&&EmptyUtils.isNotEmpty(enddate)){
 				sqlstr += "and add_time between '" + startdate + "' and '" + enddate + "'";
