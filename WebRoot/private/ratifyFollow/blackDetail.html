@@ -1,0 +1,342 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<title>$!app_name</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<script type='text/javascript'>
+		var CONTEXTPATH = '${base}';
+		var stylePath = '$!stylename';
+	</script>
+	<link href="${base}/private/ratifyFollow/css/$!stylename/style.css" rel="stylesheet" type="text/css" />
+	<script src="${base}/include/js/main.js"></script>
+	<script src="${base}/include/js/string.js"></script>
+	<link href="${base}/include/css/themes/gray/easyui.css" rel="stylesheet" type="text/css" />
+	<script src="${base}/include/js/jquery.easyui.min.js"></script>
+	<script>
+		function dosave(){
+			Dialog.confirm("是否确定执行撤销惩戒操作操作?!",function(){
+				Dialog.alert("撤销惩戒操作成功！",function(){
+					window.close();
+				});
+			},function(){
+
+			});
+		}
+	</script>
+</head>
+<body leftmargin="0" topmargin="0" class="easyui-layout">
+<form name='form1' id="form1" method='post'
+	  action="${base}/private/slzx/slj_info/add">
+	<input type="hidden" name="id" id="id" value="$!obj.id">
+	<input type="hidden" name="flowid" id="flowid" value="$!flowid">
+	<input type="hidden" name="fromnum" id="fromnum" value="$!fromnum">
+	<input type="hidden" name="phone" id="phone" value="$!fromnum">
+	<input type="hidden" name="fromtime" id="fromtime" value="$!fromtime">
+	<input type="hidden" name="loginname" id="loginname" value="$!user.loginname">
+	<div region="center" border="false"
+		 style="width: 100%; height: 100%; padding: 0px 10px 10px;">
+		<table width="98%" border="0" align="center" cellpadding="0"
+			   cellspacing="0" class="table_auto margin_top15 table_titlebk">
+			<tr>
+				<td class="table_title">
+					合同信息
+				</td>
+			</tr>
+		</table>
+		<table width="98%" border="0" align="center" cellpadding="0"  cellspacing="0" class="table_auto table_nrbk">
+			<tr>
+				<td valign="top" class="padding10">
+					<table width="100%" border="0" cellpadding="0" cellspacing="3">
+						<tr>
+							<td width="80" align="right" nowrap>
+								合同编号：
+							</td>
+							<td width="140">
+								100020160100
+							</td>
+							<td width="80" align="right">
+								合同名称：
+							</td>
+							<td>
+								肥东县土地整改合同
+							</td>
+						</tr>
+						<tr bgcolor="#ffffff">
+							<td width="80" align="right" nowrap>
+								所属类别：
+							</td>
+							<td>
+								土地市场信用
+							</td>
+							<td width="80" align="right" nowrap>
+								签订时间：
+							</td>
+							<td>
+								2016-01-08 12:43:12
+							</td>
+						</tr>
+						<tr bgcolor="#ffffff">
+							<td width="80" align="right" nowrap>
+								查看合同：
+							</td>
+							<td colspan="3">
+								<a href="javascript:void(0);" >100020160100.doc</a>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		<table width="98%" border="0" align="center" cellpadding="0"
+			   cellspacing="0" class="table_auto margin_top15 table_titlebk">
+			<tr>
+				<td class="table_title">
+					涉及信用主体
+				</td>
+			</tr>
+		</table>
+		<table width="98%" border="0" align="center" cellpadding="0"
+			   cellspacing="0" class="table_auto table_nrbk">
+			<tr>
+				<td valign="top" class="padding10">
+					<table width="100%" border="0" cellpadding="0" cellspacing="3">
+						<tr>
+							<td width="80" align="right" nowrap>
+								信用主体：
+							</td>
+							<td width="140" align="left">
+								合肥地质矿业有限公司
+							</td>
+							<td width="80" align="right" nowrap>
+								统一社会信用代码：
+							</td>
+							<td width="140">
+								91510421MA6210013T
+							</td>
+						</tr>
+						<tr>
+							<td width="80" align="right" nowrap>
+								法人：
+							</td>
+							<td width="140" align="left">
+								法人名
+							</td>
+							<td width="80" align="right" nowrap>
+								身份证号：
+							</td>
+							<td width="140">
+								340101111111111111
+							</td>
+						</tr>
+						<tr>
+							<td width="80" align="right" nowrap>
+								办公地址：
+							</td>
+							<td width="140" align="left" colspan="3">
+								安徽省合肥市肥西路汇金大厦610
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		<table width="98%" border="0" align="center" cellpadding="0"
+			   cellspacing="0" class="table_auto margin_top15 table_titlebk">
+			<tr>
+				<td class="table_title">
+					惩戒信息
+				</td>
+			</tr>
+		</table>
+		<table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="table_auto table_nrbk">
+			<tr>
+				<td valign="top" class="padding10">
+					<table width="100%" border="0" cellpadding="0" cellspacing="3">
+						<tr>
+							<td width="120" align="right">
+								失信行为：
+							</td>
+							<td width="180" colspan="3">
+								未依法履行土地复垦义务
+							</td>
+						</tr>
+					</table>
+					<table width="100%" border="0" cellpadding="0" cellspacing="3">
+						<tr>
+							<td width="120" align="right">
+								具体失信情形：
+							</td>
+							<td width="180" colspan="3">
+								有履行土地复垦的义务的采矿权人，在规定的时间内没有复垦或者复垦土地不符合要求
+							</td>
+						</tr>
+					</table>
+					<table width="100%" border="0" cellpadding="0" cellspacing="3">
+						<tr>
+							<td width="120" align="right">
+								生成方式：
+							</td>
+							<td colspan="3">
+								人工录入
+							</td>
+						</tr>
+					</table>
+					<table width="100%" border="0" cellpadding="0" cellspacing="3">
+						<tr bgcolor="#ffffff">
+							<td width="120" align="right">
+								惩戒日期：
+							</td>
+							<td width="180" colspan="3">
+								2015-11-01
+							</td>
+						</tr>
+					</table>
+					<table width="100%" border="0" cellpadding="0" cellspacing="3">
+						<tr bgcolor="#ffffff">
+							<td width="120" align="right">
+								被惩戒时限：
+							</td>
+							<td colspan="3">
+								2016-01-01 至 2018-01-01
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		<!--<table width="98%" border="0" align="center" cellpadding="0"-->
+			   <!--cellspacing="0" class="table_auto margin_top15 table_titlebk">-->
+			<!--<tr>-->
+				<!--<td class="table_title">-->
+					<!--应履行义务-->
+				<!--</td>-->
+			<!--</tr>-->
+		<!--</table>-->
+		<!--<table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="table_auto table_nrbk">-->
+			<!--<tr>-->
+				<!--<td valign="top" class="padding10">-->
+					<!--<table width="100%" border="0" cellpadding="0" cellspacing="3">-->
+						<!--<tr>-->
+							<!--<td width="80" align="left" colspan="6">-->
+								<!--1、未按照建设用地使用权出让合同约定支付建设用地出让金-->
+							<!--</td>-->
+						<!--</tr>-->
+					<!--</table>-->
+					<!--<table width="100%" border="0" cellpadding="0" cellspacing="3">-->
+						<!--<tr>-->
+							<!--<td width="80" align="left" colspan="6">-->
+								<!--2、未按照出让合同约定期限动工建设-->
+							<!--</td>-->
+						<!--</tr>-->
+					<!--</table>-->
+					<!--<table width="100%" border="0" cellpadding="0" cellspacing="3">-->
+						<!--<tr>-->
+							<!--<td width="80" align="left" colspan="6">-->
+								<!--<span style="color:red;">3、未按照批准用途开发利用土地</span>-->
+								<!--<span style="color:#aa1111;"> [* 失信项]</span>-->
+							<!--</td>-->
+						<!--</tr>-->
+					<!--</table>-->
+					<!--<table width="100%" border="0" cellpadding="0" cellspacing="3">-->
+						<!--<tr>-->
+							<!--<td width="80" align="left" colspan="6">-->
+								<!--4、未依法履行土地复垦义务-->
+							<!--</td>-->
+						<!--</tr>-->
+					<!--</table>-->
+					<!--<table width="100%" border="0" cellpadding="0" cellspacing="3">-->
+						<!--<tr>-->
+							<!--<td width="80" align="left" colspan="6">-->
+								<!--5、未遵守转让建设用地使用权规定-->
+							<!--</td>-->
+						<!--</tr>-->
+					<!--</table>-->
+				<!--</td>-->
+			<!--</tr>-->
+		<!--</table>-->
+		<!--<table width="98%" border="0" align="center" cellpadding="0"-->
+			   <!--cellspacing="0" class="table_auto margin_top15 table_titlebk">-->
+			<!--<tr>-->
+				<!--<td class="table_title">-->
+					<!--实际履行义务-->
+				<!--</td>-->
+			<!--</tr>-->
+		<!--</table>-->
+		<!--<table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="table_auto table_nrbk">-->
+			<!--<tr>-->
+				<!--<td valign="top" class="padding10">-->
+					<!--<table width="100%" border="0" cellpadding="0" cellspacing="3">-->
+						<!--<tr>-->
+							<!--<td width="120" align="right">-->
+								<!--应付款金额：-->
+							<!--</td>-->
+							<!--<td width="100">-->
+								<!--100%-->
+							<!--</td>-->
+							<!--<td width="120" align="right">-->
+								<!--实际付款金额：-->
+							<!--</td>-->
+							<!--<td width="80">-->
+								<!--60%-->
+							<!--</td>-->
+							<!--<td width="80" align="left" colspan="2">-->
+								<!--&nbsp;-->
+
+							<!--</td>-->
+						<!--</tr>-->
+					<!--</table>-->
+					<!--<table width="100%" border="0" cellpadding="0" cellspacing="3">-->
+						<!--<tr>-->
+							<!--<td width="120" align="right">-->
+								<!--应付款日期：-->
+							<!--</td>-->
+							<!--<td width="100">-->
+								<!--2016-02-01-->
+							<!--</td>-->
+							<!--<td width="120" align="right">-->
+								<!--实际付款日期：-->
+							<!--</td>-->
+							<!--<td width="80">-->
+								<!--2016-01-12-->
+							<!--</td>-->
+							<!--<td width="80" align="left" colspan="2">-->
+								<!--&nbsp;-->
+
+							<!--</td>-->
+						<!--</tr>-->
+					<!--</table>-->
+					<!--<table width="100%" border="0" cellpadding="0" cellspacing="3">-->
+						<!--<tr style="color:#aa1111;">-->
+							<!--<td width="120" align="right">-->
+								<!--约定动工日期：-->
+							<!--</td>-->
+							<!--<td width="100">-->
+								<!--2016-01-10-->
+							<!--</td>-->
+							<!--<td width="120" align="right">-->
+								<!--实际动工日期：-->
+							<!--</td>-->
+							<!--<td width="80">-->
+								<!--尚未动工-->
+							<!--</td>-->
+							<!--<td width="80" align="left" colspan="2">-->
+								<!--&nbsp;-->
+							<!--</td>-->
+						<!--</tr>-->
+					<!--</table>-->
+				<!--</td>-->
+			<!--</tr>-->
+		<!--</table>-->
+	</div>
+	<div region="south" border="false"
+		 style="overflow: hidden; padding: 10px 10px 0px 10px">
+		<div align="center" style="padding-bottom: 10px;">
+			<input class="button" type="button" name="btnOk" value="撤销惩戒"
+				   onclick="dosave();" />
+			<input class="button" type="button" name="btnOk" value="关闭"
+				   onclick="window.close();" />
+		</div>
+	</div>
+</form>
+</body>
+</html>

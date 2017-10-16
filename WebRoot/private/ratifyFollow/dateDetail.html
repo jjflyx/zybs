@@ -1,0 +1,465 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<title>$!app_name</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<script type='text/javascript'>
+		var CONTEXTPATH = '${base}';
+		var stylePath = '$!stylename';
+	</script>
+	<link href="${base}/private/ratifyFollow/css/$!stylename/style.css" rel="stylesheet" type="text/css" />
+	<script src="${base}/include/js/main.js"></script>
+	<script src="${base}/include/js/string.js"></script>
+	<link href="${base}/include/css/themes/gray/easyui.css" rel="stylesheet" type="text/css" />
+	<script src="${base}/include/js/jquery.easyui.min.js"></script>
+	<script>
+		function dosave(){
+			Dialog.confirm("是否确定执行移出黑名单操作操作?!",function(){
+				Dialog.alert("移出黑名单操作成功！",function(){
+					window.close();
+				});
+			},function(){
+
+			});
+		}
+	</script>
+</head>
+<body leftmargin="0" topmargin="0" class="easyui-layout">
+<form name='form1' id="form1" method='post'
+	  action="${base}/private/slzx/slj_info/add">
+	<input type="hidden" name="id" id="id" value="$!obj.id">
+	<input type="hidden" name="flowid" id="flowid" value="$!flowid">
+	<input type="hidden" name="fromnum" id="fromnum" value="$!fromnum">
+	<input type="hidden" name="phone" id="phone" value="$!fromnum">
+	<input type="hidden" name="fromtime" id="fromtime" value="$!fromtime">
+	<input type="hidden" name="loginname" id="loginname" value="$!user.loginname">
+	<div region="center" border="false"
+		 style="width: 100%; height: 100%; padding: 0px 10px 10px;">
+		<table width="98%" border="0" align="center" cellpadding="0"
+			   cellspacing="0" class="table_auto margin_top15 table_titlebk">
+			<tr>
+				<td class="table_title">
+					表单信息 [credit_ground_mart]
+				</td>
+			</tr>
+		</table>
+		<table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="table_auto table_nrbk">
+			<tr>
+				<td valign="top" class="padding10">
+					<table width="100%" border="0" cellpadding="0" cellspacing="3">
+						<tr>
+							<td width="80" align="right">
+								项目名称：
+							</td>
+							<td width="180">
+								土地市场信用
+							</td>
+							<td width="80" align="right">
+								表单名称：
+							</td>
+							<td colspan="3">
+								credit_ground_mart
+							</td>
+						</tr>
+					</table>
+					<table width="100%" border="0" cellpadding="0" cellspacing="3">
+						<tr bgcolor="#ffffff">
+							<td width="80" align="right">
+								创建人：
+							</td>
+							<td width="180">
+								系统管理员
+							</td>
+							<td width="80" align="right">
+								创建时间：
+							</td>
+							<td colspan="3">
+								2016-01-17 12:43:12
+							</td>
+						</tr>
+					</table>
+					<table width="100%" border="0" cellpadding="0" cellspacing="3">
+						<tr bgcolor="#ffffff">
+							<td width="80" align="right">
+								描述：
+							</td>
+							<td width="*" colspan="3">
+								根据土地市场信用规则，定义出的数据库表单。
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		<table width="98%" border="0" align="center" cellpadding="0"
+			   cellspacing="0" class="table_auto margin_top15 table_titlebk">
+			<tr>
+				<td class="table_title">
+					数据元
+				</td>
+			</tr>
+		</table>
+		<table width="98%" border="0" align="center" cellpadding="0"  cellspacing="0" class="table_auto table_nrbk">
+			<tr>
+				<td valign="top" class="padding10">
+					<table width="100%" border="0" cellpadding="0" cellspacing="3">
+						<tr>
+							<td width="80" align="right" nowrap>
+								名称：
+							</td>
+							<td width="140">
+								ID
+							</td>
+							<td width="80" align="right">
+								表单项：
+							</td>
+							<td>
+								id
+							</td>
+							<td width="40" align="right">
+								类型：
+							</td>
+							<td>
+								int
+							</td>
+							<td width="40" align="right">
+								大小：
+							</td>
+							<td>
+								20
+							</td>
+						</tr>
+						<tr>
+							<td width="80" align="right" nowrap>
+								名称：
+							</td>
+							<td width="140">
+								统一社会信用代码
+							</td>
+							<td width="80" align="right">
+								表单项：
+							</td>
+							<td>
+								tishxybm
+							</td>
+							<td width="40" align="right">
+								类型：
+							</td>
+							<td>
+								varchar
+							</td>
+							<td width="40" align="right">
+								大小：
+							</td>
+							<td>
+								200(char)
+							</td>
+						</tr>
+						<tr>
+							<td width="80" align="right" nowrap>
+								名称：
+							</td>
+							<td width="140">
+								组织机构代码
+							</td>
+							<td width="80" align="right">
+								表单项：
+							</td>
+							<td>
+								zzjgdm
+							</td>
+							<td width="40" align="right">
+								类型：
+							</td>
+							<td>
+								varchar
+							</td>
+							<td width="40" align="right">
+								大小：
+							</td>
+							<td>
+								200(char)
+							</td>
+						</tr>
+						<tr>
+							<td width="80" align="right" nowrap>
+								名称：
+							</td>
+							<td width="140">
+								工商注册号
+							</td>
+							<td width="80" align="right">
+								表单项：
+							</td>
+							<td>
+								gszch
+							</td>
+							<td width="40" align="right">
+								类型：
+							</td>
+							<td>
+								varchar
+							</td>
+							<td width="40" align="right">
+								大小：
+							</td>
+							<td>
+								200(char)
+							</td>
+						</tr>
+						<tr>
+							<td width="80" align="right" nowrap>
+								名称：
+							</td>
+							<td width="140">
+								税务登记号
+							</td>
+							<td width="80" align="right">
+								表单项：
+							</td>
+							<td>
+								swdjh
+							</td>
+							<td width="40" align="right">
+								类型：
+							</td>
+							<td>
+								varchar
+							</td>
+							<td width="40" align="right">
+								大小：
+							</td>
+							<td>
+								200(char)
+							</td>
+						</tr>
+						<tr>
+							<td width="80" align="right" nowrap>
+								名称：
+							</td>
+							<td width="140">
+								设立日期
+							</td>
+							<td width="80" align="right">
+								表单项：
+							</td>
+							<td>
+								create_date
+							</td>
+							<td width="40" align="right">
+								类型：
+							</td>
+							<td>
+								varchar
+							</td>
+							<td width="40" align="right">
+								大小：
+							</td>
+							<td>
+								200(char)
+							</td>
+						</tr>
+						<tr>
+							<td width="80" align="right" nowrap>
+								名称：
+							</td>
+							<td width="140">
+								企业状态
+							</td>
+							<td width="80" align="right">
+								表单项：
+							</td>
+							<td>
+								qyzt
+							</td>
+							<td width="40" align="right">
+								类型：
+							</td>
+							<td>
+								int
+							</td>
+							<td width="40" align="right">
+								大小：
+							</td>
+							<td>
+								4
+							</td>
+						</tr>
+						<tr>
+							<td width="80" align="right" nowrap>
+								名称：
+							</td>
+							<td width="140">
+								核准日期
+							</td>
+							<td width="80" align="right">
+								表单项：
+							</td>
+							<td>
+								sanction_date
+							</td>
+							<td width="40" align="right">
+								类型：
+							</td>
+							<td>
+								varchar
+							</td>
+							<td width="40" align="right">
+								大小：
+							</td>
+							<td>
+								200(char)
+							</td>
+						</tr>
+						<tr>
+							<td width="80" align="right" nowrap>
+								名称：
+							</td>
+							<td width="140">
+								企业大类
+							</td>
+							<td width="80" align="right">
+								表单项：
+							</td>
+							<td>
+								qydl
+							</td>
+							<td width="40" align="right">
+								类型：
+							</td>
+							<td>
+								varchar
+							</td>
+							<td width="40" align="right">
+								大小：
+							</td>
+							<td>
+								200(char)
+							</td>
+						</tr>
+						<tr>
+							<td width="80" align="right" nowrap>
+								名称：
+							</td>
+							<td width="140">
+								企业地址
+							</td>
+							<td width="80" align="right">
+								表单项：
+							</td>
+							<td>
+								address
+							</td>
+							<td width="40" align="right">
+								类型：
+							</td>
+							<td>
+								varchar
+							</td>
+							<td width="40" align="right">
+								大小：
+							</td>
+							<td>
+								2000(char)
+							</td>
+						</tr>
+						<tr>
+							<td width="80" align="right" nowrap>
+								名称：
+							</td>
+							<td width="140">
+								登记机关
+							</td>
+							<td width="80" align="right">
+								表单项：
+							</td>
+							<td>
+								djjg
+							</td>
+							<td width="40" align="right">
+								类型：
+							</td>
+							<td>
+								varchar
+							</td>
+							<td width="40" align="right">
+								大小：
+							</td>
+							<td>
+								200(char)
+							</td>
+						</tr>
+						<tr>
+							<td width="80" align="right" nowrap>
+								名称：
+							</td>
+							<td width="140">
+								法定代表人姓名
+							</td>
+							<td width="80" align="right">
+								表单项：
+							</td>
+							<td>
+								fr_name
+							</td>
+							<td width="40" align="right">
+								类型：
+							</td>
+							<td>
+								varchar
+							</td>
+							<td width="40" align="right">
+								大小：
+							</td>
+							<td>
+								200(char)
+							</td>
+						</tr>
+						<tr>
+							<td width="80" align="right" nowrap>
+								名称：
+							</td>
+							<td width="140">
+								法定代表人身份证号
+							</td>
+							<td width="80" align="right">
+								表单项：
+							</td>
+							<td>
+								fr_idCard
+							</td>
+							<td width="40" align="right">
+								类型：
+							</td>
+							<td>
+								varchar
+							</td>
+							<td width="40" align="right">
+								大小：
+							</td>
+							<td>
+								200(char)
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div region="south" border="false"
+		 style="overflow: hidden; padding: 10px 10px 0px 10px">
+		<table width="98%" border="0" cellspacing="0" cellpadding="0"
+			   class="table_auto tcck_foot margin_top10">
+			<tr>
+				<td align="center">
+					<!--<input class="button" type="button" name="btnOk" value="移出黑名单"-->
+						   <!--onclick="dosave();" />-->
+					<input class="button" type="button" name="btnOk" value="关闭"
+						   onclick="window.close();" />
+				</td>
+			</tr>
+		</table>
+	</div>
+</form>
+</body>
+</html>

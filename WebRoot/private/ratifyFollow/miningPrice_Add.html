@@ -1,0 +1,536 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<title>$!app_name</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<script type='text/javascript'>
+		var CONTEXTPATH = '${base}';
+		var stylePath = '$!stylename';
+	</script>
+	<link href="${base}/private/ratifyFollow/css/$!stylename/style.css" rel="stylesheet" type="text/css" />
+	<script src="${base}/include/js/main.js"></script>
+	<script src="${base}/include/js/string.js"></script>
+	<link href="${base}/include/css/themes/gray/easyui.css" rel="stylesheet" type="text/css" />
+	<script src="${base}/include/js/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="${base}/include/controls/my97/WdatePicker.js"></script>
+	<script>
+		function ht(){
+			var text = $("#type").val()=="4" ? "合同编号" : "采矿许可证号";
+			if($("#xkz").val().length==0) {
+				Dialog.alert("请输入"+text,function () {
+					return;
+				});
+			}else {
+				$("#hideDIV").attr("style", "");
+				$("#xz").attr("style", "display:none;");
+				$("#money_1").val("合肥地质矿业有限公司");
+				$("#money_2").val("91510421MA6210013T");
+				$("#money_3").val("807.2");
+				$("#money_4").val("2017-06-31");
+				$("#id_1").val("鼎力集团开采XX矿业合同");
+				$("#id_2").val("100020160102");
+				$("#id_3").val("鼎力集团开采XX矿矿区");
+				$("#id_4").val("合肥市国土资源部门");
+				$("#id_5").val("陕西地质工程总公司合肥分公司");
+				$("#id_6").val("2016");
+				$("#id_7").val("2016-01-01");
+				$("#id_8").val("20.3");
+			}
+		}
+
+		function dosave(){
+			Dialog.alert("添加成功！",function(){
+				window.close();
+			});
+		}
+
+		var numb = 1;
+		function add(){
+			Dialog.confirm("确定添加分期信息?",function(){
+					$("#div_fq").attr("style","");
+					var html = '<table width="100%" border="0" cellpadding="0" cellspacing="3"><tr><td width="120" align="right">第 '+numb+' 期，缴纳金额：</td><td width="240"><input type="text" id="money" style="width:120px;" />（单位：万元）</td><td width="80" align="right">缴纳日期：</td><td width="*"><input type="text" id="time" name="startTime" style="width:100px;height:16px;background:#F4F9FB url(${base}/include/controls/my97/skin/datePicker.gif) no-repeat right;"   onclick="WdatePicker({dateFmt:\'yyyy-MM-dd\'})" ><input class="button" type="button" name="btnOk" value="删除" onclick="add();" /></td></tr></table>';
+					$("#div_fq").html($("#div_fq").html()+html);
+					numb++;
+			});
+		}
+
+		$(document).ready(function() {
+			$(".aaa").change(function() {
+				var abc = $("input[name='abc']:checked").val();
+				// alert($selectedvalue);
+				if (abc == 1) {
+					$("#tb_1").attr("style","");
+					$("#tb_2").attr("style","display: none;");
+					$("#div_fq").attr("style","display: none;");
+				} else {
+					$("#tb_2").attr("style","");
+					$("#tb_1").attr("style","display: none;");
+					$("#div_fq").attr("style","display: ;");
+				}
+			});
+		});
+	</script>
+</head>
+<body leftmargin="0" topmargin="0" class="easyui-layout">
+<form name='form1' id="form1" method='post'
+	  action="${base}/private/slzx/slj_info/add">
+	<input type="hidden" name="type" id="type" value="$!type">
+	<div region="center" border="false"
+		 style="width: 100%; height: 100%; padding: 0px 10px 10px;">
+		<h2 align="center" style="padding-top: 10px;">
+			#if($!type=="1")
+				采矿权价款义务
+			#elseif($!type=="2")
+				矿产资源补偿费缴纳义务
+			#elseif($!type=="3")
+				矿山地质环境治理恢复保证金缴纳义务
+			#else
+				国土资源监测服务义务
+			#end
+		</h2>
+		<!--<div id="xz">-->
+			<!--<table width="98%" border="0" align="center" cellpadding="0"-->
+				   <!--cellspacing="0" class="table_auto margin_top15 table_titlebk">-->
+				<!--<tr>-->
+					<!--<td class="table_title">-->
+						<!--采矿许可证查询-->
+					<!--</td>-->
+				<!--</tr>-->
+			<!--</table>-->
+			<!--<table width="98%" border="0" align="center" cellpadding="0"  cellspacing="0" class="table_auto table_nrbk">-->
+				<!--<tr>-->
+					<!--<td valign="top" class="padding10">-->
+						<!--<table width="100%" border="0" cellpadding="0" cellspacing="3">-->
+							<!--<tr>-->
+								<!--<td width="80" align="right" nowrap>-->
+									<!--采矿许可证：-->
+								<!--</td>-->
+								<!--<td width="140">-->
+									<!--<input type="text" />-->
+									<!--<input class="button" type="button" name="btnOk" value="获取信息"-->
+										   <!--onclick="ht();" />-->
+								<!--</td>-->
+							<!--</tr>-->
+						<!--</table>-->
+					<!--</td>-->
+				<!--</tr>-->
+			<!--</table>-->
+		<!--</div>-->
+		<div id="hideDIV" style="">
+			<!--<table width="98%" border="0" align="center" cellpadding="0"-->
+				   <!--cellspacing="0" class="table_auto margin_top15 table_titlebk">-->
+				<!--<tr>-->
+					<!--<td class="table_title">-->
+						<!--#if($!type=="1")-->
+						<!--采矿权价款义务-->
+						<!--#elseif($!type=="2")-->
+						<!--矿产资源补偿费缴纳义务-->
+						<!--#else-->
+						<!--矿山地址环境治理恢复保证金缴纳义务-->
+						<!--#end-->
+					<!--</td>-->
+				<!--</tr>-->
+			<!--</table>-->
+			<table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="table_auto table_nrbk">
+				<tr>
+					<td valign="top" class="padding10">
+						<table width="100%" border="0" cellpadding="0" cellspacing="3" >
+							<tr>
+								<td width="120" align="right">
+									#if($!type==4)
+										合同编号：
+									#else
+										采矿许可证号：
+									#end
+								</td>
+								<td width="*" colspan="3">
+									<input type="text" id="xkz"  style="width:120px;" />
+									<input class="button" type="button" name="btnOk" value="获取信息"  onclick="ht();" />
+								</td>
+							</tr>
+						</table>
+						#if($!type=="4")
+						<table width="100%" border="0" cellpadding="0" cellspacing="3" >
+							<tr>
+								<td width="120" align="right">
+									合同名称：
+								</td>
+								<td width="240" >
+									<input type="text" id="id_1"  style="width:180px;" value="" readonly />
+								</td>
+								<td width="120" align="right">
+									合同编号：
+								</td>
+								<td width="*">
+									<input type="text" id="id_2"  style="width:180px;" readonly value="" />
+								</td>
+							</tr>
+						</table>
+						<table width="100%" border="0" cellpadding="0" cellspacing="3" >
+							<tr>
+								<td width="120" align="right">
+									监测地点：
+								</td>
+								<td width="240" colspan="3">
+									<input type="text" id="id_3"  style="width:180px;" value="" readonly />
+								</td>
+							</tr>
+						</table>
+						<table width="100%" border="0" cellpadding="0" cellspacing="3" >
+							<tr>
+								<td width="120" align="right">
+									委托单位：
+								</td>
+								<td width="240" >
+									<input type="text" id="id_4"  style="width:180px;" value="" readonly />
+								</td>
+								<td width="120" align="right">
+									受委托单位：
+								</td>
+								<td width="*">
+									<input type="text" id="id_5"  style="width:180px;" readonly value="" />
+								</td>
+							</tr>
+						</table>
+						<table width="100%" border="0" cellpadding="0" cellspacing="3" >
+							<tr>
+								<td width="120" align="right">
+									监测年度：
+								</td>
+								<td width="240" colspan="3">
+									<input type="text" id="id_6"  style="width:180px;" value="" readonly />
+								</td>
+							</tr>
+						</table>
+						<table width="100%" border="0" cellpadding="0" cellspacing="3" >
+							<tr>
+								<td width="120" align="right">
+									订立时间：
+								</td>
+								<td width="240" >
+									<input type="text" id="id_7"  style="width:180px;" value="" readonly />
+								</td>
+								<td width="120" align="right">
+									合同金额：
+								</td>
+								<td width="*">
+									<input type="text" id="id_8"  style="width:120px;" readonly value="" /> （万元）
+								</td>
+							</tr>
+						</table>
+						#else
+						<table width="100%" border="0" cellpadding="0" cellspacing="3" >
+							<tr>
+								<td width="120" align="right">
+									信用主体：
+								</td>
+								<td width="240">
+									<input type="text" id="money_1"  style="width:120px;" readonly />
+								</td>
+								<td width="120" align="right">
+									统一社会信用代码：
+								</td>
+								<td width="*">
+									<input type="text" id="money_2"  style="width:120px;" readonly />
+								</td>
+							</tr>
+						</table>
+						#end
+						<table width="100%" border="0" cellpadding="0" cellspacing="3" >
+							<tr>
+								<td width="120" align="right">
+									#if($!type=="1")
+										价款金额：
+									#elseif($!type=="2")
+										缴纳金额：
+									#elseif($!type=="3")
+										缴纳金额：
+									#else
+									#end
+								</td>
+								#if($!type=="4")
+								<!--<td width="240" colspan="3">-->
+									<!--<input type="text" id="money_4" name="startTime" value="$!startTime"   style="width:180px;height:16px;background:#F4F9FB url(${base}/include/controls/my97/skin/datePicker.gif) no-repeat right;"-->
+										   <!--onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" >-->
+								<!--</td>-->
+								#else
+								<td width="240">
+									<input type="text" id="money_3"  style="width:120px;" />（单位：万元）
+								</td>
+								<td width="120" align="right">
+									应缴纳日期：
+								</td>
+								<td width="*">
+									<input type="text" id="money_4" name="startTime" value="$!startTime"   style="width:100px;height:16px;background:#F4F9FB url(${base}/include/controls/my97/skin/datePicker.gif) no-repeat right;"
+										   onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" >
+								</td>
+								#end
+							</tr>
+						</table>
+						#if($!type=="4")
+						<table width="100%" border="0" cellpadding="0" cellspacing="3" id="tb_2" >
+							<tr>
+								<td width="44"></td>
+								<td width="230" align="right">
+									第 1 期，合同约定提交监测成果时间：
+								</td>
+								<td width="*" colspan="3">
+									<input type="text" id="time" name="startTime" style="width:100px;height:16px;background:#F4F9FB url(${base}/include/controls/my97/skin/datePicker.gif) no-repeat right;" value=""
+										   onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" >
+									<input class="button" type="button" name="btnOk" value="删除"
+										   onclick="add();" />
+								</td>
+							</tr>
+						</table>
+						<table width="100%" border="0" cellpadding="0" cellspacing="3" id="tb_2" >
+							<tr>
+								<td width="44"></td>
+								<td width="230" align="right">
+									第 2 期，合同约定提交监测成果时间：
+								</td>
+								<td width="*" colspan="3">
+									<input type="text" id="time" name="startTime" style="width:100px;height:16px;background:#F4F9FB url(${base}/include/controls/my97/skin/datePicker.gif) no-repeat right;" value=""
+										   onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" >
+									<input class="button" type="button" name="btnOk" value="删除"
+										   onclick="add();" />
+								</td>
+							</tr>
+						</table>
+						<table width="100%" border="0" cellpadding="0" cellspacing="3" id="tb_2" >
+							<tr>
+								<td width="44"></td>
+								<td width="230" align="right">
+									第 3 期，合同约定提交监测成果时间：
+								</td>
+								<td width="*" colspan="3">
+									<input type="text" id="time" name="startTime" style="width:100px;height:16px;background:#F4F9FB url(${base}/include/controls/my97/skin/datePicker.gif) no-repeat right;" value=""
+										   onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" >
+									<input class="button" type="button" name="btnOk" value="删除"
+										   onclick="add();" />
+								</td>
+							</tr>
+						</table>
+						<table width="100%" border="0" cellpadding="0" cellspacing="3" id="tb_2" >
+							<tr>
+								<td width="44"></td>
+								<td width="230" align="right">
+									第 4 期，合同约定提交监测成果时间：
+								</td>
+								<td width="*" colspan="3">
+									<input type="text" id="time" name="startTime" style="width:100px;height:16px;background:#F4F9FB url(${base}/include/controls/my97/skin/datePicker.gif) no-repeat right;" value=""
+										   onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" >
+									<input class="button" type="button" name="btnOk" value="删除"
+										   onclick="add();" />
+								</td>
+							</tr>
+						</table>
+						#else
+						<table width="100%" border="0" cellpadding="0" cellspacing="3">
+							<tr>
+								<td width="120" align="right">
+									缴纳方式：
+								</td>
+								<td width="100" colspan="4">
+									<label><input type="radio" name="abc" class="aaa" value="1" />全额付款</label>
+									<label><input type="radio" name="abc" class="aaa" value="2" />分期支付</label>
+									<span id="tb_2" style="display: none;">
+										<input class="button" type="button" name="btnOk" value="添加分期"
+											   onclick="add();" />
+									</span>
+								</td>
+							</tr>
+						</table>
+						#end
+						<!--<table width="100%" border="0" cellpadding="0" cellspacing="3" id="tb_1" style="display: none;">-->
+							<!--<tr>-->
+								<!--<td width="120" align="right">-->
+									<!--缴纳金额：-->
+								<!--</td>-->
+								<!--<td width="240">-->
+									<!--<input type="text" id="money"  style="width:120px;" />（单位：万元）-->
+								<!--</td>-->
+								<!--<td width="80" align="right">-->
+									<!--缴纳日期：-->
+								<!--</td>-->
+								<!--<td width="*">-->
+									<!--<input type="text" id="startTime" name="startTime" value="$!startTime"   style="width:100px;height:16px;background:#F4F9FB url(${base}/include/controls/my97/skin/datePicker.gif) no-repeat right;"-->
+										   <!--onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" >-->
+								<!--</td>-->
+							<!--</tr>-->
+						<!--</table>-->
+						<!--<table width="100%" border="0" cellpadding="0" cellspacing="3" id="tb_2" style="display: none;">-->
+							<!--<tr>-->
+								<!--<td width="120" align="right">-->
+									<!--缴纳金额：-->
+								<!--</td>-->
+								<!--<td width="240">-->
+									<!--<input type="text" id="money" style="width:120px;" />（单位：万元）-->
+								<!--</td>-->
+								<!--<td width="80" align="right">-->
+									<!--缴纳日期：-->
+								<!--</td>-->
+								<!--<td width="*">-->
+									<!--<input type="text" id="time" name="startTime" style="width:100px;height:16px;background:#F4F9FB url(${base}/include/controls/my97/skin/datePicker.gif) no-repeat right;"-->
+										   <!--onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" >-->
+									<!--<input class="button" type="button" name="btnOk" value="添加"-->
+										   <!--onclick="add();" />-->
+								<!--</td>-->
+							<!--</tr>-->
+						<!--</table>-->
+						<div id="div_fq"></div>
+					</td>
+				</tr>
+			</table>
+			<!--<div id="fq" style="display: none;">-->
+				<!--<table width="98%" border="0" align="center" cellpadding="0"-->
+					   <!--cellspacing="0" class="table_auto margin_top15 table_titlebk">-->
+					<!--<tr>-->
+						<!--<td class="table_title" nowrap>-->
+							<!--#if($!type=="1")-->
+								<!--采矿权价款分期详情-->
+							<!--#elseif($!type=="2")-->
+								<!--矿产资源补偿费缴纳分期详情-->
+							<!--#else-->
+								<!--矿山地址环境治理恢复保证金缴纳详情-->
+							<!--#end-->
+						<!--</td>-->
+					<!--</tr>-->
+				<!--</table>-->
+				<!--<table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="table_auto table_nrbk">-->
+					<!--<tr>-->
+						<!--<td valign="top" class="padding10">-->
+							<!--<table width="100%" border="0" cellpadding="0" cellspacing="3">-->
+								<!--<tr>-->
+									<!--<td width="120" align="left" colspan="6">-->
+										<!--<span id="span_fq"></span>-->
+									<!--</td>-->
+								<!--</tr>-->
+							<!--</table>-->
+						<!--</td>-->
+					<!--</tr>-->
+				<!--</table>-->
+			<!--</div>-->
+			<!--<table width="98%" border="0" align="center" cellpadding="0"-->
+				   <!--cellspacing="0" class="table_auto margin_top15 table_titlebk">-->
+				<!--<tr>-->
+					<!--<td class="table_title">-->
+						<!--信用主体-->
+					<!--</td>-->
+				<!--</tr>-->
+			<!--</table>-->
+			<!--<table width="98%" border="0" align="center" cellpadding="0"  cellspacing="0" class="table_auto table_nrbk">-->
+				<!--<tr>-->
+					<!--<td valign="top" class="padding10">-->
+						<!--<table width="100%" border="0" cellpadding="0" cellspacing="3">-->
+							<!--<tr>-->
+								<!--<td width="80" align="right" nowrap>-->
+									<!--信用主体：-->
+								<!--</td>-->
+								<!--<td width="140">-->
+									<!--科大国创-->
+								<!--</td>-->
+								<!--<td width="140" align="right" nowrap>-->
+									<!--统一社会信用代码：-->
+								<!--</td>-->
+								<!--<td>-->
+									<!--10001001-->
+								<!--</td>-->
+							<!--</tr>-->
+							<!--<tr bgcolor="#ffffff">-->
+								<!--<td width="80" align="right" nowrap>-->
+									<!--法人：-->
+								<!--</td>-->
+								<!--<td>-->
+									<!--企业负责人-->
+								<!--</td>-->
+								<!--<td width="120" align="right" nowrap>-->
+									<!--身份证号：-->
+								<!--</td>-->
+								<!--<td>-->
+									<!--340101111111111111-->
+								<!--</td>-->
+							<!--</tr>-->
+							<!--<tr bgcolor="#ffffff">-->
+								<!--<td width="80" align="right" nowrap>-->
+									<!--办公地址：-->
+								<!--</td>-->
+								<!--<td width="*" colspan="3">-->
+									<!--安徽省合肥市-->
+								<!--</td>-->
+							<!--</tr>-->
+						<!--</table>-->
+					<!--</td>-->
+				<!--</tr>-->
+			<!--</table>-->
+			<!--<table width="98%" border="0" align="center" cellpadding="0"-->
+				   <!--cellspacing="0" class="table_auto margin_top15 table_titlebk">-->
+				<!--<tr>-->
+					<!--<td class="table_title">-->
+						<!--合同信息-->
+					<!--</td>-->
+				<!--</tr>-->
+			<!--</table>-->
+			<!--<table width="98%" border="0" align="center" cellpadding="0"  cellspacing="0" class="table_auto table_nrbk">-->
+				<!--<tr>-->
+					<!--<td valign="top" class="padding10">-->
+						<!--<table width="100%" border="0" cellpadding="0" cellspacing="3">-->
+							<!--<tr>-->
+								<!--<td width="80" align="right" nowrap>-->
+									<!--合同编号：-->
+								<!--</td>-->
+								<!--<td width="140">-->
+									<!--100020160100-->
+								<!--</td>-->
+								<!--<td width="80" align="right">-->
+									<!--合同名称：-->
+								<!--</td>-->
+								<!--<td>-->
+									<!--肥东县矿山开采合同-->
+								<!--</td>-->
+							<!--</tr>-->
+							<!--<tr bgcolor="#ffffff">-->
+								<!--<td width="80" align="right" nowrap>-->
+									<!--所属类别：-->
+								<!--</td>-->
+								<!--<td>-->
+									<!--采矿市场信用-->
+								<!--</td>-->
+								<!--<td width="120" align="right" nowrap>-->
+									<!--采矿许可证号：-->
+								<!--</td>-->
+								<!--<td>-->
+									<!--2016-01-08124312-->
+								<!--</td>-->
+							<!--</tr>-->
+							<!--<tr bgcolor="#ffffff">-->
+								<!--<td width="80" align="right" nowrap>-->
+									<!--查看合同：-->
+								<!--</td>-->
+								<!--<td>-->
+									<!--<a href="javascript:void(0);" >100020160100.doc</a>-->
+								<!--</td>-->
+								<!--<td width="80" align="right" nowrap>-->
+									<!--订立日期：-->
+								<!--</td>-->
+								<!--<td>-->
+									<!--2016-01-08 12:43:12-->
+								<!--</td>-->
+							<!--</tr>-->
+						<!--</table>-->
+					<!--</td>-->
+				<!--</tr>-->
+			<!--</table>-->
+		</div>
+	</div>
+	<div region="south" border="false"
+		 style="overflow: hidden; padding: 10px 10px 0px 10px">
+		<div align="center" style="padding-bottom: 10px;">
+			<input class="button" type="button" name="btnOk" value="确认"
+				   onclick="dosave()" />
+			<input class="button" type="button" name="btnOk" value="关闭"
+				   onclick="window.close();" />
+		</div>
+	</div>
+</form>
+</body>
+</html>
