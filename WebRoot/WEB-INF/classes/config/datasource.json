@@ -5,7 +5,7 @@ var ioc = {
 			depose:"close"
 		},
 		fields:{
-			url:"jdbc:mysql://192.168.1.102:3306/zybs",
+			url:"jdbc:mysql://localhost:3306/zybs",
 			username:"root",
 			password:"123456",
 			maxActive:20,  
