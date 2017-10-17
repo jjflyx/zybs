@@ -1,0 +1,204 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>$!app_name</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <!-- 框架 -->
+    <link rel="stylesheet" type="text/css" href="${base}/include/css/default.css"/>
+    <script type='text/javascript'>
+        var CONTEXTPATH = '${base}';
+        var stylePath = '$!stylename';
+    </script>
+    <script src="${base}/include/js/main.js"></script>
+    <script src="${base}/include/js/string.js"></script>
+    <!-- 分页  注意顺序 -->
+    <link href="${base}/include/css/themes/gray/easyui.css"
+          rel="stylesheet" type="text/css" />
+    <script src="${base}/include/js/jquery.easyui.min.js"></script>
+    <!-- 树 -->
+    <script type="text/javascript" src="${base}/include/controls/ztree/jquery.ztree.core-3.5.min.js"></script>
+    <link rel="stylesheet" href="${base}/include/controls/ztree/zTreeStyle/zTreeStyle.css" type="text/css">
+
+    <script>
+        
+        function getWidth(percent){
+            return document.body.clientWidth*percent;
+        }
+
+		var ztMap=$!ztMap;
+        function loadData(){
+            $("#dg1").datagrid({
+                width:"auto",
+                height:"auto",
+                nowrap: false,
+                striped: true,
+                border: true,
+                collapsible:false,//是否可折叠的
+                url : "${base}/private/common/htlist",//首次查询路径
+                queryParams:{"xyzt_id":"$!xyzt_id","xy_type":"$!xy_type","htmc":$("#htmc").val()},//首次查询参数
+                idField:"htid",
+                treeField:"name",
+                remoteSort:false,
+                singleSelect:true,//是否单选
+                rownumbers:true,//行号
+                fit: true,//自动大小
+                fitColumns: true,//行自适应
+                pagination:true,//分页控件
+                loadMsg:'数据加载中...',
+                columns : [ [
+                    {
+                        field : "xyzt",
+                        title : "信用主体",
+                        align :"center",
+                        width : 200,
+                        formatter : function(val,rec){
+                            if(val != "" && val != null){
+                            	val=String(val);
+                                return ztMap[val];
+                            }
+                            return "";
+                        }
+                    },
+                    {
+                        field : "htmc",
+                        title : "合同名称",
+                        align :"center",
+                        width : 80
+                    },
+                    {
+                        field : "xmmc",
+                        title : "项目名称",
+                        align :"center",
+                        width : getWidth(0.15)
+                    },
+                    {
+                        field : "add_time",
+                        title : "录入时间",
+                        align :"center",
+                        width : getWidth(0.10)
+                    },
+                    {
+        				field : "preview",
+        				title : "浏览",
+        				width : 40,
+        				formatter:function(val,rec){  
+                           var  imgurl = '<img src=${base}/images/icons/icon003a15.gif title="预览"/>';
+                           val="<a href='javascript:void(0);' onClick=\"preview(\'"+rec.htid+"');\">"+imgurl+"</a>";
+                           return val;
+                        }  
+        			}
+
+                ] ],
+                frozenColumns:[[
+                       	{field:"htid",formatter:function(value,rec){
+   	       	            		 return '<input  name=\"htid\" value='+value+' type=\"radio\"/>';
+                          		}
+                       	}
+                ]],
+                onDblClickRow:function(index,row){
+                	preview(row.htid);
+                }
+
+            });
+            
+
+            //设置分页控件
+            var p = $("#dg1").datagrid("getPager");
+            $(p).pagination({
+                beforePageText: "第",//页数文本框前显示的汉字
+                afterPageText: "页    共 {pages} 页",
+                displayMsg: "当前显示 {from} - {to} 条记录   共 {total} 条记录",
+                onBeforeRefresh:function(){
+                }
+            });
+            $("#dg1").datagrid("clearSelections");
+        }
+        
+        function preview(mainid){
+          	
+        	  	var url='${base}/private/formyy/topreview?defid=$!defid&mainid='+mainid+'&sys_random=' + Math.random();
+          	
+         		var title='查看';
+         		var iWidth=1000; //弹出窗口的宽度;
+         		var iHeight=parent.document.body.clientHeight+100; //弹出窗口的高度;  
+         		openWin3(url,title,iWidth,iHeight);
+          	
+          }
+
+        
+
+        function doSave(){
+            var ids=[];
+            var names = [];
+            var arr = $('#dg1').datagrid('getSelections');
+            if(!arr || arr.length==0){
+                Dialog.alert("请选信用主体！！");
+                return false;
+            }
+            for(var i=0;i<arr.length;i++){
+                ids.push(arr[i].htid);
+                names.push(arr[i].htmc);
+            }
+           
+            $("#checkids_id").val(ids);
+            $("#checkids_name").val(names);
+            return true;
+        }
+
+        Page.onLoad(function() {
+        	loadData();
+        });
+        $(window).resize(function () {
+            clearTimeout(timer);
+            timer=setTimeout(function(){
+                $('#dg1').treegrid('resize');
+                $('div.panel-body').css('width','auto'); //////
+            },100);
+        });
+    </script>
+</head>
+<body leftmargin="0" topmargin="0" class="easyui-layout">
+<form name='form1' id="form1" method='post'>
+    <input type="hidden" name="doAction" value="">
+    <input type="hidden" name="sys_menuid" value="$!sys_menuid">
+    <input type="hidden" name="checkids_id" id="checkids_id" value="">
+    <input type="hidden" name="checkids_name" id="checkids_name" value=""/>
+
+
+    <div region="north" border="false"
+         style="overflow: hidden; padding: 10px 10px 0px 10px">
+        <table width="100%" border="0" align="center" cellpadding="0"
+               cellspacing="0">
+
+            <tr>
+                <td>
+                    <div class="czbutton">
+                        <ul>
+            				 <li>
+                                                                                  合同名称：<input type="text" name="htmc" id="htmc" size="20"/>
+                                &nbsp;&nbsp;
+                                <input type="button" name="check" id="check" value="查询" onclick = "loadData();"/>
+                                
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="clear"></div>
+                </td>
+            </tr>
+
+        </table>
+        <table>
+            <tr>&nbsp;</tr>
+        </table>
+    </div>
+    <div region="center" border="false"
+         style="width: 100%; height: 100%; padding: 0px 10px 10px;">
+        <div id="dg1" style="width: 100%; height: 100%;"></div>
+    </div>
+
+
+</form>
+
+</body>
+</html>

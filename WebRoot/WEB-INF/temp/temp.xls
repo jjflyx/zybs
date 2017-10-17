@@ -1,0 +1,976 @@
+<html>
+<meta http-equiv="Content-Type" content="APPLICATION/OCTET-STREAM; charset=gbk"><body>
+
+		<div id="biaotou" style="width: 1146px; overflow: hidden;">
+			<!--导出时表头需要背景色时，请给表头的tr加上  bgcolor="#ebebeb" -->
+			<table width="100%" border="1" align="center" cellpadding="0" cellspacing="0" class="tableList" id="table_head" style="width: 1146px;">
+            
+				<caption><h3 id="titlename">守信奖励统计报表（2017-10-01 至 2017-10-02）</h3></caption>
+				<thead>
+				<tr align="center">
+					<td width="40" rowspan="2">序号</td>
+					<td rowspan="2">行政区划</td>
+					<td width="70" rowspan="2">土地市场<br>信用</td>
+					<td colspan="2">矿业权市场信用</td>
+					<td width="70" rowspan="2">测绘地理<br>市场</td>
+					<td colspan="6">国土资源中介服务市场</td>
+					<td colspan="4">国土资源工程项目市场</td>
+				</tr>
+				<tr align="center">
+
+					<td width="50">采矿<br>信用</td>
+					<td width="50">探矿<br>信用</td>
+
+					<td width="50">土地<br>评估</td>
+					<td width="50">土地<br>规划</td>
+					<td width="50">土地<br>登记</td>
+					<td width="50">矿产<br>评估</td>
+					<td width="50">地质<br>评估</td>
+					<td width="50">监测<br>服务</td>
+
+					<td width="50">土地<br>整治</td>
+					<td width="50">地质<br>治理</td>
+					<td width="50">矿山<br>治理</td>
+					<td width="50">地质<br>勘察</td>
+				</tr>
+				</thead>
+			</table>
+		</div>
+		<div id="scroll_table" style="overflow: auto; height: 450px; width: 1146px;">
+			<div class="IE6height1">
+				<table width="100%" border="1" align="center" cellpadding="0" cellspacing="0" class="tableList" style="border-top: 0px; width: 1146px;" id="table_body">
+                    <tbody>
+                                        <tr align="center" bgcolor="#FFFFFF">
+                    	                    	<td width="40">1</td>
+                    	<td>行业协会</td>
+						<td width="70">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="70">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+                    </tr>
+                    					
+																				<tr align="center" bgcolor="#FFFFFF" id="trForName">
+												<td width="40">2</td>
+						<td>
+														省厅
+													</td>
+						<td width="70">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="70">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+					</tr>
+										<tr align="center" bgcolor="#FFFFFF">
+												<td width="40">3</td>
+						<td>
+														合肥市
+													</td>
+						<td width="70">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="70">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+					</tr>
+										<tr align="center" bgcolor="#FFFFFF">
+												<td width="40">4</td>
+						<td>
+														芜湖市
+													</td>
+						<td width="70">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="70">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+					</tr>
+										<tr align="center" bgcolor="#FFFFFF">
+												<td width="40">5</td>
+						<td>
+														蚌埠市
+													</td>
+						<td width="70">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="70">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+					</tr>
+										<tr align="center" bgcolor="#FFFFFF">
+												<td width="40">6</td>
+						<td>
+														淮南市
+													</td>
+						<td width="70">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="70">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+					</tr>
+										<tr align="center" bgcolor="#FFFFFF">
+												<td width="40">7</td>
+						<td>
+														马鞍山市
+													</td>
+						<td width="70">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="70">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+					</tr>
+										<tr align="center" bgcolor="#FFFFFF">
+												<td width="40">8</td>
+						<td>
+														淮北市
+													</td>
+						<td width="70">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="70">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+					</tr>
+										<tr align="center" bgcolor="#FFFFFF">
+												<td width="40">9</td>
+						<td>
+														铜陵市
+													</td>
+						<td width="70">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="70">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+					</tr>
+										<tr align="center" bgcolor="#FFFFFF">
+												<td width="40">10</td>
+						<td>
+														安庆市
+													</td>
+						<td width="70">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="70">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+					</tr>
+										<tr align="center" bgcolor="#FFFFFF">
+												<td width="40">11</td>
+						<td>
+														黄山市
+													</td>
+						<td width="70">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="70">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+					</tr>
+										<tr align="center" bgcolor="#FFFFFF">
+												<td width="40">12</td>
+						<td>
+														滁州市
+													</td>
+						<td width="70">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="70">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+					</tr>
+										<tr align="center" bgcolor="#FFFFFF">
+												<td width="40">13</td>
+						<td>
+														阜阳市
+													</td>
+						<td width="70">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="70">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+					</tr>
+										<tr align="center" bgcolor="#FFFFFF">
+												<td width="40">14</td>
+						<td>
+														宿州市
+													</td>
+						<td width="70">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="70">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+					</tr>
+										<tr align="center" bgcolor="#FFFFFF">
+												<td width="40">15</td>
+						<td>
+														六安市
+													</td>
+						<td width="70">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="70">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+					</tr>
+										<tr align="center" bgcolor="#FFFFFF">
+												<td width="40">16</td>
+						<td>
+														亳州市
+													</td>
+						<td width="70">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="70">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+					</tr>
+										<tr align="center" bgcolor="#FFFFFF">
+												<td width="40">17</td>
+						<td>
+														池州市
+													</td>
+						<td width="70">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="70">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+					</tr>
+										<tr align="center" bgcolor="#FFFFFF">
+												<td width="40">18</td>
+						<td>
+														宣城市
+													</td>
+						<td width="70">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="70">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+						<td width="50">
+															0
+													</td>
+					</tr>
+										</tbody>
+				</table>
+		</div>
+		<div id="chartdiv" style="height: 500px;display: none;"></div>
+	</div>
+
+<form action="/zybs/DownFile" name="printform" id="printform" method="post">
+	<textarea rows="" cols="" style="display: none;" name="htmlbody"></textarea>
+	<input name="docname" type="hidden" value="统计报表">
+	<input name="filename" type="hidden">
+</form>
+<script>
+$(function(){
+	function customHeightSet(){
+			$("#table_head").width($(".IE6height1>.tableList").outerWidth())
+		var otherH	=	$("#searchArea").outerHeight()	+	$("#table_head").outerHeight()-30;
+		$("#scroll_table").height(document.documentElement.clientHeight-otherH);
+		if($(".IE6height1>.tableList").height()>$("#scroll_table").height()){
+			$("#scroll_table").width(document.documentElement.clientWidth-10);
+			if($(".IE6height1>.tableList").width()>document.documentElement.clientWidth){
+				$("#biaotou").width($("#scroll_table").outerWidth()-10);
+			}else{
+				$("#biaotou").width($("#scroll_table").outerWidth()-10);
+				$("#table_head").width(document.documentElement.clientWidth-10)
+				$("#table_body").width(document.documentElement.clientWidth-10);
+			}
+		}else{
+			if($(".IE6height1>.tableList").outerWidth()>document.documentElement.clientWidth){
+				$("#scroll_table").width(document.documentElement.clientWidth-10);
+				$("#biaotou").width($("#scroll_table").outerWidth());
+			}else{
+				$("#scroll_table").width(document.documentElement.clientWidth-10);
+					$("#biaotou").width(document.documentElement.clientWidth-10);
+					$("#table_head").width(document.documentElement.clientWidth-10)
+					$("#table_body").width(document.documentElement.clientWidth-10);
+			}
+		}
+		if($("#table_head").outerWidth()>$("#biaotou").outerWidth()){
+			$("#biaotou").css("overflow","hidden")
+		}else{
+			$("#biaotou").css("overflow","")
+		}
+		fix();
+	}
+	window.onresize = function(){
+		customHeightSet();
+	}
+	window.onload = function(){
+		customHeightSet();
+	}
+});
+function fix(){
+	for(var i=0;i<=$('#trForName').find('td:last').index();i++){
+		$('#trForthead col').eq(i).attr('width',$('#trForName').find('td').eq(i).width()+1);
+	}
+}
+window.load=fix();
+$(window).resize(function(){
+	return fix();
+});
+
+//当有横向滚动条时，需要此js，使内容滚动头部也能滚动。
+$('#scroll_table').scroll(function(){
+	$('#table_head').css('margin-left',-($('#scroll_table').scrollLeft()));
+});
+</script>
+
+
+
+</body>
+</html>

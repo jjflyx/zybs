@@ -1,0 +1,47 @@
+<table width="100%" border="0">
+	<tr>
+		<td align="right" width="10%">行政区划：</td>
+		<td width="15%">
+			#parse("private/global/xzqh.html")
+		</td>
+		<td align="right" width="10%">信用状态：</td>
+		<td width="10%">
+			<select id="xystatus" name="xystatus" onchange="loadData();">
+				<option value="">请选择</option> 
+				<option value="1">黑榜</option>
+				<option value="2">红榜</option>
+				<option value="3">正常</option>
+			</select>
+		</td>
+		<td align="right" width="12%">关键字：</td>
+		<td width="15%">
+			<input type="text" name="xyzt_name" id="xyzt_name" size="20" placeholder="信用主体名称" />
+		</td>
+		
+	</tr>
+	<tr>
+		<td align="right">资质类别：</td>
+		<td>
+			<select id="zz_lb" name="zz_lb" onchange="loadData();">
+				<option value="">请选择</option> 
+				#foreach($!zzlb in $!lbMap)
+				<option value="$!zzlb.value">$!zzlb.name</option> 
+				#end
+			</select> 
+		</td>
+		<td align="right">资质级别：</td>
+		<td>
+			<select id="zz_jb" name="zz_jb" onchange="loadData();">
+				<option value="">请选择</option> 
+				#foreach($!zzjb in $!zzjbMap)
+				<option value="$!zzjb.value">$!zzjb.name</option> 
+				#end
+			</select>
+		</td>
+		<td align="right" width="12%">资质证书号：</td> 
+		<td width="16%"><input type="text" name="zz_code" id="zz_code" size="20" /></td>
+		<td>
+			<input type="button" name="button" id="button" value="查询" onclick=" loadData();" />
+		</td>
+	</tr>
+</table>

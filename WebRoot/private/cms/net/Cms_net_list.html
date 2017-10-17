@@ -1,0 +1,370 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html >
+<head>
+    <title>$!app_name</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <!-- 框架 -->
+    <link href="${base}/include/css/default.css" rel="stylesheet" type="text/css"/>
+    <script type='text/javascript'>
+        var CONTEXTPATH = '${base}';
+    </script>
+    <script src="${base}/include/js/main.js"></script>
+    <script src="${base}/include/js/string.js"></script>
+    <!-- 分页  注意顺序 -->
+    <link href="${base}/include/css/themes/gray/easyui.css" rel="stylesheet" type="text/css"/>
+    <script src="${base}/include/js/jquery.easyui.min.js"></script>
+    <!-- 树 -->
+    <script type="text/javascript" src="${base}/include/controls/ztree/jquery.ztree.core-3.5.min.js"></script>
+    <script type="text/javascript" src="${base}/include/controls/my97/WdatePicker.js"></script>
+    <link rel="stylesheet" href="${base}/include/controls/ztree/zTreeStyle/zTreeStyle.css" type="text/css">
+    <SCRIPT type="text/javascript">
+        <!--
+        function getWidth(percent){
+            return document.body.clientWidth*percent;
+        }
+
+        function toupdate(id)
+        {
+            var d = new Dialog("Update");
+            d.Width = 900;
+            d.Height = 470;
+            d.Title = "网站信件回复";
+            d.URL = "${base}/private/cms/net/toReply?id="+id;
+            d.onLoad = function(){
+
+            }
+            d.OKEvent = function(){
+                if($DW.Verify.hasError()){
+                    return;
+                }
+                update();
+            };
+            d.show();
+        }
+
+        function update(){
+            jQuery.ajax({
+                type: 'POST',
+                url : "${base}/private/cms/net/reply",
+                data : $DW.$("#form1").serialize(),
+                success : function (res) {
+                    if(res=="true"){
+                        $D.close();
+                        Dialog.alert("编辑成功！");
+                        loadGrid();
+                    }else{
+                        Dialog.alert("编辑失败！");
+                    }
+
+                    return false;
+                },
+                fail : function(res) {
+                    Dialog.alert("系统错误?!");
+                }
+            });
+        }
+
+
+        function toDetail(id)
+        {
+            var d = new Dialog("Update");
+            d.Width = 900;
+            d.Height = 510;
+            d.Title = "网站信件详情";
+            d.URL = "${base}/private/cms/net/detail?id="+id;
+            d.onLoad = function(){
+            }
+            d.OKEvent = function(){
+                $D.close();
+            };
+            d.show();
+        }
+
+        function revocation(id){
+            jQuery.ajax({
+                type: 'POST',
+                url : "${base}/private/cms/net/revocation?id="+id,
+                success : function (res) {
+                    if(res=="true"){
+                        Dialog.alert("撤回成功！");
+                        loadGrid();
+                    }else{
+                        Dialog.alert("撤回失败！");
+                        loadGrid();
+                    }
+                    return false;
+                },
+                fail : function(res) {
+                    Dialog.alert("系统错误?!");
+                }
+            });
+        }
+
+        function show(id){
+            jQuery.ajax({
+                type: 'POST',
+                url : "${base}/private/cms/net/show?id="+id,
+                success : function (res) {
+                    if(res=="true"){
+                        Dialog.alert("显示成功！");
+                        loadGrid();
+                    }else{
+                        Dialog.alert("显示失败！");
+                        loadGrid();
+                    }
+                    return false;
+                },
+                fail : function(res) {
+                    Dialog.alert("系统错误?!");
+                }
+            });
+        }
+
+        function del(id){
+            jQuery.ajax({
+                type: 'POST',
+                url : "${base}/private/cms/net/del?id="+id,
+                success : function (res) {
+                    if(res=="true"){
+                        Dialog.alert("删除成功！");
+                        loadGrid();
+                    }else{
+                        Dialog.alert("删除失败！");
+                        loadGrid();
+                    }
+                    return false;
+                },
+                fail : function(res) {
+                    Dialog.alert("系统错误?!");
+                }
+            });
+        }
+
+        function delIds(){
+            var ids = [];
+            var arr = $("#dg1").datagrid("getSelections");
+            if (!arr || arr.length == 0) {
+                Dialog.alert("请先选择要删除的文章！");
+                return;
+            }
+            for (var i = 0; i < arr.length; i++) {
+                alert("arr[i].id : "+arr[i].id);
+                ids.push(arr[i].id);
+            }
+
+            jQuery.ajax({
+                type: 'POST',
+                url : "${base}/private/cms/net/deleteIds?id="+ids,
+                success : function (res) {
+                    if(res=="true"){
+                        Dialog.alert("删除成功！");
+                        loadGrid();
+                    }else{
+                        Dialog.alert("删除失败！");
+                        loadGrid();
+                    }
+                    return false;
+                },
+                fail : function(res) {
+                    Dialog.alert("系统错误?!");
+                }
+            });
+        }
+
+        function getTypeValue(type_id){
+            alert($("#"+type_id).value());
+            return $("#"+type_id).value();
+        }
+
+
+        function loadGrid(){
+            $("#dg1").datagrid({
+                width:"auto",
+                height:"auto",
+                nowrap: true,
+                striped: true,
+                border: true,
+                collapsible:false,//是否可折叠的
+                fit: false,//自动大小
+                url:"${base}/private/cms/net/list",
+                queryParams: {"site": $("#site").val(), "startTime": $("#startTime").val(), "endTime": $("#endTime").val()},
+                //sortName: 'code',
+                //sortOrder: 'desc',
+                remoteSort:false,
+                idField:"id",
+                singleSelect:false,//是否单选
+                pagination:true,//分页控件
+                rownumbers:true,//行号
+                fitColumns: true,//行自适应
+                pageSize: 10,
+                pageList:[5,10,15,20,30,40,50],
+                loadMsg:'数据加载中...',
+                columns:[[
+                    {title : '信件编号',field : 'code',width:getWidth(0.04),align : 'center' },
+                    {title : '姓名',field : 'name',width:getWidth(0.02),align : 'center' },
+                    {title : '联系号码',field : 'iphone',width:getWidth(0.04),align : 'center' },
+                    {title : '标题',field : 'title',width:getWidth(0.12),align : 'left' },
+                    {title : '信件类型',field : 'type',width:getWidth(0.04),align : 'center',
+                        formatter: function (value, row, index) {
+                           return $("#type_"+value).val();
+                        }
+                    },
+                    {title : '所属站点',field : 'site_id',width:getWidth(0.08),align : 'center',
+                        formatter: function (value, row, index) {
+                            if (row.site_id == '0004') {
+                                return "安徽省交通运输联网管理中心";
+                            } else if (row.site_id == '0002') {
+                                return "安徽省交通运输厅";
+                            } else if (row.site_id == '0003') {
+                                return "安徽省交通建设质量监督局";
+                            } else if (row.site_id == '0005') {
+                                return "安徽公路局";
+                            } else {
+                                return "";
+                            }
+                        }
+                    },
+                    {title : '状态',field : 'state',width:getWidth(0.03),align : 'center',
+                        formatter: function (value, row, index) {
+                            if (row.state == 0) {
+                                return "待处理";
+                            } else if (row.state == 1) {
+                                return "已回复";
+                            } else if (row.state == 2) {
+                                return "前台显示";
+                            } else if (row.state == 3) {
+                                return "前台撤回";
+                            } else if (row.state == -1) {
+                                return "删除";
+                            } else {
+                                return "";
+                            }
+                        }
+                    },
+                    {title : '操作选项', field: 'aa',width:getWidth(0.06),align : 'center',
+                        formatter: function(value,row,index){
+                            var s1="编辑",s2="撤回",s3="预览",s4="删除";
+                            var state_id = row.state;
+                            // 2-表示审核通过在前台显示
+                            if(state_id == 2){
+                                s2="<a href='javascript:revocation(\""+row.id+"\")'>撤回</a>";
+                            }else if(state_id == 1){
+                                s2="<a href='javascript:show(\""+row.id+"\")'>显示</a>";
+                            }
+                            s1="<a href='javascript:toupdate(\""+row.id+"\")'>编辑</a>";
+                            s3="<a href='javascript:toDetail(\""+row.id+"\")'>预览</a>";
+                            s4="<a href='javascript:del(\""+row.id+"\")'>删除</a>";
+                            return s1+" | "+s2+" | "+s3+" | "+s4 ;
+                        }
+                    }
+                ]],
+                frozenColumns:[[
+                    {field:"id",checkbox:true}
+                ]],
+                onDblClickRow:function(rowIndex,row) // 双击事件
+                {
+//        	        	updateId(row.config_key);
+                },
+                onRefresh:function(){
+                    $("#dg1").datagrid("clearSelections");
+                }
+            });
+            //设置分页控件
+            var p = $("#dg1").datagrid("getPager");
+            $(p).pagination({
+                beforePageText: "第",//页数文本框前显示的汉字
+                afterPageText: "页    共 {pages} 页",
+                displayMsg: "当前显示 {from} - {to} 条记录   共 {total} 条记录",
+                onBeforeRefresh:function(){
+                },
+                onRefresh:function(){
+                    $("#dg1").datagrid("clearSelections");
+                }
+            });
+        }
+        Page.onLoad(function() {
+            loadGrid();
+        });
+        $(window).resize(function () {
+            clearTimeout(timer);
+            timer=setTimeout(function(){
+                $('#dg1').datagrid('resize');
+                $('div.panel-body').css('width','auto');
+            },200);
+        });
+        //-->
+    </SCRIPT>
+</head>
+<body leftmargin="0" topmargin="0"
+      style="overflow-x: hidden; overflow-y: auto">
+<table width="100%" border="0" cellspacing="6" cellpadding="0"
+       style="border-collapse: separate; border-spacing: 6px;">
+    <tr valign="top">
+        <td width="100%">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse: separate; border-spacing: 0;">
+                <tr valign="top">
+                    <td>
+                        <form name="form1" id="form1" method="post" >
+                            <input type="hidden" name="checkids" id="checkids" value="">
+                            #foreach($type in $!typeList)
+                                <input type="hidden" id="type_$!type.id" name="type_$!type.id" value="$!type.type_name" />
+                            #end
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="blockTable">
+                                <tr>
+                                    <td class="blockTd">
+
+                                        <table width="100%" border="0" cellspacing="0" cellpadding="6" >
+                                            <tr>
+                                                <td valign="middle"><img src="${base}/images/icons/icon021a1.gif" width="20" height="20" />
+                                                    &nbsp;<span>信件管理</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 0 8px 4px;" id="btnlist">
+                                                    <div style="float: left; padding-right:10px;">
+                                                        站点:<select name="site" id="site">
+                                                        <option value="all" selected="selected">全部</option>
+                                                        #foreach($obj in $siteList)
+                                                        <option value="$!obj.site_id" >$!obj.site_name</option>
+                                                        #end
+                                                    </select>&nbsp;
+                                                        登记时间:  <input type="text" id="startTime" name="startTime" value="$!startTime"   style="width:160px;height:16px;background:#F4F9FB url(${base}/include/controls/my97/skin/datePicker.gif) no-repeat right;"
+                                                                      onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" >
+                                                        到 <input type="text" id="endTime" name="endTime" value="$!endTime"   style="width:160px;height:16px;background:#F4F9FB url(${base}/include/controls/my97/skin/datePicker.gif) no-repeat right;"
+                                                                 onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" >
+                                                    </div>
+                                                    <div style=""><a
+                                                            href='javascript:void(0);' ztype='zPushBtn'
+                                                            class='zPushBtn' hidefocus='true' tabindex='-1'
+                                                            onselectstart='return false' id='BtnSearch'
+                                                            onClick="loadGrid();"><img
+                                                            src="${base}/images/icons/icon403a3.gif"
+                                                            width="20" height="20"/><b>查询&nbsp;</b></a>
+                                                    </div>
+                                                    <a href='javascript:void(0);' ztype='zPushBtn'
+                                                       class='zPushBtn' hidefocus='true' tabindex='-1'
+                                                       onselectstart='return false' id='BtnCheck' onClick="delIds();"><img
+                                                            src="/images/icons/icon018a3.gif"
+                                                            width="20" height="20" /><b>删除&nbsp;</b></a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding:0px 5px;">
+                                                    <table width="100%" height="100%" id="dg1" size="10" cellpadding="2" cellspacing="0">
+                                                        <tr><td></td></tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table></td>
+                                </tr>
+                            </table>
+
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

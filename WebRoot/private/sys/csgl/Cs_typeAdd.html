@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html style="overflow:hidden">
+<head>
+<title>$!app_name</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!-- 框架 -->
+<link rel="stylesheet" type="text/css"
+	href="${base}/include/css/blue/style.css" />
+<script type='text/javascript'>
+		var CONTEXTPATH = '${base}';
+		var stylePath = '$!stylename';
+	</script>
+<script src="${base}/include/js/main.js"></script>
+<script src="${base}/include/js/string.js"></script>
+</head>
+<body class="dialogBody">
+	<form name='form1' id="form1" method='post'>
+		<input type="hidden" name="commit" id="commit" value="0">
+
+
+		<table width="100%" height="100%" border="0">
+			<tr>
+				<td valign="middle">
+					<table align="center" cellpadding="2" cellspacing="0">
+						<tr>
+							<td width="104" height="10"></td>
+							<td width="6"></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td align="right">分类名称：</td>
+							<td>&nbsp;</td>
+							<td width="260"><input type="text" name="name" id="name"
+								size="30" maxlength="50" verify="分类名称|NotNull"></td>
+						</tr>
+						<tr>
+							<td align="right">所属分类：</td>
+							<td>&nbsp;</td>
+							<td>
+								<select id="id" name="id">
+										<option value="">全部</option>
+										#foreach($obj in $list)
+											<option value="$!obj.get(0)">
+												<script type="text/javascript">document.write(gettreecode("$!obj.get(0)"))</script>
+												$!obj.get(1)
+											</option>
+										#end
+								</select> 
+								<script type="text/javascript">selected(form1.id,"$!sjyfl")</script>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>

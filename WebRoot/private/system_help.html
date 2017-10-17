@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<title>$!app_name</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link rel="stylesheet" type="text/css"
+			href="${base}/include/css/blue/style.css" />
+		<script type='text/javascript'>
+		var CONTEXTPATH = '${base}';
+		var stylePath = '$!stylename';
+	</script>
+		<script src="${base}/include/js/main.js"></script>
+		<script src="${base}/include/js/string.js"></script>
+		<!-- 分页  注意顺序 -->
+		<link href="${base}/include/css/themes/gray/easyui.css"
+			rel="stylesheet" type="text/css" />
+		<script src="${base}/include/js/jquery.easyui.min.js"></script>
+	
+	</head>
+
+	<body class="easyui-layout">
+	<div region="north" border="false" style="overflow: hidden;">
+		
+		<table width="100%" border="0" align="center" cellpadding="0"
+			cellspacing="0" class="table_auto czbutton_bk margin_top5">
+			<tr>
+				<td>
+					<div class="czbutton">
+						<ul>
+							<li id='BtnAdd'>
+								<a href='javascript:void(0);' onClick="changebl(1);"> <img
+										src="${base}/images/icons/icon036a4.gif" width="20"
+										height="20" /><b>使用说明文档&nbsp;</b> </a>
+							</li>
+							<li id='BtnUpdate'>
+								<a href='javascript:void(0);' onClick="changebl(2)"> <img
+										src="${base}/images/icons/icon036a7.gif" width="20"
+										height="20" /><b>系统介绍视频&nbsp;</b> </a>
+							</li>
+						</ul>
+					</div>
+				</td>
+			</tr>
+		</table>
+		</div>
+		<div id="mainPanle" border="false" region="center"
+			style="background: #eee; padding: 0px; overflow: hidden; z-index: 10;height: 100%;">
+			<iframe name="tabsFrame" id="tabsFrame" scrolling="no"
+				frameborder="0" allowtransparency="true" width="100%" height="100%"
+				src="helptabs.html"></iframe>
+		</div>
+	</body>
+	<script language="JavaScript">
+<!--
+	function changebl(n){
+		if(n==1)
+			parent.document.getElementById("tabsFrame").contentWindow.addTab("使用说明文档","${base}/private/helppdf");
+		else
+			parent.document.getElementById("tabsFrame").contentWindow.addTab("系统介绍视频","${base}/private/helpmedia");
+	}
+-->
+	</script>
+</html>

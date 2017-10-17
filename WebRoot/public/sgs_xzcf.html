@@ -1,0 +1,50 @@
+<table width="99%" border="0" align="center" cellpadding="0" cellspacing="0" class="tccktable">
+  <tbody>
+    <tr >
+      <td width="5%" align="center" class="tccktit">行政处罚决定书文号</td>
+      <td width="10%" align="center" class="tccktit">处罚名称</td>
+      <td width="5%" align="center" class="tccktit">处罚类别1</td>
+      <td width="5%" align="center" class="tccktit">处罚类别2</td>
+      <td width="5%" align="center" class="tccktit">处罚事由</td>
+      <td width="5%" align="center" class="tccktit">处罚依据</td>
+      <td width="5%" align="center" class="tccktit">行政相对人名称</td>
+      <td width="5%" align="center" class="tccktit">统一社会信用代码</td>
+      <td width="5%" align="center" class="tccktit">组织机构代码</td>
+      <td width="5%" align="center" class="tccktit">工商登记码</td>
+      <td width="5%" align="center" class="tccktit">税务登记号</td>
+      <td width="5%" align="center" class="tccktit">居民身份证号</td>
+      <td width="5%" align="center" class="tccktit">法定代表人姓名</td>
+      <td width="5%" align="center" class="tccktit">处罚结果</td>
+      <td width="5%" align="center" class="tccktit">处罚决定日期</td>
+      <td width="5%" align="center" class="tccktit">处罚机关</td>
+      <td width="5%" align="center" class="tccktit">当前状态</td>
+      <td width="5%" align="center" class="tccktit">地方编码</td>
+      <td width="5%" align="center" class="tccktit">数据更新时间戳</td>
+      <td width="5%" align="center" class="tccktit">备注</td>
+    </tr>
+    <tr>
+      <td colspan="20" align="left">说明：安徽省国土资源厅负责重大案件及上级减半案件的查处，尚未有行政处罚案件。</td>
+    </tr>
+  </tbody>
+</table>
+<div style="height:45px; text-align:center; line-height:45px;" class="font12">共$!total条信息    页次：<span class="xxtjsub01"><strong>$!curPage</strong></span>/$!totalYs页　
+<a href="javascript:goPage(1)">[首页]</a>　
+#if($!curPage==1)
+[上一页]
+#else
+<a href="javascript:goPrePage($!curPage)">[上一页]</a>
+#end
+#if($!curPage==$!totalYs)
+[下一页]　
+#else
+<a href="javascript:goNextPage($!curPage)">[下一页]</a>　
+#end
+　<a href="javascript:goPage($!totalYs)">[末页]</a>　
+   <select name="whichPage" id="whichPage" onchange="goPage(this.value);" style="width:80px;">
+          	#foreach($!dijiye in $!whichPage)
+          	<option value="$!dijiye.value">$!dijiye.page</option>
+          	#end
+          	<script type="text/javascript">document.getElementById("whichPage").value = $!curPage;</script>
+ </select>
+</div>
+

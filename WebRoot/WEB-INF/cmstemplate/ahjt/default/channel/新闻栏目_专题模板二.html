@@ -1,0 +1,408 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>专题模板</title>
+<script type="text/javascript" src="${baseRes!}/js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="${baseRes!}/js/hits.js"></script>
+<script type="text/javascript" src="${baseRes!}/js/jquery.KinSlideshow-1.2.1.min.js"></script>
+<script type="text/javascript" src="${baseRes!}/js/MSClass.js"></script>
+
+<link href="${baseRes!}/zt2/css/zt2css.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body bgcolor="#FFFFFF" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+<table width="1004" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td><img src="${baseRes!}/zt2/img/zt2r1_c1.jpg" width="1004" height="211" /></td>
+  </tr>
+</table>
+<table width="1004" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td height="38" background="${baseRes!}/zt2/img/zt2r2_c1.jpg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td align="center"><a href="#" class="menu">专题首页</a></td>
+        <td align="center"><a href="#" class="menu">通知公告</a></td>
+        <td align="center"><a href="#" class="menu">工作动态</a></td>
+        <td align="center"><a href="#" class="menu">相关下载</a></td>
+        <td align="center"><a href="#" class="menu">学习交流</a></td>
+        <td align="center"><a href="#" class="menu">工作动态</a></td>
+        <td align="center"><a href="#" class="menu">相关下载</a></td>
+        </tr>
+    </table></td>
+  </tr>
+</table>
+<table width="1004" border="0" align="center" cellpadding="5" cellspacing="0">
+  <tr>
+    <td colspan="2"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td height="169" align="center" valign="bottom" background="${baseRes!}/zt2/img/zt2bg.jpg"><table width="98%" border="0" cellspacing="0" cellpadding="10">
+          <tr>
+            <td class="style">　　深入开展党的群众路线教育实践活动专题导语深入开展党的群众路线教育实践活动专题导语深入开展党的群众路线教育实践活动专题导语深入开展党的群众路线教育实践活动专题导语深入开展党的群众路线教育实践活动专题导语深入开展党的群众路线教育实践活动专题导语深入开展党的群众路线教育实践活动专题导语深入开展党的群众路线教育实践活动专题导语深入开展党的群众路线教育实践活动专题导语深入开展党的群众路线教育实践活动专题导语深入开展党的群众路线教育实践活动专题导语实践活动专题导语实践活动专题导语实践活动专题导语实践活动专题导语实践活动专题导语。</td>
+          </tr>
+        </table></td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td><table width="725" border="0" cellpadding="0" cellspacing="1" bgcolor="#E0D4BE">
+      <tr>
+        <td bgcolor="#FFFFFF"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td width="88" height="28" align="center" bgcolor="#CC0000" class="tit">工作动态</td>
+            <td width="612" height="28" align="right" bgcolor="#E9DADA"><table width="50" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td align="left"><a href="#">更多>></a></td>
+              </tr>
+            </table></td>
+          </tr>
+          <tr>
+            <td height="220" colspan="2" align="center">
+<table width="98%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="262" rowspan="2" align="center">
+ <!-- 图片新闻代码 开始 -->
+<div id="KinSlideshow" style="width:239px; height:201px; overflow:hidden;">
+  [@cms_content_list count='4' orderBy='4' typeId='2' titLen='15' image='1' channelId='00020003' channelOption='1']
+                [#list tag_list as a]                
+                
+                <a href="${base!}/${a.path}/${a.content_id}.html" target="_blank" title="${a.title}"><img src="${a.title_img}"  width="239" height="201" alt="[@text_cut s=a.title len=titLen append='...'/]" /></a>
+                [/#list]
+                [/@cms_content_list]
+  </div>
+<script type="text/javascript">
+            $(function(){
+                $("#KinSlideshow").KinSlideshow({
+                        moveStyle:"left",intervalTime:3,
+                        mouseEvent:"mouseover",
+                        titleBar:{titleBar_height:36,titleBar_bgColor:"#000000",titleBar_alpha:0.3},
+                        titleFont:{TitleFont_size:14,TitleFont_color:"#ffffff",TitleFont_weight:"bold"},
+                        btn:{btn_bgColor:"#ffffff",btn_bgHoverColor:"#0076c9",btn_fontColor:"#000",btn_fontHoverColor:"#fff",btn_borderColor:"#666",btn_borderHoverColor:"#FF0000",btn_borderWidth:0}
+                });
+            })
+            </script>
+
+ <!-- 图片新闻代码 结束 -->
+</td>
+                <td align="center" class="tit2">
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<!-- 新闻置顶 -->
+  [@cms_content_list dateFormat='yyyy-MM-dd' count='1' titLen='15'  append='...' orderBy='4' channelId='00020003']
+ [#list tag_list as a]  
+                  <tr>
+                    <td height="40" align="center"><a href="[#if a.link??]${a.link}[#else]${base!}/${a.path}/${a.content_id}.html[/#if]" title="${a.title}"  target="_blank" class="titS"><span style="[#if a.title_color??]color:${a.title_color};[/#if][#if a.is_bold='Y']font-weight:bold;[/#if]">[#if a.short_title??][@text_cut s=a.short_title len=titLen append='...'/][#else][@text_cut s=a.title len=titLen append='...'/][/#if] </span></a></td>
+                  </tr>
+[/#list]
+          [/@cms_content_list] 
+
+<!-- 新闻置顶 -->
+                  <tr>
+                    <td background="${baseRes!}/zt2/img/zt2line.jpg"><img src="${baseRes!}/zt2/img/zt2line.jpg" width="2" height="1" /></td>
+                  </tr>
+                </table></td>
+              </tr>
+              <tr>
+                <td valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+ [@cms_content_list dateFormat='yyyy-MM-dd' count='7' titLen='24'  append='...' orderBy='4' channelId='00020003']
+          [#list tag_list as a]
+          [#if a_index!=0]
+
+                  <tr>
+                    <td width="380" height="27"><a href="[#if a.link??]${a.link}[#else]${base!}/${a.path}/${a.content_id}.html[/#if]" title="${a.title}" target="_blank"><span style="[#if a.title_color??]color:${a.title_color};[/#if][#if a.is_bold='Y']font-weight:bold;[/#if]">·[#if a.short_title??][@text_cut s=a.short_title len=titLen append='...'/][#else][@text_cut s=a.title len=titLen append='...'/][/#if]</span></a></td>
+                    <td width="85" height="27" class="time"> ${a.pub_time?date(dateFormat)}</td>
+                  </tr>
+                   [/#if]
+          [/#list]
+          [/@cms_content_list]  
+
+                </table></td>
+              </tr>
+            </table></td>
+          </tr>
+        </table></td>
+      </tr>
+    </table></td>
+    <td><table width="260" border="0" cellpadding="0" cellspacing="1" bgcolor="#E0D4BE">
+      <tr>
+        <td bgcolor="#FFFFFF"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td width="88" height="28" align="center" bgcolor="#CC0000" class="tit">工作动态</td>
+              <td height="28" align="right" bgcolor="#E9DADA"><table width="50" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td align="left"><a href="#">更多>></a></td>
+                  </tr>
+              </table></td>
+            </tr>
+            <tr>
+              <td height="220" colspan="2" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td height="12"></td>
+                  </tr>
+              </table>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+  [@cms_content_list dateFormat='yyyy-MM-dd' count='7' titLen='15'  append='...' orderBy='4' channelId='00020003']
+ [#list tag_list as a]  
+                  <tr>
+                    <td width="380" height="27"><a href="[#if a.link??]${a.link}[#else]${base!}/${a.path}/${a.content_id}.html[/#if]" title="${a.title}"  target="_blank" ><span style="[#if a.title_color??]color:${a.title_color};[/#if][#if a.is_bold='Y']font-weight:bold;[/#if]">· [#if a.short_title??][@text_cut s=a.short_title len=titLen append='...'/][#else][@text_cut s=a.title len=titLen append='...'/][/#if] </span></a></td>
+                  </tr>
+[/#list]
+          [/@cms_content_list] 
+                
+              </table></td>
+            </tr>
+        </table></td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td><table width="725" border="0" cellpadding="0" cellspacing="1" bgcolor="#E0D4BE">
+      <tr>
+        <td bgcolor="#FFFFFF"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td width="88" height="28" align="center" bgcolor="#CC0000" class="tit">工作动态</td>
+              <td width="612" height="28" align="right" bgcolor="#E9DADA"><table width="50" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td align="left"><a href="#">更多>></a></td>
+                  </tr>
+              </table></td>
+            </tr>
+            <tr>
+              <td height="220" colspan="2" align="center" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td height="12"></td>
+                </tr>
+              </table>
+                <table width="100%" border="0" cellpadding="0" cellspacing="0">
+[@cms_content_list dateFormat='yyyy-MM-dd' count='7' titLen='35'  append='...' orderBy='4' channelId='00020003']
+          [#list tag_list as a]
+          
+
+                  <tr>
+                    <td height="27"><a href="[#if a.link??]${a.link}[#else]${base!}/${a.path}/${a.content_id}.html[/#if]" title="${a.title}" target="_blank"><span style="[#if a.title_color??]color:${a.title_color};[/#if][#if a.is_bold='Y']font-weight:bold;[/#if]">·[#if a.short_title??][@text_cut s=a.short_title len=titLen append='...'/][#else][@text_cut s=a.title len=titLen append='...'/][/#if]</span></a></td>
+                    <td width="85" height="27" class="time"> ${a.pub_time?date(dateFormat)}</td>
+                  </tr>
+               
+          [/#list]
+          [/@cms_content_list]  
+                              
+              </table></td>
+            </tr>
+        </table></td>
+      </tr>
+    </table></td>
+    <td><table width="260" border="0" cellpadding="0" cellspacing="1" bgcolor="#E0D4BE">
+      <tr>
+        <td bgcolor="#FFFFFF"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td width="88" height="28" align="center" bgcolor="#CC0000" class="tit">工作动态</td>
+              <td height="28" align="right" bgcolor="#E9DADA"><table width="50" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td align="left"><a href="#">更多>></a></td>
+                  </tr>
+              </table></td>
+            </tr>
+            <tr>
+              <td height="220" colspan="2" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td height="12"></td>
+                </tr>
+              </table>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+ [@cms_content_list dateFormat='yyyy-MM-dd' count='7' titLen='15'  append='...' orderBy='4' channelId='00020003']
+ [#list tag_list as a]  
+                  <tr>
+                    <td width="380" height="27"><a href="[#if a.link??]${a.link}[#else]${base!}/${a.path}/${a.content_id}.html[/#if]" title="${a.title}"  target="_blank" ><span style="[#if a.title_color??]color:${a.title_color};[/#if][#if a.is_bold='Y']font-weight:bold;[/#if]">· [#if a.short_title??][@text_cut s=a.short_title len=titLen append='...'/][#else][@text_cut s=a.title len=titLen append='...'/][/#if] </span></a></td>
+                  </tr>
+[/#list]
+          [/@cms_content_list] 
+               
+              </table></td>
+            </tr>
+        </table></td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td height="120" colspan="2"><img src="${baseRes!}/zt2/img/zt2ggt.jpg" width="993" height="120" /></td>
+  </tr>
+  <tr>
+    <td><table width="725" border="0" cellpadding="0" cellspacing="1" bgcolor="#E0D4BE">
+      <tr>
+        <td bgcolor="#FFFFFF"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td width="88" height="28" align="center" bgcolor="#CC0000" class="tit">工作动态</td>
+              <td width="612" height="28" align="right" bgcolor="#E9DADA"><table width="50" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td align="left"><a href="#">更多>></a></td>
+                  </tr>
+              </table></td>
+            </tr>
+            <tr>
+              <td height="220" colspan="2" align="center" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td height="12"></td>
+                </tr>
+              </table>
+                <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                 [@cms_content_list dateFormat='yyyy-MM-dd' count='7' titLen='35'  append='...' orderBy='4' channelId='00020003']
+          [#list tag_list as a]
+          
+
+                  <tr>
+                    <td height="27"><a href="[#if a.link??]${a.link}[#else]${base!}/${a.path}/${a.content_id}.html[/#if]" title="${a.title}" target="_blank"><span style="[#if a.title_color??]color:${a.title_color};[/#if][#if a.is_bold='Y']font-weight:bold;[/#if]">·[#if a.short_title??][@text_cut s=a.short_title len=titLen append='...'/][#else][@text_cut s=a.title len=titLen append='...'/][/#if]</span></a></td>
+                    <td width="85" height="27" class="time"> ${a.pub_time?date(dateFormat)}</td>
+                  </tr>
+               
+          [/#list]
+          [/@cms_content_list]  
+              </table></td>
+            </tr>
+        </table></td>
+      </tr>
+    </table></td>
+    <td><table width="260" border="0" cellpadding="0" cellspacing="1" bgcolor="#E0D4BE">
+      <tr>
+        <td bgcolor="#FFFFFF"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td width="88" height="28" align="center" bgcolor="#CC0000" class="tit">工作动态</td>
+              <td height="28" align="right" bgcolor="#E9DADA"><table width="50" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td align="left"><a href="#">更多>></a></td>
+                  </tr>
+              </table></td>
+            </tr>
+            <tr>
+              <td height="220" colspan="2" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td height="12"></td>
+                </tr>
+              </table>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                 [@cms_content_list dateFormat='yyyy-MM-dd' count='7' titLen='15'  append='...' orderBy='4' channelId='00020003']
+ [#list tag_list as a]  
+                  <tr>
+                    <td width="380" height="27"><a href="[#if a.link??]${a.link}[#else]${base!}/${a.path}/${a.content_id}.html[/#if]" title="${a.title}"  target="_blank" ><span style="[#if a.title_color??]color:${a.title_color};[/#if][#if a.is_bold='Y']font-weight:bold;[/#if]">· [#if a.short_title??][@text_cut s=a.short_title len=titLen append='...'/][#else][@text_cut s=a.title len=titLen append='...'/][/#if] </span></a></td>
+                  </tr>
+[/#list]
+          [/@cms_content_list] 
+              </table></td>
+            </tr>
+        </table></td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td><table width="100%" border="0" cellpadding="0" cellspacing="1" bgcolor="#E0D4BE">
+      <tr>
+        <td width="88" height="28" align="center" bgcolor="#CC0000" class="tit">图片展示</td>
+        <td width="612" height="28" align="right" bgcolor="#E9DADA"><table width="50" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td align="left"><a href="#">更多>></a></td>
+            </tr>
+        </table></td>
+      </tr>
+      <tr>
+        <td height="180" colspan="2" align="center" bgcolor="#FFFFFF"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+ [@cms_content_list count='4' orderBy='4' typeId='2' titLen='5' image='1' channelId='00020003' channelOption='1']
+                [#list tag_list as a]    
+
+      
+
+            <td align="center"><a href="${base!}/${a.path}/${a.content_id}.html"  target=_blank title="${a.title}"><img src="${a.title_img}"  width="160" height="120"    border="0" /></a></td>
+           
+        
+ [/#list]
+                [/@cms_content_list]  
+  </tr>
+
+
+          <tr>
+
+  [@cms_content_list dateFormat='yyyy-MM-dd' count='4' titLen='10'  append='...' orderBy='4' channelId='00020003']
+ [#list tag_list as a]  
+              
+                    <td height="30" align="center" class="style"><a href="[#if a.link??]${a.link}[#else]${base!}/${a.path}/${a.content_id}.html[/#if]" title="${a.title}"  target="_blank" ><span style="[#if a.title_color??]color:${a.title_color};[/#if][#if a.is_bold='Y']font-weight:bold;[/#if]">[#if a.short_title??][@text_cut s=a.short_title len=titLen append='...'/][#else][@text_cut s=a.title len=titLen append='...'/][/#if] </span></a></td>
+               
+[/#list]
+          [/@cms_content_list] 
+                     </tr>
+
+
+        </table></td>
+      </tr>
+    </table></td>
+    <td><table width="260" border="0" cellpadding="0" cellspacing="1" bgcolor="#E0D4BE">
+      <tr>
+        <td bgcolor="#FFFFFF"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td width="88" height="28" align="center" bgcolor="#CC0000" class="tit">工作动态</td>
+              <td height="28" align="right" bgcolor="#E9DADA"><table width="50" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td align="left"><a href="#">更多>></a></td>
+                  </tr>
+              </table></td>
+            </tr>
+            <tr>
+              <td height="180" colspan="2" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td height="12"></td>
+                </tr>
+              </table>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                [@cms_content_list dateFormat='yyyy-MM-dd' count='6' titLen='15'  append='...' orderBy='4' channelId='00020003']
+ [#list tag_list as a]  
+                  <tr>
+                    <td width="380" height="27"><a href="[#if a.link??]${a.link}[#else]${base!}/${a.path}/${a.content_id}.html[/#if]" title="${a.title}"  target="_blank" ><span style="[#if a.title_color??]color:${a.title_color};[/#if][#if a.is_bold='Y']font-weight:bold;[/#if]">· [#if a.short_title??][@text_cut s=a.short_title len=titLen append='...'/][#else][@text_cut s=a.title len=titLen append='...'/][/#if] </span></a></td>
+                  </tr>
+[/#list]
+          [/@cms_content_list] 
+              </table></td>
+            </tr>
+        </table></td>
+      </tr>
+    </table></td>
+  </tr>
+</table>
+<table width="1004" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td height="6" bgcolor="#990000"></td>
+  </tr>
+  <tr>
+    <td height="35" align="center" bgcolor="#FFFFFF" class="style">版权所有 安徽省交通运输厅</td>
+  </tr>
+</table>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

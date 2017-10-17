@@ -1,0 +1,424 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html style="overflow-y:auto">
+	<head>
+		<title>$!app_name</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<!-- 框架 -->
+		<link rel="stylesheet" type="text/css"
+			href="${base}/include/css/blue/style.css" />
+		<script type='text/javascript'>
+		var CONTEXTPATH = '${base}';
+		var stylePath = '$!stylename';
+	</script>
+		<script src="${base}/include/js/main.js"></script>
+		<script src="${base}/include/js/string.js"></script>
+		<!-- 分页  注意顺序 -->
+		<link href="${base}/include/css/themes/gray/easyui.css"
+			rel="stylesheet" type="text/css" />
+		<script src="${base}/include/js/jquery.easyui.min.js"></script>
+		<script>
+	function getWidth(percent){
+        	   return document.body.clientWidth*percent;
+	}
+	function loadData(){
+		$("#dg1").treegrid({
+			width:"auto",
+        	height:"auto",
+        	nowrap: false,  
+        	striped: true,  
+        	border: true,  
+        	collapsible:false,//是否可折叠的 
+			url : "${base}/private/sys/templateconfig/listAll?subtype="+Page.getValue("subtype"),//首次查询路径
+			queryParams:{"id":""},//首次查询参数
+			idField:"id",
+			treeField:"name",
+			singleSelect:false,//是否单选 
+			rownumbers:true,//行号  
+			fit: true,//自动大小  
+			fitColumns: true,//行自适应
+			pagination:false,//分页控件  
+			loadMsg:'数据加载中...',
+			columns : [ [
+			{
+				field : "name",
+				title : "编码名称",
+				width : getWidth(0.20)
+			} ,
+			{
+				field : "des",
+				title : "模板说明",
+				width : getWidth(0.5)
+			},
+			{
+				field : "isstate",
+				title : "是否激活",
+				width : getWidth(0.1)
+			}
+			] ],
+        	 frozenColumns:[[  
+        	            {field:"id",checkbox:true}
+        	 ]],
+			 onDblClickRow:function(row)
+        	 {
+        	     toupdate(row.id);
+        	 }
+			//,
+        	// onLoadSuccess:function(){
+        	//	 initCheckbox();
+        	// }
+		});
+	}
+
+    //转到新增页面
+    function add()
+    {
+        var d = new Dialog("Add");
+        d.Width = 500;
+        d.Height = 330;
+        d.Title = "新建模板";
+        d.URL = "${base}/private/sys/templateconfig/toAdd";
+        d.OKEvent = function() {
+            if ($DW.Verify.hasError()) {
+                return;
+            }
+            //var dc = $DW.Form.getData("form1");
+            addSave();
+        }
+        d.onLoad = function() {
+            $DW.$("name").focus();
+        }
+        d.show();
+    }
+    
+    function addSave(){     
+		if($DW.Verify.hasError()){
+		  return;
+	     }
+		var tid=$DW.$("#typeid").val();
+		if(tid!=''){
+			$DW.$("#id").val(tid);
+		}else{
+			var id_1=$DW.$("#id_1").val();
+			$DW.$("#id").val(id_1);
+			tid='0';
+		}
+		jQuery.ajax({
+			 	type: 'POST',
+    			url : "${base}/private/sys/templateconfig/addSave?tid="+tid ,
+    			data : $DW.$("#form1").serialize(),
+    			success : function (res) { 
+    				if(res=="true"){
+    					$D.close();
+    					Dialog.alert("添加成功！");
+    					loadData();
+    				}else{
+    					Dialog.alert("添加失败！");
+    				}
+    				 
+    				return false;
+    			},
+    			fail : function(res) {
+    				Dialog.alert("系统错误?!");
+    			}
+    		}); 
+	}
+    //转到修改页面
+    function update()
+    {
+    	
+        var arr = $('#dg1').treegrid('getSelections');
+        if (!arr || arr.length == 0) {
+            Dialog.alert("请先选择要编辑的菜单！");
+            return;
+        }
+        if(arr.length > 1){
+        	Dialog.alert("只能选择一个需要编辑的菜单项！");
+            return;
+        }
+        if(arr[0].id=='IFDB0001'&&$("#ifdb_check").val()=="false"){
+        	var d1 = new Dialog("验证身份");
+        	d1.Width=320;
+        	d1.Height=180;
+        	d1.Title="验证身份";
+        	d1.URL = "${base}/private/sys/templateconfig/checkin";
+        	d1.OKEvent = function() {
+            if ($DW.Verify.hasError()) {
+                return;
+            }else{
+            	checkinSave();
+            }
+        	}
+        	d1.onLoad = function() {
+            $DW.$("#pwd").focus();
+       		}
+        	d1.show();
+        	return;
+        }
+        var d = new Dialog("Update");
+        d.Width = 500;
+        d.Height = 300;
+        d.Title = "修改模板";
+        d.URL = "${base}/private/sys/templateconfig/toupdate?id=" + arr[0].id;
+        d.OKEvent = function() {
+            if ($DW.Verify.hasError()) {
+                return;
+            }else{
+            	updateSave();
+            }
+            $DW.$("form1").submit();
+        }
+        d.onLoad = function() {
+            $DW.$("#name").focus();
+        }
+        d.show();
+    }
+    //修改工作流程需验证身份
+    function checkinSave(){     
+  		 if($DW.Verify.hasError()){
+  		  return;
+  	     }
+  		 jQuery.ajax({
+  				type: 'POST',
+      			url : "${base}/private/sys/templateconfig/checkinSave" ,
+      			data : $DW.$("#form1").serialize(),
+      			success : function (res) { 
+      				if(res=="true"){
+      					$D.close();
+      					Dialog.alert("验证成功！");
+      					$("#ifdb_check").attr("value","true");
+      					toupdate('IFDB0001');
+      				}else{
+      					Dialog.alert("验证失败！");
+      				}
+      				return false;
+      			},
+      			fail : function(res) {
+      				Dialog.alert("系统错误?!");
+      			}
+      		});
+  	}
+    
+    //转到修改页面
+    function toupdate(id)
+    {
+		if(id=='IFDB0001'&&$("#ifdb_check").val()=="false"){
+        	var d1 = new Dialog("验证身份");
+        	d1.Width=320;
+        	d1.Height=180;
+        	d1.Title="验证身份";
+        	d1.URL = "${base}/private/sys/templateconfig/checkin";
+        	d1.OKEvent = function() {
+            if ($DW.Verify.hasError()) {
+                return;
+            }else{
+            	checkinSave();
+            }
+        	}
+        	d1.onLoad = function() {
+            $DW.$("#pwd").focus();
+       		}
+        	d1.show();
+        	return;
+        }    
+        var d = new Dialog("Update");
+        d.Width = 500;
+        d.Height = 300;
+        d.Title = "修改模板";
+        d.URL = "${base}/private/sys/templateconfig/toupdate?id="+id;
+       	d.onLoad = function(){
+       		$DW.$Z("name").focus();
+       	}
+       	d.OKEvent = function(){
+       		updateSave();
+       		
+       	};
+       	d.show();
+    }
+    
+    function updateSave(){     
+  		 if($DW.Verify.hasError()){
+  		  return;
+  	     }
+  		 jQuery.ajax({
+  				type: 'POST',
+      			url : "${base}/private/sys/templateconfig/updateSave" ,
+      			data : $DW.$("#form1").serialize(),
+      			success : function (res) { 
+      				if(res=="true"){
+      					$D.close();
+      					Dialog.alert("修改成功！");
+      					loadData();
+      					$("#ifdb_check").attr("value","false");
+      				}else{
+      					Dialog.alert("修改失败！");
+      				}
+      				return false;
+      			},
+      			fail : function(res) {
+      				Dialog.alert("系统错误?!");
+      			}
+      		});
+  	}
+    
+
+    //转到排序页面
+    function sort()
+    {
+        var d = new Dialog("Sort");
+        d.Width = 450;
+        d.Height = 350;
+        d.Title = "模板项排序";
+        d.URL = "${base}/private/sys/templateconfig/toSort";
+        d.OKEvent = function() {
+        	 $DW.getIdsTree();
+        	 sortUpdate();
+        }
+        //d.ShowMessageRow = true;
+        //d.MessageTitle = "菜单排序";
+        //d.Message = "只能改变同级的先后顺序，并要保证原先的上下级关系不变！";
+        d.show();
+    }
+    function sortUpdate(){
+    	if($DW.Verify.hasError()){
+    		  return;
+    	     }
+    	if($DW.$("#commit").val()==0){
+    		$DW.$("#commit").val(1);
+    		 jQuery.ajax({
+    				type: 'POST',
+        			url : "${base}/private/sys/templateconfig/sort" ,
+        			data : $DW.$("#form1").serialize(),
+        			success : function (res) { 
+        			
+        				if(res=="true"){
+        					$D.close();
+        					Dialog.alert("排序成功！");
+        					loadData();
+
+        				}else{
+        					Dialog.alert("排序失败！");
+        				}
+        				
+        				return false;
+        			},
+        			fail : function(res) {
+        				Dialog.alert("系统错误?!");
+        			}
+        		});
+    	}else{
+    		 Dialog.alert("正在提交，请稍候！");
+             return false;
+    	}
+    }
+    function del() {
+    	var ids = [];
+		var arr = $('#dg1').treegrid('getSelections');
+		//alert(arr);
+	    if (!arr || arr.length == 0) {
+	        Dialog.alert("请先选择要删除的模板！");
+	        return;
+	    }
+	    for(var i=0; i<arr.length; i++){
+	        ids.push(arr[i].id);
+	    }
+        Dialog.confirm("注意：这是级联删除，下级模板会被一起删除，您确认要删除吗？", function() {
+       	   jQuery.ajax({
+      			url : "${base}/private/sys/templateconfig/del?ids="+ids,
+      			success : function (res) {  
+      				if(res=="true"){ 
+      					Dialog.alert("删除成功！");
+      					loadData();
+      				}else{
+      					Dialog.alert("删除失败！");
+      				}
+      				return false;
+      			},
+      			fail : function(res) {
+      				Dialog.alert("系统错误?!");
+      			}
+      		});
+        });
+    }
+    
+    function sel(obj){
+         var id=obj.value;
+         var qx=document.getElementsByName("id");
+         for(var i = 0; i < qx.length; i ++)
+           {
+               if(qx[i].type == "checkbox")
+                {
+                  var v=qx[i].value;
+                  if(v!=""&&v.length>id.length&&v.startWith(id)){
+                      if(obj.checked){
+                          qx[i].checked=true;
+                      } else{
+                           qx[i].checked=false;
+                      }
+                  }
+                   if(v!=""&&v.length<id.length&&id.startWith(v)){
+                      if(obj.checked){
+                      } else{
+                           qx[i].checked=false;
+                      }
+                  }
+
+                }
+           }
+    }
+	Page.onLoad(function() {
+	   loadData();
+     });
+	$(window).resize(function () {
+		clearTimeout(timer);
+		timer=setTimeout(function(){
+		  $('#dg1').treegrid('resize');
+		  $('div.panel-body').css('width','auto'); //////
+		 },100);
+		});
+</script>
+	</head>
+	<body leftmargin="0" topmargin="0" class="easyui-layout">
+		<form name='form1' id="from1" method='post'>
+			<input type="hidden" name="doAction" value="">
+			<input type="hidden" name="sys_menuid" value="$!sys_menuid">
+			<input type="hidden" name="checkids" value="">
+			<input type="hidden" name="deltype" value="1">
+			<input type="hidden" name="ifdb_check" id="ifdb_check" value="false" />
+			<div region="north" border="false"
+				style="overflow: hidden; padding: 10px 10px 0px 10px">
+				<div class="padding_top10">
+					<table width="100%" border="0" align="center" cellpadding="0"
+						cellspacing="0" class="table_auto czbutton_bk margin_top5">
+						<tr>
+							<td>
+								<div class="czbutton">
+									<ul>
+										<li id='BtnAdd'>
+											<a href='javascript:void(0);' onClick="add();"> <img
+													src="${base}/include/img/cz_add.png" width="14" height="14"
+													class="png" /><b>新建&nbsp;</b> </a>
+										</li>
+										<li id='BtnUpdate'>
+											<a href='javascript:void(0);' onClick="update();"> <img
+													src="${base}/include/img/bj.png" width="16" height="16" /><b>编辑&nbsp;</b>
+											</a>
+										</li>
+										<li id='BtnDel'>
+											<a href='javascript:void(0);' onClick="del();"><img
+													src="${base}/include/img/cz_del.png" width="14" height="14" /><b>删除&nbsp;</b>
+											</a>
+										</li>
+									</ul>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div region="center" border="false"
+				style="width: 100%; height: 100%; padding: 0px 10px 10px;">
+				<div id="dg1" style="width: 100%; height: 100%;"></div>
+			</div>
+		</form>
+	</body>
+</html>

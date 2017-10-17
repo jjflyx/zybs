@@ -1,0 +1,43 @@
+<!-- 单位选择  -->
+<script type="text/javascript">
+	function searchCsValue(){
+		var unitid=$('#unit').val();
+		var sjunit='$!sjunit';
+		var d = new Dialog("untiSelectdialog");
+		d.Width = 450;
+		d.Height = 500;
+		d.Title = "单位选择";
+		d.URL = "${base}/private/sys/unit/toTree?id="+unitid+"&sjunit="+sjunit;
+		d.OKEvent = function() {
+			var value = $DW.$("#selectValue").val();
+			var name = $DW.$("#selectName").val();
+			if(value!='' && name !=''){
+				$('#unit').val(value);
+				$('#unitname').val(name);
+				$D.close();
+			}
+			
+		};
+		d.show();
+	}
+	
+	$(function(){
+		var xzqh=$('#unit').val();
+		if(xzqh==''){
+			//$('#unitname').val("安徽省国土资源厅");
+			//$('#unit').val("0008");
+			if($('#iszhcx').val()){
+				$('#unitname').val("请选择");
+				$('#unit').val("");
+			}
+		}else{
+			var name=$('#unitName').val();
+			$('#unitname').val(name);
+		}
+	});
+
+</script>
+
+
+<input type="hidden" name="unit" id="unit"  value="$!unit" />
+<input type="text" id="unitname"  value="" readonly="readonly" onclick="searchCsValue();" class="input c_arrow_down" />

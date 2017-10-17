@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>安徽省交通运输厅</title>
+<script type="text/javascript" src="${baseRes!}/js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="${baseRes!}/js/hits.js"></script>
+<link href="${baseRes!}/css/jtxw.css" rel="stylesheet" type="text/css" />
+</head>
+<body >
+
+[#include "../include/通用头部.html"/]
+<div class="site_body">
+<div class="site_postion">
+  <div class="postion_icon ">您当前的位置：<a href="${base!}/index.html">首页</a> >
+             [#list channelList as n]<a href="${base!}/${n.path}/index.html" >${n.name}</a>[#if n_has_next] > [/#if][/#list] > 正文</div>
+</div>
+<div class="site_nr">
+  <table width="100%" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+      <td height="60" align="center" class="xqye_24"><div id="pagetitle">
+        <h1>${content_ext.title}</h1>
+      </div></td>
+    </tr>
+    <tr>
+      <td align="center"><table width="98%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td ><img src="${baseRes!}/img/xqye_2.gif" width="100%" height="4" /></td>
+          </tr>
+        </table>
+          <table width="98%" border="0" cellspacing="0" cellpadding="10">
+            <tr>
+              <td height="45" align="center" class="xqye_12">来源：${content_ext.origin!'本站原创'}　　　发布时间：${content_ext.pub_time}          　　　【字体：<a href="javascript:fontZoomC();" class="wz">大</a> <a href="javascript:fontZoomB();" class="wz">中</a> <a href="javascript:fontZoomA();" class="wz">小</a>】</td>
+            </tr>
+            <tr>
+              <td align="left">
+            [#if pagination.firstPage]
+            [#if content_ext.description??]
+
+              <table width="100%" border="0" cellspacing="8" cellpadding="0" style="padding:10px;border:1px solid #e5e5e5;background:#f0f0f0;color:#79868f;margin-bottom:10px;">
+                <tr>
+                  <td><strong>内容摘要：</strong>[@text_cut s=content_ext.description len='60' append='...'/]</td>
+                </tr>
+              </table>
+            [/#if]
+			[/#if]
+              </td>
+            </tr>
+            <tr>
+              <td align="center" >			[#if content_ext.media_path?? && content_ext.media_type??]
+            <p style="margin: 5px auto; text-align: center">[#if content_ext.media_type=='FLV'] <object height="400" width="600" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000">
+            <param name="movie" value="${baseRes!}/img/flvplayer.swf" />
+            <param name="quality" value="high" />
+            <param name="allowFullScreen" value="true" />
+            <param name="FlashVars" value="vcastr_file=${content_ext.media_path!}&BufferTime=3" /><embed height="400" width="600" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" quality="high" flashvars="vcastr_file=${content_ext.media_path!}" allowfullscreen="true" src="${baseRes!}/img/flvplayer.swf"></embed></object>[#elseif content_ext.media_type=='FLASH'] <embed height="400" width="600" type="application/x-shockwave-flash" quality="high" src="${content_ext.media_path}" wmode="transparent" align="center"></embed>[#else] <embed height="400" width="600" type="video/x-ms-wmv" src="${content_ext.media_path}" console="cons" controls="ImageWindow" autostart="true"></embed>[/#if]</p>
+            [/#if]</td>
+            </tr>
+            <tr>
+              <td align="left" class="xqye_14"><div id="fontzoom">${txt!}</div></td>
+            </tr>
+            <tr>
+              <td align="left" class="xqye_14">
+              <div class="pagebar">[#include "../include/content.html"/]</div>
+			[#if (fileList?size>0)]			
+			<div>
+				<ul>
+				<li>附件：</li>
+				[#list fileList as f]
+				<li>
+				<a href="${f.file_path!}" target="_blank">${f.filename!}</a>
+				</li>
+				[/#list]
+				<li></li>
+				</ul>
+			</div>
+                                               [/#if]
+       </td>
+            </tr>
+            <tr>
+              <td height="60"><table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+                  <tr>
+                    <td align="left"><a href="javascript:printPage();"><img src="${baseRes!}/img/xqye_print.jpg" width="88" height="20" border="0" /></a> <a href="javascript:window.close();"><img src="${baseRes!}/img/xqye_close.jpg" width="88" height="20" border="0" /></a></td>
+                    <td align="right" width="60">分享到：</td>
+                    <td width="155"><div class="bdsharebuttonbox"><A class=bds_more href="#" data-cmd="more"></A><A class=bds_qzone title=分享到QQ空间 href="#" data-cmd="qzone"></A><A class=bds_tsina title=分享到新浪微博 href="#" data-cmd="tsina"></A><A class=bds_tqq title=分享到腾讯微博 href="#" data-cmd="tqq"></A><A class=bds_renren title=分享到人人网 href="#" data-cmd="renren"></A><A class=bds_weixin title=分享到微信 href="#" data-cmd="weixin"></A></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+</td>
+                  </tr>
+              </table></td>
+            </tr>
+        </table></td>
+    </tr>
+  </table>
+</div>
+</div>
+[#include "../include/通用版底.html"/]
+</body>
+</html>
+
+
+
+
+

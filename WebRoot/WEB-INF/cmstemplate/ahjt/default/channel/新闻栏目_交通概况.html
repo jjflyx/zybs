@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>安徽省交通运输厅</title>
+<script type="text/javascript" src="${baseRes!}/js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="${baseRes!}/js/hits.js"></script>
+<link href="${baseRes!}/css/jtxw.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+[#include "../include/通用头部.html"/]
+
+<div class="site_body">
+<div class="site_postion">
+  <div class="postion_icon ">您当前的位置：<a href="${base!}/index.html">首页</a> > [#list channelList as n]<a href="${base!}/${n.path}/index.html" >${n.name}</a>[#if n_has_next] > [/#if][/#list]</div>
+</div>
+
+<div class="site_nr">
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="261" align="left" valign="top"><table width="248"  border="0" cellpadding="0" cellspacing="0" class="table">
+      <tr>
+        <td align="center" valign="top" bgcolor="#FFFFFF"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td height="47" align="center" ><table width="98%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="30" align="center"><img src="${baseRes!}/img/jtxw_dit.jpg" width="12" height="13" /></td>
+                <td align="left" class="jtxw_tit"> 
+[#if channel.channel_id?substring(0,4)='0002']
+新闻动态
+[#elseif channel.channel_id?substring(0,4)='0001']
+交通概况
+[#elseif channel.channel_id?substring(0,4)='0007']
+行业动态
+[#elseif channel.channel_id?substring(0,4)='0005']
+政府信息公开
+[#else]
+${channel.name!}
+[/#if]
+</td>
+              </tr>
+            </table></td>
+          </tr>
+          <tr>
+            <td height="28" align="center" background="${baseRes!}/img/jtxw_4.jpg"> </td>
+          </tr>
+        </table>
+[#if channel.channel_id?length=4]
+       		        [@cms_channel_list hasContent='0' titLen='28'  append='...'  channelId=channel.channel_id?substring(0,channel.channel_id?length)]
+		<!--hasContent='1' 不显示外链栏目-->
+		<!--channelId='0001' 列出0001的子栏目-->
+		<!--channelId='0001,0002' 列出指定栏目-->
+
+        [#list tag_list as c]
+        [#if c.channel_id=channel.channel_id]
+          <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="jtxw_menu1">
+            <tr>
+              <td align="right"><table width="67%" height="20" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td align="left"><a href="[#if c.linkurl??]${c.linkurl}[#else]${base!}/${c.path}/index.html[/#if]" class="jtxw">${c.name}</a></td>
+                </tr>
+              </table></td>
+            </tr>
+          </table>
+
+         [@cms_channel_list hasContent='0' titLen='38'  append='...'  channelId=channel.channel_id]
+                 [#list tag_list as d]
+          <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="jtxw_menu3">
+            <tr>
+              <td align="right" valign="middle"><table width="61%" height="20" border="0" cellpadding="0" cellspacing="0">
+                  <tr>
+                    <td align="left"><a href="[#if d.linkurl??]${d.linkurl}[#else]${base!}/${d.path}/index.html[/#if]" class="jtxw3"></a></td>
+                  </tr>
+              </table></td>
+            </tr>
+          </table>                 
+                 [/#list]
+        [/@cms_channel_list]
+                 
+[#else]
+          <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="jtxw_menu2">
+            <tr>
+              <td align="right"><table width="67%" height="20" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td align="left"><a href="[#if c.linkurl??]${c.linkurl}[#else]${base!}/${c.path}/index.html[/#if]" class="jtxw2">${c.name}</a></td>
+                </tr>
+              </table></td>
+            </tr>
+          </table>
+[/#if]
+        [/#list]
+        [/@cms_channel_list]
+[#else]
+        		        [@cms_channel_list hasContent='0' titLen='38'  append='...' channelId=channel.channel_id?substring(0,channel.channel_id?length-4)]
+		<!--hasContent='1' 不显示外链栏目-->
+		<!--channelId='0001' 列出0001的子栏目-->
+		<!--channelId='0001,0002' 列出指定栏目-->
+
+        [#list tag_list as c]
+        [#if c.name=channel.name]
+          <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="jtxw_menu1">
+            <tr>
+              <td align="right"><table width="67%" height="20" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td align="left"><a href="[#if c.linkurl??]${c.linkurl}[#else]${base!}/${c.path}/index.html[/#if]" class="jtxw">${c.name}</a></td>
+                </tr>
+              </table></td>
+            </tr>
+          </table>
+         [@cms_channel_list hasContent='0'  titLen='38'  append='...' channelId=channel.channel_id]
+                 [#list tag_list as d]
+          <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="jtxw_menu3">
+            <tr>
+              <td align="right" valign="middle"><table width="61%" height="20" border="0" cellpadding="0" cellspacing="0">
+                  <tr>
+                    <td align="left"><a href="[#if d.linkurl??]${d.linkurl}[#else]${base!}/${d.path}/index.html[/#if]" class="jtxw3">${d.name}</a></td>
+                  </tr>
+              </table></td>
+            </tr>
+          </table>                 
+                 [/#list]
+        [/@cms_channel_list]
+                 
+[#else]
+          <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="jtxw_menu2">
+            <tr>
+              <td align="right"><table width="67%" height="20" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td align="left"><a href="[#if c.linkurl??]${c.linkurl}[#else]${base!}/${c.path}/index.html[/#if]" class="jtxw2">${c.name}</a></td>
+                </tr>
+              </table></td>
+            </tr>
+          </table>
+[/#if]
+        [/#list]
+        [/@cms_channel_list]
+[/#if]
+</td>
+      </tr>
+    </table></td>
+          <td align="center" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+          <td width="140" align="center" bgcolor="#0077C9" class="jtxw_tit"><font color="#FFFFFF">${channel.name!}</font></td>
+          <td height="34" background="${baseRes!}/img/lb01.jpg"> </td>
+          <td width="5"><img src="${baseRes!}/img/lb02.jpg" width="5" height="34" /></td>
+        </tr>
+      </table>
+   
+    
+    <div class="page_artlist">
+   <table width="100%" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+      <td height="60" align="center" class="xqye_24"><div id="pagetitle">
+        <h1>安徽交通运输概况</h1>
+      </div></td>
+    </tr>
+            <tr>
+              <td align="left" class="xqye_14"><div id="fontzoom"> <p>
+    <span style="FONT-SIZE: 18px; FONT-FAMILY: 仿宋, FangSong">　　安徽省在国家交通运输网络中，具有承东接西、连南接北、居中靠东、临江近海及处于长三角腹地等区位特征，凸显其重要地位和作用。近年来，安徽省交通运输部门服从服务于全省经济社会发展全局，以加快发展为第一要务，抓住国家扩大内需的历史机遇，持续加力推进交通基础设施建设，着力改善交通运输发展条件，不断提升交通运输保障服务能力，“微笑服务，温馨交通”活动誉满江淮，行业文明程度显著提升。<br/>　　2014年，全省交通基础设施建设累计完成投资730亿元，超出年度计划21.7%。其中，高速公路完成投资218.42亿元，国省干线公路完成投资365.71亿元，农村公路完成投资76.52亿元，水运完成投资55.86亿元，运输站场完成投资12.05亿元，分别超出年度计划4%、35.4%、39.1%、1.6%、20.5%。民航机场完成投资1.44亿元。<br/>　　公路：截至2014年底，全省公路总里程达17.4万公里，路网密度达到125.09公里/百平方公里。其中高速公路通车里程3752公里。省辖市实现了市市通高速，全省南北向6小时过境、东西向3小时过境。目前在建高速公路里程超过1000公里。全省一级公路里程达到2623公里，二级及以上公路里程17069公里，实现所有乡镇通沥青（水泥）路，行政村通公路率为99.99%。<br/>　　公路运输：2014年，全省完成道路运输客运量13.1亿人次，旅客周转量799.4亿人公里，同比增长10.0%、8.9%，货运量31.5亿吨，货物周转量7392亿吨公里，同比增长10.8%、13.0%(2014年数据与2013年有较大变动，因2013年交通运输部组织了全行业专项调查，调整运输量基数)。全省拥有载客汽车3.35万辆、89.6万客位，载货汽车69万辆、519万吨位。全省16个市间基本开通城际直达班车，通公路的行政村班车通达率达到98.65%。汽车客运站与邮政网点联网售票工作全面展开，16个市1488个邮政网点开通了联网售票业务。<br/>　　水运：截至2014年底，全省内河航道总里程6525公里，其中通航里程6271公里，高等级航道里程达1084公里。全省拥有营运船舶近2.94万艘，3680万载重吨。2014年，完成港口吞吐量4.38亿吨，集装箱吞吐量76.4万标箱，同比分别增长10.7%、45.1%。　<br/>　　航空：安徽现有合肥、黄山、阜阳、池州4个民用运输机场，安庆1个军民合用机场。全省市县城市候机楼达到29个。省内机场完成旅客吞吐量723.52万人次，货邮吞吐量4.95万吨，同比分别增长7.8%、15.1%。<br/>　　邮政：完成邮政业务总量80.84亿元，同比增长40.5%，完成快递业务量2.4亿件，同比增长73.5%。<br/>　　2015年全省交通运输系统将全面深入贯彻落实党的十八大和十八届三中、四中全会精神，坚持稳中求进工作总基调，坚持以提高经济发展质量和效益为中心，主动适应经济发展新常态，狠抓改革攻坚，强化法治建设，推动转型升级，提升服务质量，为经济社会持续健康发展提供坚强支撑和保障。主要预期目标是：完成交通基础设施建设投资630亿元，新增高速公路通车里程450公里、一级公路通车里程400公里；公路水路运输客运量、货运量分别增长8%、10%；完成港口吞吐量4.7亿吨。</span>
+</p>　</div></td>
+            </tr>
+</table>
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+    <tr>
+      <td align="center" height="20" valign="top"></td>
+    </tr>
+</table>
+   </td>
+  </tr>
+</table>
+</div>
+</div>
+[#include "../include/通用版底.html"/]
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+

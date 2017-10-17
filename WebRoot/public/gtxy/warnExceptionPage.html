@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <title>安徽省国土资源信用体系管理系统</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <script type='text/javascript'>
+    var CONTEXTPATH = '${base}';
+    var stylePath = 'blue';
+  </script>
+  <link href="${base}/private/ratifyFollow/css/blue/style.css" rel="stylesheet" type="text/css" />
+  <script src="${base}/include/js/main.js"></script>
+  <script src="${base}/include/js/string.js"></script>
+  <link href="${base}/include/css/themes/gray/easyui.css" rel="stylesheet" type="text/css" />
+  <script src="${base}/include/js/jquery.easyui.min.js"></script>
+  <script src="${base}/include/js/ajaxfileupload.js"></script>
+  <script src="${base}/js/util/preview.js"></script>
+  <script>
+    function setFileList(filePath,fileName,fileSize){
+      var fileList = $("#file_list").html();
+      $("#file_tr").attr("style","");
+      $("#file_list").html("&nbsp;<a href='${base}/"+filePath+"' >"+fileName+"("+fileSize+"MB)</a><br />"+fileList);
+    }
+
+    function doSave(){
+      if(Verify.hasError()){
+        return ;
+      }
+      $("#file_html").attr("value",$("#file_list").html());
+      jQuery.ajax({
+        type: 'POST',
+        url : "${base}/public/info/addWarnException" ,
+        data : $("#form1").serialize(),
+        success : function (res) {
+          if(res=="true"){
+            Dialog.alert("申请成功！",function(){
+              window.location.href = "${base}/public/info/index?id="+$("#xyzt_id").val();
+            });
+          }else{
+            Dialog.alert("申请失败！");
+          }
+          return false;
+        },
+        fail : function(res) {
+          Dialog.alert("系统错误?!");
+        }
+      });
+    }
+  </script>
+  <style type="text/css">
+    <!--
+    body,td,th {
+      font-size: 12px;
+    }
+    .STYLE1 {
+      font-size: 14px;
+      font-weight: bold;
+      color: #003399;
+    }
+    -->
+  </style>
+</head>
+<body leftmargin="0" topmargin="0" class="easyui-layout">
+<form name='form1' id="form1" method='post'>
+  <input type="hidden" name="id" id="id" value="$!id">
+  <input name="xyzt_id" id="xyzt_id" type="hidden" value="$!xyzt_id">
+  <input name="xy_type" id="xy_type" type="hidden" value="$!xy_type">
+  <input name="file_html" id="file_html" type="hidden">
+  <div region="center" border="false" style="width: 100%; height: 100%; padding: 0px 10px 10px;">
+    <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="table_auto margin_top15 table_titlebk">
+      <tr>
+        <td height="24" class="table_title"><span class="STYLE1">惩戒信息</span></td>
+      </tr>
+      <tr>
+        <td class="table_title">
+          <table width="100%" border="0" cellpadding="2" cellspacing="1" bgcolor="#CCCCCC">
+            <tr>
+              <td height="24" align="right" bgcolor="#FFFFFF">信用主体：</td>
+              <td height="24" colspan="3" bgcolor="#FFFFFF">&nbsp;合肥地质矿业有限公司 </td>
+            </tr>
+            <tr>
+              <td width="120" height="24" align="right" bgcolor="#FFFFFF">失信行为：</td>
+              <td height="24" colspan="3" bgcolor="#FFFFFF">&nbsp;$!sxxw</td>
+            </tr>
+            <tr>
+              <td height="24" align="right" bgcolor="#FFFFFF">失信情形：</td>
+              <td height="24" colspan="3" bgcolor="#FFFFFF">&nbsp;$!sxqx</td>
+            </tr>
+            <tr>
+              <td height="24" align="right" bgcolor="#FFFFFF"> 惩戒措施： </td>
+              <td height="24" colspan="3" bgcolor="#FFFFFF">&nbsp;$!cjcs</td>
+            </tr>
+            <tr>
+              <td height="24" align="right" bgcolor="#FFFFFF">被惩戒时限：</td>
+              <td height="24" bgcolor="#FFFFFF">&nbsp;$!start 至&nbsp;$!end_date</td>
+            </tr>
+          </table></td>
+      </tr>
+      <tr>
+        <td height="24" class="table_title">
+          <strong class="STYLE1">信用异议申请</strong>
+        </td>
+      </tr>
+      <tr>
+        <td class="table_title">
+          <table width="100%" border="0" cellpadding="2" cellspacing="1" bgcolor="#CCCCCC">
+            <tr>
+              <td width="79" height="24" align="right" nowrap bgcolor="#FFFFFF">
+                申请人：
+              </td>
+              <td width="385" height="24" bgcolor="#FFFFFF">
+                <input name="applicant" id="applicant" type="text" size="20">
+              </td>
+              <td width="287" height="24" align="right" bgcolor="#FFFFFF">
+                联系方式：
+              </td>
+              <td width="437" height="24" bgcolor="#FFFFFF">
+                <input name="tel" id="tel" type="text" size="20">
+              </td>
+            </tr>
+            <tr bgcolor="#ffffff">
+              <td width="79" height="24" align="right" nowrap bgcolor="#FFFFFF">
+                身份证号：
+              </td>
+              <td height="24" colspan="3" bgcolor="#FFFFFF">
+                <input name="code" id="code" type="text" size="20">
+              </td>
+            </tr>
+            <tr bgcolor="#ffffff">
+              <td width="79" height="24" align="right" nowrap bgcolor="#FFFFFF">
+                申述内容：
+              </td>
+              <td height="24" colspan="3" bgcolor="#FFFFFF">
+                <textarea name="note" id="note" cols="100" rows="5"></textarea>
+              </td>
+            </tr>
+            <tr bgcolor="#ffffff">
+              <td width="79" height="24" align="right" nowrap bgcolor="#FFFFFF">
+                上传附件：
+              </td>
+              <td height="24" colspan="3" bgcolor="#FFFFFF">
+                <span class="attachement" style="padding:2px;display:inline-block;" name="editable-input">
+                  <input type="text" name="fj">
+                  <button class="btn-text btn-attachement" onclick="loadFileClickOut(this);" type="button" fileinputname="fj" id="fj_button">选择</button>
+                </span>
+                <span style="color:gray;font-size:10px;"></span>
+              </td>
+            </tr>
+            <tr bgcolor="#ffffff" id="file_tr" style="display: none;">
+              <td width="79" height="24" align="right" nowrap bgcolor="#FFFFFF">
+                文件列表：
+              </td>
+              <td height="24" colspan="3" bgcolor="#FFFFFF">
+                <span id="file_list"></span>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+    <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="table_auto table_nrbk">
+      <tr>
+        <td valign="top" class="padding10">
+          <hr />
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div region="south" border="false"
+       style="overflow: hidden; padding: 10px 10px 0px 10px">
+    <div align="center" style="padding-bottom: 10px;">
+      <input class="button" type="button" name="btnOk" value="确认"
+             onclick="doSave()" />
+      <input class="button" type="button" name="btnOk" value="关闭"
+             onclick="window.close();" />
+    </div>
+  </div>
+</form>
+</body>
+</html>
+
+

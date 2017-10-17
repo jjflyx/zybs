@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<title>$!app_name</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<!-- 框架 -->
+		<script type='text/javascript'>
+			var CONTEXTPATH = '${base}';
+			var stylePath = '$!stylename';
+			var __ctxPath='${base}';
+			var __fullPath='${base}';
+		</script>
+		<link rel="stylesheet" type="text/css" href="${base}/include/css/page.css"/>
+		<link rel="stylesheet" type="text/css" href="${base}/css/form.css"/>
+		<link rel="stylesheet" type="text/css" href="${base}/js/ueditor/themes/default/ueditor.css" />
+	<!-- ueditor -->
+	<script type="text/javascript" charset="utf-8"	src="${base}/js/ueditor/editor_config.js"></script>
+	<script type="text/javascript" charset="utf-8"	src="${base}/js/ueditor/editor_api.js"></script>
+	<script type="text/javascript" defer="defer"  src="${base}/js/ueditor/lang/zh-cn/zh-cn.js" ></script>
+	<script src="${base}/include/js/main.js"></script>
+	<script src="${base}/include/js/string.js"></script>
+	<script src="${base}/include/js/t_ajax.js"></script>
+<script>
+function customHeightSet() {
+	var otherH_1 = jQuery(".pageBtnarea").outerHeight()
+			+ parseInt($(".pageM").css("paddingTop"))
+			+ parseInt($(".pageM").css("paddingBottom"));
+	var pageH = document.documentElement.clientHeight;
+	jQuery("#pageScroll").height(pageH - otherH_1);
+}
+jQuery(document).ready(function() {
+	customHeightSet();
+});
+window.onresize = function(){
+	customHeightSet();
+}
+</script>
+<style type="text/css">
+		html,body{width:100%;margin:0;}	
+		}
+	</style>
+	</head>
+	<body class="dialogBody">
+		<div class="pageM editpage" id="pageScroll" style="position:relative;">
+			<div id="ckeditDiv">
+	<form name='form1' id="form1" method='post' action="${base}/private/form/saveQuery">
+		<input type="hidden" name="queryhtml" id="queryhtml"/>
+		<input type="hidden" name="id" id="id" value="$!id"/>
+		<input type="hidden" name="formdefid" id="formdefid" value="$!formdefid"/>
+			<div class="conTitle clearfix">
+				<h2>列表功能</h2>
+			</div>
+			<div class="conBody">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tableEdits">
+					<colgroup>
+						<col width="10%" />
+						<col width="*" />
+					</colgroup>
+					<tr>
+						<th><input type="checkbox" value="1" name="forview" #if("$!query.forview"=="1")checked="checked"#end> 浏览</th>
+						<td>&nbsp;&nbsp;&nbsp;&nbsp;
+							<input type="text" name="viewurl" id="viewurl" value="$!query.viewurl" class="input" size="119">
+						</td>
+					</tr>
+					<tr>
+						<th><input type="checkbox" value="1" name="foradd" #if("$!query.foradd"=="1")checked="checked"#end> 新增</th>
+						<td>&nbsp;&nbsp;&nbsp;&nbsp;
+							<input type="text" name="addurl" id="addurl" value="$!query.addurl" class="input" size="119">
+						</td>
+					</tr>
+					<tr>
+						<th><input type="checkbox" value="1" name="forupdate" #if("$!query.forupdate"=="1")checked="checked"#end> 修改</th>
+						<td>&nbsp;&nbsp;&nbsp;&nbsp;
+							<input type="text" name="updateurl" id="updateurl" value="$!query.updateurl" class="input" size="119">
+						</td>
+					</tr>
+					<tr>
+						<th><input type="checkbox" value="1" name="formakeup" #if("$!query.formakeup"=="1")checked="checked"#end> 补录</th>
+						<td>&nbsp;&nbsp;&nbsp;&nbsp;
+							<input type="text" name="makeupurl" id="makeupurl" value="$!query.makeupurl" class="input" size="119">
+						</td>
+					</tr>
+					<tr>
+						<th><input type="checkbox" value="1" name="fordelete" #if("$!query.fordelete"=="1")checked="checked"#end> 删除</th>
+						<td>&nbsp;&nbsp;&nbsp;&nbsp;
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div class="conTitle clearfix">
+				<h2>弹窗大小</h2>
+			</div>
+			<div class="conBody">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tableEdits">
+					<colgroup>
+						<col width="10%" />
+						<col width="*" />
+					</colgroup>
+					<tr>
+						<th>宽度*高度</th>
+						<td>&nbsp;&nbsp;&nbsp;&nbsp;
+							<input type="text" name="width" id="width" value="$!query.width" class="input" verify="Number">
+							*
+							<input type="text" name="height" id="height" value="$!query.height" class="input" verify="Number">
+						</td>
+					</tr>
+				</table>
+			</div>
+	</form>
+	<div class="conTitle clearfix">
+				<h2>查询表单<span class="require">(*)</span></h2>
+			</div>
+			<div class="conBody">
+	<table width="100%" class="TableBlock">
+		<tr bgcolor="#DDDDDD">
+			<td width="95%">
+				<div style="width:100%;">
+						<p>
+							<script id="definehtml" name="definehtml">$!queryhtml</script>
+						</p>
+				</div>
+			</td>
+		</tr>
+	</table>
+	</div>
+	</div>
+		</div>
+		<div class="pageBtnarea">
+			<input type="button" class="button" name="Next" value="保存"  onclick="baocun()" /> 
+			<input type="button" class="button" name="Close" value="关闭"  onclick="myclose()" /> 
+		</div>
+	<form name='preform' id="preform" method='post' action="${base}/private/form/preview" target="newWin">
+		<input type="hidden" name="formhtml" id="preformhtml"/>
+	</form>
+    <script type="text/javascript" charset="utf-8"	src="queryDesign.js"></script>
+</body>
+</html>

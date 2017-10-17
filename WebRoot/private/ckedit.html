@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>$!app_name</title>
+<script type='text/javascript'>
+	var CONTEXTPATH = '${base}';
+	var stylePath = '$!stylename';
+</script>
+<link rel="stylesheet" type="text/css" href="${base}/include/css/page.css"/>
+<script src="${base}/include/js/main.js"></script>
+<script src="${base}/include/js/string.js"></script>
+<script src="${base}/include/js/t_ajax.js"></script>
+<script src="${base}/ckeditor/ckeditor.js"></script>
+<script>
+function customHeightSet(){			
+	var otherH_1	=jQuery(".pageBtnarea").outerHeight() + parseInt($(".pageM").css("paddingTop")) + parseInt($(".pageM").css("paddingBottom"));
+	var pageH	=document.documentElement.clientHeight;
+	jQuery("#pageScroll").height(pageH-otherH_1);
+}
+jQuery(document).ready(function(){
+	customHeightSet();
+	appendDiv();
+});
+window.onresize = function(){
+	customHeightSet();
+}
+</script>
+</head>
+<body class="dialogBody">
+	<form name='form1' id="form1" method='post' action="${base}/private/slzx/slj_info/saveBuDan">
+		<div class="pageM editpage" id="pageScroll" style="position:relative;">
+			
+			
+			<div class="conTitle clearfix">
+				<h2>内容描述</h2>
+			</div>
+			<div class="conBody">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tableEdits">
+					<colgroup>
+						<col width="10%" />
+						<col width="*%" />
+					</colgroup>
+					<tr>
+						<th><span class="require">(*)</span>内容：</th>
+						<td >
+							<textarea name="letternote" id="letternote" cols="45" rows="5" class="textarea "  verify="内容|NotNull&&Length<1000"></textarea>
+							<script type="text/javascript">CKEDITOR.replace('letternote');</script>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<div class="pageBtnarea">
+			<input type="button" class="button" name="btnOk" value="确定" onclick="dosave()"> 
+		</div>
+	</form>
+</body>
+<script>
+	function dosave() {
+		if (Verify.hasError()) {
+			return;
+		}
+		showLoading();
+		var req=new MyJqueryAjax($("#form1").attr("action"),$("#form1").serialize(),null,null).request();
+		if(req=="true"){ 
+			hideLoading();
+			Dialog.alert("保存成功！",function (){window.location.reload();});
+		}else{
+			hideLoading();
+			Dialog.alert("保存失败！");
+		} 
+	}
+</script>
+</html>

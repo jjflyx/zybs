@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>专题模板</title>
+<script type="text/javascript" src="${baseRes!}/js/jquery-1.9.1.min.js"></script>
+<link href="${baseRes!}/zt2/css/zt2css.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body bgcolor="#FFFFFF" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+<table width="1004" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td><img src="${baseRes!}/zt2/img/zt2r1_c1.jpg" width="1004" height="211" /></td>
+  </tr>
+</table>
+<table width="1004" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td height="38" background="${baseRes!}/zt2/img/zt2r2_c1.jpg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td align="center"><a href="#" class="menu">专题首页</a></td>
+        <td align="center"><a href="#" class="menu">通知公告</a></td>
+        <td align="center"><a href="#" class="menu">工作动态</a></td>
+        <td align="center"><a href="#" class="menu">相关下载</a></td>
+        <td align="center"><a href="#" class="menu">学习交流</a></td>
+        <td align="center"><a href="#" class="menu">工作动态</a></td>
+        <td align="center"><a href="#" class="menu">相关下载</a></td>
+        </tr>
+    </table></td>
+  </tr>
+</table>
+<table width="1004" border="0" align="center" cellpadding="5" cellspacing="0">
+  <tr>
+    <td><table width="100%" border="0" cellpadding="0" cellspacing="1" bgcolor="#E0D4BE">
+      <tr>
+        <td height="500" align="center" valign="top" bgcolor="#FFFFFF"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td width="125" height="28" align="center" bgcolor="#CC0000" class="tit">${channel.name!}</td>
+            <td width="867" height="28" align="right" bgcolor="#E9DADA"> </td>
+          </tr>
+          
+        </table>
+          <table width="100%" border="0" cellpadding="0" cellspacing="0">
+  [@cms_content_page count='15' orderBy='4' channelId=channel.channel_id channelOption='1' titLen='55'  append='...' dateFormat='yyyy-MM-dd']
+ [#list tag_pagination.list as a]
+            <tr>
+              <td height="27" align="left"><a href="[#if a.link??]${a.link}[#else]${base!}/${a.path}/${a.content_id}.html[/#if]" title="${a.title}" target="_blank"><span style="[#if a.title_color??]color:${a.title_color};[/#if][#if a.is_bold='Y']font-weight:bold;[/#if]">·[#if a.short_title??][@text_cut s=a.short_title len=titLen append='...'/][#else][@text_cut s=a.title len=titLen append='...'/][/#if]</span> </a></td>
+              <td width="85" height="27" class="time">${a.pub_time?date(dateFormat)}</td>
+            </tr>
+ [/#list]
+<tr>
+              <td  colspan="1">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                       <tr>
+                                      <td height="12" colspan="1"></td>
+                                      </tr>
+                      </table>
+              </td>
+            </tr>
+            <tr>
+              <td  colspan="1">
+                        <table width="98%" height="45" border="0" cellpadding="0" cellspacing="0">
+                         <tr>
+                            <td height="1" align="center" background="${baseRes!}/zt2/img/zt2line.jpg"><img src="${baseRes!}/zt2/img/zt2line.jpg" width="2" height="1" hspace="1" /></td>
+                         </tr>
+                         <tr>
+                            <td align="center">[@cms_pagination sysPage='1'/]    </td>
+                       </tr>
+                     </table>
+              </td>
+            </tr>
+            [/@cms_content_page]
+            
+          </table>
+                   </td>
+      </tr>
+    </table></td>
+  </tr>
+</table>
+<table width="1004" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td height="6" bgcolor="#990000"></td>
+  </tr>
+  <tr>
+    <td height="35" align="center" bgcolor="#FFFFFF" class="style">版权所有 安徽省交通运输厅</td>
+  </tr>
+</table>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<title>$!app_name</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<!-- 框架 -->
+	<script type='text/javascript'>
+		var CONTEXTPATH = '${base}';
+		var stylePath = '$!stylename';
+	</script>
+	<link href="${base}/include/css/blue/style.css" rel="stylesheet" type="text/css" />
+	<link href="${base}/include/css/page.css" rel="stylesheet" type="text/css" />
+	<style>
+		html,body{ *overflow:hidden;}
+	</style>
+	<script type="text/javascript" src="${base}/include/js/jquery.min.js"></script>
+	<script type="text/javascript" src="${base}/include/js/string.js"></script>
+	<script>
+		function customHeightSet() {
+			var otherH_1 = jQuery(".pageBtnarea").outerHeight()
+					+ parseInt(jQuery(".pageM").css("paddingTop"))
+					+ parseInt(jQuery(".pageM").css("paddingBottom"));
+			var pageH = document.documentElement.clientHeight;
+			jQuery("#pageScroll").height(pageH - otherH_1);
+		}
+		jQuery(document).ready(function() {
+			customHeightSet();
+		});
+		window.onload = function() {
+			customHeightSet();
+		}
+		window.onresize = function() {
+			customHeightSet();
+		}
+
+		//浏览页面
+		function detail(id){
+			var iHeight = 520;
+			var iWidth = 900;
+			var iTop = (window.screen.height-30-iHeight)/2;//获得窗口的垂直位置;
+			var iLeft = (window.screen.width-10-iWidth)/2;//获得窗口的水平位置;
+			window.open("${base}/private/gtxt/zj/view?id="+id,"估价师信息", 'height='+iHeight+',,innerHeight='+iHeight+',width='+iWidth+',innerWidth='+iWidth+',top='+iTop+',left='+iLeft+',toolbar=no,menubar=no,scrollbars=auto,resizeable=no,location=no,status=no');
+		}
+	</script>
+</head>
+<body>
+<form name='form1' id="form1" method='post'>
+	<input type="hidden" name="type" id="type" value="$!obj.type">
+	<input type="hidden" name="id" id="id" value="$!obj.id">
+	<div class="pageM viewpage" id="pageScroll">
+		<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="table_titlebk">
+			<tr>
+				<td class="table_title" align="center">
+					法人信息
+				</td>
+			</tr>
+		</table>
+		<div class="conBody">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0"
+				   class="tableViews">
+				<tr>
+					<th width="150">法人名称：</th>
+					<td width="*">$!{xyzt_info.name}</td>
+					<th width="150">组织机构代码：</th>
+					<td width="180">$!{xyzt_info.zzjgdm}</td>
+				</tr>
+				<tr>
+					<th>统一社会信用代码：</th>
+					<td>$!{xyzt_info.code}</td>
+					<th>工商注册号：</th>
+					<td>$!{xyzt_info.gszch}</td>
+				</tr>
+				<tr>
+					<th>法定代表人姓名：</th>
+					<td>$!{xyzt_info.fr_name}</td>
+					<th>法定代表人身份证号：</th>
+					<td >$!{xyzt_info.fr_code}</td>
+				</tr>
+				<tr>
+					<th>联系电话：</th>
+					<td>$!{xyzt_info.tel}</td>
+					<th>登记机关：</th>
+					<td>$!{xyzt_info.djjg}</td>
+				</tr>
+
+				<tr>
+					<th>税务登记号：</th>
+					<td>$!{xyzt_info.swdjh}</td>
+					<th>企业状态：</th>
+					<td>$!qyzt.get("$!xyzt_info.state")</td>
+				</tr>
+				<tr>
+					<th>企业类型：</th>
+					<td colspan="3">$!qytype.get("$!xyzt_info.company_type")</td>
+				</tr>
+				<tr>
+					<th>设立日期：</th>
+					<td>$!{xyzt_info.create_date}</td>
+					<th>年检日期：</th>
+					<td>$!{xyzt_info.hzrq}</td>
+				</tr>
+				#if($!{xyzt_info.xylx}=="00050002")
+				<tr>
+					<th>注册地址：</th>
+					<td colspan="3">$!{xyzt_info.zc_addr}</td>
+				</tr>
+				#end
+				<tr>
+					<th>办公地址：</th>
+					<td colspan="3">$!{xyzt_info.company_addr}</td>
+				</tr>
+				#if($!{xyzt_info.xylx}=="00050001")
+				<tr>
+					<th>机构规模：</th>
+					<td colspan="3">$!{xyzt_info.jggm} 人</td>
+				</tr>
+				#end
+				<tr>
+					<th>联系人手机号码：</th>
+					<td colspan="3">$!{xyzt_info.phone}</td>
+				</tr>
+			</table>
+			#if($zjList&&$!zjList.size()>0)
+			<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="table_titlebk">
+				<tr>
+					<td class="table_title" align="center">
+						估价师信息
+					</td>
+				</tr>
+			</table>
+			<div class="conBody">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0"
+					   class="tableViews">
+					#foreach($zj_info in $zjList)
+					<tr>
+						<th width="150">估价师名称：</th>
+						<td width="*">
+							<a href="javascript:void(0);" onclick="detail('$!{zj_info.id}');">$!{zj_info.name}</a>
+						</td>
+						<th width="150">添加时间：</th>
+						<td width="180">$!{zj_info.add_time}</td>
+					</tr>
+					#end
+				</table>
+			</div>
+			#end
+		</div>
+	</div>
+</form>
+<div class="pageBtnarea">
+	<!--<input class="button" type="button" name="btnOk" value="确认"-->
+	<!--onclick="doSave()" />-->
+	<input class="button" type="button" name="btnOk" value="关闭"
+		   onclick="window.close();" />
+</div>
+</body>
+</html>

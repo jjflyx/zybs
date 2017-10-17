@@ -1,0 +1,110 @@
+<!DOCTYPE HTML>
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+<title>啊是是的 - 测试网站群</title>
+<meta content="测试,2222" http-equiv="keywords" />
+<meta content="摘要" http-equiv="description" />
+
+<link href="../../res/default/css/html5.css" rel="stylesheet" type="text/css"/>
+<script src="../../res/default/js/jquery.js" type="text/javascript"></script> 
+</head>
+<body>
+<div class="container">
+<div class="theTop">
+	<div class="theTopLeft"> 
+    </div>
+    <div class="theTopRight">
+    <a onclick="SetHome(window.location)"href="javascript:void(0)">设为首页</a>&nbsp;|&nbsp;<a onclick="AddFavorite(window.location,document.title)"href="javascript:void(0)">加入收藏</a>&nbsp;
+    </div>
+</div>
+<script type="text/javascript" language="javascript">
+   //加入收藏
+       function AddFavorite(sURL, sTitle) {
+           sURL =encodeURI(sURL); 
+       try{   
+          window.external.addFavorite(sURL, sTitle);   
+       }catch(e) {   
+          try{   
+              window.sidebar.addPanel(sTitle, sURL, "");   
+           }catch (e){   
+              alert("您的浏览器不支持自动加入收藏功能，请使用Ctrl+D进行添加，或手动在浏览器里进行设置！");
+          }   
+       }
+   }
+   
+   //设为首页
+   function SetHome(url){
+       if (document.all) {
+          document.body.style.behavior='url(#default#homepage)';
+             document.body.setHomePage(url);
+       }else{
+           alert("您的浏览器不支持自动设置页面为首页功能，请您手动在浏览器里设置该页面为首页！");
+       }
+   }
+</script><div class="pageTitle">
+    <!-- LOGO_begin -->
+    <div class="webLogo">
+        <img src="../../res/default/img/logo.png" width="" height="65"/>
+    </div>
+    <!-- LOGO_end -->
+    <!-- 搜索_begin -->
+    <div class="searchCon">
+        <form action="../../res/default/search.jspx" target="_blank">
+            <div class="searchBg">
+            	<input name="q" value="请输入关键词" type="text" onfocus="if(this.value=='请输入关键词')this.value=''" onblur="if(this.value=='')this.value='请输入关键词'" maxlength="50" autocomplete="off" / style="border:0;width:98%;">
+            </div>
+            <input type="submit" class="searchMenu" value=""/ >
+        </form>
+    </div>
+    <!-- 搜索_end -->
+</div>
+<div class="clear"></div>
+<!-- 左栏_begin -->
+	<div class="w670 mt10">
+		 <div class="website">当前位置：<a href="/index.html">首页</a> > <a target="_blank" href="/xwdt/index.html" title="新闻动态">新闻动态</a> > 正文</div>
+        <div class="clear"></div>
+		<div class="newsTex">
+        	<h1>啊是是的</h1>
+            <div class="msgbar">发布时间： 2014-01-16 11:11:43 &nbsp; 作者：网友 &nbsp; 来源： 微博
+            
+            </div>
+            <div class="summary"><span style="color:#ff0000; font-weight:bold;">摘要:</span> 摘要</div>
+            
+				<img src="http://file.test.cn/upload/images/2014-01-20/b3a6e81dae2743acbd33176cbfc32cb9.jpg" style="max-width:650px; max-height:450px; _width:650px; _height:450px;"/>
+
+            <p style="margin: 5px auto; text-align: center"> <object height="400" width="600" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000">
+            <param name="movie" value="../../res/default/img/flvplayer.swf" />
+            <param name="quality" value="high" />
+            <param name="allowFullScreen" value="true" />
+            <param name="FlashVars" value="vcastr_file=http://file.test.cn/upload/video/2014-01-20/c92672adeef346dd85aab5cea0d1843c.wmv&BufferTime=3" /><embed height="400" width="600" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" quality="high" flashvars="vcastr_file=http://file.test.cn/upload/video/2014-01-20/c92672adeef346dd85aab5cea0d1843c.wmv" allowfullscreen="true" src="../../res/default/img/flvplayer.swf"></embed></object></p>
+            <div class="newsCon"><p>&#39;</p><p><span style="color: rgb(51, 51, 51); font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 23px; background-color: rgb(250, 250, 250);">没有青春痘，青春多了~</span></p><p><span style="color: rgb(51, 51, 51); font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 23px; background-color: rgb(250, 250, 250);"><span style="color: rgb(51, 51, 51); font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 23px; background-color: rgb(250, 250, 250);">没有青春痘，青春多了~</span></span></p><p><span style="color: rgb(51, 51, 51); font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 23px; background-color: rgb(250, 250, 250);"><span style="color: rgb(51, 51, 51); font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 23px; background-color: rgb(250, 250, 250);"><span style="color: rgb(51, 51, 51); font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 23px; background-color: rgb(250, 250, 250);">没有青春痘，青春多了~</span></span></span></p><p><span style="color: rgb(51, 51, 51); font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 23px; background-color: rgb(250, 250, 250);"><span style="color: rgb(51, 51, 51); font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 23px; background-color: rgb(250, 250, 250);"><span style="color: rgb(51, 51, 51); font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 23px; background-color: rgb(250, 250, 250);"><span style="color: rgb(51, 51, 51); font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 23px; background-color: rgb(250, 250, 250);">没有青春痘，青春多了~</span></span></span></span></p><p><span style="color: rgb(51, 51, 51); font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 23px; background-color: rgb(250, 250, 250);"><span style="color: rgb(51, 51, 51); font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 23px; background-color: rgb(250, 250, 250);"><span style="color: rgb(51, 51, 51); font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 23px; background-color: rgb(250, 250, 250);"><span style="color: rgb(51, 51, 51); font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 23px; background-color: rgb(250, 250, 250);"><span style="color: rgb(51, 51, 51); font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 23px; background-color: rgb(250, 250, 250);">没有青春痘，青春多了~</span></span></span></span></span></p></div>
+            <div class="pagebar"></div>
+			<div>
+				<ul>
+				<li>附件：</li>
+				<li>
+				<a href="http://file.test.cn/upload/images/2014-01-20/2d472bbcc96c4983a25a0afb1e1dc4d1.jpg" target="_blank">附件1</a>
+				</li>
+				<li>
+				<a href="http://file.test.cn/upload/images/2014-01-20/524fcbf87ee34631b1b95c1213c89624.jpg" target="_blank">Lighthouse.jpg</a>
+				</li>
+				<li></li>
+				</ul>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="clear-10"></div>	
+	</div>
+<div class="clear-10"></div>
+<div class="footBg">
+    <div class="footBglm">
+    <a target="_blank" href="http://www.wizzer.cn">联系我们</a> 
+    </div>
+    <div class="clear-10"></div>
+    QQ：11624317 <br />
+    Powered by <a target="_blank" href="http://www.wizzer.cn">Wizzer</a> Copyright &copy; 2014 www.Wizzer.cn, All Rights Reserved 
+</div></div>
+</body>
+</html>

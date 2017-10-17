@@ -1,0 +1,271 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html >
+<head>
+    <title>$!app_name</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<!-- 框架 -->
+	<link href="${base}/include/css/default.css" rel="stylesheet" type="text/css"/>
+	<script type='text/javascript'>
+		var CONTEXTPATH = '${base}';
+	</script>
+    <script src="${base}/include/js/main.js"></script>
+    <script src="${base}/include/js/string.js"></script>
+	<!-- 分页  注意顺序 -->
+	<link href="${base}/include/css/themes/gray/easyui.css" rel="stylesheet" type="text/css"/> 	
+	<script src="${base}/include/js/jquery.easyui.min.js"></script>	
+    <!-- 树 -->
+    <script type="text/javascript" src="${base}/include/controls/ztree/jquery.ztree.core-3.5.min.js"></script> 
+	<link rel="stylesheet" href="${base}/include/controls/ztree/zTreeStyle/zTreeStyle.css" type="text/css">
+    <SCRIPT type="text/javascript">
+           <!--
+           function add()
+           {           
+				var arr = $('#dg1').datagrid('getSelected'); 
+				var id="";
+                if (arr) {
+                	id=arr.site_id;
+                }
+	        	var d = new Dialog("Add");
+	           	d.Width = 550;
+	           	d.Height = 350;
+	           	d.Title = "新建站点";
+	           	d.URL = "${base}/private/cms/site/toadd?site_id="+id;
+	           	d.onLoad = function(){
+	           		 
+	           		  $DW.$Z("site_name").focus();
+	           	}
+	           	d.OKEvent = function(){
+	           		if($DW.Verify.hasError()){
+	          		  return;
+	          	     }
+					jQuery.ajax({
+						url : "/private/cms/site/checkpath",
+						data : $DW.$("#form1").serialize(),
+						success : function (res) {	
+						 
+							if(res=="true"){
+								Dialog.alert("路径已存在!");	
+								return; 
+							}else{
+							   addSave();
+							}
+						},
+						fail : function(res) {
+							Dialog.alert("系统错误?!");
+							return;
+						}
+				}); 
+	           			
+					 
+	           	}; 
+	           	d.show();
+           }
+           function addSave(){  
+			    $DW.Page.MinMessage.Show({
+					text: '正在创建', 
+					type: 'load' 
+				});
+        		jQuery.ajax({
+        			 	type: 'POST',
+            			url : "${base}/private/cms/site/add" ,
+            			data : $DW.$("#form1").serialize(),
+            			success : function (res) { 
+            				if(res=="true"){
+            					$D.close();
+            					Dialog.alert("添加成功！");
+            					loadGrid();
+            				}else{
+            					Dialog.alert("添加失败！");
+            				}
+            				$DW.Page.MinMessage.Hide(); 
+            				return false;
+            			},
+            			fail : function(res) {
+            				Dialog.alert("系统错误?!");
+            			}
+                });
+        	}
+            function delId(id) {
+		       	Dialog.confirm("删除站点会清空站点文件夹及文件，确定删除？请谨慎操作。", function(){
+		       		Page.MinMessage.Show({
+						text: '正在执行', 
+						type: 'load' 
+					});
+		  	    	jQuery.ajax({
+		  	    	 	type: 'POST',
+		  	    		url : "${base}/private/cms/site/delete?site_id="+id ,    		
+		  	    		success : function (res) { 
+		  	    			if(res=="true"){    				
+		  	    				Dialog.alert("删除成功！");
+		  	    				 $("#dg1").treegrid("reload");
+		  	    			}else{
+		  	    				Dialog.alert("删除失败！");
+		  	    			}	
+		  	    			loadGrid();
+		  	    			Page.MinMessage.Hide();
+		  	    			return false;
+		  	    		},
+		  	    		fail : function(res) {
+		  	    			Dialog.alert("系统错误!");
+		  	    		}
+		  	    	});
+		  	    }, "", 280, 120);    
+           }
+           function updateId(id)
+           {        
+	        	var d = new Dialog("Update");
+	        	d.Width = 550;
+	           	d.Height = 350;
+	           	d.Title = "修改站点";
+	           	d.URL = "${base}/private/cms/site/toupdate?site_id="+id;
+	           	d.onLoad = function(){
+	           		$DW.$Z("site_name").focus();
+	           	}
+	           	d.OKEvent = function(){
+					if($DW.Verify.hasError()){
+       					return;
+       				} 
+					updateSave();
+						
+	           	};
+	           	d.show();
+           }
+           function updateSave(){     
+				$DW.Page.MinMessage.Show({
+					text: '正在执行', 
+					type: 'load' 
+				});
+       		    jQuery.ajax({
+       				type: 'POST',
+           			url : "${base}/private/cms/site/update" ,
+           			data : $DW.$("#form1").serialize(),
+           			success : function (res) { 
+           				
+           				if(res!=""){
+           					$D.close();
+           					Dialog.alert("修改成功！");
+           					loadGrid();
+           				}else{
+           					Dialog.alert("修改失败！");
+           				}
+           				$DW.Page.MinMessage.Hide();
+           				return false;
+           			},
+           			fail : function(res) {
+           				Dialog.alert("系统错误?!");
+           			}
+           		});
+       	   }
+           function getWidth(percent){
+        	   return document.body.clientWidth*percent;
+		   }
+           
+           function loadGrid(){
+        	   $("#dg1").treegrid({
+        	        width:"auto",
+        	   		height:"auto",
+        	        nowrap: false,  
+        	        striped: false,  
+        	        border: true,  
+        	        collapsible:false,//是否可折叠的  
+        	        fit: true,//自动大小  
+        	        url:"${base}/private/cms/site/list",  
+        	        //sortName: 'code',  
+        	        //sortOrder: 'desc', 
+        	        //queryParams:{"id":""},queryParams:{"id":""},
+        	        remoteSort:false,   
+        	        idField:"site_id",
+        	        treeField:"site_name",
+        	        singleSelect:false,//是否单选  
+        	        pagination:false,//分页控件  
+        	        rownumbers:true,//行号  
+        	        fitColumns: true,//行自适应
+        	        loadMsg:'数据加载中...',
+        	        columns:[[
+						{title : '网站ID',field : '_id',width:getWidth(0.10),align : 'left',
+							formatter: function(value,row,index){
+								return row.site_id;
+							}
+						},
+						{title : '网站名称',field : 'site_name',width:getWidth(0.25),align : 'left'},
+						{title : '网站简称',field : 'site_sname',width:getWidth(0.25),align : 'left'},
+						{title : '域名',field : 'site_domain',width:getWidth(0.22),align : 'left'},
+						{title : '路径',field : 'site_path',width:getWidth(0.22),align : 'left'},
+						{title : '操作选项', field: '_cz',width:getWidth(0.15),align : 'center',
+							formatter: function(value,row,index){
+								return "<a href='javascript:updateId(\""+row.site_id+"\")'>修改</a> | <a href='javascript:delId(\""+row.site_id+"\")'>删除</a>";
+							}
+						}
+        	        ]],frozenColumns:[[  
+           	          	            {field:"site_id",checkbox:true}
+       	          	 ]]
+
+        	        //onSelect:function(){
+        	        //    $(this).datagrid('clearSelections');
+        	        //}
+        	    }); 
+        	   //$(".datagrid-header-check").first().css("display","none");
+           }
+           Page.onLoad(function() {
+        	   loadGrid();
+           }); 
+           $(window).resize(function () {
+       		clearTimeout(timer);
+       		timer=setTimeout(function(){
+       		  $('#dg1').treegrid('resize');
+       		  $('div.panel-body').css('width','auto'); 
+       		 },200);
+       		});
+           //-->
+       </SCRIPT>
+</head>
+<body leftmargin="0" topmargin="0">
+
+<table width="100%" border="0" cellspacing="6" cellpadding="0"
+		style="border-collapse: separate; border-spacing: 6px;">
+		<tr valign="top">
+			<td width="100%">
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse: separate; border-spacing: 0;">
+    <tr valign="top">
+      <td>
+	   <form name="form1" id="form1" method="post" > 
+        <input type="hidden" name="checkids" id="checkids" value="">
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="blockTable">
+                                      <tr>
+                                        <td class="blockTd">
+                                        
+                                        <table width="100%" border="0" cellspacing="0" cellpadding="6" >
+                                          <tr>
+                                            <td valign="middle"><img src="${base}/images/icons/icon021a1.gif" width="20" height="20" />
+                                            &nbsp;<span>站点管理</span></td>
+                                          </tr>
+                                          <tr>
+                                            <tr>
+												<td style="padding: 0 8px 4px;"><a
+													href='javascript:void(0);' ztype='zPushBtn'
+													class='zPushBtn' hidefocus='true' tabindex='-1'
+													onselectstart='return false' id='BtnAdd' onClick="add();"><img
+														src="${base}/images/icons/icon022a2.gif"
+														width="20" height="20" /><b>新建&nbsp;</b></a>  </td>
+											</tr>
+                                          </tr>
+                                          <tr>
+                                            <td style="padding:0px 5px;"height="350" >                                             
+                                            <table width="100%" height="100%" id="dg1" size="10" cellpadding="2" cellspacing="0">
+												<tr><td></td></tr>
+											</table>                                          
+                                            </td>
+                                          </tr>
+                                        </table></td>
+                                      </tr>
+                                    </table>
+                                    
+	   </form>
+	  </td>
+    </tr>
+ </table>
+ </td>
+    </tr>
+ </table>
+</body>
+</html>

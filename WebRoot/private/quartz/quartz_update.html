@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html style="overflow:hidden">
+<head>
+<title>$!app_name</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!-- 框架 -->
+<link rel="stylesheet" type="text/css"
+	href="${base}/include/css/blue/style.css" />
+<script type='text/javascript'>
+		var CONTEXTPATH = '${base}';
+		var stylePath = '$!stylename';
+	</script>
+<script src="${base}/include/js/main.js"></script>
+<script src="${base}/include/js/string.js"></script>
+<script src="${base}/include/js/ajaxfileupload.js"></script>
+</head>
+<body class="dialogBody">
+	<form name='form1' id="form1" method='post'>
+		<input type="hidden" name="id" value="$!obj.id"/>
+		<table width="100%" height="100%" border="0">
+			<tr>
+				<td valign="middle">
+					<table align="center" cellpadding="2" cellspacing="0">
+						<tr>
+							<td width="104" height="10"></td>
+							<td width="6"></td>
+							<td width="400"></td>
+						</tr>
+						<tr>
+							<td align="right">任务id：</td>
+							<td>&nbsp;</td>
+							<td width="260">
+								$!obj.task_id
+							</td>
+						</tr>
+						<tr>
+							<td align="right">任务组id：</td>
+							<td>&nbsp;</td>
+							<td>
+								<input type="text" name="group_id" id="group_id" size="40" value="$!obj.group_id" verify="任务组id|NotNull">
+							</td>
+						</tr>
+						<tr>
+							<td align="right">任务表达式：</td>
+							<td>&nbsp;</td>
+							<td>
+								<input type="text" name="cron_expression" id="cron_expression" size="40" value="$!obj.cron_expression" verify="任务表达式|NotNull">
+							</td>
+						</tr>
+						<tr>
+							<td align="right">运行类：</td>
+							<td>&nbsp;</td>
+							<td>
+								<input type="text" name="run_class" id="run_class" size="40" value="$!obj.run_class" verify="运行类|NotNull">
+							</td>
+						</tr>
+						<tr>
+							<td align="right">运行方法：</td>
+							<td>&nbsp;</td>
+							<td>
+								<input type="text" name="run_method" id="run_method" size="40" value="$!obj.run_method" verify="运行方法|NotNull">
+							</td>
+						</tr>
+						<tr>
+							<td align="right">使用参数：</td>
+							<td>&nbsp;</td>
+							<td>
+								<input type="text" name="params" id="params" size="40" value="$!obj.params"  />
+							</td>
+						</tr>
+						<tr>
+							<td align="right">执行文件：</td>
+							<td>&nbsp;</td>
+							<td>
+									<input type="text" name="fj" size="40" value="$!obj.filepath">
+									<input name="filepath" id="filepath" type="hidden" value="$!obj.filepath">
+									<button class="btn-text btn-attachement" onclick="loadFileClickOut(this);" type="button" fileinputname="fj" id="fj_button">选择</button>
+							</td>
+						</tr>
+						<tr>
+							<td align="right">任务说明：</td>
+							<td>&nbsp;</td>
+							<td>
+								<textarea rows="3" style="width: 100%" name="bz" >$!obj.bz</textarea>
+							</td>
+						</tr>
+						<tr>
+							<td align="right">任务状态：</td>
+							<td>&nbsp;</td>
+							<td>
+								<input type="radio" name="status"  value="0"   checked="checked">启动
+								<input type="radio" name="status" value="1" >冻结
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</form>
+	<script type="text/javascript">
+		$(function (){
+			$("input[name='status']").each(function(i,val){
+				var val=$(this).val();
+				if(val=='$!obj.status'){
+					$(this).attr('checked',true);
+				}
+			});
+		});
+		function loadFileClickOut(obj){
+        	var inputname=$(obj).attr("fileinputname");
+        	var d = new Dialog("filedialog");
+        	d.Width = 360;
+        	d.Height = 160;
+        	d.Title = "文件上传";
+        	d.URL = CONTEXTPATH+"/private/file/uploadOne";
+        	d.OKEvent = function(){
+        		$('input[name="'+inputname+'"]').val($DW.$("#filename").val());
+        		$("#filepath").val($DW.$("#filepath").val());
+        		$D.close();
+        	};
+        	d.CancelEvent = function(){
+        		$D.close();
+        	};
+        	d.onLoad = function() {
+
+        	}
+        	d.ButtonCenter=true;
+        	d.show();
+        	d.OKButton.value=" 确定";
+        	d.CancelButton.value=" 取消 ";
+        }
+	</script>
+</body>
+</html>

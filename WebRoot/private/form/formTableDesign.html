@@ -1,0 +1,240 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>$!app_name</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!-- 框架 -->
+<script type='text/javascript'>
+	var CONTEXTPATH = '${base}';
+	var stylePath = '$!stylename';
+</script>
+<link rel="stylesheet" type="text/css" href="${base}/include/css/page.css" />
+<script src="${base}/include/js/main.js"></script>
+<script src="${base}/include/js/string.js"></script>
+<script src="${base}/include/js/t_ajax.js"></script>
+<link href="${base}/include/css/themes/gray/easyui.css" rel="stylesheet"ntype="text/css" />
+<script src="${base}/include/js/jquery.easyui.min.js"></script>
+<script src="formTableDesign.js"></script>
+<script src="json2.js"></script>
+<script>
+	function customHeightSet() {
+		var otherH_1 = jQuery(".pageBtnarea").outerHeight()
+				+ parseInt($(".pageM").css("paddingTop"))
+				+ parseInt($(".pageM").css("paddingBottom"));
+		var pageH = document.documentElement.clientHeight;
+		jQuery("#pageScroll").height(pageH - otherH_1);
+	}
+	jQuery(document).ready(function() {
+		customHeightSet();
+	});
+	window.onresize = function() {
+		customHeightSet();
+	}
+</script>
+<!-- 分页  注意顺序 -->
+<style type="text/css">
+<!--
+fieldset {
+	background: #FFFFFF;
+	border: 1px solid #CCCCCC;
+}
+
+legend {
+	margin-left: 5px;
+	line-height: 25px;
+	padding-right: 5px;
+	padding-left: 5px;
+}
+
+.titimg {
+	vertical-align: middle;
+	padding: 3px 3px 3px 20px;
+	background: url(up.png) no-repeat left center;
+}
+
+.titimg2 {
+	vertical-align: middle;
+	padding: 3px 3px 3px 20px;
+	background: url(down.png) no-repeat left center;
+}
+-->
+</style>
+</head>
+<body class="dialogBody">
+	<div class="pageM editpage" id="pageScroll" style="position:relative;">
+		<form name='form1' id="form1" method='post' action="${base}/private/form/saveForm">
+			<input type="hidden" name="formdesid" id="formdesid" value="$!formdesid"/>
+			<input type="hidden" name="objs" id="objs" />
+			<input type="hidden" name="subobjs" id="subobjs" />
+			<input type="hidden" name="status" id="status" />
+			<input type="hidden" name="xyml" id="$!xyml" />
+			<input type="hidden" name="table_type" id="$!table_type" />
+			<div class="pageM editpage" id="pageScroll" style="position:relative;">
+				<table  width="100%" border="0" cellspacing="6" cellpadding="0">
+					<tr>
+						<td valign="top" #if("$!formtype"=="2") width="60%"#end><fieldset>
+								<legend>主表信息</legend>
+								<div class="conBody">
+									<table width="100%" border="0" cellspacing="0" cellpadding="0"
+										class="tableEdits">
+										<colgroup>
+											<col width="10%" />
+											<col width="*" />
+										</colgroup>
+										<tr>
+											<th><span class="require">(*)</span>表名：</th>
+											<td><input type="text" name="tableName" id="tableName" value="$!tableName"
+												class="input" size="30" maxlength="50" verify="表名|NotNull">
+											</td>
+										</tr>
+										<tr>
+											<th><span class="require">(*)</span>表KEY：</th>
+											<td><input type="text" name="tableKey" id="tableKey" value="$!tableKey"
+												class="input" size="30" maxlength="50" verify="表KEY|NotNull" #if($!onlyread==1)readonly#end/>
+											</td>
+										</tr>
+									</table>
+								</div>
+								<div style="background-color:#F3F5F5; margin:10px; border:1px #E8E8E8 solid;">
+									<div region="center" border="false"
+										style="height:100%; padding:0px; ">
+										<div id="tt" style="width: 100%; height: 100%;  background:#FFFFFF"></div>
+									</div>
+								</div>
+							</fieldset></td> 
+							#set($tables=${result.formTable.subTableList})
+							#if($tables&&$tables.size()>0)
+						<td valign="top" width="38%">
+						<fieldset>
+								<legend>子表信息</legend>
+								#foreach($table in $tables)
+								<div>
+									<center>
+										<fieldset style="margin:15px; ">
+											<legend class="titimg" id="legend$velocityCount" onclick="changeshow('$velocityCount')">${table.tablekey}表</legend>
+											<div class="conBody" id="conBody$velocityCount">
+												<table width="100%" border="0" cellspacing="0"
+													cellpadding="0" class="tableEdits">
+													<colgroup>
+														<col width="10%" />
+														<col width="*" />
+													</colgroup>
+													<tr>
+														<th><span class="require">(*)</span>表名：</th>
+														<td><input type="text" name="tableName$velocityCount" value="$!table.tablename"
+															id="tableName$velocityCount" class="input" size="30" maxlength="50"
+															verify="表名|NotNull" readonly="readonly"/></td>
+													</tr>
+													<tr>
+														<th><span class="require">(*)</span>表KEY：</th>
+														<td><input type="text" name="tableKey$velocityCount" value="$!table.tablekey"
+															id="tableKey$velocityCount" class="input" size="30" maxlength="50"
+															verify="表KEY|NotNull" readonly="readonly"/>
+															</td>
+													</tr>
+												</table>
+											</div>
+											<div id="subdiv$velocityCount" style="background-color:#F3F5F5; margin:10px; border:1px #E8E8E8 solid;">
+												<div region="center" border="false"
+													style="width:100%;height:100%; padding:0px; ">
+													<div id="sub$velocityCount" style="width: 100%; height: 100%;  background:#FFFFFF"></div>
+												</div>
+											</div>
+
+										</fieldset>
+									</center>
+								</div>
+								#end
+							</fieldset></td> #end
+					</tr>
+				</table>
+			</div>
+		</form>
+	</div>
+	<div class="pageBtnarea">
+		<div id="nextdiv">
+			<input type="button" class="button" name="Preview" value="预览" onclick="preview()" /> 
+			<input type="button" class="button" name="Save" value="保存" onclick="dosave(0)" /> 
+			<input type="button" class="button" name="Fabu" value="发布" onclick="dosave(1)" /> 
+			<input type="button" class="button" name="Next" value="上一步" onclick="up()" /> 
+			<input type="button" class="button" name="Close" value="关闭" onclick="myclose()" />
+		</div>
+	</div>
+	<div id="preview" style="padding:10px;margin-top:10px;display:none">
+	</div>
+</body>
+<script type="text/javascript">
+	
+	var data=${result.formTable.formFieldsJson};
+	var tmp;
+	$(function(){
+		initTT(data);
+		#foreach($table in ${result.formTable.subTableList})
+		tmp=${table.formFieldsJson};
+		initSub('sub$velocityCount',tmp);
+		#end
+	});
+	function dosave(i){
+		if (Verify.hasError()) {
+			return;
+		}
+		var tablekeys=$("#tableKey").val();
+		#foreach($table in ${result.formTable.subTableList})
+		tablekeys+=","+$('#tableKey$velocityCount').val();
+		#end
+		jQuery.ajax({
+			url:"${base}/private/form/checktable?xyml=$!xyml&id="+$('#formdesid').val()+"&tablekeys="+tablekeys,
+			dataType:"html",
+			success:function(msg){
+				if(msg==""){
+					save(i);
+				}else if(msg=="error"){
+					Dialog.alert("系统出错，请联系管理员！");
+				}else{
+					Dialog.alert(msg+" 表Key重复,请重新输入！");
+				}
+			}
+		});
+	}
+	function save(bcfb){
+		var all=$('#tt').datagrid('getData');
+		var tmp={tableName:$('#tableName').val(),tableKey:$('#tableKey').val()};
+		var json=$.parseJSON(JSON.stringify(all));
+		json = objMerger(json, tmp);
+		$("#objs").val(encode64(JSON.stringify(json)));
+		var array=new Array();
+		var i=0;
+		#foreach($table in ${result.formTable.subTableList})
+		all=$('#sub$velocityCount').datagrid('getData');
+		tmp={tableName:$('#tableName$velocityCount').val(),tableKey:$('#tableKey$velocityCount').val()};
+		json=$.parseJSON(JSON.stringify(all));
+		json = objMerger(json, tmp);
+		array[i]=json;
+		i=i+1;
+		#end
+		$("#subobjs").val(encode64(JSON.stringify(array)));
+		$("#status").val(bcfb);
+		var name="保存";
+		if(bcfb==1){
+			name="发布";
+		}
+		showLoading();
+		var req=new MyJqueryAjax($("#form1").attr("action"),$("#form1").serialize(),null,null).request();
+		if(req=="true"){ 
+			hideLoading();
+ 			Dialog.alert(name+"成功！",function (){
+ 				refreshloadDataTab();
+ 			});
+		}else{
+			hideLoading();
+			Dialog.alert(name+"失败！");
+		}
+	}
+	function objMerger(obj1, obj2){
+		for(var r in obj2){
+		eval("obj1."+r+"=obj2."+r);
+		}
+		return obj1;
+	}
+</script>
+</html>

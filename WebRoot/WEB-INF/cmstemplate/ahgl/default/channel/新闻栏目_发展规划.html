@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>安徽省公路局</title>
+<script type="text/javascript" src="${baseRes!}/js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="${baseRes!}/js/hits.js"></script>
+<script type="text/javascript" src="${baseRes!}/js/jquery.KinSlideshow-1.2.1.min.js"></script>
+<script type="text/javascript" src="${baseRes!}/js/MSClass.js"></script>
+<link rel="stylesheet" type="text/css" href="${baseRes!}/css/ny.css"/>
+<!--[if IE 6]>
+<script language="javascript" type="text/javascript" src="${baseRes!}/js/DD_belatedPNG.min.js"></script>
+<![endif]-->
+</head>
+<body>
+[#include "../include/top.html"/]
+<div class="width1004">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td width="735" valign="top"><table width="100%" height="48" border="0" cellpadding="0" cellspacing="0">
+        <tr>
+          <td width="40" align="center"><img src="${baseRes!}/img/dqwz.gif" width="18" height="16" /></td>
+          <td><font color="#8c8c8c">当前位置： <a href="${base!}/index.html" class="dqwz">首页</a> -> [#list channelList as n]<a href="${base!}/${n.path}/index.html"  class="dqwz">${n.name}</a>[#if n_has_next] -> [/#if][/#list]</font></td>
+        </tr>
+      </table>
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="nytitle">
+          <tr>
+            <td ><font class="nytext">${channel.name}</font></td>
+          </tr>
+        </table>
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td> </td>
+          </tr>
+          <tr>
+            <td> 总体目标<br /> 
+　　实施2356战略:完善两个网络：国省干线公路网和农村公路网。完成300亿投资：确保“十二五”完成国省干线公路投资300亿元。推进五个体系：权责一致的公路管理体系，规范有序的建养管理体系，公正文明的路政执法体系，统一高效的应急保障体系，坚强有力的支持保障体系。实施六化管理：建养管理精细化，路政管理法制化，应急保畅信息化，路域环境生态化，人才队伍专业化，服务社会人性化。<br /> 
+具体目标： <br /> 
+(1)完善路网结构，扩大路网规模<br /> 
+　　省会与各市、各市与各市之间全部以高速公路或一级公路连接；市与县、相邻县之间基本实现二级及以上公路连接，出省公路基本达到二级及以上公路标准。干线路网达到17500公里，普通国省干线公路13000公里。普通国省干线公路中，一级公路3900公里，二级公路8000公里，二级及以上公路所占比例达到91.5%。 <br /> 
+(2)提高养护水平，实现养护现代化<br /> 
+　　国省干线公路平均路面状况指数（PQI）高于80，优良路率超过90％。建设不少于3000公里的“和谐畅通路”。干线公路每年大中修里程比例为13～18%，大中修工程优良率达到90%。力争一、二级公路养护工程全部实现机械化。基本消除干线公路安全隐患，基本消除已有四、五级桥梁。重大灾害点基本得到整治。国省道干线公路当年水毁修复率达到97%以上，水毁工程灾害重现率下降到3%以下。    <br /> 
+(3)强化路政管理，提升执法水平<br /> 
+　　健全完善路政管理相关政策制度，建立有利于公路事业健康持续发展的路政管理体系。建成全省联网的路网管理信息综合平台，实现路网运行可视化、实时化监控。建设一支行为规范、文明服务的执法队伍。车辆超限率控制在4%以内。 <br /> 
+(4)加强行业监管，完善应急保障<br /> 
+　　实现100%的乡镇建立农村公路养护管理机构。健全应急管理体制和机制。建立省级应急物资储备库3-4个，市级应急物资储备中心17个。市路网管理与应急处置平台建成率100％，并实现省市联网。 
+<br /> 
+           <img src="${baseRes!}/img/about.jpg" width="735" height="146" /><br /><br /></td>
+          </tr>
+        </table></td>
+      <td valign="top"> </td>
+     <td width="240" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td height="48" class="ny_font18">
+            [#assign temp=0 ]
+[@cms_channel_list parentId=channel.channel_id]
+[#list tag_list as c]
+[#if  c.channel_id=channel.channel_id?substring(0,channel.channel_id?length-4) ]
+[#assign temp=1 ]
+    	${c.name} 
+ [/#if]
+
+[/#list]
+[/@cms_channel_list]
+[#if  temp=0 ]
+首页  
+[/#if]
+        </td>
+        </tr>
+        <tr>
+          <td valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+[@cms_channel_list hasContent='0' titLen='38'  append='...' channelId=channel.channel_id?substring(0,channel.channel_id?length-4)]
+ [#list tag_list as c]
+[#if channel.channel_id=c.channel_id]
+            	<tr>
+          <td><a href="[#if c.linkurl??]${c.linkurl}[#else]${base!}/${c.path}/index.html[/#if]"  class="leftmenu1">${c.name}</a></td>
+            </tr>
+ [#else]
+	<tr>
+        <td><a href="[#if c.linkurl??]${c.linkurl}[#else]${base!}/${c.path}/index.html[/#if]"  class="leftmenu">${c.name}</a></td>
+       </tr>
+[/#if]
+ [/#list]
+  [/@cms_channel_list]
+           </table></td>
+        </tr>
+      </table></td>
+    </tr>
+  </table>
+</div>
+[#include "../include/foot.html"/]
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

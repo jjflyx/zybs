@@ -1,0 +1,457 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<title>$!app_name</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<!-- 框架 -->
+		<script type='text/javascript'>
+		var CONTEXTPATH = '${base}';
+		var stylePath = '$!stylename';
+	</script>
+		<link href="${base}/include/css/blue/style.css" rel="stylesheet"
+			type="text/css" />
+		<script src="${base}/include/js/main.js"></script>
+		<script src="${base}/include/js/string.js"></script>
+		<!-- 分页  注意顺序 -->
+		<link href="${base}/include/css/themes/gray/easyui.css"
+			rel="stylesheet" type="text/css" />
+		<script src="${base}/include/js/jquery.easyui.min.js"></script>
+		<!-- 树 -->
+		<script type="text/javascript"
+			src="${base}/include/controls/ztree/jquery.ztree.core-3.5.min.js"></script>
+		<link rel="stylesheet"
+			href="${base}/include/controls/ztree/zTreeStyle/zTreeStyle.css"
+			type="text/css">
+		<script type="text/javascript">
+	//定义容器宽度
+	function getWidth(percent) {
+		return document.body.clientWidth * percent;
+	}
+	var userMap = $!userMap;
+	//加载list数据
+	function loadGrid() {
+		var infostate = $("#infostate").val();
+		var title = Page.getValue("SearchArticleName");
+		var url = "${base}/private/msg/msgInfo/fslist?infotype=0&infostate=" + infostate;
+		$("#dg1").datagrid( {
+			width : "auto",
+			height : "auto",
+			nowrap : true,
+			striped : true,
+			border : true,
+			collapsible : false,//是否可折叠的  
+			fit : true,//自动大小  
+			url : url,
+			queryParams : {
+				"keys" : title
+			},
+			remoteSort : false,
+			idField : "id",
+			singleSelect : false,//是否单选  
+			pagination : true,//分页控件  
+			rownumbers : true,//行号
+			fitColumns : true,//行自适应
+			pageSize : 10,
+			pageList : [ 5, 10, 15, 20, 30, 40, 50 ],
+			loadMsg : '数据加载中...',
+			onDblClickRow : function(rowIndex, row) {
+				toupdateId(row.id);
+			},
+			columns : [ [ {
+				title : '标题',
+				field : 'title',
+				width : 200,
+				align : 'left',
+				formatter:function(val,rec){  
+	                   return "<a href=\"javascript:;\" onClick=\"detailInfo('"+rec.id+"');\">"+val+"</a>";  
+	                }  
+			}, {
+				title : '接收人',
+				field : 'ext2',
+				width : 260,
+				align : 'left',
+				formatter:function(val,row){
+					if(val){
+						var arrExt2 = val.split(/\s+/);
+						val="";
+						for(var i in arrExt2){
+							var username = userMap[arrExt2[i]];
+							if(username){
+								val+=username+"&nbsp;&nbsp;&nbsp;"
+							}
+						}
+					}
+					return val;
+				}
+			}/* , {
+				title : '文号',
+				field : 'fileno',
+				width : 120,
+				align : 'left'
+			} */, {
+				title : '发布日期',
+				field : 'ctime',
+				width : 60,
+				align : 'left'
+			}, {
+				title : '公告状态',
+				field : 'infostate',
+				width : 40,
+				align : 'left',
+				formatter:function(value,rec,index){
+					if(value==1){
+						return '<font color="red">已发送</font>';
+					}else if(value==2){
+						return '已撤回';
+					}else if(value==-1){
+						return '草稿';
+					}
+					else{
+						return '已删除';
+					}
+				}
+			},
+			{
+				field : "detail",
+				title : "浏览",
+				width : 30,
+				formatter:function(val,rec){  
+                   val = '<img src=${base}/images/icons/icon003a15.gif />';
+                   return "<a href=\"javascript:;\" onClick=\"detailInfo('"+rec.id+"');\">"+val+"</a>";  
+                }  
+			} ] ],
+			frozenColumns : [ [ {
+				field : "id",
+				checkbox : true
+			} ] ]
+		});
+
+		function formatOper(val, row, index) {
+			var $_html = "<a href=\"#\" onclick=\"editUser('+index+')\">修改</a>";
+			return $_html;
+		}
+
+		//设置分页控件  
+		var p = $("#dg1").datagrid("getPager");
+		$(p).pagination( {
+			beforePageText : "第",//页数文本框前显示的汉字  
+			afterPageText : "页    共 {pages} 页",
+			displayMsg : "当前显示 {from} - {to} 条记录   共 {total} 条记录",
+			onBeforeRefresh : function() {
+			}
+		});
+	}
+	//增加公告
+	function addwindow() {
+   		var title='新增公告';
+   		var iWidth=900; //弹出窗口的宽度;
+   		var iHeight=(screen.availHeight) + "px"; //弹出窗口的高度;  
+		var url = "${base}/private/msg/msgInfo/toadd?infotype=" + 0+'&sys_random=' + Math.random();
+   		openWin3(url,title,iWidth,iHeight);
+	}
+	//修改公告
+	function updatewindow(id) {
+		var id_array = new Array();
+		var checkboxs = $("input[name='id']:checked");
+		if (checkboxs.length <= 0) {
+			Dialog.alert("请选择编辑的公告");
+			return false;
+		}
+		if (checkboxs.length > 1) {
+			Dialog.alert("只能选择一条记录");
+			return false;
+		}
+		var id = checkboxs.val();
+		$.ajax( {
+			type : 'POST',
+			url : "${base}/private/msg/msgInfo/isCg?id="+id,
+			dataType:"json",
+			success : function(res) {
+				if (res == true) {
+					var title='编辑公告';
+			   		var iWidth=900; //弹出窗口的宽度;
+			   		var iHeight=(screen.availHeight) + "px"; //弹出窗口的高度;  
+					var url = "${base}/private/msg/msgInfo/toupdate?id=" + id+'&sys_random=' + Math.random();
+			   		openWin3(url,title,iWidth,iHeight);
+				} else {
+					Dialog.alert("这不是草稿");
+					return false;
+				}
+			},
+			fail : function(res) {
+				Dialog.alert("系统错误!");
+			}
+		});
+		
+		
+	}
+
+	//ajax提交表单
+	function save() {
+		$.ajax( {
+			type : 'POST',
+			url : "${base}/private/sys/article/save",
+			data : $DW.$("#articleForm").serialize(),
+			success : function(res) {
+				if (res == "true") {
+					
+					$D.close();
+					loadGrid();
+				} else {
+					Dialog.alert("添加失败！");
+				}
+			},
+			fail : function(res) {
+				Dialog.alert("系统错误!");
+			}
+		});
+	}
+
+	function jstateUpd(num) {
+		//未读消息
+		if (num == 0) {
+			$("#backBtn").show();
+			$("#BtnDel").hide();
+			$("#BtnUpdate").hide();
+			$("#BtnSend").hide();
+		} else if (num == 1) {
+			//已读消息
+			$("#backBtn").show();
+			$("#BtnDel").hide();
+			$("#BtnUpdate").hide();
+			$("#BtnSend").hide();
+		} else if (num == -1) {
+			//草稿
+			$("#backBtn").hide();
+			$("#BtnDel").show();
+			$("#BtnUpdate").show();
+			$("#BtnSend").show();
+		} else if (num == 2) {
+			//撤销消息
+			$("#BtnUpdate").show();
+			$("#backBtn").hide();
+			$("#BtnDel").show();
+			$("#BtnSend").hide();
+		}else{
+			//未知状态
+			$("#BtnUpdate").hide();
+			$("#backBtn").hide();
+			$("#BtnDel").hide();
+			$("#BtnSend").hide();
+		}
+		loadGrid();
+	}
+	function isCg(id){
+		$.ajax( {
+			type : 'POST',
+			url : "${base}/private/msg/msgInfo/isCg?id="+id,
+			success : function(res) {
+				if (res == "true") {
+					return true;
+				} else {
+					return false;
+				}
+			},
+			fail : function(res) {
+				Dialog.alert("系统错误!");
+			}
+		});
+	}
+	//删除公告
+	function del() {
+		var id_array = new Array();
+		$("input[name='id']:checked").each(function() {
+			id_array.push($(this).val());//向数组中添加元素
+			});
+		if (id_array.length > 0) {
+			Dialog.confirm("您确认要删除吗？", function() {
+					var url = "${base}/private/msg/msgInfo/delete?ids="+ id_array;
+					$.ajax( {
+						url : url,
+						success : function(result) {
+							if (result == 'true') {
+								
+								loadGrid();
+							} else {
+								Dialog.alert("只有草稿和已撤回可以删除");
+								loadGrid();
+							}
+						},
+						error : function(e) {
+							alert(e);
+						}
+					});
+				});
+		} else {
+			Dialog.alert("请至少选择一条公告！");
+			return;
+		}
+	}
+
+	//查看收到的消息
+	function queryInfo() {
+		var id_array = new Array();
+		var checkboxs = $("input[name='id']:checked");
+		if (checkboxs.length <=0) {
+			Dialog.alert("请选择查看的公告");
+			return false;
+		}
+		if (checkboxs.length > 1) {
+			Dialog.alert("一次只能查看一条！");
+			return false;
+		}
+		var id = checkboxs.val();
+		
+		var url = "${base}/private/msg/msgInfo/view?id=" + id+"&sys_menu=查看&sys_random=" + Math.random();
+		window.open(url);
+		
+	}
+	//查看收到的消息
+	function detailInfo(id) {
+		var url = "${base}/private/msg/msgInfo/view?id=" + id+"&sys_menu=查看&sys_random=" + Math.random();
+		window.open(url);
+		
+	}
+	function sub(){
+		var id_array = "";
+		$("input[name='id']:checked").each(function() {
+			id_array+=$(this).val()+",";//向数组中添加元素
+			});
+		if (id_array.length > 0) {
+			Dialog.confirm("您确认要发送吗？", function() {
+					var url = "${base}/private/msg/msgInfo/send?ids="+ id_array;
+					$.ajax( {
+						url : url,
+						success : function(result) {
+							if (result == 'true') {
+								
+								loadGrid();
+							} else {
+								Dialog.alert("发送失败，只能发送草稿");
+								loadGrid();
+							}
+						},
+						error : function(e) {
+							alert(e);
+						}
+					});
+				});
+		} else {
+			Dialog.alert("请至少选择一条公告！");
+			return;
+		}
+	}
+	//撤销公告
+	function revocation() {
+		var id_array = new Array();
+		$("input[name='id']:checked").each(function() {
+			id_array.push($(this).val());//向数组中添加元素
+			});
+		if (id_array.length == 0) {
+			Dialog.alert("请至少选择一条公告！");
+			return;
+		}
+		Dialog.confirm("您确认要撤销吗？", function() {
+			var url = "${base}/private/msg/msgInfo/revocation?ids=" + id_array;
+			$.ajax( {
+				url : url,
+				success : function(result) {
+					Dialog.alert(result);
+					loadGrid();
+				},
+				error : function(e) {
+					Dialog.alert("撤销出错！");
+				}
+			});
+		});
+	}
+	//页面载入
+	Page.onLoad(function() {
+		jstateUpd($!infostate);
+	});
+</script>
+	</head>
+	<body leftmargin="0" topmargin="0" class="easyui-layout">
+	<form name="form1" id="form1" method="post">
+		<input type="hidden" name="unitid" id="unitid" value="">
+		<input type="hidden" name="lock" id="lock" value="0">
+		<input type="hidden" name="checkids" id="checkids" value="">
+		<input type="hidden" name="status" id="status" value="$!status" />
+		<div region="north" border="false" style="overflow:hidden; padding:10px 10px 0px 10px">
+			<table width="100%" border="0" cellspacing="0" cellpadding="6">
+				<tr>
+					<td style="padding: 5px 8px 4px;">
+						&nbsp;公告状态：
+						<select name="infostate" id="infostate" onchange="jstateUpd(this.value)">
+							<option value="">请选择</option>
+							<option value="-1">草稿</option>
+							<option value="1">已发送</option>
+							<option value="2">已撤回</option>
+						</select>
+						<script type="text/javascript">selected(form1.infostate,'$!infostate')</script>
+						&nbsp;标题：&nbsp;
+						<input name="SearchArticleName" type="text" id="SearchArticleName" 
+							value="" style="width: 110px" onfocus="this.value='';">
+						<input class="button" type="button" name="Submitbutton"
+							id="Submitbutton" onClick="loadGrid();" value="查询" />
+					</td>
+				</tr>
+				<tr>
+					<td valign="top">
+						<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0"
+								class="table_auto czbutton_bk margin_top5">
+							<tr>
+								<td>
+									<div class="czbutton">
+										<ul>
+											<li id='BtnAdd'>
+												<a href='javascript:void(0);' onClick="addwindow();">
+													<img src="${base}/include/img/cz_add.png"
+														width="14" height="14" class="png" /><b>新建&nbsp;</b>
+												</a>
+											</li>
+											<li id='BtnUpdate'>
+												<a href='javascript:void(0);' onClick="updatewindow();"> 
+													<img src="${base}/include/img/bj.png" 
+														width="16" height="16" /><b>编辑&nbsp;</b>
+												</a>
+											</li>
+											<li id='backBtn'>
+												<a href='javascript:void(0);' onclick="revocation();">
+													<img src="${base}/include/img/qy.png"
+														width="16" height="16" /><b>撤销&nbsp;</b>
+												</a>
+											</li>
+											<li id='BtnDel'>
+												<a href='javascript:void(0);' onClick="del();">
+													<img src="${base}/include/img/cz_del.png" width="14"
+														height="14" /><b>删除&nbsp;</b>
+												</a>
+											</li>
+											<li id='BtnDetail'>
+												<a href='javascript:void(0);' onclick="queryInfo();">
+													<img src="${base}/include/img/ll.png"
+														width="16" height="16" /><b>查看&nbsp;</b>
+												</a>
+											</li>
+											<li id='BtnSend'>
+												<a href='javascript:void(0);' onclick="sub();">
+													<img src="${base}/include/img/cz_sl.png"
+														width="16" height="16" /><b>发送&nbsp;</b>
+												</a>
+											</li>
+										</ul>
+									</div>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div region="center" border="false" style="width:100%;height:100%; padding:0px 10px 10px;">
+			<div id="dg1" style="width: 100%; height: 100%;"></div>
+		</div>
+	</form>
+	</body>
+</html>

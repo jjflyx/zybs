@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+<head>
+
+    <title>$!app_name</title>
+     
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link href="${base}/include/css/default.css" rel="stylesheet" type="text/css"/> 
+	<script type='text/javascript'>
+		var CONTEXTPATH = '${base}';
+	</script>
+    <script src="${base}/include/js/main.js"></script>
+    <script src="${base}/include/js/string.js"></script>
+<script type='text/javascript'>	
+	function first()
+{
+	if (document.form1.sel.selectedIndex<=0) return;
+	var strSelValue=document.form1.sel.options[document.form1.sel.selectedIndex].value;
+	var strSelText =document.form1.sel.options[document.form1.sel.selectedIndex].text;
+
+	var value;
+	var text;
+
+	for(var i=0;i<=document.form1.sel.selectedIndex;i++){
+		if(i==0){value=strSelValue;text=strSelText;}
+		var curValue=document.form1.sel.options[i].value;
+		var curText=document.form1.sel.options[i].text;
+		document.form1.sel.options[i].value=value;
+		document.form1.sel.options[i].text=text;
+
+		value=curValue;
+		text=curText;
+	}
+}
+
+function up()
+{
+	if (document.form1.sel.selectedIndex<=0) return;
+	var strValue=document.form1.sel.options[document.form1.sel.selectedIndex-1].value;
+	var strText=document.form1.sel.options[document.form1.sel.selectedIndex-1].text;
+	document.form1.sel.options[document.form1.sel.selectedIndex-1].value=document.form1.sel.options[document.form1.sel.selectedIndex].value;
+	document.form1.sel.options[document.form1.sel.selectedIndex-1].text=document.form1.sel.options[document.form1.sel.selectedIndex].text;
+	document.form1.sel.options[document.form1.sel.selectedIndex].value=strValue;
+	document.form1.sel.options[document.form1.sel.selectedIndex].text=strText;
+
+	document.form1.sel.options[document.form1.sel.selectedIndex-1].selected=true;
+}
+function down()
+{
+	if (document.form1.sel.selectedIndex>=document.form1.sel.options.length-1) return;
+	var strValue=document.form1.sel.options[document.form1.sel.selectedIndex+1].value;
+	var strText=document.form1.sel.options[document.form1.sel.selectedIndex+1].text;
+	document.form1.sel.options[document.form1.sel.selectedIndex+1].value=document.form1.sel.options[document.form1.sel.selectedIndex].value;
+	document.form1.sel.options[document.form1.sel.selectedIndex+1].text=document.form1.sel.options[document.form1.sel.selectedIndex].text;
+	document.form1.sel.options[document.form1.sel.selectedIndex].value=strValue;
+	document.form1.sel.options[document.form1.sel.selectedIndex].text=strText;
+	document.form1.sel.options[document.form1.sel.selectedIndex+1].selected=true;
+    document.form1.sel.options[document.form1.sel.selectedIndex].selected=false;
+}
+
+function last()
+{
+	if (document.form1.sel.selectedIndex<0) return;
+
+	var strSelValue=document.form1.sel.options[document.form1.sel.selectedIndex].value;
+	var strSelText =document.form1.sel.options[document.form1.sel.selectedIndex].text;
+
+	var value;
+	var text;
+	for(var i=document.form1.sel.options.length-1;i>=document.form1.sel.selectedIndex;i--){
+		if(i==document.form1.sel.options.length-1){value=strSelValue;text=strSelText;}
+		var curValue=document.form1.sel.options[i].value;
+		var curText=document.form1.sel.options[i].text;
+		document.form1.sel.options[i].value=value;
+		document.form1.sel.options[i].text=text;
+
+		value=curValue;
+		text=curText;
+	}
+}
+function getIds(){ 
+  	for(var i=0;i<document.form1.sel.options.length;i++){
+		$("#ids").val($("#ids").val()+","+document.form1.sel.options[i].value);
+	}
+ 
+}
+</script>
+</head>
+<body class="dialogBody">
+<form name='form1' id="form1" method='post'>
+<input type="hidden" name="ids" id="ids" value="">    
+       <table width="100%" height="100%" align="center" cellpadding="2" cellspacing="0">
+        <tr>
+            <td height="10"></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td width="320" valign="top">
+                <div id="con_one_1"> 
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                            
+
+                            <tr>
+                                <td width="10%" height="30" align="right"></td>
+                                <td width="75%">
+                                    <select name="sel" id="sel" multiple  size="12" style='width:90%'>
+                  #foreach($o in $obj)
+					<option value="$!o.model_id">$!o.model_name</option>
+				  #end
+          </select> 
+                                </td> 
+                                <td width="15%">
+                                     <input value='向上' type='button' onclick="up()"><br><br>
+       <input value='向下' type='button' onclick="down()"><br><br>
+       <input value='置首' type='button' onclick="first()"><br><br>
+       <input value='置尾' type='button' onclick="last()"><br>
+                                </td>
+                            </tr>
+ 
+                        </table> 
+                </div>
+            </td>
+            </tr>
+            </table>
+      </form>
+
+</body>
+</html>

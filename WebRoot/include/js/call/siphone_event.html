@@ -1,0 +1,295 @@
+
+<!-- -------------------呼叫中心事件--------------------------------- -->
+
+<!-- 名称：连接acd响应事件 -->
+<!-- 功能: -->
+<!-- 连接成功后注册软电话 -->
+<script language="javascript" for="GHOCX" event="OnAgentConnectToACD(iResult)">
+	if (iResult == 1) {
+		Dialog.alert("连接成功"); 
+	} else if (iResult == 2) {
+		Dialog.alert("已经连接ACD，请勿重复链接。状态："+iResult); 
+	} else if (iResult==-1) {
+		Dialog.alert("连接失败。状态："+iResult); 
+	} else {
+		Dialog.alert("未知状态。状态："+iResult);
+	}
+</script>
+
+<!-- 名称： -->
+<!-- void OnAgentLogin(BOOL bResult, short iReason) -->
+<!-- 功能: -->
+<!-- 座席登录后触发该事件。 -->
+<!-- 参数：	 -->
+<!-- bResult：登录结果（TRUE=成功、FALSE=失败） -->
+<!-- iReason：登录状态（-1=未知状态、0=登录成功、1=分机不存在、2=分机重复、3=分机未注册、4=工号重复、5= ACDLicense不够、6=登录超时） -->
+<script language="javascript" for="GHOCX" event="OnAgentLogin(bResult,iReason)">
+//alert(bResult+"---"+iReason);
+		if(!bResult){
+			GHOCX.DisConnectToACD();//断开acd
+		}
+		switch(iReason) {
+		case -1: 
+		  	alert("签入未知状态:"+iReason);
+			break;
+		case 0: 
+			init(1);
+			alert("签入成功");
+			break;	
+		case 1: 
+			alert("分机不存在:"+iReason);
+			break;	
+		case 2: 
+			alert("分机重复:"+iReason);
+			break;	
+		case 3: 
+			alert("分机未注册:"+iReason);
+			break;	
+		case 4: 
+			alert("工号重复:"+iReason);
+			break;	
+		case 5: 
+			alert("ACDLicense不够 :"+iReason);
+			break;	
+		case 6: 
+			alert("登录超时 :"+iReason);
+			break;	
+		case 7: 
+			alert("坐席签入连接失败 :"+iReason);
+			break;
+		case 8: 
+			alert("已经登录 :"+iReason);
+			break;	
+		default:
+			GHOCX.DisConnectToACD();//断开acd
+			LogP("未知错误，", "iReason：(" + iReason + ")错误！");
+			return 0
+			break;
+		}
+</script>
+<!-- 坐席呼入接通后弹屏 -->
+<script language="javascript" for="GHOCX" event="OnAnswerConnected()">
+	//设置 挂断 按钮
+	showOrHideState(document.getElementById("zhaiji_btn"),'none');
+	showOrHideState(document.getElementById("guaduan_btn"),'inline');
+	//设置接听按钮显示结束
+	
+	//显示三方通话和转接按钮
+	tonghuazhong();
+	
+	var times=new Date().getTime();
+	//录音id
+	var appid=GHOCX.GetRecordAppID();
+	isManully=1;
+	
+	if(iszContent==0){
+		var url='/$!globals_sys_basename/private/slzx/sljdj.xp?doAction=toadd&titlename=受理件登记'+times+'&flowid='+appid+'&caller='+caller+'&appid='+appid;
+		showw = window.open(url,'来电信息'+times, 'status=yes,toolbar=no,menubar=no,resizable=yes,scrollbars=yes,location=no,width=900,height=800');
+	}else{
+		//转接后根据随路数据再设置录音id与393行代码一起使用否则无效。
+		GHOCX.SetRecordAppID(iszContent);
+		var url='/$!globals_sys_basename/private/slzx/sljdj.xp?doAction=toadd&titlename=受理件登记'+times+'&flowid='+iszContent+'&caller='+caller+'&appid='+iszContent;
+		showw = window.open(url,'来电信息'+times, 'status=yes,toolbar=no,menubar=no,resizable=yes,scrollbars=yes,location=no,width=900,height=800');
+		iszContent=0;
+	}
+</script>
+
+<!-- 等待应答 --> 
+<script language="javascript" for="GHOCX" event="OnTelephoneRing(szCaller,szCallid)">
+	caller=szCaller;
+	flowid=szCallid;
+	document.getElementById("laidhm").text="来电号码："+szCaller;
+	document.getElementById("laidsj").text="来电时间："+getcurtime();//显示来电时间
+	
+	//设置 接听 按钮
+	showOrHideState(document.getElementById("zhaiji_btn"),'inline');
+	showOrHideState(document.getElementById("guaduan_btn"),'none');
+	//设置接听按钮显示结束
+</script>
+<!-- 挂机事件 -->
+<script language="javascript" for="GHOCX" event="OnTelephoneHangup()">
+	//挂机后，设置坐席状态
+	if(isManully!=1){//未接来电后自动调用此方法
+		isManully=0; 
+	}
+	iszContent=0;//挂机后置为0为了下次接听电话是新来电，否则系统显示是上一个电话
+	phonenumber=0;
+	//保存来电弹窗页面信息
+	if(showw!=null){
+		try {
+		alert("a");
+			showw.window.dosave();
+			showw.close();
+		} catch (e) {
+			alert(e.message);
+		}
+	}
+	//隐藏挂机按钮
+	showOrHideState(document.getElementById("zhaiji_btn"),'none');
+	showOrHideState(document.getElementById("guaduan_btn"),'none');
+	//设置接听按钮显示结束
+	
+	//禁用三方通话和转接按钮
+	notonghua();
+	alert("已挂机!");
+	showw=null;
+</script>
+<!-- 监听坐席状态 -->
+<script language="javascript" for="GHOCX" event="OnAgentStateChanged(iAgentState)">
+	if(iAgentState==2){//示闲
+		AgentState=2;
+		showOrHideState(document.getElementById("free"),'none');
+		showOrHideState(document.getElementById("busy"),'inline');
+		disOrEnableState(document.getElementById("busy"),false);
+	}
+	if(iAgentState==3){//应答成功
+		showOrHideState(document.getElementById("free"),'inline');
+		showOrHideState(document.getElementById("busy"),'none');
+		AgentState=3;
+		//disOrEnableState(document.getElementById("free"),true);
+	}
+	if(iAgentState==4){//人工忙
+		isManully=0;
+		showOrHideState(document.getElementById("free"),'inline');
+		showOrHideState(document.getElementById("busy"),'none');
+		disOrEnableState(document.getElementById("free"),false);
+	}
+	if(iAgentState==5){//挂机成功
+		GHOCX.SetAgentState(2);
+		showOrHideState(document.getElementById("free"),'none');
+		showOrHideState(document.getElementById("busy"),'inline');
+	}
+	if(iAgentState==6){//坐席被锁定后执行的操作
+		//disOrEnableState(document.getElementById("busy"),true);
+		//disOrEnableState(document.getElementById("free"),true);
+		showOrHideState(document.getElementById("free"),'inline');
+		showOrHideState(document.getElementById("busy"),'none');
+		
+	}else if(iAgentState==7){//坐席被强制置忙
+		GHOCX.SetAgentState(4);
+		//disOrEnableState(document.getElementById("busy"),false);
+		//disOrEnableState(document.getElementById("free"),false);
+		showOrHideState(document.getElementById("free"),'inline');
+		showOrHideState(document.getElementById("busy"),'none');
+	}else if(iAgentState==8){//坐席被强制置闲
+		GHOCX.SetAgentState(2);
+		//disOrEnableState(document.getElementById("busy"),false);
+		//disOrEnableState(document.getElementById("free"),false);
+		showOrHideState(document.getElementById("free"),'none');
+		showOrHideState(document.getElementById("busy"),'inline');
+	}
+</script>
+<!-- 监听线路改变状态 -->
+<script language="javascript" for="GHOCX" event="OnLineStateChanged(iLineState)">
+
+</script>
+
+<!-- 咨询接通事件 -->
+<script language="javascript" for="GHOCX" event="OnConsultConnected(bResult,szConsultNumber)">
+	ibResult=bResult;
+	//phonenumber不等于0表示进行3方通话操作
+	if(phonenumber!=0&&ibResult==true){
+		GHOCX.SetRecordAppID(iszContent);
+		var rs=GHOCX.ThirdParty();
+		if(rs==true){
+			alert("开始三方通话");
+		}else{
+			alert("三方通话呼叫失败!");
+		}
+	}
+// 	//转接，判断转接方是否已经接听，如果接听自动挂机
+// 	if(zhuanjie==true&&bResult==true){
+// 		//设置录音id
+// 		alert("确定4");
+// 		GHOCX.SetRecordAppID(iszContent);
+// 		GHOCX.Onhook();
+// 	}
+</script>
+<script>
+//转接，判断转接方是否已经接听，如果接听自动挂机
+function zdyOnhook(w){
+	if(zhuanjie==true){
+		//设置录音id
+		GHOCX.SetRecordAppID(iszContent);
+		//var r=GHOCX.CancelConsult();
+		//GHOCX.BlindTransfer(w);
+		GHOCX.Onhook();
+	}
+}
+
+</script>
+<!-- 获取随路数据 -->
+<script language="javascript" for="GHOCX" event="OnRecvAssociateData(iSourceType,szSource,szContent)">
+	if(szContent!=null||szContent!=""){
+		iszContent=szContent;//传入随路数据，然后用于打开页面中
+	}
+</script>
+
+<!-- 形成坐席三方 -->
+<script language="javascript" for="GHOCX" event="OnAgentThirdParty(bResult,szConfID)">
+	if(bResult==true){
+		GHOCX.SetRecordAppID(iszContent);
+	}
+</script>
+
+<!-- 通知坐席被强制 操作状态 -->
+<script language="javascript" for="GHOCX" event="OnNotifyAgentForcedState(szMonitorAgentID,iForcedState)">
+	//alert("iForcedState="+iForcedState);
+</script>
+
+<!-- 名称： -->
+<!-- void OnTelephoneRegister(BSTR FAR* szAgentID, BSTR FAR* szAgentExt) -->
+<!-- 功能: -->
+<!-- 座席分机注册时触发该事件。 -->
+<!-- 参数：	 -->
+<!-- szAgentID：座席ID -->
+<!-- szAgentExt：座席分机号码 -->
+
+<script language="javascript" for="GHOCX" event="OnTelephoneRegister(szAgentID, szAgentExt)">
+	alert("szAgentID="+szAgentID+"---szAgentExt="+szAgentExt);
+</script>
+
+
+<!-- 名称： -->
+<!-- void OnGhSipPhoneReg(short result) -->
+<!-- 功能: -->
+<!-- 软电话注册成功后触发此事件 -->
+<!-- 参数：	 -->
+<!-- result: -1:未知；0：注册中； 1：注册成功； 2：注册失败 -->
+<script language="javascript" for="GHOCX" event="OnGhSipPhoneReg(bResult)">
+	ghSipPhoneStatus = bResult;
+	if(bResult==1){
+		//话务软件工号==登录名
+		AgentID = document.getElementById("txtAgentID").value;
+		//话务软件名称==登录名
+		AgentName = AgentID;
+		//分机号==登录名
+		AgentExt = 	AgentID;
+		//业务组号 默认2
+		GroupID = 1;
+		//技能等级 默认2
+		AgentLevel = 2;
+		//权限 默认0普通坐席	1班长坐席
+		AgentRight = 0;
+		var r = GHOCX.Login(AgentID, AgentName, AgentExt, GroupID, AgentLevel, AgentRight);
+	}else if((bResult==-1) || (bResult==2)){
+		GHOCX.DisConnectToACD();//断开acd
+		//alert("软电话注册失败");
+	}
+</script>
+
+<!-- 名称： -->
+<!-- void OnHeartBeat(BOOL bResult) -->
+<!-- 功能: -->
+<!-- 座席发送到ACDServer的心跳后触发该事件。 -->
+<!-- 参数：	 -->
+<!-- bResult：心跳回应结果（TRUE=成功、FALSE=失败） -->
+<script language="javascript" for="GHOCX" event="OnHeartBeat(bresult)">
+ 	if(!bresult){ 
+ 		if(connnecAcd==1){//如果acd是链接状态才复位坐席
+ 			GHOCX.reset();
+ 		}
+ 	} 
+	
+</script> 
+

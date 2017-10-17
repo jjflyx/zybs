@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>安徽省交通运输联网管理中心</title>
+  <script type='text/javascript'>
+    var CONTEXTPATH = '${base}';
+  </script>
+
+  <link rel="stylesheet" type="text/css" href="${base}/public/css/list.css"/>
+  <script type="text/javascript" src="${base}/include/js/main.js"></script>
+  <script type="text/javascript" src="${base}/public/js/jquery.min.js"></script>
+  <script type="text/javascript" src="${base}/public/js/hits.js"></script>
+  <script type="text/javascript" src="${base}/public/js/jquery.KinSlideshow-1.2.1.min.js"></script>
+  <!--[if IE 6]>
+  <script language="javascript" type="text/javascript" src="${base}/public/js/DD_belatedPNG.min.js"></script>
+  <![endif]-->
+  <link href="${base}/public/css/tzxx.css" rel="stylesheet" type="text/css" />
+  <link href="${base}/public/css/easyui.css" rel="stylesheet" type="text/css" />
+  <link href="${base}/public/css/wlwz.css" rel="stylesheet" type="text/css" />
+  <link href="${base}/public/css/jtxw.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" >
+    function searchLetter() {
+      if ($('#code').val() != "") {
+        if ($('#s_name').val() != "") {
+          $("#form2").submit();
+        } else {
+          Dialog.alert("姓名不能为空！");
+          $('#note').focus();
+          return false;
+        }
+      } else {
+        Dialog.alert("查询码不能为空！");
+        $('#title').focus();
+        return false;
+      }
+    }
+
+  </script>
+</head>
+<body>
+<div class="site_top">
+  <div class="top_link"><div class="top_linktext"><span>用户名&nbsp;<input type="text" class="top_inptext" />&nbsp;密码&nbsp;<input type="password" class="top_inptext" />&nbsp;<button class="mailbtn">邮箱登录</button> <button class="officebtn">办公自动化</button></span></div></div>
+  <div class="top_banner">
+    <div class="top_logo"><h1 class="png"><a href="#" title="安徽省交通运输联网管理中心">安徽省交通运输联网管理中心</a></h1></div>
+    <div class="top_right">
+    </div>
+  </div>
+</div>
+<div class="site_body">
+  <div class="site_menu">
+    <div class="top_search">
+      <input name="keyword" class="word" placeholder="请输入关键字" /><input type="submit" class="subbtn" />
+    </div>
+    <ul class="menuul">
+      <li><span class="iconimg png mico1"></span><a class="Nmlink" href="/zxgk/zxjs/index.html">中心概括</a></li>
+      <li><span class="iconimg png mico2"></span><a class="Nmlink" href="/zxgk/zxjs/index.html">组织机构</a></li>
+      <li><span class="iconimg png mico3"></span><a class="Nmlink" href="/xwdt/xwbd/index.html">交通新闻</a></li>
+      <li><span class="iconimg png mico4"></span><a class="Nmlink" href="/xxgk/zcjd/index.html">信息公开</a></li>
+      <li><span class="iconimg png mico5"></span><a class="Nmlink" href="/ztzl/ljldzx/index.html">专题专栏</a></li>
+    </ul>
+  </div>
+</div>
+<div class="site_postion">
+  <span class="postion_icon">您当前的位置：<a href="#">首页</a> > <a href="#">$!typeName</a><a href="#"></a></span>
+</div>
+<div class="site_body">
+  <table width="100%" height="125" border="0" cellpadding="0" cellspacing="0" >
+    <tbody>
+    <tr>
+      <td width="120" align="center"><img src="${base}/public/img/$!typeIMG" width="99" height="98" /> </td>
+      <td width="20"><img src="${base}/public/img/linezx.gif" width="2" height="100" /></td>
+      <td class="zxzzfont">　　欢迎您访问安徽省交通运输联网管理中心!我们真诚地欢迎您通过来信等方式向我们反映问题或提出建议。为提高办事效率，请按问题类别向我们反映。参与这项活动请您熟悉并遵守中华人民共和国国务院颁布的《 <a href="http://www.ahjt.gov.cn/gnlm/xftl/46002.html" target="_blank" class="red">信访条例</a> 》和《 <a href="http://www.ahjt.gov.cn/gnlm/xftl/46003.html" target="_blank" class="red">安徽省信访条例</a> 》。<br />
+        　　注：如您需要得到有关方面的答复，除意见征集以外的信件请务必留下真实姓名、E-MAIL地址和联系电话，便于有关部门向您了解具体的情况，妥善处理您反映的问题；未署真实姓名、电邮地址和联系电话的邮件，我们无法处理与反馈，敬请原谅!</td>
+    </tr>
+    </tbody>
+  </table>
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td width="228" height="500" valign="top" background="${base}/public/img/leftbg.jpg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td class="lefttit">$!typeName</td>
+        </tr>
+        <tr>
+          <td align="center"><table width="100%" height="80" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+              <td align="center"><table width="193" border="0" cellspacing="0" cellpadding="0">
+                <tbody>
+                <tr>
+                  <td height="48" align="left" background="${base}/public/img/tzxx_05.jpg" class="tzxx_an"><a href="${base}/private/cms/net_public?site_id=0004&typeId=1">查看信件列表</a> </td>
+                </tr>
+                </tbody>
+              </table></td>
+            </tr>
+          </table>
+            <table width="193" height="30" border="0" align="center" cellpadding="0" cellspacing="0" class="tzxx_downline">
+              <tbody>
+              <tr>
+                <td width="20" align="center"><img src="${base}/public/img/notice_dot.gif" width="5" height="10" /> </td>
+                <td align="left" class="tzxx_font14"><strong><font color="#0d7dd0">办件查询</font> </strong> </td>
+              </tr>
+              </tbody>
+            </table>
+            <table width="100%" height="12" border="0" cellpadding="0" cellspacing="0">
+              <tbody>
+              <tr>
+                <td></td>
+              </tr>
+              </tbody>
+            </table>
+            <form name="form2" id="form2" method="post">
+              <table width="90%" border="0" align="center" cellpadding="0" cellspacing="2">
+                <tbody>
+                <tr>
+                  <td height="35" align="right"> 查询码 :&nbsp;</td>
+                  <td align="left">
+                    <input name="code" id="code" type="text" class="tzxx_input inputText" size="16" maxlength="20" />
+                  </td>
+                </tr>
+                <tr>
+                  <td height="35" align="right"> 姓&nbsp;&nbsp;&nbsp;名 :&nbsp;</td>
+                  <td align="left"><input name="s_name" id="s_name" type="text" class="tzxx_input inputText" size="16" maxlength="50" />
+                  </td>
+                </tr>
+                <tr>
+                  <td height="35">&nbsp;</td>
+                  <td align="left"><a href="javascript:void(0);" ztype="zInputBtnWrapper" class="zInputBtn" hidefocus="true" tabindex="-1">
+                    <input name="Submit3" type="button" class="btn_search inputButton" value="查询" onclick="searchLetter();" />
+                  </a> </td>
+                </tr>
+                </tbody>
+              </table>
+            </form>
+          </td>
+        </tr>
+      </table></td>
+      <td valign="top">&nbsp;</td>
+      <td width="760" align="center" valign="top" class="rightbk"><table width="95%" border="0" cellpadding="0" cellspacing="0">
+        <tbody>
+        <tr>
+          <td height="50" align="left"><span class="zxft_18"><img src="${base}/public/img/zdft_2.jpg" width="6" height="11" hspace="10" />&nbsp;&nbsp;信件回复&nbsp;</span> </td>
+        </tr>
+        <tr>
+          <td style="background: url(${base}/public/img/yjzj_7.jpg) repeat-x" height="6"></td>
+        </tr>
+        </tbody>
+      </table>
+        <form name="form1" id="form1" method="post">
+          <input type="hidden" name="code" value="$!code" />
+          <input type="hidden" name="s_name"  value="$!s_name" />
+          <input type="hidden" name="typeId" id="typeId" value="$!typeId"/>
+          <table width="95%" border="1" cellpadding="5" cellspacing="1" bordercolor="#CCCCCC" bgcolor="#dcdcdc" class="tzxx_hf">
+            <tbody>
+            <tr>
+              <td width="80" align="right" bgcolor="#f0f0f0"><strong>标题</strong> </td>
+              <td align="left" bgcolor="#FFFFFF" width="640"> $!cms_net_register.title </td>
+            </tr>
+            <tr>
+              <td align="right" valign="top" bgcolor="#f0f0f0"><strong>内容</strong> </td>
+              <td align="left" bgcolor="#FFFFFF" width="640"> $!cms_net_register.note </td>
+            </tr>
+            <tr>
+              <td align="right" bgcolor="#f0f0f0" width="80"><strong>来信时间</strong> </td>
+              <td align="left" bgcolor="#FFFFFF" width="640"> $!cms_net_register.reg_date </td>
+            </tr>
+            </tbody>
+          </table>
+          <table width="95%" border="1" cellpadding="5" cellspacing="1" bordercolor="#CCCCCC" bgcolor="#dcdcdc" class="tzxx_hf">
+            <tbody>
+            <tr>
+              <td width="80" align="right" valign="top" bgcolor="#f0f0f0"><strong>答复内容</strong> </td>
+              <td colspan="3" align="left" bgcolor="#FFFFFF" width="640"> $!cms_net_register.reply </td>
+            </tr>
+            <tr>
+              <td width="80" align="right" valign="top" bgcolor="#f0f0f0"><strong>答复单位 </strong> </td>
+              <td align="left" bgcolor="#FFFFFF" width="180" nowrap> $!siteMap.get($!cms_net_register.site_id) </td>
+              <td width="80" align="right" bgcolor="#F0F0F0"><strong>答复时间</strong> </td>
+              <td align="left" bgcolor="#FFFFFF" width="380"> $!cms_net_register.aud_date </td>
+            </tr>
+            </tbody>
+          </table>
+          <table width="95%" border="0" cellspacing="0" cellpadding="0" class="tzxx_hf">
+            <tbody>
+            <tr>
+              <td align="center" valign="bottom"><a href="javascript:void(0);" ztype="zInputBtnWrapper" class="zInputBtn" hidefocus="true" tabindex="-1">
+                <input name="Submit" type="submit" class="btn_search inputButton" value="关闭" onclick="window.close();" />
+              </a> <a href="javascript:void(0);" ztype="zInputBtnWrapper" class="zInputBtn" hidefocus="true" tabindex="-1">
+                <input name="Submit2" type="submit" class="btn_search inputButton" value="返回" onclick="window.history.go(-1);" />
+              </a> </td>
+            </tr>
+            </tbody>
+          </table>
+        </form>
+      </td>
+    </tr>
+  </table>
+</div>
+<div class="site_footer">
+  <div class="footer_copyright">
+    <div class="wrapper_footer">版权所有：安徽省交通运输联网管理中心　<a href="http://www.miibeian.gov.cn" target="_blank">皖ICP备10006499号-1</a><br />
+      地址：合肥市望湖南路98号　电话：0551-63756800 </div>
+  </div>
+</div>
+</body>
+</html>

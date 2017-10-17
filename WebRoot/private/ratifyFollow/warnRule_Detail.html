@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<title>$!app_name</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<script type='text/javascript'>
+		var CONTEXTPATH = '${base}';
+		var stylePath = '$!stylename';
+	</script>
+	<link href="${base}/private/ratifyFollow/css/$!stylename/style.css" rel="stylesheet" type="text/css" />
+	    <link rel="stylesheet" type="text/css" href="${base}/private/zjgl/css/page.css" />
+	<script src="${base}/include/js/main.js"></script>
+	<script src="${base}/include/js/string.js"></script>
+	<!--<link href="${base}/include/css/themes/gray/easyui.css" rel="stylesheet" type="text/css" />-->
+	<script src="${base}/include/js/jquery.easyui.min.js"></script>
+	<script>
+    
+	    function customHeightSet(){			
+	    	var otherH_1	=jQuery(".pageBtnarea").outerHeight() + parseInt($(".pageM").css("paddingTop")) + parseInt($(".pageM").css("paddingBottom"));
+	    	var pageH	=document.documentElement.clientHeight;
+	    	jQuery("#pageScroll").height(pageH-otherH_1);
+	    }
+	    jQuery(document).ready(function(){
+	    	customHeightSet();
+	    	appendDiv();
+	    });
+	    window.onload = function(){
+	    	customHeightSet();			
+	    }
+	    window.onresize = function(){
+	    	customHeightSet();
+	    }
+	</script>
+</head>
+<body leftmargin="0" topmargin="0" class="easyui-layout">
+<form name='form1' id="form1" method='post'>
+	<input type="hidden" name="id" id="id" value="$!ruleInfo.id">
+	<div class="pageM viewpage" id="pageScroll">
+		<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="table_titlebk">
+			<tr>
+				<td class="table_title" align="center">
+					合同信息
+				</td>
+			</tr>
+		</table>
+		<div class="conBody">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0"  class="tableViews">
+				<colgroup>
+					<col width="17%" />
+					<col width="33%" />
+					<col width="17%" />
+					<col width="33%" />
+				</colgroup>
+				<tr>
+					<th>规则名称：</th>
+					<td >$!{ruleInfo.rule_name}</td>
+					<th>所属类别：</td>
+					<td>$!{ruleInfo.xy_type}</td>
+				</tr>
+				<tr >
+					<th>创建人：</th>
+					<td>$!{ruleInfo.actor}</td>
+					<th>创建时间：</th>
+					<td>$!{ruleInfo.add_time}</td>
+				</tr>
+				<tr  >
+					<th>规则描述：</th>
+					<td colspan="3">$!{ruleInfo.note}</td>
+				</tr>
+				<tr >
+					<th>惩戒期限：</th>
+					<td colspan="3">$!{ruleInfo.cjqx} 个月</td>
+				</tr>
+				<tr >
+					<th>是否生效：</th>
+					<td colspan="3">#if($!{ruleInfo.is_work}==1) 是 #else 否 #end
+					</td>
+				</tr>
+			</table>
+		</div>
+		
+		<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="table_titlebk">
+			<tr>
+				<td class="table_title" align="center">
+					行为描述
+				</td>
+			</tr>
+		</table>
+		<div class="conBody">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0"  class="tableViews">
+				<colgroup>
+					<col width="17%" />
+					<col width="83%" />
+				</colgroup>
+				<tr>
+					<th> 失信行为： </th>
+					<td  >
+						$!{ruleInfo.sxxw_id}
+					</td>
+				</tr>
+				<tr>
+					<th> 失信情形： </th>
+					<td >
+						$!{ruleInfo.sxqx_id}
+					</td>
+				</tr>
+			</table>
+		</div>
+		
+		
+		<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="table_titlebk">
+			<tr>
+				<td class="table_title" align="center">
+					预警规则
+				</td>
+			</tr>
+		</table>
+		<div class="conBody">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0"  class="tableViews">
+				<colgroup>
+					<col width="17%" />
+					<col width="83%" />
+				</colgroup>
+				<tr>
+					<th> 规则定义： </th>
+					<td  >
+						#if($!{ruleInfo.rule})
+							#foreach($item in $rule)
+								$item <br />
+							#end
+						#end
+					</td>
+				</tr>
+			</table>
+		</div>
+		
+		
+	</div>
+ 	<div class="pageBtnarea">
+		<input class="button" type="button" name="btnCancal" value="取消" 	onClick="window.close()" />
+	</div>
+</form>
+</body>
+</html>

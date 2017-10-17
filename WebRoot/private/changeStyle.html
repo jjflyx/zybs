@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html style="overflow:hidden">
+	<head>
+		<title>$!app_name</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<!-- 框架 -->
+		<link rel="stylesheet" type="text/css"
+			href="${base}/include/css/blue/style.css" />
+		<script type='text/javascript'>
+		var CONTEXTPATH = '${base}';
+		var stylePath = '$!stylename';
+	</script>
+		<script src="${base}/include/js/main.js"></script>
+		<script type='text/javascript'>
+		var styles = ["blue","red","green","bluesky","Lightblue"];		
+    	function ChangeStyle(selectstyle){    	
+    		    		//var curStyle=$("#stylename").val();    	
+    		//$("#"+curStyle).removeClass("hf_select");
+    		for(i=0;i<styles.length;i++){
+    			$("#"+styles[i]).removeClass("hf_select");
+    		}    		
+    		$("#"+selectstyle).addClass("hf_select");
+    		$("#stylename").val(selectstyle);    		
+    	}
+    	
+    	function selStyle(){
+    		var curStyle=$("#stylename").val();   
+    		for(i=0;i<styles.length;i++){
+    			if(styles[i]==curStyle){
+    				$("#"+styles[i]).addClass("hf_select");
+    			}
+    		}  
+    	}
+    	Page.onLoad(function() {
+		   selStyle();
+	     });    	
+    </script>
+	<head>
+	<body>
+		<form name='form1' id="form1" method='post'>
+			<input id="stylename" name="stylename" type="hidden"
+				value="$!stylename" />
+			<div class="hf_index">
+				<dl id="blue">
+					<dt class="png">
+						<a href="javascript:void(0)" onclick="ChangeStyle('blue');"><img
+								src="${base}/include/img/hf_blue.jpg" width=185 height="105"
+								border="0" title="点击图片即可换肤" /> </a>
+					</dt>
+					<dd>
+						默认皮肤
+					</dd>
+					<span class="hf_sure png"></span>
+				</dl>
+				<!-- 
+				<dl id="green">
+					<dt class="png">
+						<a href="javascript:void(0)" onclick="ChangeStyle('green');"><img
+								src="${base}/include/img/hf_green.jpg" width=185 height="105"
+								border="0" title="点击图片即可换肤" /> </a>
+					</dt>
+					<dd>
+						绿色
+					</dd>
+					<span class="hf_sure png"></span>
+				</dl>
+				<dl id="red">
+					<dt class="png">
+						<a href="javascript:void(0)" onclick="ChangeStyle('red');"><img
+								src="${base}/include/img/hf_red.jpg" width=185 height="105"
+								border="0" title="点击图片即可换肤" /> </a>
+					</dt>
+					<dd>
+						红色
+					</dd>
+					<span class="hf_sure png"></span>
+				</dl>
+				<dl id="Lightblue">
+					<dt class="png">
+						<a href="javascript:void(0)" onclick="ChangeStyle('Lightblue');"><img
+								src="${base}/include/img/hf_lightblue.jpg" width=185
+								height="105" border="0" title="点击图片即可换肤" /> </a>
+					</dt>
+					<dd>
+						简洁蓝色
+					</dd>
+					<span class="hf_sure png"></span>
+				</dl>
+				<dl id="bluesky">
+					<dt class="png">
+						<a href="javascript:void(0)" onclick="ChangeStyle('bluesky');"><img
+								src="${base}/include/img/hf_bluesky.jpg" width=185 height="105"
+								border="0" title="点击图片即可换肤" /> </a>
+					</dt>
+					<dd>
+						蓝色天空
+					</dd>
+					<span class="hf_sure png"></span>
+				</dl>
+				 -->
+			</div>
+
+		</form>
+	</body>
+</html>

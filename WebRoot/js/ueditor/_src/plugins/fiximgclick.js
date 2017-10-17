@@ -1,0 +1,1 @@
+UE.plugins["fiximgclick"]=function(){var a=this;if(browser.webkit){a.addListener("click",function(c,d){if(d.target.tagName=="IMG"){var b=new dom.Range(a.document);b.selectNode(d.target).select();}});}};

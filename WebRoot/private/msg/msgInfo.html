@@ -1,0 +1,512 @@
+<html>
+	<head>
+	 <title>$!app_name</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>   
+	<script type="text/javascript"
+	src="${base}/include/js/jquery-1.10.2.min.js"></script>
+    <script src="${base}/include/js/string.js"></script>
+    <link href="${base}/include/Framework/Default.css" rel="stylesheet" type="text/css"/>
+    <script src="${base}/include/Framework/Main.js"></script>
+    <script type="text/javascript" src="${base}/include/js/page.js"></script>
+    <script src="${base}/include/Framework/Controls/Tabpage.js"></script>
+    	<!----- resource end----- -->		
+	<link href="${base}/include/css/main2.css" rel="stylesheet" type="text/css">
+	<script language="javascript" type="text/javascript" src="${base}/include/my97/WdatePicker.js"></script>
+    <link href="${base}/include/my97/skin/WdatePicker.css" rel="stylesheet" type="text/css"/>			
+	<head>
+	<body leftmargin="0" topmargin="0" style="padding:5px 5px 5px 5px;scroll:'auto'" >
+	<script type="text/javascript">	
+	  var userArray = {}; 
+	  var table = '$!usertable';   
+	  var userArray =  handle_hashtable(table);  
+	  
+	  Page.onLoad(function() { 			          
+	  designPage(); 
+	});
+	  function handle_hashtable(hashtable){
+			if(!hashtable){
+				return ;
+			}			
+			var arr = new Object();
+			hashtable = hashtable.substring(1,hashtable.length-1);		
+			var tabledata = hashtable.split(',');
+			var nodedata = "";
+			for(var k=0;k<tabledata.length;k++){
+				nodedata = tabledata[k].split('=');
+				arr[nodedata[0].trim()]=nodedata[1];				
+			}					
+			return arr;
+		}
+	function designPage(){
+		 var url="${base}/private/msg/info/fileslist";	 
+		 var obj = findPage(url);	 
+		 var alllist = obj.list;	
+		 var infolist = alllist[0].infolist;
+		 var userlist = alllist[0].userlist;
+		 var readlist = alllist[0].readlist;
+		 var infostate = $('#infostate').attr("value");
+		// for (var key in userArray) alert(userArray[key]+" "+key);
+		 var i = 0;		
+	     var strhtml="";	   
+	 for(i;i<infolist.length;i++){
+	  	   var infobj = infolist[i];	  
+	  	   var checkNo = parseInt((obj.pageNo-1)*obj.pageSize+parseInt(i+1));	 
+	  	   if(i%2==1){
+	  		   if(infostate==1||infostate==2){
+	  	         strhtml += "<tr style='background-color:#F9FBFC' onclick='DataGrid.onRowClick(this,event);' oncontextmenu='DataGrid._onContextMenu(this,event)' ondblclick=\"update('"+infobj.id+"');\" level='"+checkNo+"'>";
+	  		   }else{
+	   	         strhtml += "<tr style='background-color:#F9FBFC' onclick='DataGrid.onRowClick(this,event);' oncontextmenu='DataGrid._onContextMenu(this,event)' level='"+checkNo+"'>";	   
+	  		   }
+	  		   }else{
+	  			   if(infostate==1||infostate==2){
+	  	         strhtml += "<tr style='background-color:#FFFFFF' onclick='DataGrid.onRowClick(this,event);' oncontextmenu='DataGrid._onContextMenu(this,event)' ondblclick=\"update('"+infobj.id+"');\" level='"+checkNo+"'>"; 
+	  			   }else{
+	  			 strhtml += "<tr style='background-color:#FFFFFF' onclick='DataGrid.onRowClick(this,event);' oncontextmenu='DataGrid._onContextMenu(this,event)' level='"+checkNo+"'>"; 	   
+	  			   }
+	  	   }
+	  	  // strhtml +=  "<td>"+checkNo+"</td>";		  
+	  	   strhtml +=  "<td align='center' onclick='DataGrid.onSelectorClickA(this,event);' ondblclick='stopEvent(event);'><input name='id' type='checkbox' value= '"+infobj.id+"' id='dg1_RowCheck"+parseInt(i+1)+"'></td>";
+	  	   strhtml +=  "<td title="+infobj.title+"><a href=\"javascript:dialogview("+infobj.id+")\">"+infobj.title+"</a></td>";	 	  	  	   
+	  	 	  		  	   
+	  	   strhtml +=  "<td title="+userArray[infobj.flogin]+">"+userArray[infobj.flogin]+"</td>";	 	   	  	   
+	  	   strhtml +=  "<td >"+infobj.ftime+"</td>";	
+	  	   if(infostate==3||infostate==4){
+	  	   strhtml +=  "<td title='$!usertable.get($!realname)'>$!usertable.get($!realname)</td>";
+	  	   }else{
+	  		   var namestring = userlist[infobj.id].split(';');
+	  		   var namestr="";
+	  		   for(var j=0;j<namestring.length-1;j++){
+	  			 namestr += userArray[namestring[j]]+";";
+	  		  }	  		 
+		       strhtml +=  "<td title="+namestr+">"+namestr+"</td>";   
+	  	   }
+	  	   if(infostate==3||infostate==4){
+	  	   strhtml +=  "<td ><a href='javascript:void(0);' onclick=\"dialogview("+infobj.id+")\">查看</a></td>";
+	  	   }else if(infostate==1){
+	  		if(readlist[infobj.id]==0){
+	  	   strhtml +=  "<td ><a href='javascript:void(0);' onclick=\"dialogview("+infobj.id+")\">查看</a>"
+				+"&nbsp;|&nbsp"+
+				"<a href='javascript:void(0);' onclick=\"update("+infobj.id+")\">编辑</a>"
+				+"&nbsp;|&nbsp"+
+				"<a href='javascript:void(0);' onclick=\"goback("+infobj.id+")\">撤回</a>"
+				+"&nbsp;|&nbsp"+
+				"<a href='javascript:void(0);' onclick=\"del("+infobj.id+")\">删除</a>"
+	  	   +"</td>";
+	  		}else{
+	  			strhtml +=  "<td ><a href='javascript:void(0);' onclick=\"dialogview("+infobj.id+")\">查看</a>"
+				+"&nbsp;|&nbsp"+
+				"<span style='color:#C0C0C0; font-weight:bolder; cursor: pointer;'>编辑</span>"
+				+"&nbsp;|&nbsp"+
+				"<span style='color:#C0C0C0; font-weight:bolder; cursor: pointer;'>撤回</span>"
+				+"&nbsp;|&nbsp"+
+				"<span style='color:#C0C0C0; font-weight:bolder; cursor: pointer;'>删除</span>"
+	  	   +"</td>";
+	  		}
+	  	   }else{
+	  		 strhtml +=  "<td ><a href='javascript:void(0);' onclick=\"update("+infobj.id+")\">发送</a>"
+				+"&nbsp;|&nbsp"+
+				"<a href='javascript:void(0);' onclick=\"del("+infobj.id+")\">删除</a>"
+	  	   +"</td>";
+	  	   }	  	  				  
+	  	   strhtml += "</tr>";	   		  
+	      }
+	    
+	     strhtml += setpage(obj,6);
+	       $("#dg1 tbody tr").empty();			       		      
+	       $("#dg1 tbody").html(strhtml);
+	}
+	
+	function tohandle(handletype)
+    {	
+		var oldCss=$('#infostate').attr("value");
+		if(oldCss!=handletype){
+		document.getElementById("cur"+oldCss).className = "divchildtab";
+		document.getElementById("cur"+handletype).className = "divchildtabCurrent";
+		}
+		
+		$('#infostate').attr("value",handletype);
+		$('#edate').attr("value",'');
+		$('#bdate').attr("value",'');
+		designPage();		
+    }
+	
+	function dialogview(id)
+    {
+		var infostate = $('#infostate').attr("value");
+        var d = new Dialog("View");
+        d.Width = 400;
+        d.Height = 250;
+        d.Title = "查看";
+        d.URL =  "${base}/private/msg/info/detail?id="+id+"&infostate="+infostate;
+        d.CancelEvent = function(){            
+            d.close(); 
+            designPage();
+        }
+      
+        d.show();
+        d.OKButton.hide();
+	    d.CancelButton.value="关闭";
+    }
+	
+	function goback(id)
+    {
+		Dialog.confirm("确定撤回？", function(){
+	    	jQuery.ajax({
+	    	 	type: 'POST',
+	    		url : "${base}/private/msg/info/recall?id="+id ,    		
+	    		success : function (res) { 
+	    			if(res!=""){    				
+	    				Dialog.alert("撤回成功！"); 
+	    				designPage();
+	    			}else{
+	    				Dialog.alert("撤回失败！");
+	    			}			 
+	    			return false;
+	    		},
+	    		fail : function(res) {
+	    			Dialog.alert("系统错误!");
+	    		}
+	    	});
+	    }, "", 300, 150); 
+    }
+	
+	function del(id)
+    {
+
+		Dialog.confirm("确定删除？", function(){
+	    	jQuery.ajax({
+	    	 	type: 'POST',
+	    		url : "${base}/private/msg/info/delete?id="+id ,    		
+	    		success : function (res) { 
+	    			if(res!=""){    				
+	    				Dialog.alert("删除成功！"); 
+	    				designPage();
+	    			}else{
+	    				Dialog.alert("删除失败！");
+	    			}			 
+	    			return false;
+	    		},
+	    		fail : function(res) {
+	    			Dialog.alert("系统错误!");
+	    		}
+	    	});
+	    }, "", 300, 150); 
+    }
+	
+	function dosearch()
+    {
+		designPage();	
+    }
+	
+	function  add(){
+		var d = new Dialog("Add");
+	 	d.Width = 720;
+	 	d.Height = 465;
+	 	d.Title = "发消息" ;
+	 	d.URL = "${base}/private/msg/info/toadd";    	
+	 	d.OKEvent = function(){
+	 		addSave();
+	 	};    	    		 			
+	 	d.show();
+	}
+	
+	function addSave(){
+		 if($DW.doSave()){
+			 jQuery.ajax({
+				 	type: 'POST',
+					url : "${base}/private/msg/info/add" ,
+					data : $DW.$("#form1").serialize(),
+					success : function (res) { 
+						if(res!=""){
+							$D.close();						
+							Dialog.alert("发送成功！");
+							designPage();
+						}else{
+							Dialog.alert("发送失败！");
+						}						 
+						return false;
+					},
+					fail : function(res) {
+						Dialog.alert("系统错误?!");
+					}
+				});
+			 }
+	}
+	
+	function  update(id){
+		var d = new Dialog("Update");
+	 	d.Width = 720;
+	 	d.Height = 465;
+	 	d.Title = "发消息" ;
+	 	d.URL = "${base}/private/msg/info/toupdate?id="+id;    	
+	 	d.OKEvent = function(){
+	 		updateSave();
+	 	};    	    		 			
+	 	d.show();
+	}
+	
+	function updateSave(){
+		 if($DW.doSave()){
+			 jQuery.ajax({
+				 	type: 'POST',
+					url : "${base}/private/msg/info/update" ,
+					data : $DW.$("#form1").serialize(),
+					success : function (res) { 
+						if(res!=""){
+							$D.close();						
+							Dialog.alert("操作成功！");
+							designPage();
+						}else{
+							Dialog.alert("操作失败！"); 
+						}						 
+						return false;
+					},
+					fail : function(res) {
+						Dialog.alert("系统错误?!");
+					}
+				});
+			 }
+	}
+	</script>
+		<table width="100%" height="100%" border="0" class="blockTable" style="border-collapse: separate; " cellpadding="0"
+			cellspacing="0" >
+			<tr valign="top">
+				<td  class="blockTd">  <!-- --------------样式块---------------- -->
+				<form id='form1' name='form1' method='post' action='/$!globals_sys_basename/private/nbjl/info.xp'>
+
+					<input type="hidden" id="doAction" name="doAction" value="xxlist">
+                    <input type="hidden" id="sys_menuid" name="sys_menuid" value="$!sys_menuid">
+                    <input type="hidden" id="deltype" name="deltype" value="0">
+                    <input type="hidden" id="checkids" name="checkids" value="">
+                    <input type="hidden" id="infostate" name="infostate" value="$!infostate">
+                    <input type="hidden" id="handletype" name="handletype" value="$!handletype">
+                    <input type="hidden" id="infoid" name="infoid" value="">
+                    <input type="hidden" id="infotype" name="infotype" value="3">
+                    <table width="100%">
+					<tr>
+						<td height="20px">
+							<table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
+								<tr>
+									<td height="30px" style="padding-left: 10; " valign="middle">
+										<!-- --------------------------------title  content----------------------------->
+										<img src="${base}/include/Framework/Icons/icon042a1.gif" width="20" height="20"/>　
+					           			<span class="font4">站内短信</span>
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td height="40px">
+							<table width="98%" height="98%" border="0" cellpadding="0" cellspacing="0">
+								<tr>
+									<td align="center" valign="top">
+										<!-- --------------------------------tab content----------------------------- -->
+										<table width="99%" border='0' cellpadding='0' cellspacing='0' style="background:url(${base}/include/Framework/Images/divchildtabBarBg.gif) repeat-x left bottom; margin-bottom:1px;">
+											<tr>
+												<td valign="bottom" height='30' style="padding:0 0 0 6px;_padding:0 0 0 2px;">
+							               			<div style='-moz-user-select:none;' onselectstart='return false' id='cur1'  class='divchildtab' src='' onclick="tohandle(1)" >
+														<img src="${base}/include/Framework/Icons/icon037a7.gif" width="20"  height="20"/>
+														<b>发送的消息</b>
+										   			</div>
+													<div style='-moz-user-select:none;' onselectstart='return false' id='cur2'  class='divchildtab' src='' onclick="tohandle(2)" >
+														<img src="${base}/include/Framework/Icons/icon037a9.gif" width="20"  height="20"/>
+														<b>撤回的消息</b>
+													</div>
+							            			<div style='-moz-user-select:none;' onselectstart='return false' id='cur3'  class='divchildtab' src='' onclick="tohandle(3)" >
+														<img src="${base}/include/Framework/Icons/icon037a12.gif" width="20"  height="20"/>
+														<b>未读的消息</b>			</div>
+													<div style='-moz-user-select:none;' onselectstart='return false' id='cur4'  class='divchildtab' src='' onclick="tohandle(4)" >
+														<img src="${base}/include/Framework/Icons/icon038a11.gif" width="20"  height="20"/>
+														<b>已读的消息</b>
+													</div>
+													<div style='-moz-user-select:none; float: right'>
+														<a href='javascript:void(0);' ztype='zPushBtn' class='zPushBtn' hidefocus='true'
+															tabindex='-1' onselectstart='return false' id='BtnAdd'
+														    onClick="add()"><img src="${base}/include/Framework/Icons/icon037a2.gif" width="20"  height="20"/><b>发送消息&nbsp;</b></a>
+													</div>
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td height="30px" width="100%" valign="middle">
+							<div style="float: left">
+								&nbsp;&nbsp;日期&nbsp;从
+								<!--  <input id="bdate" name="bdate" ztype="Date" type="text" value="$!bdate" style="width:100px;" />-->
+								<input readonly type="text" id="bdate" name="bdate" maxlength="50" size="20" value="" onClick="WdatePicker({el:'bdate'})" verify="起始时间|NotNull">
+								到
+								<!-- <input id="edate" name="edate" ztype="Date" type="text" value="$!edate" style="width:100px;" /> -->
+								<input readonly type="text" id="edate" name="edate" maxlength="50" size="20" value="" onClick="WdatePicker({el:'edate'})" verify="结束时间|NotNull">
+								&nbsp;&nbsp;
+							</div>
+							<!-- -------------------------------query content------------------------------- -->
+							<div style="float: left">
+								<a href='javascript:void(0);' ztype='zPushBtn' class='zPushBtn' hidefocus='true'
+								tabindex='-1' onselectstart='return false' id='BtnAdd'
+							    onClick="dosearch()"><img src="${base}/include/Framework/Icons/icon037a15.gif" width="20"  height="20"/><b>查询&nbsp;</b></a>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td style="padding:0px 5px;"  valign="top">
+							<!-- -------------------------------data content-------------------------------- -->
+							<table  width="100%" id="dg1" cellpadding="2" cellspacing="0" class="dataTable"
+                                   afterdrag="sortMenu" sortstring="" page="false" size="0" multiselect="true"
+                                   autofill="true" scroll="false" lazy="false" cachesize="0" >
+                            	<thead>
+                            	<tr ztype="head" class="dataTableHead">
+									
+									<td align="center" width="3%">
+                                        <input type='checkbox' onclick="selectAll(this,document.form1.id)">
+                                    </td>
+                                    <td width="20%"> 标题</td>
+                                    <td width="10%"> 发送人</td>
+                                    <td width="15%"> 时间</td>
+                                    <td width="15%"> 接受人</td>
+                                    <!--<td width="20%"> 内容</td>-->
+                                    <td width="15%"> 编辑</td>
+                            	</tr>
+                            	</thead>
+                            	<tbody>
+								<tr style="background-color:#FFFFFF" onclick="DataGrid.onRowClick(this,event);" oncontextmenu="DataGrid._onContextMenu(this,event)"
+                                        >
+									 <td align="center"><input name='id' type='checkbox' value="$!obj.get(0)"></td>
+                                     <td>
+                                         <!--<a href="javascript:dialogview('$!obj.get(0)')">$!obj.get(1)</a>-->
+                                         #if($!infostate!='2')
+										<a href="javascript:dialogview('$!obj.get(0)')">$!obj.get(1)</a>
+                                        #else
+                                       $!obj.get(1)
+                                        #end
+                                     </td>
+                                     <td>
+                                    		 $!userhs.get($!obj.get(2))
+                                     </td>
+                                     <td width="*">$!obj.get(3)</td>
+                                     <td width="*">                               
+                                     #if($!infostate=='3'||$!infostate=='4')
+                                    	 	$!userhs.get($!realname)
+                                     #else
+                                      	#foreach( $userobj in $!msguserhs.get($!obj.get(0)))
+                                            #if($!userhs.get($!userobj)!='')
+                                     		$!userhs.get($!userobj)<br>
+                                            #end
+                                     	 #end
+                                     #end
+
+                                     </td>
+                                    <!--<td width="*"> $!obj.get(4)</td>-->
+                                    <td width="*">
+                                   	#if($!infostate=='3'||$!infostate=='4')
+                                   	<a href='javascript:void(0);' onclick="dialogview('$!obj.get(0)')">查看</a>
+                                   	#else
+
+                      				#if($!jstatehs.get($!obj.get(0))==0)
+									#if($!infostate=='1')
+                                    <a href='javascript:void(0);' onclick="dialogview('$!obj.get(0)')">查看</a>
+									&nbsp;|&nbsp;
+									<a href='javascript:void(0);' onclick="updatewindow('$!obj.get(0)',2,0,0,1)">编辑</a>
+									&nbsp;|&nbsp;
+									<a href='javascript:void(0);' onclick="goback('$!obj.get(0)')">撤回</a>
+									#else
+									<!--&nbsp;|&nbsp;																				-->
+									<a href='javascript:void(0);' onclick="updatewindow('$!obj.get(0)',1,0,2,2)">发送</a>
+									#end
+									&nbsp;|&nbsp;
+									<a href='javascript:void(0);' onclick="del(document.form1.action+'?id=$!obj.get(0)&infotype=2')">删除</a>
+									#else
+									#if($!infostate=='1')
+                                    <a href='javascript:void(0);' onclick="dialogview('$!obj.get(0)')">查看</a>
+									&nbsp;|&nbsp;
+									<span style="color:#C0C0C0; font-weight:bolder; cursor: pointer;">编辑</span>
+									&nbsp;|&nbsp;
+									<span style="color:#C0C0C0; font-weight:bolder; cursor: pointer;">撤回</span>
+									#else
+									<!--&nbsp;|&nbsp;	-->
+									<a href='javascript:void(0);' onclick="updatewindow('$!obj.get(0)',1,0,2,2)">发送</a>
+									#end
+									&nbsp;|&nbsp;
+									<span style="color:#C0C0C0; font-weight:bolder; cursor: pointer;">删除</span>
+							 		#end
+                                   	#end
+                                     </td>
+								</tr>
+                              
+                                </tbody>                             
+                            </table>
+						</td>
+					</tr>
+					</table>
+					</form>
+				</td>
+			</tr>
+		</table>
+	</body>
+ <iframe id='_Hidden' name="_Hidden" frameborder="0" width="0"
+                                    height="0" src='about:blank' scrolling="auto"></iframe>
+</html>
+<script type="text/javascript">
+function addwindow(){
+
+	var width  = (screen.availWidth-10)+"px";
+	var height = (screen.availHeight-50)+"px";
+	var leftm  = 0;
+	var topm   = 0;
+
+	var args = "toolbar=0,location=0,maximize=1,directories=0,status=0,menubar=0,scrollbars=yes, resizable=1,left=" + leftm+ ",top=" + topm + ", width="+width+", height="+height;
+	var url="/$!globals_sys_basename/private/nbjl/info.xp?doAction=toadd&id=" + document.form1.id.value+"&infotype=2";
+	var w = window.open(url,"",args);
+	if ( !w ){
+		Dialog.alert( "发现弹出窗口被阻止，请更改浏览器设置，以便正常使用本功能!" ) ;
+		return ;
+	}
+}
+
+    function updatewindow(id,infotype,jsign,infostate,flag){
+
+            var width  = (screen.availWidth-10)+"px";
+            var height = (screen.availHeight-50)+"px";
+            var leftm  = 0;
+            var topm   = 0;
+
+            var args = "toolbar=0,location=0,maximize=1,directories=0,status=0,menubar=0,scrollbars=yes, resizable=1,left=" + leftm+ ",top=" + topm + ", width="+width+", height="+height;
+            var url="/$!globals_sys_basename/private/nbjl/info.xp?doAction=toupdate&id=" + id+"&infotype="+infotype+"&jsign="+jsign+"&infostate="+infostate+"&flag="+flag;
+            var w = window.open(url,"",args);
+            if ( !w ){
+                Dialog.alert( "发现弹出窗口被阻止，请更改浏览器设置，以便正常使用本功能!" ) ;
+                return ;
+            }
+        }    
+
+    
+
+	function toview(id){
+		document.form1.infotype.value=2;
+		document.form1.infoid.value=id;
+		document.form1.doAction.value='detail';
+		document.form1.submit();
+	}
+
+     function toadd()
+    {
+  		document.form1.infotype.value=2;
+   		document.form1.doAction.value='toadd';
+        document.form1.submit();
+    }
+       
+    function changstate(newstate)
+    {
+        getIds();
+        document.form1.doAction.value='xxlist';
+        document.form1.infostate.value=handletype;
+        document.form1.submit();
+    }    
+    cur$!{infostate}.className="divchildtabCurrent";
+</script>
+

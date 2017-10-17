@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>$!app_name</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!-- 框架 -->
+    <link href="${base}/include/css/default.css" rel="stylesheet" type="text/css"/>
+    <script type='text/javascript'>
+        var CONTEXTPATH = '${base}';
+    </script>
+    <script src="${base}/include/js/main.js"></script>
+    <script type="text/javascript" charset="utf-8" src="${base}/include/controls/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="${base}/include/controls/ueditor/ueditor.all.js"></script>
+    <script type="text/javascript" charset="utf-8" src="${base}/include/controls/ueditor/lang/zh-cn/zh-cn.js"></script>
+    <script type="text/javascript">
+        editor=UE.getEditor('editor', {
+            toolbars: [
+                ['fullscreen', 'source', '|','preview']
+            ],
+            initialFrameHeight:292, //          初始化化编译器高度
+            initialFrameWidth:780    //          初始化编译器宽度
+         });
+
+
+
+
+        function initNote(){
+            var str = $("#content").val();
+            UE.getEditor('editor').setContent(str, false);
+        }
+
+        function fileSave(){
+            if($("input[name=type]:checked").attr("id") == "tr_byq" ){
+                var txt = UE.getEditor('editor').getContent();
+                alert(txt);
+                $("#content").val(txt);
+            }
+            Page.MinMessage.Show({
+                text: '正在保存',
+                type: 'load'
+            });
+
+            jQuery.ajax({
+                type: 'POST',
+                url : "${base}/private/cms/tpl/savefile",
+                data : $("#form1").serialize(),
+                success : function (res) {
+                    Page.MinMessage.Hide();
+                    if(res=="true"){
+                        Page.MinMessage.Show({
+                            text: '保存成功',
+                            type: 'load',
+                            timeout: 600
+                        });
+
+                    }else{
+                        Page.MinMessage.Show({
+                            text: '保存失败',
+                            type: 'load',
+                            timeout: 600
+                        });
+                    }
+
+                    return false;
+                },
+                fail : function(res) {
+                    Dialog.alert("系统错误?!");
+                }
+            });
+        }
+        function keyDowns(e)
+        {
+            var num = e.which?e.which:e.keyCode;
+            if( e.ctrlKey && num == 49 ){
+                fileSave();
+            }
+        }
+        document.addEventListener('keydown',keyDowns,false);
+
+        function showTr(){
+            switch ($("input[name=type]:checked").attr("id")){
+                case "tr_wby" :
+                    $("#wby").show();
+                    $("#byq").hide();
+                    break;
+                case "tr_byq" :
+                    $("#wby").hide();
+                    $("#byq").show();
+                    initNote();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        $(function(){
+            showTr();
+            $("input[name=type]").click(function(){
+                showTr();
+            });
+
+        });
+
+        //演示功能，可以去除
+        var flag = true;
+        function doChangeCss(){
+            if(flag){
+                var content = $("#content").val()
+                content = content.replace("1.jpg","2.jpg");
+               // alert(content);
+                flag = false;
+            }else{
+                var content = $("#content").val()
+                content = content.replace("2.jpg","1.jpg");
+                //alert(content);
+                flag = true;
+            }
+            $("#content").val(content);
+        }
+    </script>
+
+</head>
+<body leftmargin="0" topmargin="0"  style="overflow: hidden;">
+<form name='form1' id="form1" method="post">
+    <input type="hidden" name="path" id="path" value="$!path">
+    <input type="hidden" name="name" id="name2" value="$!name">
+    <input type="hidden" name="site_id" id="site_id" value="$!site_id">
+    <table width="100%" border="0" cellspacing="0" cellpadding="6" style="border-collapse: separate; border-spacing: 6px;">
+        <tr>
+            <td  align="left">
+                文件名：<input type="text" name="name" id="name" value="$!name" readonly disabled>
+                <span style="color:#747474;padding:3px 0px;">按 ctrl+1 保存</span>
+                <input type="radio" name="type" id="tr_wby" value="0" checked="checked"/>文本域
+                <input type="radio" name="type" id="tr_byq" value="1" />编辑器
+                &nbsp;<input type="button" name="changeCss" id="changeCss" value="切换样式" onclick="doChangeCss();"/>
+            </td>
+        </tr>
+        <tr id="wby" style="display:none;" >
+            <td align="center" width="100%">
+                <textarea name="content" id="content" style="height:330px;width:760px;" rows="18" cols="70" range="6&amp;0">$!content</textarea>
+            </td>
+        </tr>
+        <tr id="byq" style="display:none;">
+            <td align="left" width="100%">
+                <div >
+                    <div>
+                        <script type="text/plain" id="editor"></script>
+                        <div class="con-split"></div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

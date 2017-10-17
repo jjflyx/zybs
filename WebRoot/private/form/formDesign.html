@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<title>$!app_name</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<!-- 框架 -->
+		<script type='text/javascript'>
+			var CONTEXTPATH = '${base}';
+			var stylePath = '$!stylename';
+			var __ctxPath='${base}';
+			var __fullPath='${base}';
+		</script>
+		<link rel="stylesheet" type="text/css" href="${base}/include/css/page.css"/>
+		<link rel="stylesheet" type="text/css" href="${base}/css/form.css"/>
+		<link href="${base}/private/ratifyFollow/css/blue/style.css" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" type="text/css" href="${base}/js/ueditor/themes/default/ueditor.css" />
+	<!-- ueditor -->
+	<script type="text/javascript" charset="utf-8"	src="${base}/js/ueditor/editor_config.js"></script>
+	<script type="text/javascript" charset="utf-8"	src="${base}/js/ueditor/editor_api.js"></script>
+	<script type="text/javascript" defer="defer"  src="${base}/js/ueditor/lang/zh-cn/zh-cn.js" ></script>
+	<script src="${base}/include/js/main.js"></script>
+	<script src="${base}/include/js/string.js"></script>
+<script>
+function customHeightSet() {
+	var otherH_1 = jQuery(".pageBtnarea").outerHeight()
+			+ parseInt($(".pageM").css("paddingTop"))
+			+ parseInt($(".pageM").css("paddingBottom"));
+	var pageH = document.documentElement.clientHeight;
+	jQuery("#pageScroll").height(pageH - otherH_1);
+}
+jQuery(document).ready(function() {
+	customHeightSet();
+});
+window.onresize = function(){
+	customHeightSet();
+}
+</script>
+<style type="text/css">
+		html,body{width:100%;margin:0;}	
+		}
+	</style>
+	</head>
+	<body class="dialogBody">
+		<div class="pageM editpage" id="pageScroll" style="position:relative;">
+	<form name='form1' id="form1" method='post' action="${base}/private/form/toTableDedign">
+		<input type="hidden" name="formhtml" id="formhtml"/>
+		<input type="hidden" name="formdesid" id="formdesid" value="$!formdesid"/>
+		<input type="hidden" name="tableName" id="tableName" value="$!tableName"/>
+		<input type="hidden" name="tableKey" id="tableKey" value="$!tableKey"/>
+			<div id="upDivNote">
+			<div class="conTitle clearfix">
+				<h2>表单信息</h2>
+			</div>
+			<div class="conBody">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tableEdits">
+					<colgroup>
+						<col width="10%" />
+						<col width="*" />
+					</colgroup>
+					<tr>
+						<th><span class="require">(*)</span>信用目录：</th>
+						<td>
+							<select id="xyml" name="xyml" verify="信用目录|NotNull">
+                                 <option value="">请选择</option>
+                                 #foreach($obj in $csvalueList)
+                                     <option value="$!obj.value">
+                                         <script type="text/javascript">
+                                             document.write(gettreecode('$!obj.value'));
+                                         </script>$!obj.name
+                                     </option>
+                                 #end
+                             </select>
+                             <script type="text/javascript">selected(form1.xyml,'$!def.xyml')</script>
+						</td>
+					</tr>
+					<tr>
+						<th><span class="require">(*)</span>业务类型：</th>
+						<td>
+							<select id="ywtype" name="ywtype"  verify="业务类型|NotNull">
+                                 <option value="">请选择</option>
+                                 #foreach($obj in $ywMap.keySet())
+                                     <option value="$!obj">
+                                         $!ywMap.get($obj)
+                                     </option>
+                                 #end
+                             </select>
+                             <script type="text/javascript">selected(form1.ywtype,'$!def.ywtype')</script>
+						</td>
+					</tr>
+					<tr>
+						<th>预警类型：</th>
+						<td>
+							<input name="table_type" type="radio" value="1" class="radio"/>应履行义务
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<input name="table_type" type="radio" value="2"  class="radio"/>实际履行义务	
+							<script type="text/javascript">checked(form1.table_type,'$!def.table_type')</script>	
+						</td>
+					</tr>
+					<tr>
+						<th><span class="require">(*)</span>表单名称：</th>
+						<td>
+							<input type="text" name="formtitle" id="formtitle" value="$!def.formtitle" class="input" size="119" maxlength="50" verify="表单名称|NotNull">
+						</td>
+					</tr>
+					<tr>
+						<th>表单描述：</th>
+						<td>
+							<textarea name="formdes" id="formdes" rows="3" cols="119" class="textarea ">$!def.formdes</textarea>
+						</td>
+					</tr>
+					<tr>
+						<th>表模式：</th>
+						<td>
+							<input name="formtype" type="radio" value="1" class="radio" checked="checked" />单表
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<input name="formtype" type="radio" value="2"  class="radio"/>多表	
+							<script type="text/javascript">checked(form1.formtype,'$!def.formtype')</script>	
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</form>
+			<div id="ckeditDiv">
+	<div class="conTitle clearfix">
+				<h2>表单内容<span class="require">(*)</span></h2>
+			</div>
+			<div class="conBody">
+	<table width="100%" class="TableBlock">
+		<tr bgcolor="#DDDDDD">
+			<td width="95%">
+				<div style="width:100%;">
+						<p>
+							<script id="form_define" name="form_define">$!def.formhtml</script>
+						</p>
+				</div>
+			</td>
+		</tr>
+	</table>
+	</div>
+	</div>
+		</div>
+		<div class="pageBtnarea">
+			<div id="updiv" style="display:;">
+			<input type="button" class="button" name="Preview" value="预览" onclick="preview()" /> 
+			<input type="button" class="button" name="Next" value="下一步"  onclick="next()" /> 
+			<input type="button" class="button" name="Close" value="关闭"  onclick="myclose()" /> 
+		</div>
+		</div>
+	<form name='preform' id="preform" method='post' action="${base}/private/form/preview" target="newWin">
+		<input type="hidden" name="formhtml" id="preformhtml"/>
+	</form>
+    <script type="text/javascript" charset="utf-8"	src="formDesign.js"></script>
+</body>
+</html>

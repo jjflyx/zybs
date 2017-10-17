@@ -1,0 +1,129 @@
+<html>
+<head>
+    <title>$!app_name</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<!-- 框架 -->
+	<link href="${base}/include/css/default.css" rel="stylesheet" type="text/css"/>
+	<script type='text/javascript'>
+		var CONTEXTPATH = '${base}';
+	</script>
+    <script src="${base}/include/js/main.js"></script>
+    <script src="${base}/include/js/string.js"></script>
+    <!-- 树 -->
+    <script type="text/javascript" src="${base}/include/controls/ztree/jquery.ztree.core-3.5.min.js"></script> 
+	<script type="text/javascript" src="${base}/include/controls/ztree/jquery.ztree.excheck-3.5.min.js"></script>
+	<script type="text/javascript" src="${base}/include/controls/ztree/jquery.ztree.exhide-3.5.min.js"></script>
+
+	<link rel="stylesheet" href="${base}/include/controls/ztree/zTreeStyle/zTreeStyle.css" type="text/css">
+
+</head>
+<SCRIPT type="text/javascript">
+          
+           var IDMark_Switch = "_switch",
+   		       IDMark_Icon = "_ico",
+   		       IDMark_Span = "_span",
+   		       IDMark_Input = "_input",
+   		       IDMark_Check = "_check",
+   		       IDMark_Edit = "_edit",
+   		       IDMark_Remove = "_remove",
+   		       IDMark_Ul = "_ul",
+   		       IDMark_A = "_a";
+
+            var setting = {
+			view: {
+				selectedMulti: false,
+                nameIsHTML: true
+			},
+			data: {
+				simpleData: {
+					enable: true
+				}
+			 },
+			 callback: {
+                    onClick: onClick
+					//onExpand:onExpand
+				}
+		    };
+
+            function onClick(event, treeId, treeNode, clickFlag){
+                var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+                var nodes = treeObj.getSelectedNodes();
+                var selectNode;
+                if(nodes.length>0){
+                    selectNode = nodes[0];
+                    var l = selectNode.level;
+                    var tempnode = selectNode;
+                    if(selectNode.level!=0){
+                        for(var i=0;i< l-1;i++){
+                            if(i==0){
+                                tempnode = selectNode.getParentNode();
+                            }else{
+                                tempnode = tempnode.getParentNode();
+                            }
+                        }
+                        $("#moveSite_id").attr("value",tempnode.id+"");
+                    }
+                }
+                $("#moveChannel_id").attr("value",treeNode.id+"");
+            }
+
+           var zNodes =#if($str)$!str #else [] #end ;
+
+           var ztreeObj;
+           jQuery(document).ready(function(){
+              ztreeObj= jQuery.fn.zTree.init(jQuery("#treeDemo"), setting,zNodes);
+           });
+
+           function doSave(){
+               if (document.form1.commit.value == "0") {
+                   document.form1.commit.value = "1";
+                   return true;
+               } else {
+                   Dialog.alert("正在提交，请稍候！");
+                   return false;
+               }
+           }
+
+           //-->
+       </SCRIPT>
+<body class="dialogBody">
+<form name='form1' id="form1" method='post'>
+    <input type="hidden" name="doAction" id="doAction" value="cmsmenu">
+    <input type="hidden" name="checkids" id="checkids" value="">
+    <input type="hidden" name="roleid" id="roleid" value="$!roleid">
+    <input type="hidden" name="commit" id="commit" value="0">
+    <input type="hidden" name="moveChannel_id" id="moveChannel_id" value="" />
+    <input type="hidden" name="moveSite_id" id="moveSite_id" value="" />
+    <input type="hidden" name="ids" id="ids" value="$!ids" />
+
+    <table width="450" height="207" align="center" cellpadding="2" cellspacing="0">
+        <tr>
+            <td height="10"></td>
+            
+        </tr>
+        <tr>
+            <td align="center" width="100%" height="350" valign="top">
+                <fieldset>
+                    <legend><label>移动菜单</label></legend>
+                    <table width="100%" border="0" cellpadding="2" cellspacing="0">
+                        <tr>
+                            <td>
+                                <div ztype='_Tree' style='-moz-user-select:none;height:320px;width:500px;'
+                                     onselectstart='stopEvent(event);' id='tree1' class='treeItemN'>
+                                    <ul id="treeDemo" class="ztree"
+                                        style="height:300px;width:490px;overflow-x:hidden"></ul>
+                                </div>
+
+                            </td>
+                        </tr>
+                    </table>
+                </fieldset>
+            </td>
+        </tr>
+    </table>
+</form>
+</body>
+
+
+
+</html>

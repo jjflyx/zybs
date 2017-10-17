@@ -1,0 +1,123 @@
+﻿<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>$!app_name</title>
+	<script type='text/javascript'>
+		var CONTEXTPATH = '${base}';
+		var stylePath = 'blue';
+	</script>
+	<link href="${base}/include/css2/msg.css" rel="stylesheet" type="text/css"/>
+	<link href="${base}/include/css2/main.css" rel="stylesheet" type="text/css">
+	<link href="${base}/include/css2/index.css" rel="stylesheet" type="text/css">
+	<link href="${base}/include/css2/easyui.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" type="text/css" href="${base}/include/skins/login/skins/login/login.css"/>
+	<script type='text/javascript' src='${base}/include/js/main.js'></script>
+
+	<!--[if IE 6]>
+	<script language="javascript" type="text/javascript" src="js/DD_belatedPNG.min.js"></script>
+	<![endif]-->
+	<style type="text/css">
+		<!--
+		html,body {
+			background: none;
+			height: 100%;
+		}
+		-->
+	</style>
+	<script type="text/javascript">
+		this.clearText=function(){
+			$("#loginname").val("");
+			$("#password").val("");
+		}
+		this.tochange=function()
+		{
+			$("#validataimg").attr("src","${base}/codeimg?rnd=" + new Date().getTime());
+		}
+
+		
+		this.CheckUserName=function()
+		{
+			if ($('#loginname').val() != "") {
+				if ($('#password').val() != "") {
+					if ($('#verifcode').val().length==4) {
+						jQuery.ajax({
+							url : "${base}/private/doLogin",
+							data : "loginname="+encode64($("#loginname").val())+"&password="+encode64($("#password").val())+"&verifcode="+encode64($("#verifcode").val()),
+							type:"POST",
+							success : function (res) {
+								if (res == "true") {
+									window.location.href="${base}/private/index";
+								} else {
+									Dialog.alert(res);
+									$('#verifcode').val("");
+									tochange();
+								}
+								return false;
+							},
+							fail : function(res) {
+								Dialog.alert("系统错误?!");
+							}
+						});
+					} else {
+						Dialog.alert("请输入四位验证码！");
+						$('#verifcode').focus();
+						return false;
+					}
+				} else {
+					Dialog.alert("密码不能为空！");
+					//$('#password').focus();
+					return false;
+				}
+
+			} else {
+				Dialog.alert("用户名不能为空！");
+				//$('#loginname').focus();
+				return false;
+			}
+		}
+
+
+		$(document).ready(function(){
+			$(document).bind("keypress", "return", function (ev) {
+				CheckUserName();
+			});
+			$("#img").click(CheckUserName);
+		});
+	</script>
+</head>
+<body style="overflow:hidden;">
+<form method="post" id="form1" name="form1" onsubmit="CheckUserName();return false;"
+	  style="display: block; height: 100%;">
+	<div class="login_wrapper">
+		<div style="margin-top: 20px">
+			<div class="login_logo">
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="login_body">
+			<div class="login_body_wrapper">
+				<div class="body_left"></div>
+				<div class="body_right">
+					<div class="login_form png">
+						<div class="form_title">用户登录<span></span></div>
+						<div class="form_main">
+							<div class="list">用户名：<label class="icon_user" for="loginname"><input type="text" name="loginname" id="loginname" value="" onfocus="this.select();" /></label>
+							</div>
+							<div class="list">密　码：<label class="icon_pass" for="password"><input type="password" name="password" id="password" type="password" onfocus="this.select();"/></label>
+							</div>
+							<div class="list">验证码：<label class="icon_code" for="verifcode"><input type="text" name="verifcode" id="verifcode" /></label>
+								<img height="28" width="70" align="absmiddle" src="${base}/codeimg" name="validataimg" id="validataimg" title="点击刷新验证码" onclick="tochange();"/><span class="codefresh" onclick="tochange();">看不清换一张</span>
+							</div>
+							<div class="btn"><a class="login_btn" id="img" ><strong>登录</strong></a></div>
+						</div>
+					</div>
+				</div>
+				<div class="clear"></div>
+			</div>
+		</div>
+	</div>
+	<div style="height:70px; line-height:24px; text-align:center; color:#003366; padding:10px; font-size:13px; font-family:微软雅黑;">主办单位：中业标识加工厂　技术支持：金建峰<br>
+地址：休宁县海阳镇万全村金色玫瑰售楼部后　邮编：245400　电话：17330761601　</div>	
+</form>
+</body>
+</html>
