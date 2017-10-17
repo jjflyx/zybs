@@ -1,7 +1,0 @@
-@charset "utf-8";
-/* CSS Document */
-.iconimg{ display:inline-block; *display:inline; *zoom:1; vertical-align:middle;}
-.icon_lock{ background-image:url(icon/icon_lock-12.png); width:12px; height:12px; background-repeat:no-repeat; margin-right:3px;}
-.icon_user{ background-image:url(icon/icon_user-12.png); width:12px; height:12px; background-repeat:no-repeat; margin-right:3px;}
-.icon_exit{ background-image:url(icon/icon_exit-12.png); width:12px; height:12px; background-repeat:no-repeat; margin-right:3px;}
-.icon_wz{ background-image:url(icon/icon_wz-12.png); width:16px; height:16px; background-repeat:no-repeat; margin-right:3px;}

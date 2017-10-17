@@ -1,1 +1,0 @@
-UE.commands["attachment"]={queryCommandState:function(){return this.highlight?-1:0;}};

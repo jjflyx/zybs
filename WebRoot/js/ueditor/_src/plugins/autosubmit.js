@@ -1,1 +1,0 @@
-UE.commands["autosubmit"]={execCommand:function(){var b=this,a=domUtils.findParentByTagName(b.iframe,"form",false);if(a){if(b.fireEvent("beforesubmit")===false){return;}b.sync();a.submit();}}};

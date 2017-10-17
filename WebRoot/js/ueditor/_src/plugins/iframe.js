@@ -1,1 +1,0 @@
-UE.plugins["insertframe"]=function(){var b=this;function a(){b._iframe&&delete b._iframe;}b.addListener("selectionchange",function(){a();});b.commands["insertframe"]={queryCommandState:function(){return this.highlight?-1:0;}};};

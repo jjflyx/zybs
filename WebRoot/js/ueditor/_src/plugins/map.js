@@ -1,1 +1,0 @@
-UE.commands["gmap"]=UE.commands["map"]={queryCommandState:function(){return this.highlight?-1:0;}};

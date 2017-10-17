@@ -1,1 +1,0 @@
-UE.commands["test"]={execCommand:function(a){this.ui._dialogs["testDialog"].open();},queryCommandState:function(){return this.highlight?-1:0;}};

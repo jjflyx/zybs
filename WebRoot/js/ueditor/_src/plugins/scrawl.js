@@ -1,1 +1,0 @@
-UE.commands["scrawl"]={queryCommandState:function(){return this.highlight||(browser.ie&&browser.version<=8)?-1:0;}};

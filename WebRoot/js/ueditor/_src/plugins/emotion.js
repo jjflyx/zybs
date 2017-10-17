@@ -1,1 +1,0 @@
-UE.commands["emotion"]={queryCommandState:function(){return this.highlight?-1:0;}};
