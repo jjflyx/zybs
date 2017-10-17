@@ -1,0 +1,715 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<title>$!app_name</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<script type='text/javascript'>
+		var CONTEXTPATH = '${base}';
+		var stylePath = '$!stylename';
+	</script>
+	<link href="${base}/private/ratifyFollow/css/$!stylename/style.css" rel="stylesheet" type="text/css" />
+	<script src="${base}/include/js/main.js"></script>
+	<script src="${base}/include/js/string.js"></script>
+	<link href="${base}/include/css/themes/gray/easyui.css" rel="stylesheet" type="text/css" />
+	<script src="${base}/include/js/jquery.easyui.min.js"></script>
+	<script>
+		function doSave(){
+			Dialog.confirm("是否确定执行该操作?",function(){
+				var abc = $("input[name='cz']:checked").val();
+				var infoid='$!info.id';
+				if(abc!=1){
+					if(abc=="2"){//修改
+						$("#form1").attr("action","${base}/private/sxcj/toUpdate?warnid="+infoid);
+						$("#form1").submit();
+					}else if(abc=="3"){//撤销
+						$("#form1").attr("action","${base}/private/sxcj/toCancel");
+						$("#form1").submit();
+					}
+				}else{
+					if($("#cz_note").val().trim()==""){
+						Dialog.alert("审核内容不可为空!",function(){
+							$("#cz_note").focus();
+						});
+						return;
+					}
+					jQuery.ajax({
+						type: 'POST',
+						url : "${base}/private/gtxt/xyzt/warnExceptionUpdate" ,
+						data : {"id":$("#id").val(),"cz":abc,"cz_note":$("#cz_note").val(),"cz_why":$("#cz_why").val(),"cz_yj":$("#cz_yj").val()},
+						success : function (res) {
+							if(res=="true"){
+								Dialog.alert("操作成功！",function(){
+									window.opener.location.reload();
+									window.close();
+								});
+							}else{
+								Dialog.alert("操作失败！");
+							}
+							return false;
+						},
+						fail : function(res) {
+							Dialog.alert("系统错误?!");
+						}
+					});
+				}
+
+			},function(){
+
+			});
+		}
+
+		function checkSomeThing(val){
+			Dialog.confirm("是否确定执行"+val+"操作?",function(){
+				Dialog.alert(val+"操作成功,并已短信通知申请人！",function(){
+					window.close();
+				});
+			},function(){
+
+			});
+		}
+
+		$(document).ready(function() {
+			$(".aaa").change(function() {
+				var abc = $("input[name='cz']:checked").val();
+				if (abc == 1) {
+					$("#tr_1").show();
+					$("#tr_2").hide();
+					$("#tr_3").hide();
+				}
+				else if(abc==2) {
+					$("#tr_2").hide();
+					$("#tr_3").hide();
+					$("#tr_1").hide();
+				} else if(abc==3) {
+					$("#tr_2").hide();
+					$("#tr_3").hide();
+					$("#tr_1").hide();
+				} else {
+					$("#tr_2").hide();
+					$("#tr_3").hide();
+					$("#tr_1").hide();
+				}
+			});
+			$("#tr_2").hide();
+			$("#tr_3").hide();
+			$("#tr_1").hide();
+		});
+	</script>
+</head>
+<body leftmargin="0" topmargin="0" class="easyui-layout">
+<form name='form1' id="form1" method='post' action="">
+	<input type="hidden" name="id" id="id" value="$!info.id">
+	<input type="hidden" name="xy_type" id="xy_type" value="$!xy_type">
+	<input type="hidden" name="sxcjid" id="sxcjid" value="$!{discredit_info.id}">
+	<input type="hidden" name="yyid" id="yyid" value="$!{info.id}">
+	<div region="center" border="false"
+		 style="width: 100%; height: 100%; padding: 0px 10px 10px;">
+		<table width="98%" border="0" align="center" cellpadding="0"
+			   cellspacing="0" class="table_auto margin_top15 table_titlebk">
+			<tr>
+				<td class="table_title">
+					申请信息
+				</td>
+			</tr>
+		</table>
+		<table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="table_auto table_nrbk">
+			<tr>
+				<td valign="top" class="padding10">
+					<table width="100%" border="0" cellpadding="0" cellspacing="3">
+						<tr>
+							<td width="80" align="right">
+								申请人：
+							</td>
+							<td colspan="3">
+								$!{info.applicant}
+							</td>
+						</tr>
+					</table>
+					<table width="100%" border="0" cellpadding="0" cellspacing="3">
+						<tr>
+							<td width="80" align="right">
+								身份证号：
+							</td>
+							<td  colspan="3">
+								$!{info.code}
+							</td>
+						</tr>
+					</table>
+					<table width="100%" border="0" cellpadding="0" cellspacing="3">
+						<tr>
+							<td width="80" align="right">
+								申请方式：
+							</td>
+							<td width="180">
+								#if($!{info.source}==0)
+									线上申请
+								#else
+									线下申请
+								#end
+							</td>
+							<td width="80" align="right">
+								申请时间：
+							</td>
+							<td colspan="3">
+								$!{info.add_time}
+							</td>
+						</tr>
+					</table>
+					<table width="100%" border="0" cellpadding="0" cellspacing="3">
+						<tr>
+							<td width="80" align="right">
+								信用主体：
+							</td>
+							<td width="180">
+								$!{xyztInfo.name}
+							</td>
+							<td width="80" align="right">
+								联系方式：
+							</td>
+							<td colspan="3">
+								$!{info.tel}
+							</td>
+						</tr>
+					</table>
+					<table width="100%" border="0" cellpadding="0" cellspacing="3">
+						<tr bgcolor="#ffffff">
+							<td width="80" align="right">
+								申述内容：
+							</td>
+							<td colspan="3">
+								$!{info.note}
+							</td>
+						</tr>
+					</table>
+					<table width="100%" border="0" cellpadding="0" cellspacing="3">
+						<tr bgcolor="#ffffff">
+							<td width="80" align="right">
+								附件列表：
+							</td>
+							<td colspan="3">
+								$!{info.file_html}
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		#if($contractArr)
+		<table width="98%" border="0" align="center" cellpadding="0"
+			   cellspacing="0" class="table_auto margin_top15 table_titlebk">
+			<tr>
+				<td class="table_title">
+					合同信息
+				</td>
+			</tr>
+		</table>
+		<table width="98%" border="0" align="center" cellpadding="0"  cellspacing="0" class="table_auto table_nrbk">
+			<tr>
+				<td valign="top" class="padding10">
+					<table width="100%" border="0" cellpadding="0" cellspacing="3">
+						<tr>
+							<td width="80" align="right" nowrap>
+								合同编号：
+							</td>
+							<td width="140">
+								$!contractArr.get(1)
+							</td>
+							<td width="80" align="right">
+								合同名称：
+							</td>
+							<td>
+								$!contractArr.get(2)
+							</td>
+						</tr>
+						<tr bgcolor="#ffffff">
+							<td width="80" align="right" nowrap>
+								所属类别：
+							</td>
+							<td>
+								$!xy_name
+							</td>
+							<td width="80" align="right" nowrap>
+								签订时间：
+							</td>
+							<td>
+								$!contractArr.get(3)
+							</td>
+						</tr>
+						<tr bgcolor="#ffffff">
+							<td width="80" align="right" nowrap>
+								查看合同：
+							</td>
+							<td colspan="3">
+								#if($!fileList.size()>0)
+									#foreach($obj in $!fileList)
+										<a href="${base}$obj.get(1)">$!obj.get(0)</a></br>
+									#end
+									#else
+										无附件
+								#end
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		#end
+		
+		
+		#if($!cz!=2)
+		<table width="98%" border="0" align="center" cellpadding="0"
+			   cellspacing="0" class="table_auto margin_top15 table_titlebk">
+			<tr>
+				<td class="table_title">
+					惩戒信息
+				</td>
+			</tr>
+		</table>
+		<table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="table_auto table_nrbk">
+			<tr>
+				<td valign="top" class="padding10">
+					<table width="100%" border="0" cellpadding="0" cellspacing="3">
+						<tr>
+							<td width="80" align="right">
+								惩戒时间：
+							</td>
+							<td width="*" colspan="3">
+								$!{discredit_info.discipline_date}
+							</td>
+						</tr>
+					</table>
+					<table width="100%" border="0" cellpadding="0" cellspacing="3">
+						<tr>
+							<td width="80" align="right">
+								失信行为：
+							</td>
+							<td width="*" colspan="3">
+								$!{discredit_info.sxxw_id}
+							</td>
+						</tr>
+					</table>
+					<table width="100%" border="0" cellpadding="0" cellspacing="3">
+						<tr bgcolor="#ffffff">
+							<td width="80" align="right">
+								失信情形：
+							</td>
+							<td width="*" colspan="3">
+								$!{discredit_info.sxqx_id}
+							</td>
+						</tr>
+					</table>
+					<table width="100%" border="0" cellpadding="0" cellspacing="3">
+						<tr bgcolor="#ffffff">
+							<td width="80" align="right">
+								惩戒措施：
+							</td>
+							<td width="*" colspan="3">
+								$!{discredit_info.cjcs_id}
+							</td>
+						</tr>
+					</table>
+					<table width="100%" border="0" cellpadding="0" cellspacing="3">
+						<tr>
+							<td width="80" align="right">
+								信息来源：
+							</td>
+							<td width="*" colspan="3">
+								#if($!{discredit_info.src}==0)
+								系统生成
+								#else
+								人工录入
+								#end
+							</td>
+						</tr>
+					</table>
+					<table width="100%" border="0" cellpadding="0" cellspacing="3">
+						<tr bgcolor="#ffffff">
+							<td width="80" align="right">
+								开始日期：
+							</td>
+							<td width="180">
+								$!{discredit_info.start_date}
+							</td>
+							<td width="80" align="right">
+								结束日期：
+							</td>
+							<td colspan="3">
+								$!{discredit_info.end_date}
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		#elseif($!cz=='2')
+		<!-- =======================处理前=========================== -->
+			<table width="98%" border="0" align="center" cellpadding="0"
+			   cellspacing="0" class="table_auto margin_top15 table_titlebk">
+			<tr>
+				<td class="table_title">
+					惩戒信息-处理前
+				</td>
+			</tr>
+		</table>
+		<table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="table_auto table_nrbk">
+			<tr>
+				<td valign="top" class="padding10">
+					<table width="100%" border="0" cellpadding="0" cellspacing="3">
+						<tr>
+							<td width="80" align="right">
+								惩戒时间：
+							</td>
+							<td width="*" colspan="3">
+								$!{discredit_info_bf.discipline_date}
+							</td>
+						</tr>
+					</table>
+					<table width="100%" border="0" cellpadding="0" cellspacing="3">
+						<tr>
+							<td width="80" align="right">
+								失信行为：
+							</td>
+							<td width="*" colspan="3">
+								$!{discredit_info_bf.sxxw_id}
+							</td>
+						</tr>
+					</table>
+					<table width="100%" border="0" cellpadding="0" cellspacing="3">
+						<tr bgcolor="#ffffff">
+							<td width="80" align="right">
+								失信情形：
+							</td>
+							<td width="*" colspan="3">
+								$!{discredit_info_bf.sxqx_id}
+							</td>
+						</tr>
+					</table>
+					<table width="100%" border="0" cellpadding="0" cellspacing="3">
+						<tr bgcolor="#ffffff">
+							<td width="80" align="right">
+								惩戒措施：
+							</td>
+							<td width="*" colspan="3">
+								$!{discredit_info_bf.cjcs_id}
+							</td>
+						</tr>
+					</table>
+					<table width="100%" border="0" cellpadding="0" cellspacing="3">
+						<tr>
+							<td width="80" align="right">
+								信息来源：
+							</td>
+							<td width="*" colspan="3">
+								#if($!{discredit_info_bf.src}==0)
+								系统生成
+								#else
+								人工录入
+								#end
+							</td>
+						</tr>
+					</table>
+					<table width="100%" border="0" cellpadding="0" cellspacing="3">
+						<tr bgcolor="#ffffff">
+							<td width="80" align="right">
+								开始日期：
+							</td>
+							<td width="180">
+								$!{discredit_info_bf.start_date}
+							</td>
+							<td width="80" align="right">
+								结束日期：
+							</td>
+							<td colspan="3">
+								$!{discredit_info_bf.end_date}
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		<!-- =========================处理后======================= -->
+		<table width="98%" border="0" align="center" cellpadding="0"
+			   cellspacing="0" class="table_auto margin_top15 table_titlebk">
+			<tr>
+				<td class="table_title">
+					惩戒信息-处理后
+				</td>
+			</tr>
+		</table>
+		<table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="table_auto table_nrbk">
+			<tr>
+				<td valign="top" class="padding10">
+					<table width="100%" border="0" cellpadding="0" cellspacing="3">
+						<tr>
+							<td width="80" align="right">
+								惩戒时间：
+							</td>
+							<td width="*" colspan="3">
+								$!{discredit_info.discipline_date}
+							</td>
+						</tr>
+					</table>
+					<table width="100%" border="0" cellpadding="0" cellspacing="3">
+						<tr>
+							<td width="80" align="right">
+								失信行为：
+							</td>
+							<td width="*" colspan="3">
+								$!{discredit_info.sxxw_id}
+							</td>
+						</tr>
+					</table>
+					<table width="100%" border="0" cellpadding="0" cellspacing="3">
+						<tr bgcolor="#ffffff">
+							<td width="80" align="right">
+								失信情形：
+							</td>
+							<td width="*" colspan="3">
+								$!{discredit_info.sxqx_id}
+							</td>
+						</tr>
+					</table>
+					<table width="100%" border="0" cellpadding="0" cellspacing="3">
+						<tr bgcolor="#ffffff">
+							<td width="80" align="right">
+								惩戒措施：
+							</td>
+							<td width="*" colspan="3">
+								$!{discredit_info.cjcs_id}
+							</td>
+						</tr>
+					</table>
+					<table width="100%" border="0" cellpadding="0" cellspacing="3">
+						<tr>
+							<td width="80" align="right">
+								信息来源：
+							</td>
+							<td width="*" colspan="3">
+								#if($!{discredit_info.src}==0)
+								系统生成
+								#else
+								人工录入
+								#end
+							</td>
+						</tr>
+					</table>
+					<table width="100%" border="0" cellpadding="0" cellspacing="3">
+						<tr bgcolor="#ffffff">
+							<td width="80" align="right">
+								开始日期：
+							</td>
+							<td width="180">
+								$!{discredit_info.start_date}
+							</td>
+							<td width="80" align="right">
+								结束日期：
+							</td>
+							<td colspan="3">
+								$!{discredit_info.end_date}
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		#end
+		
+		#if($state!="1"&&$state!="0"&&($!cz==2||$!cz==3))
+		<table width="98%" border="0" align="center" cellpadding="0"
+			   cellspacing="0" class="table_auto margin_top15 table_titlebk">
+			<tr>
+				#if($!cz==2)
+				<td class="table_title">
+					处理意见：修改惩戒
+				</td>
+				#else
+				<td class="table_title">
+					处理意见：撤销惩戒
+				</td>
+				#end
+			</tr>
+		</table>
+		<table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="table_auto table_nrbk">
+			<tr>
+				<td valign="top" class="padding10">
+					<table width="100%" border="0" cellpadding="0" cellspacing="3">
+						<tr>
+							<td width="80" align="right">
+								修改原因：
+							</td>
+							<td width="*" colspan="3">
+								$!{info.cz_why}
+							</td>
+						</tr>
+					</table>
+					<table width="100%" border="0" cellpadding="0" cellspacing="3">
+						<tr bgcolor="#ffffff">
+							<td width="80" align="right">
+								修改依据：
+							</td>
+							<td width="*" colspan="3">
+								$!{info.cz_yj}
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		#elseif($state!="1"&&$state!="0"&&$!cz==1)
+		<table width="98%" border="0" align="center" cellpadding="0"
+			   cellspacing="0" class="table_auto margin_top15 table_titlebk">
+			<tr>
+				<td class="table_title">
+					处理意见：维持惩戒
+				</td>
+			</tr>
+		</table>
+		<table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="table_auto table_nrbk">
+			<tr>
+				<td valign="top" class="padding10">
+					<table width="100%" border="0" cellpadding="0" cellspacing="3">
+						<tr>
+							<td width="80" align="right">
+								审核内容：
+							</td>
+							<td width="*" colspan="3">
+								$!{info.cz_note}
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		#end
+		
+		
+		
+		<table width="98%" border="0" align="center" cellpadding="0"
+			   cellspacing="0" class="table_auto margin_top15 table_titlebk">
+			<tr>
+				<td class="table_title">
+					涉及信用主体
+				</td>
+			</tr>
+		</table>
+		<table width="98%" border="0" align="center" cellpadding="0"
+			   cellspacing="0" class="table_auto table_nrbk">
+			<tr>
+				<td valign="top" class="padding10">
+					<table width="100%" border="0" cellpadding="0" cellspacing="3">
+						<tr>
+							<td width="80" align="right" nowrap>
+								信用主体：
+							</td>
+							<td width="140" align="left">
+								$!{xyztInfo.name}
+							</td>
+							<td width="80" align="right" nowrap>
+								#if($!xyztInfo.type=="1")
+									统一社会信用代码：
+								#elseif($!xyztInfo.type=="2")
+									组织机构代码：
+								#else
+									身份证号:
+								#end
+							</td>
+							<td width="140">
+								$!{xyztInfo.code}
+							</td>
+						</tr>
+						#if($!xyztInfo.type=="1")
+						<tr>
+							<td width="80" align="right" nowrap>
+								法人：
+							</td>
+							<td width="140" align="left">
+								$!{xyztInfo.fr_name}
+							</td>
+							<td width="80" align="right" nowrap>
+								身份证号：
+							</td>
+							<td width="140">
+								$!{xyztInfo.fr_code}
+							</td>
+						</tr>
+						#elseif($!xyztInfo.type=="2")
+						<tr>
+							<td width="80" align="right" nowrap>
+								负责人：
+							</td>
+							<td width="140" align="left">
+								$!{xyztInfo.fzr}
+							</td>
+							<td width="80" align="right" nowrap>
+								联系号码：
+							</td>
+							<td width="140">
+								$!{xyztInfo.phone}
+							</td>
+						</tr>
+						#end
+					</table>
+				</td>
+			</tr>
+		</table>
+		#if($type=="1")
+		<table width="98%" border="0" align="center" cellpadding="0"
+			   cellspacing="0" class="table_auto margin_top15 table_titlebk">
+			<tr>
+				<td class="table_title">
+					<span>
+						<label><input type="radio" name="cz" class="aaa" value="1" />维持惩戒</label>&nbsp;&nbsp;
+						<label><input type="radio" name="cz" class="aaa" value="2" />修改惩戒</label>&nbsp;&nbsp;
+						<label><input type="radio" name="cz" class="aaa" value="3" />撤销惩戒</label>&nbsp;&nbsp;
+					</span>
+				</td>
+			</tr>
+		</table>
+		<table width="98%" border="0" align="center" cellpadding="0"
+			   cellspacing="0" class="table_auto table_nrbk" id="tab_10">
+			<tr>
+				<td valign="top" class="padding10">
+					<table width="100%" border="0" cellpadding="0" cellspacing="3">
+						<tr id="tr_1">
+							<td width="80" align="right">
+								审核内容：
+							</td>
+							<td colspan="3">
+								<textarea name="cz_note" id="cz_note" rows="4" cols="90%" ></textarea>
+							</td>
+						</tr>
+						<tr id="tr_2">
+							<td width="80" align="right">
+								修改原因：
+							</td>
+							<td colspan="3">
+								<textarea name="cz_why" id="cz_why" rows="4" cols="90%" ></textarea>
+							</td>
+						</tr>
+						<tr id="tr_3">
+							<td width="80" align="right">
+								修改依据：
+							</td>
+							<td colspan="3">
+								<textarea name="cz_yj" id="cz_yj" rows="4" cols="90%" ></textarea>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		#end
+	</div>
+	<div region="south" border="false"
+		 style="overflow: hidden; padding: 10px 10px 0px 10px">
+		<div align="center" style="padding-bottom: 10px;">
+			#if($type=="1")
+			<input class="button" type="button" name="btnOk" value="确认提交"
+				   onclick="doSave();" />
+			#end
+			<input class="button" type="button" name="btnOk" value="关闭"
+				   onclick="window.close();" />
+		</div>
+	</div>
+</form>
+</body>
+</html>

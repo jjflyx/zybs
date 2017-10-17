@@ -1,0 +1,284 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<title>$!app_name</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<script type='text/javascript'>
+		var CONTEXTPATH = '${base}';
+		var stylePath = '$!stylename';
+	</script>
+	<link rel="stylesheet" type="text/css" href="${base}/include/css/page.css"/>
+	<link href="${base}/private/ratifyFollow/css/$!stylename/style.css" rel="stylesheet" type="text/css" />
+	<script src="${base}/include/js/main.js"></script>
+	<script src="${base}/include/js/string.js"></script>
+	<!--<link href="${base}/include/css/themes/gray/easyui.css" rel="stylesheet" type="text/css" />-->
+	<script src="${base}/include/js/jquery.easyui.min.js"></script>
+	<script src="${base}/include/js/ajaxfileupload.js"></script>
+	<script src="${base}/js/util/preview.js"></script>
+	<script>
+		function customHeightSet(){
+			var otherH_1	=jQuery(".pageBtnarea").outerHeight() + parseInt($(".pageM").css("paddingTop")) + parseInt($(".pageM").css("paddingBottom"));
+			var pageH	=document.documentElement.clientHeight;
+			jQuery("#pageScroll").height(pageH-otherH_1);
+		}
+		jQuery(document).ready(function(){
+			customHeightSet();
+			appendDiv();
+		});
+		window.onload = function(){
+			customHeightSet();
+		}
+		window.onresize = function(){
+			customHeightSet();
+		}
+	</script>
+	<script>
+
+		function setFileList(filePath,fileName,fileSize){
+			var fileList = $("#file_list").html();
+			$("#file_tr").attr("style","");
+			$("#file_list").html("&nbsp;<a href='${base}/"+filePath+"' >"+fileName+"("+fileSize+"MB)</a><br />"+fileList);
+		}
+
+		function showTbody(id){
+			$("tbody[id^='id_']").each(function(){
+				if($(this).attr('id')==id){
+					$("#"+id).attr("style","");
+					$("#"+id.replace("id","img")).attr("src","${base}/public/gtxy/up.jpg");
+				}else{
+					$("#"+$(this).attr('id')).attr("style","display:none;");
+					$("#"+$(this).attr('id').replace("id","img")).attr("src","${base}/public/gtxy/down.jpg");
+				}
+			});
+		}
+
+		function doSave(){
+			if(Verify.hasError()){
+				return ;
+			}
+			var id = $('input[name="id_radio"]:checked').val();
+			if(id==null){
+				Dialog.alert("请选择要申请异议的失信惩戒信息!");
+				return;
+			}
+			$("#file_html").val(encode64($("#file_list").html()));
+			jQuery.ajax({
+				type: 'POST',
+				url : "${base}/private/gtxt/xyzt/addWarnException" ,
+				data : {"id":id,"applicant":$("#name").val(),"tel":$("#phone").val(),"note":$("#note").val(),
+					"file_html":encode64($("#file_list").html()),"code":$("#code").val(),"xy_type":$("xy_type").val()},
+				success : function (res) {
+					if(res=="true"){
+						Dialog.alert("添加成功！",function(){
+							window.opener.location.reload();
+							window.close();
+						});
+					}else{
+						Dialog.alert("添加失败！");
+					}
+					return false;
+				},
+				fail : function(res) {
+					Dialog.alert("系统错误?!");
+				}
+			});
+		}
+
+		var ztMap = $!ztMap;
+		function toAddfr(){
+			var ctype = 1;
+			var d = new Dialog("Addfr");
+			d.Width = 900;
+			d.Height = 450;
+			d.Title = "添加信用主体";
+			d.URL = "${base}/private/jlxx/toAddfr?frbutton=1&ctype="+ctype;
+			d.OKEvent = function(){
+				if($DW.doSave()){
+					var ids = $DW.$("#checkids_id").val();
+					var names = $DW.$("#checkids_name").val();
+					var types = $DW.$("#checkids_type").val();
+					var codes = $DW.$("#checkids_code").val();
+					var code = codes.split(",");
+					$("#xyzt").val(names);
+					$("#xyzt_id").val(ids);
+					$D.close();
+					form1.submit();
+				}
+			}
+			d.show();
+		}
+	</script>
+</head>
+<body leftmargin="0" topmargin="0" class="easyui-layout">
+<form name='form1' id="form1" method='post' action="${base}/private/gtxt/xyzt/toWarnExceptionChoice">
+	<input type="hidden" name="xyzt_id" id="xyzt_id" />
+	<div class="pageM editpage" id="pageScroll">
+		<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="table_titlebk">
+			<tr>
+				<td class="table_title" align="center">
+					申请信息
+				</td>
+			</tr>
+		</table>
+		<div class="conBody">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0"  class="tableEdits table_nrbk">
+				<colgroup>
+					<col width="10%" />
+					<col width="40%" />
+					<col width="10%" />
+					<col width="40%" />
+				</colgroup>
+				<tr>
+					<th>
+						信用主体：
+					</th>
+					<td colspan="3">
+						<input type="text" name="xyzt" id="xyzt" size="30" maxlength="40" readonly placeholder="" value="$!{info.name}"  verify="信用主体|NotNull"/>
+						&nbsp;<img src="${base}/include/img/cz_find.png" id="zt_img" name="zt_img" style=" vertical-align:middle;cursor: pointer;" onclick="toAddfr();"/>
+					</td>
+				</tr>
+				#if($!{type})
+				<tr>
+					<th>
+						申请人：
+					</th>
+					<td colspan="3">
+						<input type="text" name="name" id="name" verify="申请人|NotNull"/>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						身份证号：
+					</th>
+					<td colspan="3">
+						<input name="code" id="code" type="text" size="20" verify="身份证号|NotNull&&身份证号|isIdNumber"/>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						联系方式：
+					</th>
+					<td colspan="3">
+						<input type="text" name="phone" id="phone" verify="联系方式|NotNull"/>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						申述内容：
+					</td>
+					<td colspan="3">
+						<textarea name="note" id="note" cols="100" rows="5"  verify="申诉内容|NotNull"/></textarea>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						上传附件：
+					</th>
+					<td colspan="3">
+								<span class="attachement" style="padding:2px;display:inline-block;" name="editable-input">
+								  <input type="text" name="fj">
+								  <button class="btn-text btn-attachement" onclick="loadFileClickOut(this);"  type="button" fileinputname="fj" id="fj_button">选择</button>
+								</span>
+						<span style="color:gray;font-size:10px;"></span>
+					</td>
+				</tr>
+				<tr id="file_tr"  style="display: none;">
+					<th>
+						文件列表：
+					</th>
+					<td colspan="3" >
+						<span id="file_list"></span>
+					</td>
+				</tr>
+				#end
+			</table>
+		</div>
+		#if($!type)
+		#if($size!=0)
+		<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="table_titlebk">
+			<tr>
+				<td class="table_title" align="center">
+					惩戒信息列表
+				</td>
+			</tr>
+		</table>
+		<div class="conBody">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0"  class="tableEdits table_nrbk">
+				<tr>
+					<td height="24" align="right" nowrap bgcolor="#FFFFFF">
+						<table width="100%" border="0" cellpadding="2" cellspacing="1" bgcolor="#CCCCCC">
+							#foreach($discredit in $!discreditInfoList)
+							<tr>
+								<td height="40" colspan="2" align="left" nowrap bgcolor="#FFFFFF">
+									<table width="100%" border="0">
+										<tr>
+											<td align="left">
+												<input type="radio" name="id_radio" class="class_radio" value="$!{discredit.id}_$!discredit.xy_type" />
+												<strong>$!{velocityCount}、$!{discredit.sxxw_id}</strong>
+											</td>
+											<td align="right">
+												<strong><a href="javascript:showTbody('id_$!{velocityCount}');">
+													<img id="img_$!{velocityCount}" src="${base}/public/gtxy/down.jpg" width="24" height="24" border="0"></a>
+													<input type="hidden" name="xy_type" id="xy_type" value="$!discredit.xy_type"/>
+												</strong>
+											</td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+							<tbody id="id_$!{velocityCount}" class="id_class" style="display:none;">
+							#if($!{discredit.contract_id})
+							<!--tr>
+								<td width="150" height="24" align="right" nowrap bgcolor="#FFFFFF">涉及合同编号：</td>
+								<td height="24" align="left" bgcolor="#FFFFFF">$!{discredit.contract_id}</td >
+							</tr-->
+							<tr>
+								<td width="150" height="24" align="right" bgcolor="#FFFFFF">关联项目：</td>
+								<td height="24" align="left" bgcolor="#FFFFFF">$!contractNameMap.get($!{discredit.contract_id})</td>
+							</tr>
+							#end
+							<!--<tr id="htck" bgcolor="#ffffff">-->
+							<!--<td width="150" height="24" align="right" nowrap bgcolor="#FFFFFF">合同附件：</td>-->
+							<!--<td height="24" align="left" bgcolor="#FFFFFF"><a href="javascript:void(0);" >100020160100.doc</a> </td>-->
+							<!--</tr>-->
+							<tr>
+								<td width="150" height="24" align="right" nowrap bgcolor="#FFFFFF">失信行为：</td>
+								<td height="24" align="left" bgcolor="#FFFFFF">$!{discredit.sxxw_id}</td>
+							</tr>
+							<tr>
+								<td width="150" height="24" align="right" nowrap bgcolor="#FFFFFF">失信情形：</td>
+								<td height="24" align="left" bgcolor="#FFFFFF">$!{discredit.sxqx_id}</td>
+							</tr>
+							<tr>
+								<td width="150" height="24" align="right" nowrap bgcolor="#FFFFFF">惩戒措施：</td>
+								<td height="24" align="left" bgcolor="#FFFFFF">$!{discredit.cjcs_id}</td>
+							</tr>
+							<tr>
+								<td width="150" height="24" align="right" nowrap bgcolor="#FFFFFF">惩戒作出时间：</td>
+								<td height="24" align="left" bgcolor="#FFFFFF">$!{discredit.discipline_date}</td>
+							</tr>
+							<tr>
+								<td width="150" height="24" align="right" nowrap bgcolor="#FFFFFF">被惩戒时限：</td>
+								<td height="24" align="left" bgcolor="#FFFFFF">$!{discredit.start_date} 至 $!{discredit.end_date}</td>
+							</tr>
+							<tr>
+								<td width="150" height="24" align="right" nowrap bgcolor="#FFFFFF">惩戒机构：</td>
+								<td height="24" align="left" bgcolor="#FFFFFF">$!{discredit.unit}</td>
+							</tr>
+							</tbody>
+							#end
+						</table>
+					</td>
+				</tr>
+			</table>
+			#end
+			#end
+		</div>
+	</div>
+	 <div class="pageBtnarea">
+		<input class="button" type="button" name="btnOk" value="提交"  onclick="doSave();" />
+		<input class="button" type="button" name="btnOk" value="关闭"  onclick="window.close();" />
+	</div>
+</form>
+</body>
+</html>
