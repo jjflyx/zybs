@@ -326,7 +326,10 @@ public class OrderAction extends BaseAction{
 				sqlstr+=" and unitid='"+unitid+"' ";
 				sqlzj+=" and unitid='"+unitid+"' ";
 			}
-			
+			if(EmptyUtils.isNotEmpty(czrunitid)){
+				sqlstr+=" and unitid='"+czrunitid+"' ";
+				sqlzj+=" and unitid='"+czrunitid+"' ";
+			}
 			if(EmptyUtils.isNotEmpty(startdate)&&EmptyUtils.isNotEmpty(enddate)){
 				sqlstr += "and add_time between '" + startdate + "' and '" + enddate + "'";
 				sqlzj += "and add_time between '" + startdate + "' and '" + enddate + "'";
