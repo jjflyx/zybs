@@ -83,16 +83,16 @@
 			<table width="100%" border="0" align="center" cellpadding="0"
 				cellspacing="0" class="table_titlebk">
 				<tr>
-					<td class="table_title" align="center">中业标识订单信息</td>
+					<td class="table_title" align="center">中业标识账单信息</td>
 				</tr>
 			</table>
 			<table width="100%" border="0" cellpadding="0" cellspacing="3"
 				class="table_auto table_nrbk">
 				<tr>
-					<td align="right" width="15%">订单名称：</td>
-					<td algin="left" width="30%"><input type="text" name="ddmc" verify="订单名称|NotNull"
+					<td align="right" width="15%">账单名称：</td>
+					<td algin="left" width="30%"><input type="text" name="ddmc" verify="账单名称|NotNull"
 						id="ddmc" maxlength="50" /></td>
-					<td align="right">客户名称：</td>
+					<td align="right">付款人：</td>
 					<td width="*%">
 						<select id="unitid" name="unitid" verify="NotNull" onchange="getUnit(this.value)">
 							<option value="">请选择</option> #foreach($!unit in $!unitMap)
@@ -101,39 +101,23 @@
 					</td>
 				</tr>
 				<tr>
-					<td align="right" width="15%">客户姓名：</td>
-					<td width="30%"><input type="text" id="khxm" name="khxm"/></td>
-					<td align="right" width="15%">联系方式：</td>
-					<td width="30%"><input type="text" id="lxfs" name="lxfs"/></td>
-				</tr>
-				<tr>
-					<td align="right">订货日期：</td>
+					<td align="right">付款日期：</td>
 					<td width="*%"><input class="Wdate"
 						onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});" value="$!today"
 						name="add_time" id="add_time" size="20"
 						maxlength="50" verify="订货日期|NotNull" />
 					</td>
-					<td align="right" width="15%">类型：</td>
+					<td align="right" width="15%">价格：</td>
+					<td width="*%"><input typt="text" name="yfjk" id="yfjk" verify="应发货时间|NotNull"/></td>
+				</tr>
+				<tr>
+					<td align="right" width="15%">购买途径：</td>
 					<td width="30%">
 					<select onchange="selectCascade(this,'00010039')" verify="NotNull" iscascade="hhgg_0" loadselect="loadSelect(this,'00010039',1)" name="hhgg" id="hhgg" selectedvalue="">
       				<option value=" ">请选择</option>
       				</select>
       				</td>
-					<!-- <td align="right" width="15%">应发货时间：</td>
-					<td width="*%"><input class="Wdate"
-						onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});" 
-						name="yfhrq" id="yfhrq" size="20"
-						maxlength="50" verify="应发货时间|NotNull" /></td> -->
-				</tr>
-				<!-- <tr>
-					
-      				<td align="right" width="15%">尺寸大小：</td>
-					<td width="30%"><input type="text" id="ccdx" name="ccdx"/>cm</td>
-				</tr> -->
-				<tr>
-					<td align="right" width="15%">价格：</td>
-					<td width="*%"><input typt="text" name="yfjk" id="yfjk" verify="应发货时间|NotNull"/></td>
-					<td align="right" width="15%">是否付款：</td>
+					<td align="right" width="15%">用途：</td>
 					<td algin="left" width="30%">
 					<select id="isfh" name="isfh" verify="NotNull">
 							<option value="">请选择</option> #foreach($!isfh in $!isfhMap)
@@ -142,22 +126,6 @@
 					<script type="text/javascript">selected(document.form1.isfh,"0002")</script>
 					</td>
 				</tr>
-				<!-- <tr>
-					<td align="right">收货地址：</td>
-					<td colspan="3" style="padding:0">
-						<table width="100%" border="0" cellspacing="0" cellpadding="0"
-							class="tableIn">
-							<tbody>
-								<tr>
-									<td><input type="text" class="input" placeholder="请标注送货地点"
-										id="shdz" name="shdz" style="width: 60%" readonly
-										onclick="getPointValue();" /><input type="button" class="button"
-										value="地图标注" onclick="getPointValue();" /></td>
-								</tr>
-							</tbody>
-						</table>
-					</td>
-				</tr> -->
 				
 				<tr>
 					<td align="right" width="15%">附件：</td>
@@ -180,7 +148,6 @@
 			</tr>
 			</td> 
 				</tr>
-				
 				<tr>
 					<td align="right" width="15%">备注：</td>
 					<td algin="left" colspan="3"><textarea rows="3" style="width: 77.5%" name = "bz" id="bz"></textarea></td>

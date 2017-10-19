@@ -53,7 +53,7 @@
 		var iHeight = 400;
 		var iWidth = 800;
 		var title = '新增订单';
-		var url = '${base}/private/order/toAdd?sys_random=' + Math.random();
+		var url = '${base}/private/hkzd/toAdd?sys_random=' + Math.random();
 		openWin3(url, title, iWidth, iHeight);
 	}
 	//转到新增页面
@@ -61,7 +61,7 @@
 		var iHeight = 400;
 		var iWidth = 800;
 		var title = '修改订单';
-		var url = '${base}/private/order/toUpdate?htid=' + htid;
+		var url = '${base}/private/hkzd/toUpdate?htid=' + htid;
 		openWin3(url, title, iWidth, iHeight);
 	}
 
@@ -70,7 +70,7 @@
 		var iHeight = 400;
 		var iWidth = 800;
 		var title = '浏览订单';
-		var url = '${base}/private/order/toPreview?htid=' + htid;
+		var url = '${base}/private/hkzd/toPreview?htid=' + htid;
 		openWin3(url, title, iWidth, iHeight);
 	}
 
@@ -78,7 +78,7 @@
 		Dialog.confirm("确定删除？", function() {
 			jQuery.ajax({
 				type : 'POST',
-				url : "${base}/private/order/delete?htid=" + htid,
+				url : "${base}/private/hkzd/delete?htid=" + htid,
 				success : function(res) {
 					if (res == "true") {
 						Dialog.alert("删除成功！");
@@ -139,50 +139,31 @@
 							loadMsg : '数据加载中...',
 							columns : [ [
 									{
-										title : '订单名称',
+										title : '账单名称',
 										field : 'ddmc',
 										align : "center",
 										width : getWidth(0.1),
 									},
 									{
-										title : '客户名称',
+										title : '付款人',
 										field : 'unit',
 										align : "center",
 										width : getWidth(0.1)
 									},
 									
 									{
-										title : '货品规格',
+										title : '所付价款',
 										field : 'hhgg',
 										align : "center",
-										width : getWidth(0.16)
+										width : getWidth(0.1)
 									},
 									{
-										title : '应付价款',
+										title : '付款日期',
 										field : 'yfjk',
 										align : "center",
 										sortable:true,
-										width : getWidth(0.08)
+										width : getWidth(0.1)
 									},
-									{
-										title : '订单日期',
-										field : 'add_time',
-										align : "center",
-										width : getWidth(0.15)
-									},
-									{
-										title : '是否付款',
-										field : 'isfh',
-										align : "center",
-										width : getWidth(0.08),
-										formatter : function(val,rec){
-				                            if(val!=null && val!=""){
-				                            	val = isfhHash[val];
-				                            }
-				                            return val;
-				                        }
-									},
-
 									{
 										field : "e",
 										title : "操作",

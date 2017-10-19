@@ -21,6 +21,8 @@ public class HkzdBean {
 	@Column
 	private String  actor;//创建人
 	@Column
+	private String  fkr;//付款人
+	@Column
 	private String  zdmc;//账单名称
 	@Column
 	private String  fkrq;//付款日期
@@ -36,6 +38,12 @@ public class HkzdBean {
 	private String  fj;//附件
 	@Column
 	private String  bz;//备注
+	public String getFkr() {
+		return fkr;
+	}
+	public void setFkr(String fkr) {
+		this.fkr = fkr;
+	}
 	public String getZdid() {
 		return zdid;
 	}

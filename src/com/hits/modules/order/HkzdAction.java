@@ -59,7 +59,7 @@ public class HkzdAction extends BaseAction{
 	protected Dao dao;
 	
 	@At("")
-	@Ok("->:/private/order/orderList.html")
+	@Ok("->:/private/hkzd/hkzdList.html")
 	public void hkzd(HttpSession session, HttpServletRequest req,@Param("startdate") String startdate,@Param("enddate") String enddate,@Param("unitid") String unitid) {
 		Sys_user user = (Sys_user) session.getAttribute("userSession");
 		req.setAttribute("unitid", unitid);//从统计分析跳转过来的unitid
@@ -78,15 +78,15 @@ public class HkzdAction extends BaseAction{
 	//订单页面
 	@At
 	@Ok("raw")
-	public String orderList(HttpServletRequest req,@Param("unitid") String unitid,@Param("isfh") String isfh,HttpSession session,@Param("startdate") String startdate,@Param("enddate") String enddate,
+	public String hkzdList(HttpServletRequest req,@Param("unitid") String unitid,@Param("isfh") String isfh,HttpSession session,@Param("startdate") String startdate,@Param("enddate") String enddate,
 			@Param("name") String name,@Param("page") int curPage, @Param("rows") int pageSize,@Param("sort") String sort,@Param("order") String order){
 		Sys_user user=(Sys_user) session.getAttribute("userSession");
 		Criteria cri = Cnd.cri();
 		String sql="";
 		if(user.getUnitid().equals("0016")){
-			sql="select * from l_jsgg where 1=1 ";
+			sql="select * from l_hkzd where 1=1 ";
 		}else{
-			sql="select * from l_jsgg where (actor = '"+user.getLoginname()+"' or unitid = '"+user.getUnitid()+"') ";
+			sql="select * from l_hkzd where (actor = '"+user.getLoginname()+"' or unitid = '"+user.getUnitid()+"') ";
 			cri.where().and(Cnd.exps("actor", "=", user.getLoginname()).or("unitid", "=", user.getUnitid()));
 		}
 		if(EmptyUtils.isNotEmpty(unitid)){
@@ -130,7 +130,7 @@ public class HkzdAction extends BaseAction{
 	
 	//新增订单页面
 	@At
-	@Ok("->:/private/order/orderAdd.html")
+	@Ok("->:/private/hkzd/hkzdAdd.html")
 	public void toAdd(HttpServletRequest req,HttpSession session) {
 		req.setAttribute("isfhMap", comUtil.isfhMap);
 		req.setAttribute("today", DateUtil.getToday());
