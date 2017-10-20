@@ -84,6 +84,12 @@ public class HkzdAction extends BaseAction{
 		Sys_user user=(Sys_user) session.getAttribute("userSession");
 		Criteria cri = Cnd.cri();
 		String sql="";
+		if(user.getUnitid().equals("0016")){
+			sql="select * from l_jsgg where 1=1 ";
+		}else{
+			sql="select * from l_jsgg where (actor = '"+user.getLoginname()+"' or unitid = '"+user.getUnitid()+"') ";
+			cri.where().and(Cnd.exps("actor", "=", user.getLoginname()).or("unitid", "=", user.getUnitid()));
+		}
 		if(EmptyUtils.isNotEmpty(userid)){
 			cri.where().and("userid","=",userid);
 			sql+=" and userid = '"+userid+"'";
