@@ -35,8 +35,6 @@ public class HkzdBean {
 	@Column
 	private String  create_time;//创建时间
 	@Column
-	private String  fj;//附件
-	@Column
 	private String  bz;//备注
 	public String getFkr() {
 		return fkr;
@@ -91,12 +89,6 @@ public class HkzdBean {
 	}
 	public void setCreate_time(String create_time) {
 		this.create_time = create_time;
-	}
-	public String getFj() {
-		return fj;
-	}
-	public void setFj(String fj) {
-		this.fj = fj;
 	}
 	public String getBz() {
 		return bz;

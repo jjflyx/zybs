@@ -42,7 +42,7 @@ import com.hits.util.SysLogUtil;
  */
 @IocBean
 @At("/private")
-@Filters({ @By(type = GlobalsFilter.class),@By(type = licenseFilter.class) })
+@Filters({ @By(type = GlobalsFilter.class)})
 public class LoginAction extends BaseAction {
 	@Inject
 	protected Dao dao;
