@@ -45,6 +45,7 @@ import com.hits.modules.bean.Cs_value;
 import com.hits.modules.bean.File_info;
 import com.hits.modules.com.YWCL;
 import com.hits.modules.com.comUtil;
+import com.hits.modules.order.bean.HkzdBean;
 import com.hits.modules.order.bean.OrderBean;
 import com.hits.modules.sys.bean.Sys_unit;
 import com.hits.modules.sys.bean.Sys_user;
@@ -78,52 +79,34 @@ public class HkzdAction extends BaseAction{
 	//订单页面
 	@At
 	@Ok("raw")
-	public String hkzdList(HttpServletRequest req,@Param("unitid") String unitid,@Param("isfh") String isfh,HttpSession session,@Param("startdate") String startdate,@Param("enddate") String enddate,
+	public String hkzdList(HttpServletRequest req,@Param("userid") String userid,HttpSession session,@Param("startdate") String startdate,@Param("enddate") String enddate,
 			@Param("name") String name,@Param("page") int curPage, @Param("rows") int pageSize,@Param("sort") String sort,@Param("order") String order){
 		Sys_user user=(Sys_user) session.getAttribute("userSession");
 		Criteria cri = Cnd.cri();
 		String sql="";
-		if(user.getUnitid().equals("0016")){
-			sql="select * from l_hkzd where 1=1 ";
-		}else{
-			sql="select * from l_hkzd where (actor = '"+user.getLoginname()+"' or unitid = '"+user.getUnitid()+"') ";
-			cri.where().and(Cnd.exps("actor", "=", user.getLoginname()).or("unitid", "=", user.getUnitid()));
-		}
-		if(EmptyUtils.isNotEmpty(unitid)){
-			cri.where().and("unitid","like",unitid+"%");
-			sql+=" and unitid like '"+unitid+"%'";
-		}
-		if(EmptyUtils.isNotEmpty(isfh)){
-			cri.where().and("isfh","=",isfh);
-			sql+=" and isfh = '"+isfh+"'";
+		if(EmptyUtils.isNotEmpty(userid)){
+			cri.where().and("userid","=",userid);
+			sql+=" and userid = '"+userid+"'";
 		}
 		if(EmptyUtils.isNotEmpty(startdate)&&EmptyUtils.isNotEmpty(enddate)){
-			cri.where().and("add_time",">=",startdate).and("add_time","<=",enddate);
-			sql+=" and add_time >= '"+startdate+"' and add_time <= '"+enddate+"'";
+			cri.where().and("fkrq",">=",startdate).and("fkrq","<=",enddate);
+			sql+=" and fkrq >= '"+startdate+"' and fkrq <= '"+enddate+"'";
 		}
-		sql += " order by add_time desc";
+		sql += " order by fkrq desc";
+		System.out.println("=========?"+sql);
 		QueryResult qr = daoCtl.listPage(dao,OrderBean.class ,curPage, pageSize,Sqls.create(sql),cri);
 		List<Map<String,Object>> list = (List<Map<String, Object>>) qr.getList();
-		sql="select code,name from Cs_value where typeid = '00010039'";
+		sql="select code,name from Cs_value where typeid = '00010040'";
 		Map<String,String> loadselectMap=daoCtl.getHTable(dao, Sqls.create(sql));
-		sql="select id,name from sys_unit where unittype=88";
-		Map<String,String> unitMap=daoCtl.getHTable(dao, Sqls.create(sql));
+		sql="select userid,realname from sys_user where unitid=0016";
+		Map<String,String> userMap=daoCtl.getHTable(dao, Sqls.create(sql));
 		for(int i=0;i<list.size();i++){
-			//获取货品规格信息
-			String odKz=StringUtil.null2String(list.get(i).get("hhgg"));
-			sql="select code from Cs_value where value='"+odKz+"' and typeid = '00010039'";
-			String code=daoCtl.getStrRowValue(dao, Sqls.create(sql));
-			int lg=code.length()/4;
-			String value="";
-			for (int j = 1; j <= lg; j++) {
-				value+=loadselectMap.get(code.substring(0,j*4))+"/";
-			}
-			int lg2=value.length()>0?value.length()-1:0;
-			value=value.substring(0,lg2);
-			list.get(i).put("hhgg",EmptyUtils.isEmpty(value)?odKz:value);
+			//获取购买途径
+			String gmtj=StringUtil.null2String(list.get(i).get("gmtj"));
+			list.get(i).put("gmtj",loadselectMap.get(gmtj));
 			//获取客户单位名称
-			String unitname = StringUtil.null2String(list.get(i).get("unitid"));
-			list.get(i).put("unit", unitMap.get(unitname));
+			String unitname = StringUtil.null2String(list.get(i).get("userid"));
+			list.get(i).put("userid", userMap.get(unitname));
 		}
 		return PageObj.getPageJSON(qr);
 	}
@@ -134,16 +117,16 @@ public class HkzdAction extends BaseAction{
 	public void toAdd(HttpServletRequest req,HttpSession session) {
 		req.setAttribute("isfhMap", comUtil.isfhMap);
 		req.setAttribute("today", DateUtil.getToday());
-		Sql sql=Sqls.create("select id,name from sys_unit where unittype=88");
-		List<Map> unitMap = new ArrayList<Map>();
-		unitMap=daoCtl.list(dao, sql);
-		req.setAttribute("unitMap", unitMap);
+		Sql sql=Sqls.create("select userid,realname from sys_user where unitid=0016");
+		List<Map> fzrMap = new ArrayList<Map>();
+		fzrMap=daoCtl.list(dao, sql);
+		req.setAttribute("fzrMap", fzrMap);
 	}
 	
 	//新增订单
 	@At
 	@Ok("raw")
-	public boolean addSave(final HttpServletRequest req,HttpSession session,@Param("..") final OrderBean order,@Param("filepath") final String path,
+	public boolean addSave(final HttpServletRequest req,HttpSession session,@Param("..") final HkzdBean hkzd,@Param("filepath") final String path,
 			@Param("filename") final String name,@Param("filesize") final String filesize){
 		final Sys_user user= (Sys_user)session.getAttribute("userSession");
 		final ThreadLocal<Boolean> re = new ThreadLocal<Boolean>();
@@ -151,11 +134,10 @@ public class HkzdAction extends BaseAction{
 			re.set(false);
 			Trans.exec(new Atom() {
 				public void run() {
-					order.setActor(user.getLoginname());
-					order.setXzqh_unit(daoCtl.detailByName(dao, Sys_unit.class, order.getUnitid()).getXzqh());
-					order.setHtid(getHtid());
-					order.setCreate_time(DateUtil.getCurDateTime());
-					dao.insert(order);
+					hkzd.setActor(user.getLoginname());
+					hkzd.setZdid(getHtid());
+					hkzd.setCreate_time(DateUtil.getCurDateTime());
+					dao.insert(hkzd);
 					//附件
 					String[] paths=path.split(";");
 					String[] names=name.split(";");
@@ -165,8 +147,8 @@ public class HkzdAction extends BaseAction{
 						if(EmptyUtils.isNotEmpty(paths[i])&&EmptyUtils.isNotEmpty(names[i])){
 							att.setFilename(names[i]);
 							att.setFilepath(paths[i]);
-							att.setTablekey(order.getHtid()+"");
-							att.setTablename("l_jsgg");
+							att.setTablekey(hkzd.getZdid()+"");
+							att.setTablename("l_hkzd");
 							att.setFieldname("fj");
 							att.setCreate_time(DateUtil.getCurDateTime());
 							att.setFilesize(sizes[i]);
@@ -300,7 +282,7 @@ public class HkzdAction extends BaseAction{
 		 String ymd=sdf.format(new java.util.Date());
 		 letterid=ymd;
 		 //查询最新的工号
-		 letterid=daoCtl.getSubMenuId(dao, "l_jsgg", "htid", letterid);
+		 letterid=daoCtl.getSubMenuId(dao, "l_hkzd", "zdid", letterid);
 		 return letterid;
 	}
     

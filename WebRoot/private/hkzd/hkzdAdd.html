@@ -23,7 +23,7 @@
         setFile1(form1.sbfile);
 		jQuery.ajax({
 			type : 'POST',
-			url : "${base}/private/order/addSave",
+			url : "${base}/private/hkzd/addSave",
 			data : $("#form1").serialize(),
 			timeout : 30000,
 			success : function(res) {
@@ -42,17 +42,6 @@
 		});
 	}
 	
-	function getUnit(unitid)
-{	
-	jQuery.ajax({
-		url : "${base}/private/order/getUnit?unitid="+unitid,
-		success : function (res) {	
-			var a=res.split(";");
-			document.getElementById("khxm").value=a[0];
-			document.getElementById("lxfs").value=a[1];
-		}
-	});   
-}
 	
 	function customHeightSet() {
 	var otherH_1 = jQuery(".pageBtnarea").outerHeight()
@@ -90,13 +79,13 @@
 				class="table_auto table_nrbk">
 				<tr>
 					<td align="right" width="15%">账单名称：</td>
-					<td algin="left" width="30%"><input type="text" name="ddmc" verify="账单名称|NotNull"
+					<td algin="left" width="30%"><input type="text" name="zdmc" verify="账单名称|NotNull"
 						id="ddmc" maxlength="50" /></td>
 					<td align="right">付款人：</td>
 					<td width="*%">
-						<select id="unitid" name="unitid" verify="NotNull" onchange="getUnit(this.value)">
-							<option value="">请选择</option> #foreach($!unit in $!unitMap)
-							<option value="$!unit.id">$!unit.name</option> #end
+						<select id="userid" name="userid" verify="NotNull" >
+							<option value="">请选择</option> #foreach($!fzr in $!fzrMap)
+							<option value="$!fzr.userid">$!fzr.realname</option> #end
 					</select>
 					</td>
 				</tr>
@@ -104,29 +93,20 @@
 					<td align="right">付款日期：</td>
 					<td width="*%"><input class="Wdate"
 						onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});" value="$!today"
-						name="add_time" id="add_time" size="20"
-						maxlength="50" verify="订货日期|NotNull" />
+						name="fkrq" id="fkrq" size="20"
+						maxlength="50" verify="付款日期|NotNull" />
 					</td>
-					<td align="right" width="15%">价格：</td>
-					<td width="*%"><input typt="text" name="yfjk" id="yfjk" verify="应发货时间|NotNull"/></td>
-				</tr>
-				<tr>
 					<td align="right" width="15%">购买途径：</td>
 					<td width="30%">
-					<select onchange="selectCascade(this,'00010039')" verify="NotNull" iscascade="hhgg_0" loadselect="loadSelect(this,'00010039',1)" name="hhgg" id="hhgg" selectedvalue="">
+					<select onchange="selectCascade(this,'00010040')" verify="NotNull" iscascade="gmtj_0" loadselect="loadSelect(this,'00010040',1)" name="gmtj" id="gmtj" selectedvalue="">
       				<option value=" ">请选择</option>
       				</select>
       				</td>
-					<td align="right" width="15%">用途：</td>
-					<td algin="left" width="30%">
-					<select id="isfh" name="isfh" verify="NotNull">
-							<option value="">请选择</option> #foreach($!isfh in $!isfhMap)
-							<option value="$!isfh.value">$!isfh.name</option> #end
-					</select>
-					<script type="text/javascript">selected(document.form1.isfh,"0002")</script>
-					</td>
 				</tr>
-				
+				<tr>
+					<td align="right" width="15%">价格：</td>
+					<td width="*%"  colspan="3"><input typt="text" name="sfjk" id="sfjk" verify="价格|NotNull"/></td>
+				</tr>
 				<tr>
 					<td align="right" width="15%">附件：</td>
 					<td colspan="3">
@@ -149,7 +129,7 @@
 			</td> 
 				</tr>
 				<tr>
-					<td align="right" width="15%">备注：</td>
+					<td align="right" width="15%">用途：</td>
 					<td algin="left" colspan="3"><textarea rows="3" style="width: 77.5%" name = "bz" id="bz"></textarea></td>
 				</tr>
 				</tbody>

@@ -127,7 +127,7 @@
 							border : true,
 							collapsible : false,//是否可折叠的  
 							fit : false,//自动大小  
-							url : "${base}/private/order/orderList?"+ $("#form1").serialize(),
+							url : "${base}/private/hkzd/hkzdList?"+ $("#form1").serialize(),
 							remoteSort : true,
 							idField : "htid",
 							singleSelect : false,//是否单选 
@@ -140,26 +140,33 @@
 							columns : [ [
 									{
 										title : '账单名称',
-										field : 'ddmc',
+										field : 'zdmc',
 										align : "center",
 										width : getWidth(0.1),
 									},
 									{
 										title : '付款人',
-										field : 'unit',
+										field : 'userid',
 										align : "center",
 										width : getWidth(0.1)
 									},
 									
 									{
 										title : '所付价款',
-										field : 'hhgg',
+										field : 'sfjk',
 										align : "center",
 										width : getWidth(0.1)
 									},
 									{
 										title : '付款日期',
-										field : 'yfjk',
+										field : 'fkrq',
+										align : "center",
+										sortable:true,
+										width : getWidth(0.1)
+									},
+									{
+										title : '购买途径',
+										field : 'gmtj',
 										align : "center",
 										sortable:true,
 										width : getWidth(0.1)
@@ -235,20 +242,15 @@
 							<tr>
 							#if($!czrunitid == '0016')
 								<td style="padding: 8px 0 4px 6px;" id="btnlist"><span
-									style="float: left;"> &nbsp; 客户名称：
+									style="float: left;"> &nbsp; 付款人：
 						<select id="unitid" name="unitid" onchange="loadData()">
 							<option value="">请选择</option> #foreach($!unit in $!unitMap)
 							<option value="$!unit.id">$!unit.name</option> #end
 					</select>
 					<script type="text/javascript">selected(document.form1.unitid,"$!unitid")</script>
 					#end
-					&nbsp;&nbsp;是否付款：
-					<select id="isfh" name="isfh" onchange="loadData()">
-							<option value="">请选择</option> #foreach($!isfh in $!isfhMap)
-							<option value="$!isfh.value">$!isfh.name</option> #end
-					</select>
 					&nbsp;&nbsp;
-					订单时间：
+					付款时间：
 					<input id="startdate" name="startdate" type="text" size="12" readonly class="Wdate" onClick="WdatePicker()" value="$!startdate" />
 					至
 					<input id="enddate" name="enddate" type="text" size="12" class="Wdate" onClick="WdatePicker()" value="$!enddate"  readonly="readonly" />
