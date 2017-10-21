@@ -129,7 +129,7 @@
 							fit : false,//自动大小  
 							url : "${base}/private/hkzd/hkzdList?"+ $("#form1").serialize(),
 							remoteSort : true,
-							idField : "htid",
+							idField : "zdid",
 							singleSelect : false,//是否单选 
 							pagination : true,//分页控件  
 							rownumbers : true,//行号  
@@ -179,15 +179,15 @@
 										formatter : function(val, rec) {
 											val = "";
 											val += "<a href='javascript:void(0);' onClick=\"topreview(\'"
-													+ rec.htid
+													+ rec.zdid
 													+ "','');\">浏览</a> |";
 											if(rec.actor==loginname){
 												val += " <a href='javascript:void(0);' onClick=\"toupdate(\'"
-													+ rec.htid+ "');\">修改</a> |";
+													+ rec.zdid+ "');\">修改</a> |";
 											}
 											if(rec.actor==loginname){
 											val += " <a href='javascript:void(0);' onClick=\"del(\'"
-												+ rec.htid+ "');\">删除</a> |";
+												+ rec.zdid+ "');\">删除</a> |";
 											}
 											return val.substr(0, val.lastIndexOf("|"));
 										}
@@ -243,11 +243,11 @@
 							#if($!czrunitid == '0016')
 								<td style="padding: 8px 0 4px 6px;" id="btnlist"><span
 									style="float: left;"> &nbsp; 付款人：
-						<select id="unitid" name="unitid" onchange="loadData()">
-							<option value="">请选择</option> #foreach($!unit in $!unitMap)
-							<option value="$!unit.id">$!unit.name</option> #end
+						<select id="userid" name="userid" onchange="loadData()">
+							<option value="">请选择</option> #foreach($!fzr in $!fzrMap)
+							<option value="$!fzr.userid">$!fzr.name</option> #end
 					</select>
-					<script type="text/javascript">selected(document.form1.unitid,"$!unitid")</script>
+					<script type="text/javascript">selected(document.form1.unitid,"$!userid")</script>
 					#end
 					&nbsp;&nbsp;
 					付款时间：

@@ -20,7 +20,7 @@
 		setFile1(form1.sbfile);
 		jQuery.ajax({
 			type : 'POST',
-			url : "${base}/private/order/updateSave",
+			url : "${base}/private/hkzd/updateSave",
 			data : $("#form1").serialize(),
 			timeout : 30000,
 			success : function(res) {
@@ -38,18 +38,6 @@
 			}
 		});
 	}
-	
-	function getUnit(unitid)
-{	
-	jQuery.ajax({
-		url : "${base}/private/order/getUnit?unitid="+unitid,
-		success : function (res) {	
-			var a=res.split(";");
-			$("#khxm").attr("value",a[0]);
-			$("#lxfs").attr("value",a[1]);
-		}
-	});   
-}
 	
 	function customHeightSet() {
 	var otherH_1 = jQuery(".pageBtnarea").outerHeight()
@@ -82,117 +70,65 @@
 			<table width="100%" border="0" align="center" cellpadding="0"
 				cellspacing="0" class="table_titlebk">
 				<tr>
-					<td class="table_title" align="center">中业标识订单信息</td>
+					<td class="table_title" align="center">中业标识账单信息</td>
 				</tr>
 			</table>
 			<table width="100%" border="0" cellpadding="0" cellspacing="3"
 				class="table_auto table_nrbk">
 				<tr>
-					<td align="right" width="15%">订单名称：</td>
-					<td algin="left" width="30%"><input type="text" name="ddmc"
-						id="ddmc" maxlength="50" value="$!order.ddmc"/></td>
-					<td align="right">客户名称：</td>
+					<td align="right" width="15%">账单名称：</td>
+					<td algin="left" width="30%"><input type="text" name="zdmc" verify="账单名称|NotNull"
+						id="zdmc" maxlength="50" value="$!hkzd.zdmc"/></td>
+					<td align="right">付款人：</td>
 					<td width="*%">
-						<select id="unitid" name="unitid" verify="NotNull" onchange="getUnit(this.value)">
-							<option value="">请选择</option> #foreach($!unit in $!unitMap)
-							<option value="$!unit.id">$!unit.name</option> #end
-					</select>
-					<script type="text/javascript">selected(document.form1.unitid,"$!order.unitid")</script>
+						<select id="userid" name="userid" verify="NotNull" >
+							<option value="">请选择</option> #foreach($!fzr in $!fzrMap)
+							<option value="$!fzr.userid">$!fzr.realname</option> #end
+						</select>
 					</td>
 				</tr>
 				<tr>
-					<td align="right" width="15%">客户姓名：</td>
-					<td width="30%"><input type="text" id="khxm" name="khxm" value="$!order.khxm"/></td>
-					<td align="right" width="15%">联系方式：</td>
-					<td width="30%"><input type="text" id="lxfs" name="lxfs"/ value="$!order.lxfs"></td>
-				</tr>
-				<tr>
-					<td align="right">订货日期：</td>
+					<td align="right">付款日期：</td>
 					<td width="*%"><input class="Wdate"
-						onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});" value="$!order.add_time"
-						name="add_time" id="add_time" size="20"
-						maxlength="50" verify="订货日期|NotNull" />
+						onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});" value="$!today"
+						name="fkrq" id="fkrq" size="20"
+						maxlength="50" verify="付款日期|NotNull" />
 					</td>
-					<td align="right" width="15%">类型：</td>
+					<td align="right" width="15%">购买途径：</td>
 					<td width="30%">
-					<select onchange="selectCascade(this,'00010039')" verify="NotNull" iscascade="kz_0" loadselect="loadSelect(this,'00010039',1)" name="hhgg" id="hhgg" selectedvalue="$!order.hhgg">
+					<select onchange="selectCascade(this,'00010040')" verify="NotNull" iscascade="gmtj_0" loadselect="loadSelect(this,'00010040',1)" name="gmtj" id="gmtj" selectedvalue="">
       				<option value=" ">请选择</option>
       				</select>
       				</td>
-					<!-- <td align="right" width="15%">应发货时间：</td>
-					<td width="*%"><input class="Wdate"
-						onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"  value="$!order.yfhrq"
-						name="yfhrq" id="yfhrq" size="20"
-						maxlength="50" verify="应发货时间|NotNull" /></td> -->
 				</tr>
-				<!-- <tr>
-					
-      				<td align="right" width="15%">尺寸大小：</td>
-					<td width="30%"><input type="text" id="ccdx" name="ccdx" value="$!order.ccdx"/>cm</td>
-				</tr> -->
 				<tr>
 					<td align="right" width="15%">价格：</td>
-					<td width="*%"><input typt="text" name="yfjk" id="yfjk" value="$!order.yfjk"/></td>
-					<td align="right" width="15%">是否付款：</td>
-					<td algin="left" width="30%">
-					<select id="isfh" name="isfh" verify="NotNull">
-							<option value="">请选择</option> #foreach($!isfh in $!isfhMap)
-							<option value="$!isfh.value">$!isfh.name</option> #end
-					</select>
-					<script type="text/javascript">selected(document.form1.isfh,"$!order.isfh")</script>
-					</td>
+					<td width="*%"  colspan="3"><input typt="text" name="sfjk" id="sfjk" verify="价格|NotNull"/></td>
 				</tr>
-				<!-- <tr>
-					<td align="right">收货地址：</td>
-					<td colspan="3" style="padding:0">
-						<table width="100%" border="0" cellspacing="0" cellpadding="0"
-							class="tableIn">
-							<tbody>
-								<tr>
-									<td><input type="text" class="input" placeholder="请标注送货地点"
-										id="shdz" name="shdz" style="width: 60%" readonly
-										onclick="getPointValue();" /><input type="button" class="button"
-										value="地图标注" onclick="getPointValue();" /></td>
-								</tr>
-							</tbody>
-						</table>
-					</td>
-				</tr> -->
-				
 				<tr>
 					<td align="right" width="15%">附件：</td>
 					<td colspan="3">
-						<table>
+      <table>
 			<tr>
 				<td>
-					 <table>
-			<tr>
-				<td>
-					<select id="sbfile" name='sbfile'style='width: 350px;height: 65px;' multiple size="3">
-					#if($!fileList.size()>0)
-						#foreach($obj in $!fileList)
-						<option value="$obj.get(1)">$!obj.get(0)</option>
-						#end
-					#end
+					<select id="sbfile" name='sbfile'
+						style='width: 350px;height: 65px;' multiple size="3"
+						class="Noprint">
 					</select>
 					<button type="button"  fileinputname="fj" class="btn-text btn-attachement" 
 					onclick="selectUpload(form1.sbfile);">选择</button>
 					<button type="button" fileinputname="fj" class="btn-text btn-attachement-del"
 					 onclick="del_fujian(form1.sbfile);">删除</button>
 						(文件大小不能超过5MB！)
-					<td>
 				</td>
 			</tr>
-			</table>
-				</td>
+			</table></td> 
 			</tr>
-			</table>
-					</td>
-			</tr>
-				
+			</td> 
+				</tr>
 				<tr>
-					<td align="right" width="15%">备注：</td>
-					<td algin="left" colspan="3"><textarea rows="3" style="width: 77.5%" name = "bz" id="bz" >$!order.bz</textarea></td>
+					<td align="right" width="15%">用途：</td>
+					<td algin="left" colspan="3"><textarea rows="3" style="width: 77.5%" name = "bz" id="bz"></textarea></td>
 				</tr>
 				</tbody>
 			</table>

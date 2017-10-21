@@ -61,18 +61,18 @@ public class HkzdAction extends BaseAction{
 	
 	@At("")
 	@Ok("->:/private/hkzd/hkzdList.html")
-	public void hkzd(HttpSession session, HttpServletRequest req,@Param("startdate") String startdate,@Param("enddate") String enddate,@Param("unitid") String unitid) {
+	public void hkzd(HttpSession session, HttpServletRequest req,@Param("startdate") String startdate,@Param("enddate") String enddate,@Param("userid") String userid) {
 		Sys_user user = (Sys_user) session.getAttribute("userSession");
-		req.setAttribute("unitid", unitid);//从统计分析跳转过来的unitid
+		req.setAttribute("userid", userid);//从统计分析跳转过来的unitid
 		req.setAttribute("czrunitid", user.getUnitid());//当前登录用户的单位id
 		req.setAttribute("startdate", startdate);
 		req.setAttribute("enddate", enddate);
 		req.setAttribute("isfhHash", JSONObject.fromObject(comUtil.isfhHash));
 		req.setAttribute("loginname",user.getLoginname());
-		Sql sql=Sqls.create("select id,name from sys_unit where unittype=88");
-		List<Map> unitMap = new ArrayList<Map>();
-		unitMap=daoCtl.list(dao, sql);
-		req.setAttribute("unitMap", unitMap);
+		Sql sql=Sqls.create("select userid,realname from sys_user where unitid=0016");
+		List<Map> fzrMap = new ArrayList<Map>();
+		fzrMap=daoCtl.list(dao, sql);
+		req.setAttribute("fzrMap", fzrMap);
 		req.setAttribute("isfhMap",comUtil.isfhMap);
 	}
 	
@@ -81,15 +81,8 @@ public class HkzdAction extends BaseAction{
 	@Ok("raw")
 	public String hkzdList(HttpServletRequest req,@Param("userid") String userid,HttpSession session,@Param("startdate") String startdate,@Param("enddate") String enddate,
 			@Param("name") String name,@Param("page") int curPage, @Param("rows") int pageSize,@Param("sort") String sort,@Param("order") String order){
-		Sys_user user=(Sys_user) session.getAttribute("userSession");
 		Criteria cri = Cnd.cri();
-		String sql="";
-		if(user.getUnitid().equals("0016")){
-			sql="select * from l_jsgg where 1=1 ";
-		}else{
-			sql="select * from l_jsgg where (actor = '"+user.getLoginname()+"' or unitid = '"+user.getUnitid()+"') ";
-			cri.where().and(Cnd.exps("actor", "=", user.getLoginname()).or("unitid", "=", user.getUnitid()));
-		}
+		String sql="select * from l_hkzd where 1=1 ";
 		if(EmptyUtils.isNotEmpty(userid)){
 			cri.where().and("userid","=",userid);
 			sql+=" and userid = '"+userid+"'";
@@ -99,7 +92,6 @@ public class HkzdAction extends BaseAction{
 			sql+=" and fkrq >= '"+startdate+"' and fkrq <= '"+enddate+"'";
 		}
 		sql += " order by fkrq desc";
-		System.out.println("=========?"+sql);
 		QueryResult qr = daoCtl.listPage(dao,OrderBean.class ,curPage, pageSize,Sqls.create(sql),cri);
 		List<Map<String,Object>> list = (List<Map<String, Object>>) qr.getList();
 		sql="select code,name from Cs_value where typeid = '00010040'";
@@ -172,43 +164,25 @@ public class HkzdAction extends BaseAction{
 	}
 	
 	/**
-	 * 获取单位下负责人的信息
-	 * @param loginname
-	 * @return
-	 */
-	@At
-	@Ok("raw")
-	public String getUnit(@Param("unitid") String unitid) {
-		if(EmptyUtils.isNotEmpty(unitid)){
-			Sql sql=Sqls.create("select * from sys_unit where id = "+unitid);
-			Sys_unit unit = daoCtl.detailByName(dao, Sys_unit.class, unitid);
-			String fzrxx = unit.getHandler()+";"+unit.getHandlerphone();
-			return fzrxx;
-		}else{
-			return null;
-		}
-	}
-	
-	/**
 	 * 前往订单修改页面
 	 */
 	@At
-	@Ok("->:/private/order/orderUpdate.html")
-	public void toUpdate(@Param("htid") String id,HttpServletRequest req,HttpSession session){
-		OrderBean order = daoCtl.detailByName(dao, OrderBean.class, id);
-		req.setAttribute("order", order);
-		req.setAttribute("fileList", daoCtl.getMulRowValue(dao, Sqls.create("select filename,filepath||'*'||filesize from file_info where tablekey='"+id+"' and tablename='l_jsgg' order by create_time asc")));
+	@Ok("->:/private/hkzd/hkzdUpdate.html")
+	public void toUpdate(@Param("zdid") String id,HttpServletRequest req,HttpSession session){
+		HkzdBean hkzd = daoCtl.detailByName(dao, HkzdBean.class, id);
+		req.setAttribute("hkzd", hkzd);
+		req.setAttribute("fileList", daoCtl.getMulRowValue(dao, Sqls.create("select filename,filepath||'*'||filesize from file_info where tablekey='"+id+"' and tablename='l_hkzd' order by create_time asc")));
 		req.setAttribute("isfhMap", comUtil.isfhMap);
-		Sql sql=Sqls.create("select id,name from sys_unit where unittype=88");
-		List<Map> unitMap = new ArrayList<Map>();
-		unitMap=daoCtl.list(dao, sql);
-		req.setAttribute("unitMap", unitMap);
+		Sql sql=Sqls.create("select userid,realname from sys_user where unitid=0016");
+		List<Map> fzrMap = new ArrayList<Map>();
+		fzrMap=daoCtl.list(dao, sql);
+		req.setAttribute("fzrMap", fzrMap);
 	}
 	
 	//新增订单
     @At
     @Ok("raw")
-    public boolean updateSave(final HttpServletRequest req,HttpSession session,@Param("..") final OrderBean order,@Param("filepath") final String path,
+    public boolean updateSave(final HttpServletRequest req,HttpSession session,@Param("..") final HkzdBean hkzd,@Param("filepath") final String path,
     		@Param("filename") final String name,@Param("filesize") final String filesize){
     	final Sys_user user= (Sys_user)session.getAttribute("userSession");
     	final ThreadLocal<Boolean> re = new ThreadLocal<Boolean>();
@@ -217,7 +191,7 @@ public class HkzdAction extends BaseAction{
     		Trans.exec(new Atom() {
     			public void run() {
     				//附件
-					String sqlfile="delete from file_info where tablekey='"+order.getHtid()+"' and tableName='l_jsgg'";
+					String sqlfile="delete from file_info where tablekey='"+hkzd.getZdid()+"' and tableName='l_hkzd'";
 					dao.execute(Sqls.create(sqlfile));
     				String[] paths=path.split(";");
     				String[] names=name.split(";");
@@ -227,15 +201,15 @@ public class HkzdAction extends BaseAction{
     					if(EmptyUtils.isNotEmpty(paths[i])&&EmptyUtils.isNotEmpty(names[i])){
     						att.setFilename(names[i]);
     						att.setFilepath(paths[i]);
-    						att.setTablekey(order.getHtid()+"");
-    						att.setTablename("l_jsgg");
+    						att.setTablekey(hkzd.getZdid()+"");
+    						att.setTablename("l_hkzd");
     						att.setFieldname("fj");
     						att.setCreate_time(DateUtil.getCurDateTime());
     						att.setFilesize(sizes[i]);
     						dao.insert(att);
     					}
     				}
-    				dao.update(order);
+    				dao.update(hkzd);
     				re.set(true);
     			}
     		});
@@ -250,19 +224,18 @@ public class HkzdAction extends BaseAction{
 	 * 前往订单修改页面
 	 */
 	@At
-	@Ok("->:/private/order/orderDetail.html")
-	public void toPreview(@Param("htid") String id,HttpServletRequest req,HttpSession session){
+	@Ok("->:/private/hkzd/hkzdDetail.html")
+	public void toPreview(@Param("zdid") String id,HttpServletRequest req,HttpSession session){
 		OrderBean order = daoCtl.detailByName(dao, OrderBean.class, id);
 		order.setHhgg(YWCL.getValueFromCs(daoCtl, dao, "00010039", order.getHhgg()));
 		order.setIsfh(YWCL.getValueFromCs(daoCtl, dao, "00010038", order.getIsfh()));
 		req.setAttribute("unit",daoCtl.detailByName(dao, Sys_unit.class, order.getUnitid()) );
 		req.setAttribute("fileList", daoCtl.getMulRowValue(dao, Sqls.create("select filename,filepath from file_info where tablekey='"+id+"' and tablename='l_jsgg' order by create_time asc")));
 		req.setAttribute("isfhMap", comUtil.isfhMap);
-		Sql sql=Sqls.create("select id,name from sys_unit where unittype=88");
-		List<Map> unitMap = new ArrayList<Map>();
-		unitMap=daoCtl.list(dao, sql);
-		req.setAttribute("unitMap", unitMap);
-		req.setAttribute("order", order);
+		Sql sql=Sqls.create("select userid,realname from sys_user where unitid=0016");
+		List<Map> fzrMap = new ArrayList<Map>();
+		fzrMap=daoCtl.list(dao, sql);
+		req.setAttribute("fzrMap", fzrMap);
 	}
 	
 	/**
@@ -271,10 +244,10 @@ public class HkzdAction extends BaseAction{
 	 */
 	@At
     @Ok("raw")
-    public boolean delete(final @Param("htid") String htid){
+    public boolean delete(final @Param("zdid") String zdid){
 		boolean resule = false;
-		if(EmptyUtils.isNotEmpty(htid)){
-			resule= daoCtl.deleteByName(dao, OrderBean.class, htid);
+		if(EmptyUtils.isNotEmpty(zdid)){
+			resule= daoCtl.deleteByName(dao, HkzdBean.class, zdid);
 		}
 		return resule;
     }
