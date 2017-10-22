@@ -1,0 +1,340 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<title>$!app_name</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<!-- 框架 -->
+	<script type='text/javascript'>
+		var CONTEXTPATH = '${base}';
+		var stylePath = '$!stylename';
+	</script>
+	<link rel="stylesheet" type="text/css" href="${base}/include/css/blue/style.css" />
+	<script src="${base}/include/js/main.js"></script>
+	<script src="${base}/include/js/string.js"></script>
+	<!-- 日期控件  -->
+	<script type="text/javascript" 	src="${base}/include/controls/my97/WdatePicker.js"></script>
+	<script type="text/javascript" 	src="${base}/include/js/map.js"></script>
+	<link rel="stylesheet" href="${base}/include/controls/my97/skin/WdatePicker.css" 	type="text/css">
+	<!-- content area -->
+	<link rel="stylesheet" href="${base}/include/fusionCharts/assets/prettyPhoto/css/prettyPhoto.css" type="text/css" media="screen" charset="utf-8" />
+	<script language="JavaScript" src="${base}/include/fusionCharts/FusionCharts.js"></script>
+	<script src="${base}/include/fusionCharts/assets/ui/js/lib.js" type="text/javascript"></script>
+	<script type="text/javascript" src="${base}/include/fusionCharts/Charts/FusionCharts.js"></script>
+	<script type="text/javascript" src="${base}/include/fusionCharts/Charts/FusionCharts.jqueryplugin.js"></script>
+	<!--[if IE 6]>
+	<script src="${base}/include/fusionCharts/assets/ui/js/DD_belatedPNG_0.0.8a-min.js"></script>
+	<script>
+		/* select the element name, css selector, background etc */
+		DD_belatedPNG.fix('img');
+
+		/* string argument can be any CSS selector */
+	</script>
+	<![endif]-->
+	<style type="text/css">
+		#chartContainer {
+			width : 100%;
+			height: 400px;
+		}
+	</style>
+	<!-- content area -->
+	<style type="text/css">
+		<!--
+		html,body{ overflow-y:hidden;}
+		table.blz_data{ border-collapse:collapse; }
+		.blz_data td{ border:#D3D3D3 solid 1px; padding:2px; line-height: 20px;}
+		.tableList td{ padding:2px 0;}
+		/*中间内容——右边内容*/
+		-->
+	</style>
+	<script>
+	#if($msg)
+		alert('$!msg');
+	#end
+	
+
+	var xyNameMap=getCustomeMap('$!xyNameMap');
+
+	function getWidth(percent) {
+		return document.body.clientWidth * percent;
+	}
+
+	function getExcel(){
+		$("#showExcel").hide();
+		$("#printnote").show();
+	}
+
+	function loadData(){
+		if($("#startdate").val()>$("#enddate").val()){
+			var tmp=$("#startdate").val();
+			$("#startdate").val($("#enddate").val());
+			$("#enddate").val(tmp);
+		}
+		$("#printnote").html("正在查询，请稍后！");
+		form1.submit();
+	}
+
+	function getList(unitid,state,startdate,enddate){
+		window.open("${base}/private/baobiao/infolist?unitid="+unitid+"&state="+state+"&startdate="+startdate+"&enddate="+enddate);
+	}
+
+	function toprintln() {
+		printform.htmlbody.value = printnote.innerHTML;
+		printform.filename.value = titlename.innerHTML;
+		printform.submit();
+	}
+	
+	function showTab(startdate,enddate,unitid){
+		name="";
+		url="${base}/private/order?startdate="+startdate+"&enddate="+enddate+"&unitid="+unitid;
+		parent.addTab(name,url);
+	}
+	</script>
+</head>
+<body leftmargin="0" topmargin="0">
+<form name='form1' id="form1" method='post' action="${base}/private/baobiao/xxsb">
+	<div id="searchArea" region="north" border="false" style="overflow: hidden; padding: 10px 10px 0px 10px">
+		<table width="96%" border="0" cellspacing="0" cellpadding="6" >
+			<tr>
+				<td nowrap>
+					&nbsp;&nbsp;时间：
+					<input id="startdate" name="startdate" type="text" size="12" readonly class="Wdate" onClick="WdatePicker()" value="$!startdate" />
+					至
+					<input id="enddate" name="enddate" type="text" size="12" class="Wdate" onClick="WdatePicker()" value="$!enddate"  readonly="readonly" />
+					&nbsp;&nbsp;
+					<input class="button" type="button" id="dosearch" name="dosearch" value="查   询" onclick="loadData();" />
+					&nbsp;&nbsp;
+					<input class="button" type="button" id="dosearch" name="dosearch" value="导出Excel" onclick="toprintln();" />
+					&nbsp;&nbsp;
+					<input type="button" class="button" id="showExcel" onclick="getExcel();" value="Excel报表"  />
+				</td>
+			</tr>
+			<tr id="bz1" style="display:block">
+				<td>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<!-- content area -->
+	<div region="center" border="false" id="printnote" style="height: 100%; padding: 0px 0px 10px 10px;" >
+		<div id="biaotou">
+			<!--导出时表头需要背景色时，请给表头的tr加上  bgcolor="#ebebeb" -->
+			<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="tableList" id="table_head">
+            <caption><h3 id="titlename">中业标识订单统计报表（$!startdate 至 $!enddate）</h3></caption>
+            <thead>
+					<tr align="center" id="trForthead">
+						<td width="40">序号</td>
+						<td >订货单位</td>
+						<td width="200">订单数</td>
+						<td width="200">未付款</td>
+						<td width="200">已付款</td>
+						<td width="200">总计</td>
+					</tr>
+					
+                    </thead>
+			</table>
+		</div>
+		<div id="scroll_table" style="overflow:auto;">
+			<div class="IE6height1">
+				<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="tableList" style="border-top:0;" id='table_body'>
+					<tbody>
+					#set($sum=0)
+					#foreach($!xzqh in $!xzqhList)
+					<tr align="center" bgcolor="#FFFFFF" #if($velocityCount==1)id="trForName"#end>
+						#set($sum= $sum + 1)
+						<td width="40">$!sum</td>
+						<td>
+							$!xzqh.name
+						</td>
+						<td width="200">
+							#if($!allMap.get("$!xzqh.id"))
+							<a href="javascript:;" onclick="showTab('$!startdate','$!enddate','$!xzqh.id',);">$!allMap.get("$!xzqh.id")</a>
+							#else
+							0
+							#end
+						</td>
+						<td width="200">
+							#if($!wfkMap.get("$!xzqh.id"))
+							$!wfkMap.get("$!xzqh.id")
+							#else
+							0
+							#end
+						</td>
+						<td width="200">
+							#if($!yfkMap.get("$!xzqh.id"))
+							$!yfkMap.get("$!xzqh.id")
+							#else
+							0
+							#end
+						</td>
+						<td width="200">
+							#if($!zjMap.get("$!xzqh.id"))
+							$!zjMap.get("$!xzqh.id")
+							#else
+							0
+							#end
+						</td>
+					</tr>
+					#end
+					#set($sum= $sum + 1)
+					<tr align="center" bgcolor="#FFFFFF">
+                    	<td>$!sum</td>
+                    	<td>总计</td>
+						<td>
+							$!ddzs
+						</td>
+						<td>
+							#if($!wfkzs=='')
+							0
+							#else
+							$!wfkzs
+							#end
+						</td>
+						<td>
+							#if($!yfkzs=='')
+							0
+							#else
+							$!yfkzs
+							#end
+						</td>
+						<td>
+							#if($!jkzj=='')
+							0
+							#else
+							$!jkzj
+							#end
+						</td>
+                    </tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div id="chartdiv"  style="height: 500px;display: none;">
+
+		</div>
+	</div>
+	<!-- 柱状图 -->
+	<div class="content-area" id="chars_area" style="display:none;">
+		<div id="content-area-inner-main">
+			<!--<p class="text" align="center">Open the chart in pretty photo using jQuery</p>-->
+			<div id="messageBox" style="margin-left:100px; margin-right:100px; display:none;"></div>
+			<p>&nbsp;</p>
+			<div class="clear"></div>
+			<div class="gen-chart-render">
+				<div id="prettyphoto-container">
+					<div id="chartContainer"></div>
+				</div>
+				<script type="text/javascript">
+					var xzqhGson=$!xzqhGson;
+					var xyGson=$!xyGson;
+					var charsData=$!charsData;
+					var unitGson=#if($!unitGson) $!unitGson #else "" #end;
+
+					/* $(document).ready(function() {
+						$('#chartContainer').prettyPhoto({opacity: 0.35, showTitle: true, allowresize: false });
+					}); */
+
+					function showPrettyPhoto()
+					{
+						$("#printnote").hide();
+						$("#chars_area").show();
+						$("#showExcel").show();
+						$("#showChars").hide();
+					}
+					var dataString = "<chart caption='守信奖励统计报表' showValues='0' xAxisName='信用类型' yAxisName='件数' numberPrefix=''>";
+					dataString += "<categories>";
+					//迭代横轴
+					$.each(xyGson, function(i, item){
+						dataString += "<category label='"+item.name+"' />";
+					});
+					$.each(unitGson, function(u, item){
+						dataString += "<category label='"+item.name+"' />";
+					});
+					dataString += "</categories>";
+
+					$.each(charsData, function(j, jitem){
+						dataString += "<dataset seriesName='"+jitem.name+"'>"+
+								"<set  value='" + jitem.tdscxy + "' />" +
+								"<set  value='" + jitem.ckqscxy + "' />" +
+								"<set  value='" + jitem.tkqscxy + "' />" +
+								"<set  value='" + jitem.chdlscxy + "' />" +
+								"<set  value='" + jitem.tdjgpgfw + "' />" +
+								"<set  value='" + jitem.tdghfwxy + "' />" +
+								"<set  value='" + jitem.tddjdlfwxy + "' />" +
+								"<set  value='" + jitem.kcqjgpgfwxy + "' />" +
+								"<set  value='" + jitem.dzzhwxxpgfwxy + "' />" +
+								"<set  value='" + jitem.gtzyjcfwxy + "' />" +
+								"<set  value='" + jitem.nctdzzxmsjsgjlxy + "' />" +
+								"<set  value='" + jitem.dzzhzlgckcsjsgjlxy + "' />" +
+								"<set  value='" + jitem.ksdzhjzlxmkcsjsgjlxy + "' />" +
+								"<set  value='" + jitem.ssdzkcxy + "' /></dataset>";
+					});
+					dataString += "</chart>";
+					$("#chartContainer").insertFusionCharts({swfUrl: "${base}/include/fusionCharts/Charts/MSColumn3D.swf", dataSource: dataString, dataFormat: "xml", width: "100%", height: "100%", id: "myChartID"});
+				</script>
+				<!--<input type="button" onclick="showPrettyPhoto();" value="open chart in pretty photo" />-->
+			</div>
+			<div class="underline-dull"></div>    </div>
+	</div>
+</form>
+<form action="${base}/DownFile" name="printform" method="post">
+	<textarea rows="" cols="" style="display: none;" name="htmlbody"></textarea>
+	<input name="docname" type="hidden" value="统计报表"/>
+	<input name="filename" type="hidden" />
+</form>
+<script>
+$(function(){
+	function customHeightSet(){
+			$("#table_head").width($(".IE6height1>.tableList").outerWidth())
+		var otherH	=	$("#searchArea").outerHeight()	+	$("#table_head").outerHeight()-30;
+		$("#scroll_table").height(document.documentElement.clientHeight-otherH);
+		if($(".IE6height1>.tableList").height()>$("#scroll_table").height()){
+			$("#scroll_table").width(document.documentElement.clientWidth-10);
+			if($(".IE6height1>.tableList").width()>document.documentElement.clientWidth){
+				$("#biaotou").width($("#scroll_table").outerWidth()-10);
+			}else{
+				$("#biaotou").width($("#scroll_table").outerWidth()-10);
+				$("#table_head").width(document.documentElement.clientWidth-10)
+				$("#table_body").width(document.documentElement.clientWidth-10);
+			}
+		}else{
+			if($(".IE6height1>.tableList").outerWidth()>document.documentElement.clientWidth){
+				$("#scroll_table").width(document.documentElement.clientWidth-10);
+				$("#biaotou").width($("#scroll_table").outerWidth());
+			}else{
+				$("#scroll_table").width(document.documentElement.clientWidth-10);
+					$("#biaotou").width(document.documentElement.clientWidth-10);
+					$("#table_head").width(document.documentElement.clientWidth-10)
+					$("#table_body").width(document.documentElement.clientWidth-10);
+			}
+		}
+		if($("#table_head").outerWidth()>$("#biaotou").outerWidth()){
+			$("#biaotou").css("overflow","hidden")
+		}else{
+			$("#biaotou").css("overflow","")
+		}
+		fix();
+	}
+	window.onresize = function(){
+		customHeightSet();
+	}
+	window.onload = function(){
+		customHeightSet();
+	}
+});
+function fix(){
+	for(var i=0;i<=$('#trForName').find('td:last').index();i++){
+		$('#trForthead col').eq(i).attr('width',$('#trForName').find('td').eq(i).width()+1);
+	}
+}
+window.load=fix();
+$(window).resize(function(){
+	return fix();
+});
+
+//当有横向滚动条时，需要此js，使内容滚动头部也能滚动。
+$('#scroll_table').scroll(function(){
+	$('#table_head').css('margin-left',-($('#scroll_table').scrollLeft()));
+});
+</script>
+</body>
+</html>

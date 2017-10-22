@@ -23,6 +23,8 @@ public class HkzdBean {
 	@Column
 	private String  userid;//付款人
 	@Column
+	private String  isfk;//是否付款
+	@Column
 	private String  zdmc;//账单名称
 	@Column
 	private String  fkrq;//付款日期
@@ -34,9 +36,14 @@ public class HkzdBean {
 	private String  yt;//用途
 	@Column
 	private String  create_time;//创建时间
-	@Column
-	private String  bz;//备注
 	
+	
+	public String getIsfk() {
+		return isfk;
+	}
+	public void setIsfk(String isfk) {
+		this.isfk = isfk;
+	}
 	public String getUserid() {
 		return userid;
 	}
@@ -91,11 +98,4 @@ public class HkzdBean {
 	public void setCreate_time(String create_time) {
 		this.create_time = create_time;
 	}
-	public String getBz() {
-		return bz;
-	}
-	public void setBz(String bz) {
-		this.bz = bz;
-	}
-	
 }

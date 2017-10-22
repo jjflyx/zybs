@@ -11,7 +11,7 @@ var ioc = {
 			fields : {
 				ignoreNull : true,
 				maxFileSize : 29097152,
-				nameFilter : ".+(html|js|css|tpl|jpg|gif|png|jpeg|doc|docx|xls|xlsx|ppt|pptx|wps|pdf|txt|chm|mp3|mp4|3gp|rm|swf|flv|asf|wmv|wma|avi|7z|zip|rar|ios|jar|ktr|kjb|cdr)",
+				nameFilter : ".+(html|js|css|tpl|jpg|gif|png|jpeg|doc|docx|xls|xlsx|ppt|pptx|wps|pdf|txt|chm|mp3|mp4|3gp|rm|swf|flv|asf|wmv|wma|avi|7z|zip|rar|ios|jar|ktr|kjb|cdr|ai|psd)",
 				extOption: {
 					"images":"jpg,gif,png,jpeg,cdr",
 					"document":"doc,docx,xls,xlsx,ppt,pptx,wps,pdf,txt,chm",

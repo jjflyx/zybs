@@ -78,7 +78,7 @@
 		Dialog.confirm("确定删除？", function() {
 			jQuery.ajax({
 				type : 'POST',
-				url : "${base}/private/hkzd/delete?htid=" + htid,
+				url : "${base}/private/hkzd/delete?zdid=" + zdid,
 				success : function(res) {
 					if (res == "true") {
 						Dialog.alert("删除成功！");
@@ -150,7 +150,6 @@
 										align : "center",
 										width : getWidth(0.1)
 									},
-									
 									{
 										title : '所付价款',
 										field : 'sfjk',
@@ -170,6 +169,13 @@
 										align : "center",
 										sortable:true,
 										width : getWidth(0.1)
+									},
+									{
+										title : '是否付款',
+										field : 'isfk',
+										align : "center",
+										width : getWidth(0.08)
+										
 									},
 									{
 										field : "e",
@@ -257,7 +263,6 @@
 					&nbsp;&nbsp;<input type="button"
 										name="check" onclick="loadData();" value="查询" />
 										
-										<input type="button" id="dosearch" name="dosearch" value="导出Excel" onclick="EXP();" />
 										<input class="button"
 										type="button" name="btnCl" id="btnCl" onClick="clearTT();"
 										value="清除" /> </span>  

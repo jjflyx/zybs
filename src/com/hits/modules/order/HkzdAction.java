@@ -134,6 +134,7 @@ public class HkzdAction extends BaseAction{
 			re.set(false);
 			Trans.exec(new Atom() {
 				public void run() {
+					System.out.println("===============>"+hkzd.getIsfk());
 					hkzd.setActor(user.getLoginname());
 					hkzd.setZdid(getHtid());
 					hkzd.setCreate_time(DateUtil.getCurDateTime());
@@ -229,9 +230,11 @@ public class HkzdAction extends BaseAction{
 	@Ok("->:/private/hkzd/hkzdDetail.html")
 	public void toPreview(@Param("zdid") String id,HttpServletRequest req,HttpSession session){
 		HkzdBean hkzd = daoCtl.detailByName(dao, HkzdBean.class, id);
-		hkzd.setUserid(daoCtl.detailByName(dao, Sys_user.class, hkzd.getUserid()).getRealname());
+		long userid = Long.parseLong(hkzd.getUserid());
+		System.out.println(daoCtl.detailById(dao, Sys_user.class, userid).getRealname());
+		hkzd.setUserid(daoCtl.detailById(dao, Sys_user.class, userid).getRealname());
 		hkzd.setGmtj(YWCL.getValueFromCs(daoCtl, dao, "00010040", hkzd.getGmtj()));
-		req.setAttribute("fileList", daoCtl.getMulRowValue(dao, Sqls.create("select filename,filepath from file_info where tablekey='"+id+"' and tablename='l_gmtj' order by create_time asc")));
+		req.setAttribute("fileList", daoCtl.getMulRowValue(dao, Sqls.create("select filename,filepath from file_info where tablekey='"+id+"' and tablename='l_hkzd' order by create_time asc")));
 		req.setAttribute("hkzd", hkzd);
 	}
 	

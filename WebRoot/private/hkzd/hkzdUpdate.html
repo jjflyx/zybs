@@ -62,6 +62,7 @@
 	<form name='form1' id="form1" method='post'>
 	<input type="hidden" name="zdid" id="zdid" value="$!hkzd.zdid" />
 	<input type="hidden" name="actor" id="actor" value="$!hkzd.actor" />
+	<input type="hidden" name="actor" id="actor" value="$!hkzd.create_time" />
 		<input type="hidden" name="filename" id="filename" value="" />
 	<input type="hidden" name="filepath" id="filepath" value="" />
 	<input type="hidden" name="filesize" id="filesize" value="" />
@@ -103,8 +104,16 @@
 				</tr>
 				<tr>
 					<td align="right" width="15%">价格：</td>
-					<td width="*%"  colspan="3"><input typt="text" name="sfjk" id="sfjk" value="$!hkzd.sfjk
+					<td width="*%" ><input typt="text" name="sfjk" id="sfjk" value="$!hkzd.sfjk
 					" verify="价格|NotNull"/></td>
+					<td align="right" width="15%">是否付款：</td>
+					<td algin="left" width="30%">
+					<select id="isfk" name="isfk" verify="NotNull">
+							<option value="">请选择</option> #foreach($!isfh in $!isfhMap)
+							<option value="$!isfh.value">$!isfh.name</option> #end
+					</select>
+					<script type="text/javascript">selected(document.form1.isfh,"$!hkzd.isfh")</script>
+					</td>
 				</tr>
 				<tr>
 					<td align="right" width="15%">附件：</td>

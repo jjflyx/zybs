@@ -106,7 +106,15 @@
 				</tr>
 				<tr>
 					<td align="right" width="15%">价格：</td>
-					<td width="*%"  colspan="3"><input typt="text" name="sfjk" id="sfjk" verify="价格|NotNull"/></td>
+					<td width="*%" ><input typt="text" name="sfjk" id="sfjk" verify="价格|NotNull"/></td>
+					<td align="right" width="15%">是否付款：</td>
+					<td algin="left" width="30%">
+					<select id="isfk" name="isfk" verify="NotNull">
+							<option value="">请选择</option> #foreach($!isfh in $!isfhMap)
+							<option value="$!isfh.value">$!isfh.name</option> #end
+					</select>
+					<script type="text/javascript">selected(document.form1.isfk,"0001")</script>
+					</td>
 				</tr>
 				<tr>
 					<td align="right" width="15%">附件：</td>
@@ -131,7 +139,7 @@
 				</tr>
 				<tr>
 					<td align="right" width="15%">用途：</td>
-					<td algin="left" colspan="3"><textarea rows="3" style="width: 77.5%" name = "bz" id="bz"></textarea></td>
+					<td algin="left" colspan="3"><textarea rows="3" style="width: 77.5%" name = "yt" id="yt"></textarea></td>
 				</tr>
 				</tbody>
 			</table>
