@@ -57,24 +57,24 @@
 		openWin3(url, title, iWidth, iHeight);
 	}
 	//转到新增页面
-	function toupdate(htid) {
+	function toupdate(zdid) {
 		var iHeight = 400;
 		var iWidth = 800;
 		var title = '修改订单';
-		var url = '${base}/private/hkzd/toUpdate?htid=' + htid;
+		var url = '${base}/private/hkzd/toUpdate?zdid=' + zdid;
 		openWin3(url, title, iWidth, iHeight);
 	}
 
 	//转到浏览页面
-	function topreview(htid){
+	function topreview(zdid){
 		var iHeight = 400;
 		var iWidth = 800;
 		var title = '浏览订单';
-		var url = '${base}/private/hkzd/toPreview?htid=' + htid;
+		var url = '${base}/private/hkzd/toPreview?zdid=' + zdid;
 		openWin3(url, title, iWidth, iHeight);
 	}
 
-	function del(htid) {
+	function del(zdid) {
 		Dialog.confirm("确定删除？", function() {
 			jQuery.ajax({
 				type : 'POST',
@@ -110,7 +110,7 @@
 	}
 	
 	function EXP() {
-		form1.action = "${base}/private/order/dcXxsb";
+		form1.action = "${base}/private/hkzd/dcXxsb";
 		form1.submit();
 	}
 
@@ -245,7 +245,7 @@
 									style="float: left;"> &nbsp; 付款人：
 						<select id="userid" name="userid" onchange="loadData()">
 							<option value="">请选择</option> #foreach($!fzr in $!fzrMap)
-							<option value="$!fzr.userid">$!fzr.name</option> #end
+							<option value="$!fzr.userid">$!fzr.realname</option> #end
 					</select>
 					<script type="text/javascript">selected(document.form1.unitid,"$!userid")</script>
 					#end

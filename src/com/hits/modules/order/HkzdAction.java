@@ -92,7 +92,7 @@ public class HkzdAction extends BaseAction{
 			sql+=" and fkrq >= '"+startdate+"' and fkrq <= '"+enddate+"'";
 		}
 		sql += " order by fkrq desc";
-		QueryResult qr = daoCtl.listPage(dao,OrderBean.class ,curPage, pageSize,Sqls.create(sql),cri);
+		QueryResult qr = daoCtl.listPage(dao,HkzdBean.class ,curPage, pageSize,Sqls.create(sql),cri);
 		List<Map<String,Object>> list = (List<Map<String, Object>>) qr.getList();
 		sql="select code,name from Cs_value where typeid = '00010040'";
 		Map<String,String> loadselectMap=daoCtl.getHTable(dao, Sqls.create(sql));
@@ -113,6 +113,8 @@ public class HkzdAction extends BaseAction{
 	@At
 	@Ok("->:/private/hkzd/hkzdAdd.html")
 	public void toAdd(HttpServletRequest req,HttpSession session) {
+		Sys_user user = (Sys_user) session.getAttribute("userSession");
+		req.setAttribute("userid", user.getUserid());
 		req.setAttribute("isfhMap", comUtil.isfhMap);
 		req.setAttribute("today", DateUtil.getToday());
 		Sql sql=Sqls.create("select userid,realname from sys_user where unitid=0016");
@@ -226,16 +228,11 @@ public class HkzdAction extends BaseAction{
 	@At
 	@Ok("->:/private/hkzd/hkzdDetail.html")
 	public void toPreview(@Param("zdid") String id,HttpServletRequest req,HttpSession session){
-		OrderBean order = daoCtl.detailByName(dao, OrderBean.class, id);
-		order.setHhgg(YWCL.getValueFromCs(daoCtl, dao, "00010039", order.getHhgg()));
-		order.setIsfh(YWCL.getValueFromCs(daoCtl, dao, "00010038", order.getIsfh()));
-		req.setAttribute("unit",daoCtl.detailByName(dao, Sys_unit.class, order.getUnitid()) );
-		req.setAttribute("fileList", daoCtl.getMulRowValue(dao, Sqls.create("select filename,filepath from file_info where tablekey='"+id+"' and tablename='l_jsgg' order by create_time asc")));
-		req.setAttribute("isfhMap", comUtil.isfhMap);
-		Sql sql=Sqls.create("select userid,realname from sys_user where unitid=0016");
-		List<Map> fzrMap = new ArrayList<Map>();
-		fzrMap=daoCtl.list(dao, sql);
-		req.setAttribute("fzrMap", fzrMap);
+		HkzdBean hkzd = daoCtl.detailByName(dao, HkzdBean.class, id);
+		hkzd.setUserid(daoCtl.detailByName(dao, Sys_user.class, hkzd.getUserid()).getRealname());
+		hkzd.setGmtj(YWCL.getValueFromCs(daoCtl, dao, "00010040", hkzd.getGmtj()));
+		req.setAttribute("fileList", daoCtl.getMulRowValue(dao, Sqls.create("select filename,filepath from file_info where tablekey='"+id+"' and tablename='l_gmtj' order by create_time asc")));
+		req.setAttribute("hkzd", hkzd);
 	}
 	
 	/**

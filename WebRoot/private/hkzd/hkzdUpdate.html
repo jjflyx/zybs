@@ -60,9 +60,8 @@
 <body leftmargin="0" topmargin="0">
 <div class="pageM editpage" id="pageScroll" style="position:relative;">
 	<form name='form1' id="form1" method='post'>
-	<input type="hidden" name="htid" id="htid" value="$!order.htid" />
-	<input type="hidden" name="actor" id="actor" value="$!order.actor" />
-	<input type="hidden" name="xzqh_unit" id="xzqh_unit" value="$!order.xzqh_unit" />
+	<input type="hidden" name="zdid" id="zdid" value="$!hkzd.zdid" />
+	<input type="hidden" name="actor" id="actor" value="$!hkzd.actor" />
 		<input type="hidden" name="filename" id="filename" value="" />
 	<input type="hidden" name="filepath" id="filepath" value="" />
 	<input type="hidden" name="filesize" id="filesize" value="" />
@@ -85,50 +84,63 @@
 							<option value="">请选择</option> #foreach($!fzr in $!fzrMap)
 							<option value="$!fzr.userid">$!fzr.realname</option> #end
 						</select>
+						<script type="text/javascript">selected(document.form1.userid,"$!hkzd.userid")</script>
 					</td>
 				</tr>
 				<tr>
 					<td align="right">付款日期：</td>
 					<td width="*%"><input class="Wdate"
-						onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});" value="$!today"
+						onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});" value="$!hkzd.fkrq"
 						name="fkrq" id="fkrq" size="20"
 						maxlength="50" verify="付款日期|NotNull" />
 					</td>
 					<td align="right" width="15%">购买途径：</td>
 					<td width="30%">
-					<select onchange="selectCascade(this,'00010040')" verify="NotNull" iscascade="gmtj_0" loadselect="loadSelect(this,'00010040',1)" name="gmtj" id="gmtj" selectedvalue="">
+					<select onchange="selectCascade(this,'00010040')" verify="NotNull" iscascade="gmtj_0" loadselect="loadSelect(this,'00010040',1)" name="gmtj" id="gmtj" selectedvalue="$!hkzd.gmtj">
       				<option value=" ">请选择</option>
       				</select>
       				</td>
 				</tr>
 				<tr>
 					<td align="right" width="15%">价格：</td>
-					<td width="*%"  colspan="3"><input typt="text" name="sfjk" id="sfjk" verify="价格|NotNull"/></td>
+					<td width="*%"  colspan="3"><input typt="text" name="sfjk" id="sfjk" value="$!hkzd.sfjk
+					" verify="价格|NotNull"/></td>
 				</tr>
 				<tr>
 					<td align="right" width="15%">附件：</td>
 					<td colspan="3">
-      <table>
+						<table>
 			<tr>
 				<td>
-					<select id="sbfile" name='sbfile'
-						style='width: 350px;height: 65px;' multiple size="3"
-						class="Noprint">
+					 <table>
+			<tr>
+				<td>
+					<select id="sbfile" name='sbfile'style='width: 350px;height: 65px;' multiple size="3">
+					#if($!fileList.size()>0)
+						#foreach($obj in $!fileList)
+						<option value="$obj.get(1)">$!obj.get(0)</option>
+						#end
+					#end
 					</select>
 					<button type="button"  fileinputname="fj" class="btn-text btn-attachement" 
 					onclick="selectUpload(form1.sbfile);">选择</button>
 					<button type="button" fileinputname="fj" class="btn-text btn-attachement-del"
 					 onclick="del_fujian(form1.sbfile);">删除</button>
 						(文件大小不能超过5MB！)
+					<td>
 				</td>
 			</tr>
-			</table></td> 
+			</table>
+				</td>
+			</tr>
+			</table>
+					</td>
 			</tr>
 			</td> 
 				</tr>
 				<tr>
 					<td align="right" width="15%">用途：</td>
-					<td algin="left" colspan="3"><textarea rows="3" style="width: 77.5%" name = "bz" id="bz"></textarea></td>
+					<td algin="left" colspan="3"><textarea rows="3" style="width: 77.5%" name = "yt" id="yt">$!hkzd.yt</textarea></td>
 				</tr>
 				</tbody>
 			</table>
