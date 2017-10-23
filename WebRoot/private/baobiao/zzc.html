@@ -119,11 +119,11 @@
 		<div id="biaotou">
 			<!--导出时表头需要背景色时，请给表头的tr加上  bgcolor="#ebebeb" -->
 			<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="tableList" id="table_head">
-            <caption><h3 id="titlename">中业标识订单统计报表（$!startdate 至 $!enddate）</h3></caption>
+            <caption><h3 id="titlename">中业标识货款账单统计报表（$!startdate 至 $!enddate）</h3></caption>
             <thead>
 					<tr align="center" id="trForthead">
 						<td width="40">序号</td>
-						<td >订货单位</td>
+						<td >付款人</td>
 						<td width="200">订单数</td>
 						<td width="200">未付款</td>
 						<td width="200">已付款</td>
@@ -143,32 +143,32 @@
 						#set($sum= $sum + 1)
 						<td width="40">$!sum</td>
 						<td>
-							$!xzqh.name
+							$!xzqh.realname
 						</td>
 						<td width="200">
-							#if($!allMap.get("$!xzqh.id"))
-							<a href="javascript:;" onclick="showTab('$!startdate','$!enddate','$!xzqh.id',);">$!allMap.get("$!xzqh.id")</a>
+							#if($!allMap.get("$!xzqh.userid"))
+							<a href="javascript:;" onclick="showTab('$!startdate','$!enddate','$!xzqh.userid',);">$!allMap.get("$!xzqh.userid")</a>
 							#else
 							0
 							#end
 						</td>
 						<td width="200">
-							#if($!wfkMap.get("$!xzqh.id"))
-							$!wfkMap.get("$!xzqh.id")
+							#if($!wfkMap.get("$!xzqh.userid"))
+							$!wfkMap.get("$!xzqh.userid")
 							#else
 							0
 							#end
 						</td>
 						<td width="200">
-							#if($!yfkMap.get("$!xzqh.id"))
-							$!yfkMap.get("$!xzqh.id")
+							#if($!yfkMap.get("$!xzqh.userid"))
+							$!yfkMap.get("$!xzqh.userid")
 							#else
 							0
 							#end
 						</td>
 						<td width="200">
-							#if($!zjMap.get("$!xzqh.id"))
-							$!zjMap.get("$!xzqh.id")
+							#if($!zjMap.get("$!xzqh.userid"))
+							$!zjMap.get("$!xzqh.userid")
 							#else
 							0
 							#end

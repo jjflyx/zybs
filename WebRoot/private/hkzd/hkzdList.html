@@ -174,8 +174,13 @@
 										title : '是否付款',
 										field : 'isfk',
 										align : "center",
-										width : getWidth(0.08)
-										
+										width : getWidth(0.08),
+										formatter : function(val,rec){
+				                            if(val!=null && val!=""){
+				                            	val = isfhHash[val];
+				                            }
+				                            return val;
+				                        }
 									},
 									{
 										field : "e",

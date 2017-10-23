@@ -234,6 +234,7 @@ public class HkzdAction extends BaseAction{
 		System.out.println(daoCtl.detailById(dao, Sys_user.class, userid).getRealname());
 		hkzd.setUserid(daoCtl.detailById(dao, Sys_user.class, userid).getRealname());
 		hkzd.setGmtj(YWCL.getValueFromCs(daoCtl, dao, "00010040", hkzd.getGmtj()));
+		hkzd.setIsfk(YWCL.getValueFromCs(daoCtl, dao, "00010038", hkzd.getIsfk()));
 		req.setAttribute("fileList", daoCtl.getMulRowValue(dao, Sqls.create("select filename,filepath from file_info where tablekey='"+id+"' and tablename='l_hkzd' order by create_time asc")));
 		req.setAttribute("hkzd", hkzd);
 	}

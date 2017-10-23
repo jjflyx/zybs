@@ -25,6 +25,7 @@ import com.hits.common.action.BaseAction;
 import com.hits.common.filter.GlobalsFilter;
 import com.hits.common.filter.UserLoginFilter;
 import com.hits.modules.sys.bean.Sys_unit;
+import com.hits.modules.sys.bean.Sys_user;
 import com.hits.util.DateUtil;
 import com.hits.util.EmptyUtils;
 
@@ -108,8 +109,8 @@ public class BaobiaoAction extends BaseAction {
 			startdate = EmptyUtils.isEmpty(startdate)?DateUtil.getFirstMonDay(enddate):startdate;
 			req.setAttribute("startdate",startdate);
 			req.setAttribute("enddate",enddate);
-			//得到列，订货单位
-			List<Sys_unit> xzqhList = daoCtl.list(dao,Sys_unit.class,Sqls.create(" select id,name from sys_unit where unittype = 88 order by id asc "));
+			//得到付款人
+			List<Sys_user> xzqhList = daoCtl.list(dao,Sys_user.class,Sqls.create(" select userid,realname from sys_user where unitid=0016 order by userid asc "));
 			req.setAttribute("xzqhList",xzqhList);
 			//图形报表Map
 			Map<String,String> xyNameMap = daoCtl.getHTable(dao,Sqls.create(" select code,name from cs_value where typeid = '00010005' and state = 0 and code < '0008' order by location asc"));
@@ -120,33 +121,33 @@ public class BaobiaoAction extends BaseAction {
 			Map<String,String> wfkMap = new HashMap<String, String>();//未付款
 			Map<String,String> yfkMap = new HashMap<String, String>();//已付款
 			Map<String,String> zjMap = new HashMap<String, String>();//总计
-			//查询订货单位的订单数量
-			String sqlstr=" select unitid,count(*) from l_jsgg where add_time between '" + startdate + "' and '" + enddate + "' group by unitid";
+			//查询付款人的订单数量
+			String sqlstr=" select userid,count(*) from l_hkzd where fkrq between '" + startdate + "' and '" + enddate + "' group by userid";
 			allMap = daoCtl.getHTable(dao,Sqls.create(sqlstr));
-			//查询订货单位未付款信息
-			sqlstr = "select unitid ,sum(yfjk) from l_jsgg where isfh='0002' and add_time between '" + startdate + "' and '" + enddate + "' group by unitid";
+			//查询付款人未付款信息
+			sqlstr = "select userid ,sum(sfjk) from l_hkzd where isfk='0002' and fkrq between '" + startdate + "' and '" + enddate + "' group by userid";
 			wfkMap = daoCtl.getHTable(dao, Sqls.create(sqlstr));
 			//查询订货单位已付款信息
-			sqlstr = "select unitid ,sum(yfjk) from l_jsgg where isfh='0001' and add_time between '" + startdate + "' and '" + enddate + "' group by unitid";
+			sqlstr = "select userid ,sum(sfjk) from l_hkzd where isfk='0001' and fkrq between '" + startdate + "' and '" + enddate + "' group by userid";
 			yfkMap = daoCtl.getHTable(dao, Sqls.create(sqlstr));
-			//订货单位所有账目信息
-			sqlstr = "select unitid ,sum(yfjk) from l_jsgg where add_time between '" + startdate + "' and '" + enddate + "' group by unitid";
+			//订货单位所有账目信息																					
+			sqlstr = "select userid ,sum(sfjk) from l_hkzd where fkrq between '" + startdate + "' and '" + enddate + "' group by userid";
 			zjMap = daoCtl.getHTable(dao, Sqls.create(sqlstr));
 			JSONArray array = new JSONArray();
-			for(Sys_unit unit : xzqhList){
+			for(Sys_user user : xzqhList){
 				JSONObject jsonroot = new JSONObject();
-				jsonroot.put("id", unit.getId());
-				jsonroot.put("name",unit.getName());
+				jsonroot.put("id", user.getUserid());
+				jsonroot.put("name",user.getRealname());
 			}
 			req.setAttribute("charsData", array.toString());
 			req.setAttribute("allMap",allMap);
 			req.setAttribute("wfkMap",wfkMap);
 			req.setAttribute("yfkMap",yfkMap);
 			req.setAttribute("zjMap",zjMap);
-			req.setAttribute("ddzs", daoCtl.getStrRowValue(dao, Sqls.create("select count(*) from l_jsgg where add_time between '" + startdate + "' and '" + enddate + "'")));
-			req.setAttribute("wfkzs", daoCtl.getStrRowValue(dao, Sqls.create("select sum(yfjk) from l_jsgg where isfh='0002' and add_time between '" + startdate + "' and '" + enddate + "'")));
-			req.setAttribute("yfkzs", daoCtl.getStrRowValue(dao, Sqls.create("select sum(yfjk) from l_jsgg where isfh='0001' and add_time between '" + startdate + "' and '" + enddate + "'")));
-			req.setAttribute("jkzj", daoCtl.getStrRowValue(dao, Sqls.create("select sum(yfjk) from l_jsgg where add_time between '" + startdate + "' and '" + enddate + "'")));
+			req.setAttribute("ddzs", daoCtl.getStrRowValue(dao, Sqls.create("select count(*) from l_hkzd where fkrq between '" + startdate + "' and '" + enddate + "'")));
+			req.setAttribute("wfkzs", daoCtl.getStrRowValue(dao, Sqls.create("select sum(sfjk) from l_hkzd where isfk='0002' and fkrq between '" + startdate + "' and '" + enddate + "'")));
+			req.setAttribute("yfkzs", daoCtl.getStrRowValue(dao, Sqls.create("select sum(sfjk) from l_hkzd where isfk='0001' and fkrq between '" + startdate + "' and '" + enddate + "'")));
+			req.setAttribute("jkzj", daoCtl.getStrRowValue(dao, Sqls.create("select sum(sfjk) from l_hkzd where fkrq between '" + startdate + "' and '" + enddate + "'")));
 		}catch (Exception e){
 			e.printStackTrace();
 		}
