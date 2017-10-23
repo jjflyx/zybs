@@ -162,9 +162,11 @@ public class BaobiaoAction extends BaseAction {
 			startdate = EmptyUtils.isEmpty(startdate)?DateUtil.getFirstMonDay(enddate):startdate;
 			req.setAttribute("startdate",startdate);
 			req.setAttribute("enddate",enddate);
-			//得到列，订货单位
+			//得到月份
 			List<Sys_unit> xzqhList = daoCtl.list(dao,Sys_unit.class,Sqls.create(" select id,name from sys_unit where unittype = 88 order by id asc "));
 			req.setAttribute("xzqhList",xzqhList);
+			List<String> months = DateUtil.getMonthBetween(startdate, enddate);
+			req.setAttribute("months",months);
 			//图形报表Map
 			Map<String,String> xyNameMap = daoCtl.getHTable(dao,Sqls.create(" select code,name from cs_value where typeid = '00010005' and state = 0 and code < '0008' order by location asc"));
 			List<String> xyCode = daoCtl.getStrRowValues(dao,Sqls.create(" select code,name from cs_value where typeid = '00010005' and state = 0 and code < '0008' order by location asc"));
