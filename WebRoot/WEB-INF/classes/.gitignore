@@ -1,10 +1,1 @@
 /com
-<<<<<<< HEAD
-=======
-/config
-/extraparmars.properties
-/filterchar.properties
-/log4j.properties
-/quartz.properties
-/velocity.properties
->>>>>>> branch 'master' of https://github.com/jjflyx/zybs.git

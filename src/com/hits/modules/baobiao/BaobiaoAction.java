@@ -20,6 +20,7 @@ import org.nutz.mvc.annotation.Filters;
 import org.nutz.mvc.annotation.Ok;
 import org.nutz.mvc.annotation.Param;
 
+import com.alibaba.druid.sql.visitor.functions.Substring;
 import com.google.gson.Gson;
 import com.hits.common.action.BaseAction;
 import com.hits.common.filter.GlobalsFilter;
@@ -165,8 +166,10 @@ public class BaobiaoAction extends BaseAction {
 			//得到月份
 			List<Sys_unit> xzqhList = daoCtl.list(dao,Sys_unit.class,Sqls.create(" select id,name from sys_unit where unittype = 88 order by id asc "));
 			req.setAttribute("xzqhList",xzqhList);
-			List<String> months = DateUtil.getMonthBetween(startdate, enddate);
+			List<String> months = DateUtil.getMonthBetween(DateUtil.getToday().substring(0, 5)+"01-01", DateUtil.getToday().substring(0, 5)+"12-31");
 			req.setAttribute("months",months);
+			String a="select CONCAT(YEAR(fkrq),'-',DATE_FORMAT(fkrq,'%m')) months ,sum(sfjk) as "
+					+ "count_amount from l_hkzd WHERE fkrq BETWEEN '2017-01-02' AND '2017-12-30' group by months";
 			//图形报表Map
 			Map<String,String> xyNameMap = daoCtl.getHTable(dao,Sqls.create(" select code,name from cs_value where typeid = '00010005' and state = 0 and code < '0008' order by location asc"));
 			List<String> xyCode = daoCtl.getStrRowValues(dao,Sqls.create(" select code,name from cs_value where typeid = '00010005' and state = 0 and code < '0008' order by location asc"));
