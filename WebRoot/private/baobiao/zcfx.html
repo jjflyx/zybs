@@ -22,15 +22,6 @@
 	<script type="text/javascript" src="${base}/include/fusionCharts/Charts/FusionCharts.js"></script>
 	<script type="text/javascript" src="${base}/include/fusionCharts/Charts/FusionCharts.jqueryplugin.js"></script>
 	<script type="text/javascript" src="${base}/js/util/echarts.js"></script>
-	<!--[if IE 6]>
-	<script src="${base}/include/fusionCharts/assets/ui/js/DD_belatedPNG_0.0.8a-min.js"></script>
-	<script>
-		/* select the element name, css selector, background etc */
-		DD_belatedPNG.fix('img');
-
-		/* string argument can be any CSS selector */
-	</script>
-	<![endif]-->
 	<style type="text/css">
 		#chartContainer {
 			width : 100%;
@@ -118,21 +109,21 @@
 							$!month
 						</td>
 						<td width="250">
-							#if($!allMap.get("$!xzqh.id"))
-							<a href="javascript:;" onclick="showTab('$!startdate','$!enddate','$!xzqh.id',);">$!allMap.get("$!xzqh.id")</a>
+							#if($!zcMap.get("$!month"))
+							<a href="javascript:;" onclick="showTab('$!startdate','$!enddate','$!xzqh.id',);">$!zcMap.get("$!month")</a>
 							#else
 							0
 							#end
 						</td>
 						<td width="250">
-							#if($!wfkMap.get("$!xzqh.id"))
-							$!wfkMap.get("$!xzqh.id")
+							#if($!srMap.get("$!month"))
+							$!srMap.get("$!month")
 							#else
 							0
 							#end
 						</td>
 						<td width="250">
-							#if($!yfkMap.get("$!xzqh.id"))
+							#if($!srMap.get("$!month"))
 							$!yfkMap.get("$!xzqh.id")
 							#else
 							0
@@ -143,21 +134,21 @@
 					<tr align="center" bgcolor="#FFFFFF">
                     	<td>总计</td>
 						<td>
+							#if($!zczj=='')
+							0
+							#else
+							$!zczj
+							#end
+						</td>
+						<td>
+							#if($!srzj=='')
+							0
+							#else
+							$!srzj
+							#end
+						</td>
+						<td>
 							$!ddzs
-						</td>
-						<td>
-							#if($!wfkzs=='')
-							0
-							#else
-							$!wfkzs
-							#end
-						</td>
-						<td>
-							#if($!yfkzs=='')
-							0
-							#else
-							$!yfkzs
-							#end
 						</td>
                     </tr>
 					</tbody>
