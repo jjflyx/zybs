@@ -44,8 +44,7 @@
 		table.blz_data{ border-collapse:collapse; }
 		.blz_data td{ border:#D3D3D3 solid 1px; padding:2px; line-height: 20px;}
 		.tableList td{ padding:2px 0;}
-		/*中间内容——右边内容*/
-		-->
+		.divcss5-b{ overflow-y:scroll; overflow-x:scroll;} 
 	</style>
 	<script>
 	#if($msg)
@@ -93,55 +92,28 @@
 </head>
 <body leftmargin="0" topmargin="0">
 <form name='form1' id="form1" method='post' action="${base}/private/baobiao/zcfx">
-	<div id="searchArea" region="north" border="false" style="overflow: hidden; padding: 10px 10px 0px 10px">
-		<table width="96%" border="0" cellspacing="0" cellpadding="6" >
-			<tr>
-				<td nowrap>
-					&nbsp;&nbsp;时间：
-					<input id="startdate" name="startdate" type="text" size="12" readonly class="Wdate" onClick="WdatePicker()" value="$!startdate" />
-					至
-					<input id="enddate" name="enddate" type="text" size="12" class="Wdate" onClick="WdatePicker()" value="$!enddate"  readonly="readonly" />
-					&nbsp;&nbsp;
-					<input class="button" type="button" id="dosearch" name="dosearch" value="查   询" onclick="loadData();" />
-					&nbsp;&nbsp;
-					<input class="button" type="button" id="dosearch" name="dosearch" value="导出Excel" onclick="toprintln();" />
-					&nbsp;&nbsp;
-					<input type="button" class="button" id="showExcel" onclick="getExcel();" value="Excel报表"  />
-				</td>
-			</tr>
-			<tr id="bz1" style="display:block">
-				<td>
-				</td>
-			</tr>
-		</table>
-	</div>
 	<!-- content area -->
 	<div region="center" border="false" id="printnote" style="height: 100%; padding: 0px 0px 10px 10px;" >
 		<div id="biaotou">
 			<!--导出时表头需要背景色时，请给表头的tr加上  bgcolor="#ebebeb" -->
 			<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="tableList" id="table_head">
-            <caption><h3 id="titlename">中业标识订单统计报表（$!startdate 至 $!enddate）</h3></caption>
+            <caption><h3 id="titlename">中业标识$!year年度资产分析</h3></caption>
             <thead>
 					<tr align="center" id="trForthead">
-						<td width="40">序号</td>
 						<td >月份</td>
 						<td width="250">支出</td>
 						<td width="250">收入</td>
 						<td width="250">盈利</td>
 					</tr>
-					
-                    </thead>
+            </thead>
 			</table>
 		</div>
 		<div id="scroll_table" style="overflow:auto;">
 			<div class="IE6height1">
 				<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="tableList" style="border-top:0;" id='table_body'>
 					<tbody>
-					#set($sum=0)
 					#foreach($!month in $!months)
 					<tr align="center" bgcolor="#FFFFFF" #if($velocityCount==1)id="trForName"#end>
-						#set($sum= $sum + 1)
-						<td width="40">$!sum</td>
 						<td>
 							$!month
 						</td>
@@ -168,9 +140,7 @@
 						</td>
 					</tr>
 					#end
-					#set($sum= $sum + 1)
 					<tr align="center" bgcolor="#FFFFFF">
-                    	<td>$!sum</td>
                     	<td>总计</td>
 						<td>
 							$!ddzs
@@ -194,78 +164,7 @@
 				</table>
 			</div>
 		</div>
-		<div id="chartdiv"  style="height: 500px;display: none;">
-
-		</div>
 	</div>
-	<!-- 柱状图 -->
-	<div class="content-area" id="chars_area" style="display:none;">
-		<div id="content-area-inner-main">
-			<!--<p class="text" align="center">Open the chart in pretty photo using jQuery</p>-->
-			<div id="messageBox" style="margin-left:100px; margin-right:100px; display:none;"></div>
-			<p>&nbsp;</p>
-			<div class="clear"></div>
-			<div class="gen-chart-render">
-				<div id="prettyphoto-container">
-					<div id="chartContainer"></div>
-				</div>
-				<script type="text/javascript">
-					var xzqhGson=$!xzqhGson;
-					var xyGson=$!xyGson;
-					var charsData=$!charsData;
-					var unitGson=#if($!unitGson) $!unitGson #else "" #end;
-
-					/* $(document).ready(function() {
-						$('#chartContainer').prettyPhoto({opacity: 0.35, showTitle: true, allowresize: false });
-					}); */
-
-					function showPrettyPhoto()
-					{
-						$("#printnote").hide();
-						$("#chars_area").show();
-						$("#showExcel").show();
-						$("#showChars").hide();
-					}
-					var dataString = "<chart caption='守信奖励统计报表' showValues='0' xAxisName='信用类型' yAxisName='件数' numberPrefix=''>";
-					dataString += "<categories>";
-					//迭代横轴
-					$.each(xyGson, function(i, item){
-						dataString += "<category label='"+item.name+"' />";
-					});
-					$.each(unitGson, function(u, item){
-						dataString += "<category label='"+item.name+"' />";
-					});
-					dataString += "</categories>";
-
-					$.each(charsData, function(j, jitem){
-						dataString += "<dataset seriesName='"+jitem.name+"'>"+
-								"<set  value='" + jitem.tdscxy + "' />" +
-								"<set  value='" + jitem.ckqscxy + "' />" +
-								"<set  value='" + jitem.tkqscxy + "' />" +
-								"<set  value='" + jitem.chdlscxy + "' />" +
-								"<set  value='" + jitem.tdjgpgfw + "' />" +
-								"<set  value='" + jitem.tdghfwxy + "' />" +
-								"<set  value='" + jitem.tddjdlfwxy + "' />" +
-								"<set  value='" + jitem.kcqjgpgfwxy + "' />" +
-								"<set  value='" + jitem.dzzhwxxpgfwxy + "' />" +
-								"<set  value='" + jitem.gtzyjcfwxy + "' />" +
-								"<set  value='" + jitem.nctdzzxmsjsgjlxy + "' />" +
-								"<set  value='" + jitem.dzzhzlgckcsjsgjlxy + "' />" +
-								"<set  value='" + jitem.ksdzhjzlxmkcsjsgjlxy + "' />" +
-								"<set  value='" + jitem.ssdzkcxy + "' /></dataset>";
-					});
-					dataString += "</chart>";
-					$("#chartContainer").insertFusionCharts({swfUrl: "${base}/include/fusionCharts/Charts/MSColumn3D.swf", dataSource: dataString, dataFormat: "xml", width: "100%", height: "100%", id: "myChartID"});
-				</script>
-				<!--<input type="button" onclick="showPrettyPhoto();" value="open chart in pretty photo" />-->
-			</div>
-			<div class="underline-dull"></div>    </div>
-	</div>
-</form>
-<form action="${base}/DownFile" name="printform" method="post">
-	<textarea rows="" cols="" style="display: none;" name="htmlbody"></textarea>
-	<input name="docname" type="hidden" value="统计报表"/>
-	<input name="filename" type="hidden" />
 </form>
 <script>
 $(function(){

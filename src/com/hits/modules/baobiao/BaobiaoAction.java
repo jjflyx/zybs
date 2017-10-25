@@ -162,7 +162,7 @@ public class BaobiaoAction extends BaseAction {
 			enddate = EmptyUtils.isEmpty(enddate)?DateUtil.getToday():enddate;
 			startdate = EmptyUtils.isEmpty(startdate)?DateUtil.getFirstMonDay(enddate):startdate;
 			req.setAttribute("startdate",startdate);
-			req.setAttribute("enddate",enddate);
+			req.setAttribute("year",DateUtil.getToday().substring(0, 4));
 			//得到月份
 			List<Sys_unit> xzqhList = daoCtl.list(dao,Sys_unit.class,Sqls.create(" select id,name from sys_unit where unittype = 88 order by id asc "));
 			req.setAttribute("xzqhList",xzqhList);
