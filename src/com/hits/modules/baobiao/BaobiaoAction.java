@@ -173,6 +173,7 @@ public class BaobiaoAction extends BaseAction {
 			//开始处理报表数据
 			Map<String,String> srMap = new HashMap<String, String>();
 			Map<String,String> zcMap = new HashMap<String, String>();
+			Map<String,String> ylMap = new HashMap<String, String>();
 			//查询月度支出
 			String sqlstr="select CONCAT(YEAR(fkrq),'-',DATE_FORMAT(fkrq,'%m')) months ,sum(sfjk) as "
 					+ "count_amount from l_hkzd WHERE fkrq BETWEEN '"+firstday+"' AND '"+endday+"' group by months";
@@ -181,12 +182,25 @@ public class BaobiaoAction extends BaseAction {
 			sqlstr="select CONCAT(YEAR(add_time),'-',DATE_FORMAT(add_time,'%m')) months ,sum(yfjk) as "
 					+ "count_amount from l_jsgg WHERE add_time BETWEEN '"+firstday+"' AND '"+endday+"' group by months";
 			srMap = daoCtl.getHTable(dao, Sqls.create(sqlstr));
-			JSONArray array = new JSONArray();
-			req.setAttribute("charsData", array.toString());
+			//盈利情况
+			for(String month : months){
+				int sr = 0;
+				int zc = 0;
+				if(EmptyUtils.isNotEmpty(srMap.get(month))){
+					sr = Integer.valueOf(srMap.get(month));
+				}
+				if(EmptyUtils.isNotEmpty(zcMap.get(month))){
+					zc = Integer.valueOf(zcMap.get(month));
+				}
+				String yl =  (sr - zc)+"";
+				ylMap.put(month, yl);
+			}
 			req.setAttribute("srMap",srMap);
 			req.setAttribute("zcMap",zcMap);
+			req.setAttribute("ylMap",ylMap);
 			req.setAttribute("srzj", daoCtl.getStrRowValue(dao, Sqls.create("select sum(yfjk) from l_jsgg where add_time between '" + firstday + "' and '" + endday + "'")));
 			req.setAttribute("zczj", daoCtl.getStrRowValue(dao, Sqls.create("select sum(sfjk) from l_hkzd where fkrq between '" + firstday + "' and '" + endday + "'")));
+			req.setAttribute("ylzj", daoCtl.getStrRowValue(dao, Sqls.create("select sr.sum-zc.sum as count_amount from (select sum(yfjk) as sum from l_jsgg WHERE add_time BETWEEN'" + firstday + "' and '" + endday + "')sr,(select sum(sfjk) as sum from l_hkzd WHERE fkrq BETWEEN '" + firstday + "' and '" + endday + "' )zc")));
 		}catch (Exception e){
 			e.printStackTrace();
 		}

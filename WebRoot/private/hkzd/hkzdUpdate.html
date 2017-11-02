@@ -112,7 +112,14 @@
 							<option value="">请选择</option> #foreach($!isfh in $!isfhMap)
 							<option value="$!isfh.value">$!isfh.name</option> #end
 					</select>
-					<script type="text/javascript">selected(document.form1.isfh,"$!hkzd.isfh")</script>
+					<script type="text/javascript">selected(document.form1.isfk,"$!hkzd.isfk")</script>
+					</td>
+				</tr>
+				<tr>
+					<td align="right" width="15%">用途：</td>
+					<td colspan="3">
+					<select onchange="selectCascade(this,'00010041')" verify="NotNull" iscascade="yt_0" loadselect="loadSelect(this,'00010041',1)" name="yt" id="yt" selectedvalue="$!hkzd.yt">
+      				<option value=" ">请选择</option>
 					</td>
 				</tr>
 				<tr>
@@ -148,8 +155,8 @@
 			</td> 
 				</tr>
 				<tr>
-					<td align="right" width="15%">用途：</td>
-					<td algin="left" colspan="3"><textarea rows="3" style="width: 77.5%" name = "yt" id="yt">$!hkzd.yt</textarea></td>
+					<td align="right" width="15%">备注：</td>
+					<td algin="left" colspan="3"><textarea rows="3" style="width: 77.5%" name = "bz" id="bz">$!hkzd.bz</textarea></td>
 				</tr>
 				</tbody>
 			</table>

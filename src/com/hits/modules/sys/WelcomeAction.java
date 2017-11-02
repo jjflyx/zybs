@@ -425,7 +425,6 @@ public class WelcomeAction extends BaseAction {
 			List<Map<String,String>> list = (List<Map<String, String>>) qr.getList();
 			//重新组装数据
 			for(int i=0;i<list.size();i++){
-				list.get(i).put("xyzt_type", comUtil.xyztlx.get(StringUtil.null2String(list.get(i).get("xyzt_type"))));
 				int heib=StringUtil.StringToInt(StringUtil.null2String(list.get(i).get("heib")),0);
 				int hongb=StringUtil.StringToInt(StringUtil.null2String(list.get(i).get("hongb")),0);
 				list.get(i).put("status",getStatusByCC(heib, hongb));

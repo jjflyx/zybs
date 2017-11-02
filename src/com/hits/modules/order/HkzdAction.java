@@ -94,14 +94,15 @@ public class HkzdAction extends BaseAction{
 		sql += " order by fkrq desc";
 		QueryResult qr = daoCtl.listPage(dao,HkzdBean.class ,curPage, pageSize,Sqls.create(sql),cri);
 		List<Map<String,Object>> list = (List<Map<String, Object>>) qr.getList();
-		sql="select code,name from Cs_value where typeid = '00010040'";
-		Map<String,String> loadselectMap=daoCtl.getHTable(dao, Sqls.create(sql));
 		sql="select userid,realname from sys_user where unitid=0016";
 		Map<String,String> userMap=daoCtl.getHTable(dao, Sqls.create(sql));
 		for(int i=0;i<list.size();i++){
 			//获取购买途径
 			String gmtj=StringUtil.null2String(list.get(i).get("gmtj"));
-			list.get(i).put("gmtj",loadselectMap.get(gmtj));
+			list.get(i).put("gmtj",comUtil.gmtjMap.get(gmtj));
+			//获取用途
+			String yt=StringUtil.null2String(list.get(i).get("yt"));
+			list.get(i).put("yt",comUtil.zcytMap.get(yt));
 			//获取客户单位名称
 			String unitname = StringUtil.null2String(list.get(i).get("userid"));
 			list.get(i).put("userid", userMap.get(unitname));
@@ -134,7 +135,6 @@ public class HkzdAction extends BaseAction{
 			re.set(false);
 			Trans.exec(new Atom() {
 				public void run() {
-					System.out.println("===============>"+hkzd.getIsfk());
 					hkzd.setActor(user.getLoginname());
 					hkzd.setZdid(getHtid());
 					hkzd.setCreate_time(DateUtil.getCurDateTime());
@@ -234,6 +234,7 @@ public class HkzdAction extends BaseAction{
 		System.out.println(daoCtl.detailById(dao, Sys_user.class, userid).getRealname());
 		hkzd.setUserid(daoCtl.detailById(dao, Sys_user.class, userid).getRealname());
 		hkzd.setGmtj(YWCL.getValueFromCs(daoCtl, dao, "00010040", hkzd.getGmtj()));
+		hkzd.setYt(YWCL.getValueFromCs(daoCtl, dao, "00010041", hkzd.getYt()));
 		hkzd.setIsfk(YWCL.getValueFromCs(daoCtl, dao, "00010038", hkzd.getIsfk()));
 		req.setAttribute("fileList", daoCtl.getMulRowValue(dao, Sqls.create("select filename,filepath from file_info where tablekey='"+id+"' and tablename='l_hkzd' order by create_time asc")));
 		req.setAttribute("hkzd", hkzd);

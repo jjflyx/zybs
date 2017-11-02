@@ -1138,7 +1138,6 @@ public class YYFormAction extends BaseAction {
 		req.setAttribute("fbTable", JSONObject.fromObject(fbtype));
 		req.setAttribute("cjMap", cjtype);
 		req.setAttribute("xyztMap", comUtil.xyztlxMap);
-		req.setAttribute("ztTable", JSONObject.fromObject(comUtil.xyztlx));
 		req.setAttribute("statusMap", JSONObject.fromObject(comUtil.statusMap));
 	}
 	

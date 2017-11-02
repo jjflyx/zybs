@@ -36,8 +36,16 @@ public class HkzdBean {
 	private String  yt;//用途
 	@Column
 	private String  create_time;//创建时间
+	@Column
+	private String  bz;//创建时间
 	
 	
+	public String getBz() {
+		return bz;
+	}
+	public void setBz(String bz) {
+		this.bz = bz;
+	}
 	public String getIsfk() {
 		return isfk;
 	}

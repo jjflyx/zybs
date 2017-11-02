@@ -67,7 +67,6 @@ public class FormAction extends BaseAction {
 	@At
 	@Ok("->:/private/form/formDefList.html")
 	public void tolist(HttpSession session,HttpServletRequest req) {
-		req.setAttribute("xyMap", JSONObject.fromObject(comUtil.sxxwtypeMap));
 		req.setAttribute("csvalueList", comUtil.sxxwtypeList);
 	}
 	
