@@ -183,6 +183,18 @@
 				                        }
 									},
 									{
+										title : '用途',
+										field : 'yt',
+										align : "center",
+										width : getWidth(0.08),
+										formatter : function(val,rec){
+				                            if(val!=null && val!=""){
+				                            	val = isfhHash[val];
+				                            }
+				                            return val;
+				                        }
+									},
+									{
 										field : "e",
 										title : "操作",
 										width : getWidth(0.1),
