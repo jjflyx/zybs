@@ -74,6 +74,7 @@ public class HkzdAction extends BaseAction{
 		fzrMap=daoCtl.list(dao, sql);
 		req.setAttribute("fzrMap", fzrMap);
 		req.setAttribute("isfhMap",comUtil.isfhMap);
+		req.setAttribute("ytList",comUtil.ytList);
 	}
 	
 	//订单页面

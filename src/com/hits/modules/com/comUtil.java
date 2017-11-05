@@ -75,7 +75,8 @@ public class comUtil {
 	public static Hashtable<String, String> formHtmlMap = new Hashtable<String,String>();//表单内容初始化
 	/************信用主体初始化参数结束*****************************/
 	public static Map<String,String> gmtjMap = new HashMap<String,String>();//购买途径
-	public static Map<String,String> zcytMap = new HashMap<String,String>();//购买途径
+	public static Map<String,String> zcytMap = new HashMap<String,String>();//用途
+	public static List<Map> ytList = new ArrayList<Map>();//是否发货
     /*************以下来自sys_templateconfig*******************/
     /*************以上来自sys_templateconfig*******************/
 	public static String taskGroup="gtxt";
@@ -199,6 +200,7 @@ public class comUtil {
 			gmtjMap=daoCtl.getHTable(dao, sql);
 		}else if("00010041".equals(typeid)){
 			zcytMap=daoCtl.getHTable(dao, sql);
+			ytList=daoCtl.list(dao, sql);
 		}else if("00010004".equals(typeid)){
 			xzqh=daoCtl.getHTable(dao, sql);
 			xzqhList=daoCtl.list(dao, Cs_value.class, sql);
