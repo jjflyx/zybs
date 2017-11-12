@@ -217,7 +217,7 @@ public class OrderAction extends BaseAction{
 	public void toUpdate(@Param("htid") String id,HttpServletRequest req,HttpSession session){
 		OrderBean order = daoCtl.detailByName(dao, OrderBean.class, id);
 		req.setAttribute("order", order);
-		req.setAttribute("fileList", daoCtl.getMulRowValue(dao, Sqls.create("select filename,filepath||'*'||filesize from file_info where tablekey='"+id+"' and tablename='l_jsgg' order by create_time asc")));
+		req.setAttribute("fileList", daoCtl.getMulRowValue(dao, Sqls.create("select filename,CONCAT_WS('*',filepath, filesize) from file_info where tablekey='"+id+"' and tablename='l_jsgg' order by create_time asc")));
 		req.setAttribute("isfhMap", comUtil.isfhMap);
 		Sql sql=Sqls.create("select id,name from sys_unit where unittype=88");
 		List<Map> unitMap = new ArrayList<Map>();
