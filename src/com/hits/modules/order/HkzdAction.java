@@ -175,7 +175,7 @@ public class HkzdAction extends BaseAction{
 	public void toUpdate(@Param("zdid") String id,HttpServletRequest req,HttpSession session){
 		HkzdBean hkzd = daoCtl.detailByName(dao, HkzdBean.class, id);
 		req.setAttribute("hkzd", hkzd);
-		req.setAttribute("fileList", daoCtl.getMulRowValue(dao, Sqls.create("select filename,filepath||'*'||filesize from file_info where tablekey='"+id+"' and tablename='l_hkzd' order by create_time asc")));
+		req.setAttribute("fileList", daoCtl.getMulRowValue(dao, Sqls.create("select filename,CONCAT_WS('*',filepath, filesize) from file_info where tablekey='"+id+"' and tablename='l_jsgg' order by create_time asc")));
 		req.setAttribute("isfhMap", comUtil.isfhMap);
 		Sql sql=Sqls.create("select userid,realname from sys_user where unitid=0016");
 		List<Map> fzrMap = new ArrayList<Map>();
