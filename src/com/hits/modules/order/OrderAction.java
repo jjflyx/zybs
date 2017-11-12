@@ -322,11 +322,12 @@ public class OrderAction extends BaseAction{
 			String sqlzj = "";
 			sqlstr = "select ddmc,unitid,hhgg,add_time,yfjk from l_jsgg where isfh='0002' ";
 			sqlzj = "select sum(yfjk) as zj from l_jsgg where isfh='0002'";
-			if(EmptyUtils.isNotEmpty(unitid)){
-				sqlstr+=" and unitid='"+unitid+"' ";
-				sqlzj+=" and unitid='"+unitid+"' ";
-			}
-			if(EmptyUtils.isNotEmpty(czrunitid)){
+			if("0016".equals(czrunitid)){
+				if(EmptyUtils.isNotEmpty(unitid)){
+					sqlstr+=" and unitid='"+unitid+"' ";
+					sqlzj+=" and unitid='"+unitid+"' ";
+				}
+			}else{
 				sqlstr+=" and unitid='"+czrunitid+"' ";
 				sqlzj+=" and unitid='"+czrunitid+"' ";
 			}
