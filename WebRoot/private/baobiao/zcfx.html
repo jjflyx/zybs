@@ -38,10 +38,6 @@
 		.divcss5-b{ overflow-y:scroll; overflow-x:scroll;} 
 	</style>
 	<script>
-	#if($msg)
-		alert('$!msg');
-	#end
-	
 
 	var xyNameMap=getCustomeMap('$!xyNameMap');
 
@@ -83,6 +79,28 @@
 </head>
 <body leftmargin="0" topmargin="0">
 <form name='form1' id="form1" method='post' action="${base}/private/baobiao/zcfx">
+	<div id="searchArea" region="north" border="false" style="overflow: hidden; padding: 10px 10px 0px 10px">
+		<table width="96%" border="0" cellspacing="0" cellpadding="6" >
+			<tr>
+				<td nowrap>
+					&nbsp;&nbsp;时间：
+					<input id="startdate" name="startdate" type="text" size="12" readonly class="Wdate" onClick="WdatePicker()" value="$!startdate" />
+					至
+					<input id="enddate" name="enddate" type="text" size="12" class="Wdate" onClick="WdatePicker()" value="$!enddate"  readonly="readonly" />
+					&nbsp;&nbsp;
+					<input class="button" type="button" id="dosearch" name="dosearch" value="查   询" onclick="loadData();" />
+					&nbsp;&nbsp;
+					<input class="button" type="button" id="dosearch" name="dosearch" value="导出Excel" onclick="toprintln();" />
+					&nbsp;&nbsp;
+					<input type="button" class="button" id="showExcel" onclick="getExcel();" value="Excel报表"  />
+				</td>
+			</tr>
+			<tr id="bz1" style="display:block">
+				<td>
+				</td>
+			</tr>
+		</table>
+	</div>
 	<!-- content area -->
 	<div region="center" border="false" id="printnote" style="height: 100%; padding: 0px 0px 10px 10px;" >
 		<div id="biaotou">
