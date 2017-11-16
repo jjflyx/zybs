@@ -83,16 +83,10 @@
 		<table width="96%" border="0" cellspacing="0" cellpadding="6" >
 			<tr>
 				<td nowrap>
-					&nbsp;&nbsp;时间：
-					<input id="startdate" name="startdate" type="text" size="12" readonly class="Wdate" onClick="WdatePicker()" value="$!startdate" />
-					至
-					<input id="enddate" name="enddate" type="text" size="12" class="Wdate" onClick="WdatePicker()" value="$!enddate"  readonly="readonly" />
+					&nbsp;&nbsp;年份：
+					<input id="startdate" name="startdate" type="text" size="12" readonly class="Wdate" onClick="WdatePicker({dateFmt:'yyyy'});" value="$!startdate" />
 					&nbsp;&nbsp;
 					<input class="button" type="button" id="dosearch" name="dosearch" value="查   询" onclick="loadData();" />
-					&nbsp;&nbsp;
-					<input class="button" type="button" id="dosearch" name="dosearch" value="导出Excel" onclick="toprintln();" />
-					&nbsp;&nbsp;
-					<input type="button" class="button" id="showExcel" onclick="getExcel();" value="Excel报表"  />
 				</td>
 			</tr>
 			<tr id="bz1" style="display:block">

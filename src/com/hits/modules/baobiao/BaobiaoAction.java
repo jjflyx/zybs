@@ -1,10 +1,15 @@
 package com.hits.modules.baobiao;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONArray;
@@ -45,7 +50,25 @@ public class BaobiaoAction extends BaseAction {
 	@Inject
 	protected Dao dao;
 
-	
+	public void doPost(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
+		List<Chart> chartlist =new ArrayList<Chart>();
+		for(int i=0;i<9;i++){
+			Chart chart=new Chart();
+			chart.setTime("0"+i+":00-0"+(i+1)+":00");
+			chart.setSumCount((i+2)*100);
+			chart.setIpCount((i+1)*100);
+			chartlist.add(chart);
+		}
+		JSONObject param=new JSONObject();
+		JSONArray json = JSONArray.fromObject(chartlist);
+		param.put("RowCount", chartlist.size());
+		param.put("Rows", json);
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out=response.getWriter();
+		out.println(param.toString());
+		out.flush();
+		out.close();
+	}
 	@At
 	@Ok("->:/private/baobiao/zsr.html")
 	public void zsr(HttpSession session, HttpServletRequest req, @Param("startdate") String startdate,
