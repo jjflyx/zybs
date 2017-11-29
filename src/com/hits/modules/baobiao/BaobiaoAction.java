@@ -50,25 +50,6 @@ public class BaobiaoAction extends BaseAction {
 	@Inject
 	protected Dao dao;
 
-	public void doPost(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
-		List<Chart> chartlist =new ArrayList<Chart>();
-		for(int i=0;i<9;i++){
-			Chart chart=new Chart();
-			chart.setTime("0"+i+":00-0"+(i+1)+":00");
-			chart.setSumCount((i+2)*100);
-			chart.setIpCount((i+1)*100);
-			chartlist.add(chart);
-		}
-		JSONObject param=new JSONObject();
-		JSONArray json = JSONArray.fromObject(chartlist);
-		param.put("RowCount", chartlist.size());
-		param.put("Rows", json);
-		response.setContentType("text/html;charset=utf-8");
-		PrintWriter out=response.getWriter();
-		out.println(param.toString());
-		out.flush();
-		out.close();
-	}
 	@At
 	@Ok("->:/private/baobiao/zsr.html")
 	public void zsr(HttpSession session, HttpServletRequest req, @Param("startdate") String startdate,
@@ -241,6 +222,9 @@ public class BaobiaoAction extends BaseAction {
 	@At
 	public void ywfxcl(HttpSession session, HttpServletResponse response,HttpServletRequest req) throws IOException{
 		List<Chart> chartlist =new ArrayList<Chart>();
+		//订货单位所有账目信息
+		Map<String,String> zjMap = new HashMap<String, String>();//总计
+		//sqlstr = "select unitid ,sum(yfjk) from l_jsgg where add_time between '" + startdate + "' and '" + enddate + "' group by unitid";
 		for(int i=0;i<9;i++){
 			Chart chart=new Chart();
 			chart.setTime("0"+i+":00-0"+(i+1)+":00");
@@ -257,6 +241,8 @@ public class BaobiaoAction extends BaseAction {
 		out.println(param.toString());
 		out.flush();
 		out.close();
+		Gson gson = new Gson();
+		
 	}
 	
 	

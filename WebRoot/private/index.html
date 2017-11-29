@@ -30,24 +30,6 @@
 					<div class="top_right" >
 								
 						<ul>
-						
-						<!-- 
-							<li>
-								<a href="#" class="png"><img
-										src="${base}/include/img/r_icon4.png" width="34" height="30"
-										border="0" class="png" />
-								</a>
-							</li>
-							<li>
-								<a href="javascript:openChangeStyle()" class="png"><img
-										src="${base}/include/img/r_icon1.png" width="34" height="30"
-										border="0" class="png" />
-								</a>
-							</li>
-						 	<li style="width:65px">
-								<input type="button" value="个人信息" onclick="changePassword()" style="cursor:pointer;background:#1779BD;color:white;border:none;font-size:14px;margin-top:2px;">
-						 	</li>
-						 -->
 						 	<li>
 						 	<a href="javascript:changePassword();" title="个人信息" class="png"><img
 										src="${base}/include/img/r_icon5.png" width="34" height="30"
@@ -73,14 +55,10 @@
 					</div>
 					<div class="top_left">
 						<div class="top_logo png"><h1 class="png">$!app_name</h1></div>
-	                        <!--<div class="top_sysVer"><div class="sysVer_no png"><span class="png">$!version</span></div>
-	                         <div class="sysVer_text"><span class="png">省级</span></div>
-                        </div> -->
 					</div>
 					<!--系统菜单切换-->
 					<div class="topmain_right">
 						#if("$!user.unitid"=="0001")
-
 						<div style="padding-top: 8px; text-align: center;">
 							<select name="appname" id="appname"></select>
 						</div>
@@ -115,18 +93,6 @@
 							<!--Class Mmenu and Mmenu_this-->
 						</ul>
 					</div>
-
-					<!--来电显示区域-->
-					#if("$!cti"=="cti")
-					<div class="Nmenu_tel">
-						来电号码：
-						<span id="ldhm">&nbsp;</span>
-						来电时间：
-						<span id="ldsj">&nbsp;</span>
-						分机号：
-						<span>$!user.loginname</span>
-					</div>
-					#end
 					<div class="clear"></div>
 				</div>
 			</div>
@@ -177,7 +143,7 @@
 								height="100%" src="tabs.html"></iframe>
 						</div>
 						<!--页脚-->
-						<div id="footbox">
+						<div id="footbox" >
 			                 <div class="foot">
 	                            <div class="footerText">
 									&copy; 2017-2018 技术支持：金建峰
