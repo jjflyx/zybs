@@ -171,7 +171,7 @@ public class BaobiaoAction extends BaseAction {
 			if(!EmptyUtils.isEmpty(startdate)){
 				endday = startdate +"-12-31";
 			}
-			//得到月份
+			//得到单位
 			List<Sys_unit> xzqhList = daoCtl.list(dao,Sys_unit.class,Sqls.create(" select id,name from sys_unit where unittype = 88 order by id asc "));
 			req.setAttribute("xzqhList",xzqhList);
 			List<String> months = DateUtil.getMonthBetween(firstday,endday);
@@ -219,17 +219,27 @@ public class BaobiaoAction extends BaseAction {
 		
 	}
 	
+	/**
+	 * 各个广告所占份额
+	 * @param session
+	 * @param response
+	 * @param req
+	 * @throws IOException
+	 */
 	@At
-	public void ywfxcl(HttpSession session, HttpServletResponse response,HttpServletRequest req) throws IOException{
+	public void ggdfe(HttpSession session, HttpServletResponse response,HttpServletRequest req) throws IOException{
 		List<Chart> chartlist =new ArrayList<Chart>();
+		//得到列，订货单位
+		List<Sys_unit> unitList = daoCtl.list(dao,Sys_unit.class,Sqls.create(" select id,name from "
+				+ "sys_unit where unittype = 88 order by id asc "));
 		//订货单位所有账目信息
 		Map<String,String> zjMap = new HashMap<String, String>();//总计
-		//sqlstr = "select unitid ,sum(yfjk) from l_jsgg where add_time between '" + startdate + "' and '" + enddate + "' group by unitid";
-		for(int i=0;i<9;i++){
+		String sqlstr = "select unitid ,sum(yfjk) from l_jsgg group by unitid";
+		zjMap = daoCtl.getHTable(dao, Sqls.create(sqlstr));
+		for(Sys_unit unit : unitList){
 			Chart chart=new Chart();
-			chart.setTime("0"+i+":00-0"+(i+1)+":00");
-			chart.setSumCount((i+2)*100);
-			chart.setIpCount((i+1)*100);
+			chart.setTime(unit.getName());
+			chart.setSumCount(zjMap.get(unit.getId()));
 			chartlist.add(chart);
 		}
 		JSONObject param=new JSONObject();
@@ -242,8 +252,58 @@ public class BaobiaoAction extends BaseAction {
 		out.flush();
 		out.close();
 		Gson gson = new Gson();
-		
 	}
 	
-	
+	/**
+	 * 收入折线图
+	 * @param session
+	 * @param response
+	 * @param req
+	 * @throws IOException
+	 */
+	@At
+	public void srzxq(HttpSession session, HttpServletResponse response,HttpServletRequest req) throws IOException{
+		List<Chart> chartlist =new ArrayList<Chart>();
+		String[] months = DateUtil.getLast12Months();
+		for(int i=0;i<months.length;i++){
+			System.out.println("====>"+months);
+		}
+		/*//查询月度支出
+		String sqlstr="select CONCAT(YEAR(fkrq),'-',DATE_FORMAT(fkrq,'%m')) months ,sum(sfjk) as "
+				+ "count_amount from l_hkzd WHERE fkrq BETWEEN '"+firstday+"' AND '"+endday+"' group by months";
+		zcMap = daoCtl.getHTable(dao,Sqls.create(sqlstr));
+		//查询月度收入
+		sqlstr="select CONCAT(YEAR(add_time),'-',DATE_FORMAT(add_time,'%m')) months ,sum(yfjk) as "
+				+ "count_amount from l_jsgg WHERE add_time BETWEEN '"+firstday+"' AND '"+endday+"' group by months";
+		srMap = daoCtl.getHTable(dao, Sqls.create(sqlstr));
+		//盈利情况
+		for(String month : months){
+			int sr = 0;
+			int zc = 0;
+			if(EmptyUtils.isNotEmpty(srMap.get(month))){
+				sr = Integer.valueOf(srMap.get(month));
+			}
+			if(EmptyUtils.isNotEmpty(zcMap.get(month))){
+				zc = Integer.valueOf(zcMap.get(month));
+			}
+			String yl =  (sr - zc)+"";
+			ylMap.put(month, yl);
+		}
+		for(Sys_unit unit : unitList){
+			Chart chart=new Chart();
+			chart.setTime(unit.getName());
+			chart.setSumCount(zjMap.get(unit.getId()));
+			chartlist.add(chart);
+		}*/
+		JSONObject param=new JSONObject();
+		JSONArray json = JSONArray.fromObject(chartlist);
+		param.put("RowCount", chartlist.size());
+		param.put("Rows", json);
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out=response.getWriter();
+		out.println(param.toString());
+		out.flush();
+		out.close();
+		Gson gson = new Gson();
+	}
 }

@@ -2,7 +2,7 @@ package com.hits.modules.baobiao;
 
 public class Chart {
 	private String Time;
-	private Integer SumCount;
+	private String SumCount;
 	private Integer IpCount;
 	public String getTime() {
 		return Time;
@@ -10,10 +10,10 @@ public class Chart {
 	public void setTime(String time) {
 		Time = time;
 	}
-	public Integer getSumCount() {
+	public String getSumCount() {
 		return SumCount;
 	}
-	public void setSumCount(Integer sumCount) {
+	public void setSumCount(String sumCount) {
 		SumCount = sumCount;
 	}
 	public Integer getIpCount() {

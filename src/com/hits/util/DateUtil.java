@@ -26,7 +26,31 @@ public class DateUtil {
     static public SimpleDateFormat yyyyMMddEStr = new SimpleDateFormat("yyyy-MM-dd E");
     static public SimpleDateFormat time = new SimpleDateFormat("HH24mmss");
 
+    public static String[] getLast12Months(){
+		String[] last12Months = new String[12];
+		Calendar cal = Calendar.getInstance();
+		for(int i=0; i<12; i++){
+			 if(cal.get(Calendar.MONTH)-i<1){
+				 last12Months[11-i] = cal.get(Calendar.YEAR)-1+ "-" + fillZero((cal.get(Calendar.MONTH)-i+12*1));
+			 }else{
+				 last12Months[11-i] = cal.get(Calendar.YEAR)+ "-" + fillZero((cal.get(Calendar.MONTH)-i));
+			 }
+		}
+		return last12Months;
+	}
 
+
+	public static String fillZero(int i){
+			String str="";
+			if(i>0&&i<10){
+				str = "0"+i;
+			}else{
+				str=""+i;
+			}
+			return str;
+			
+		}
+    
     /**
      * 得到当前时间的年月
      *
@@ -72,6 +96,13 @@ public class DateUtil {
         return Integer.parseInt(day.substring(0, 4));
     }
     
+    /**
+     * 获取指定日期中的月份
+     * @param minDate
+     * @param maxDate
+     * @return
+     * @throws ParseException
+     */
     public static List<String> getMonthBetween(String minDate, String maxDate) throws ParseException {
     	 ArrayList<String> result = new ArrayList<String>();
     	 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");//格式化为年月
