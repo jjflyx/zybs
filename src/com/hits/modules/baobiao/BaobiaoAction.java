@@ -266,7 +266,7 @@ public class BaobiaoAction extends BaseAction {
 		List<Chart> chartlist =new ArrayList<Chart>();
 		String[] months = DateUtil.getLast12Months();
 		for(int i=0;i<months.length;i++){
-			System.out.println("====>"+months);
+			System.out.println("====>"+months[i]);
 		}
 		/*//查询月度支出
 		String sqlstr="select CONCAT(YEAR(fkrq),'-',DATE_FORMAT(fkrq,'%m')) months ,sum(sfjk) as "
