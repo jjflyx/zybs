@@ -13,6 +13,7 @@ import org.nutz.dao.entity.annotation.Name;
 @Table("FILE_INFO")
 public class File_info 
 {
+	
 	@Column
 	@Name
 	private String id;
@@ -32,6 +33,16 @@ public class File_info
 	private String tablekey;
 	@Column
 	private String fieldname;
+	
+	public static File_info getFj(String tablename, String tableid,  String filename, String fileurl,String filesize) {
+		File_info fj = new File_info();
+		fj.setTablename(tablename.toUpperCase());
+		fj.setTablekey(tableid);
+		fj.setFilename(filename);
+		fj.setFilepath(fileurl);
+		fj.setFilesize(filesize);
+		return fj;
+	}
 	
 	public String getTablename() {
 		return tablename;

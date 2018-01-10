@@ -64,7 +64,12 @@ public class comUtil {
 	public static String fileurl = "";// 上传文件访问路径(内网)
 	public static String fileurl_ww = "";// 上传文件访问路径(外网)
     /*************以上来自sys_userparamcofig*******************/
-
+	/*图片上传文件类型配置*/
+	public static String images = "";// 图片
+	public static String document = "";// 文档
+	public static String music = "";// 音乐
+	public static String video = "";// 视频
+	public static String archive = "";// 其他
 	/************信用主体初始化参数*****************************/
 	public static Map<String,String> xyztMap = null;  // 信用主体Map，格式：键：信用主体id，值：主体名称☆统一社会信用代码☆组织机构代码
 	public static Map<Integer,String> logCzMap = new HashMap<Integer,String>(); // 信用主体日志操作参数
@@ -76,7 +81,8 @@ public class comUtil {
 	/************信用主体初始化参数结束*****************************/
 	public static Map<String,String> gmtjMap = new HashMap<String,String>();//购买途径
 	public static Map<String,String> zcytMap = new HashMap<String,String>();//用途
-	public static List<Map> ytList = new ArrayList<Map>();//是否发货
+	public static List<Map> gmtjList = new ArrayList<Map>();//购买途径 
+	public static List<Map> ytList = new ArrayList<Map>();//用途
     /*************以下来自sys_templateconfig*******************/
     /*************以上来自sys_templateconfig*******************/
 	public static String taskGroup="gtxt";
@@ -195,8 +201,7 @@ public class comUtil {
 			xydj=daoCtl.getHTable(dao, sql);
 			xydjList=daoCtl.list(dao, sql);
 		}else if("00010040".equals(typeid)){
-			gmtjMap=daoCtl.getHTable(dao, sql);
-		}else if("00010040".equals(typeid)){
+			gmtjList = daoCtl.list(dao, sql);
 			gmtjMap=daoCtl.getHTable(dao, sql);
 		}else if("00010041".equals(typeid)){
 			zcytMap=daoCtl.getHTable(dao, sql);
@@ -285,6 +290,11 @@ public class comUtil {
 		filepath = ht.get("filepath");
 		fileurl = ht.get("fileurl");
 		fileurl_ww = ht.get("fileurl_ww");
+		images = ht.get("file-images");
+		music = ht.get("file-music");
+		video = ht.get("file-video");
+		document = ht.get("file-document");
+		archive = ht.get("file-archive");
 	}
 	
 	/*

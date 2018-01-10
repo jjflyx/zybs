@@ -39,6 +39,7 @@ import com.hits.common.filter.GlobalsFilter;
 import com.hits.common.filter.UserLoginFilter;
 import com.hits.common.util.DateUtil;
 import com.hits.common.util.StringUtil;
+import com.hits.modules.com.comUtil;
 
 /**
  * 类描述： 创建人：Wizzer 联系方式：www.wizzer.cn 创建时间：2013-12-17 下午1:12:37
@@ -283,4 +284,20 @@ public class FileAction extends BaseAction {
 		}
 		return msg;
 	}
+	public static  String getFiletype(String suffixname){
+		if(comUtil.archive.indexOf(suffixname)!=-1){
+			return "archive";
+		}else if(comUtil.document.indexOf(suffixname)!=-1){
+			return "document";
+		}else if(comUtil.music.indexOf(suffixname)!=-1){
+			return "music";
+		}else if(comUtil.video.indexOf(suffixname)!=-1){
+			return "video";
+		}else if(comUtil.images.indexOf(suffixname)!=-1){
+			return "images";
+		}else{
+			return "other";
+		}
+	}
+	
 }

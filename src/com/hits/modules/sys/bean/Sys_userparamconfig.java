@@ -14,9 +14,6 @@ public class Sys_userparamconfig
 {
 	@Column
 	@Id
-	@Prev({
-		@SQL(db = DB.ORACLE, value="SELECT SYS_USERPARAMCONFIG_S.nextval FROM dual")
-	})
 	private int id;
 	@Column
 	private String typename;
