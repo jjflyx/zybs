@@ -83,6 +83,8 @@ public class comUtil {
 	public static Map<String,String> zcytMap = new HashMap<String,String>();//用途
 	public static List<Map> gmtjList = new ArrayList<Map>();//购买途径 
 	public static List<Map> ytList = new ArrayList<Map>();//用途
+	public static Map<String,String> hhggMap = new HashMap<String,String>();//货号规格
+	public static List<Map> hhggList = new ArrayList<Map>();//货号规格
     /*************以下来自sys_templateconfig*******************/
     /*************以上来自sys_templateconfig*******************/
 	public static String taskGroup="gtxt";
@@ -104,6 +106,7 @@ public class comUtil {
 		setHt(dao, daoCtl, "00010015");
 		setHt(dao, daoCtl, "00010016");
 		setHt(dao, daoCtl, "00010038");//是否发货
+		setHt(dao, daoCtl, "00010039");//货号规格
 		setHt(dao, daoCtl, "00010040");//购买途径
 		setHt(dao, daoCtl, "00010041");//支出用途
 		setHt(dao, daoCtl, "00020001");
@@ -200,6 +203,10 @@ public class comUtil {
 		if("00020004".equals(typeid)){
 			xydj=daoCtl.getHTable(dao, sql);
 			xydjList=daoCtl.list(dao, sql);
+		}else if("00010039".equals(typeid)){
+			//sql=Sqls.create("select value,name from cs_value where typeid='"+typeid+"' and state=0 and value like '____' order by location asc,id asc ");
+			hhggList = daoCtl.list(dao, sql);
+			hhggMap=daoCtl.getHTable(dao, sql);
 		}else if("00010040".equals(typeid)){
 			gmtjList = daoCtl.list(dao, sql);
 			gmtjMap=daoCtl.getHTable(dao, sql);

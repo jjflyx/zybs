@@ -267,7 +267,7 @@ public class OrderAction extends BaseAction{
     }
     
     /**
-	 * 前往订单修改页面
+	 * 前往订单详情页面
 	 */
 	@At
 	@Ok("->:/private/order/orderDetail.html")

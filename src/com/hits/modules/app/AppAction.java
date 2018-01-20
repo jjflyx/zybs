@@ -174,8 +174,10 @@ public class AppAction extends BaseAction {
 							user.setAddress(user.getAddress().trim());
 							dao.update(user);
 							Map<String, String> map = new HashMap<String, String>();
-							map.put("loginname",StringUtil.null2String(user.getLoginname()));
-							map.put("realname",StringUtil.null2String(user.getRealname()));
+							map.put("loginname",
+									StringUtil.null2String(user.getLoginname()));
+							map.put("unitid",
+									StringUtil.null2String(user.getUnitid()));
 							appModel.setObj(map);
 							appModel.setMsg("登录成功");
 						}
@@ -208,8 +210,7 @@ public class AppAction extends BaseAction {
 			public void run() {
 				// TODO Auto-generated method stub
 				AppCommonModel appModel = new AppCommonModel();
-				Sql sql = Sqls
-						.create("select id,name from sys_unit where unittype=88");
+				Sql sql = Sqls.create("select id,name from sys_unit where unittype=88");
 				List<Map> unitMap = new ArrayList<Map>();
 				unitMap = daoCtl.list(dao, sql);
 				appModel.setResult(1);
@@ -291,6 +292,35 @@ public class AppAction extends BaseAction {
 		return appModel;
 	}
 
+	@At
+	@Ok("json")
+	public AppCommonModel toaddOrderLoad() {
+		AppCommonModel appModel = new AppCommonModel();
+		try {
+			Map<String, Object> map = new HashMap<String, Object>();
+			Sql sql = Sqls
+					.create("select value,name as text from cs_value where typeid='00010039' and state=0 and value like '____' order by location asc,id asc ");
+			List<Map> hhggList = daoCtl.list(dao, sql);
+			List<Map> hhggChildren = new ArrayList<Map>();
+			for (Map<String, Object> hhgg : hhggList) {
+				String hhggvalue = hhgg.get("value").toString();
+				sql = Sqls
+						.create("select value,name as text from cs_value where typeid='00010039' and state=0 and value like '"
+								+ hhggvalue
+								+ "____'  order by location asc,id asc ");
+				hhggChildren = daoCtl.list(dao, sql);
+				hhgg.put("children", hhggChildren);
+			}
+			map.put("hhgg", hhggList);
+			appModel.setObj(map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			appModel.setResult(-1);
+			appModel.setMsg("请求错误");
+		}
+		return appModel;
+	}
+
 	/**
 	 * 根据条件查询订单信息
 	 * 
@@ -360,97 +390,100 @@ public class AppAction extends BaseAction {
 		}
 		return appModel;
 	}
-	
+
 	// 新增账单
 	@At
 	@Ok("json")
-	public AppCommonModel hkzdAdd(final HttpServletRequest request, HttpServletResponse response,@Param("..") final HkzdBean hkzd){
+	public AppCommonModel hkzdAdd(final HttpServletRequest request,
+			HttpServletResponse response, @Param("..") final HkzdBean hkzd) {
 		final ThreadLocal<AppCommonModel> re = new ThreadLocal<AppCommonModel>();
 		final AppCommonModel appModel = new AppCommonModel();
-		Trans.exec(new Atom(){
+		Trans.exec(new Atom() {
 			@Override
 			public void run() {
 				try {
-					//获取参数
-					WebMoreUploader upload = new WebMoreUploader(request);
-					//因为app传参为GBK格式，需转码
-					/**
-					 * 银行的UTF-8变为本地的GBk，但仔细一想，既然本地应用得到了post的数据，本地java文件的编码格式又为GBk，
-					 * 显然此时本地应用将银行post过来的中文编码格式不论是什么格式，都认为是GBK，按照GBK解码，所以就出现了乱码。
-					 * 找到问题的根源，就好办了，既然乱码的原因是将UTF-8编码的中文，解码时用了GBk来解码，
-					 * 那么解决办法就应该是将乱码重新用GBK编码，再用UTF-8解码。
-					 */
-					String zdmc=upload.getParameter("zdmc");
-					 URL url = new URL(zdmc);
-				        HttpURLConnection conn= (HttpURLConnection) url.openConnection();
-				        conn.setDoInput(true);
-				        conn.setDoOutput(true);
-				        conn.setRequestMethod("POST");
-				        conn.setUseCaches(false);
-				        conn.setInstanceFollowRedirects(true);
-				        conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-				        conn.connect();
-
-				        DataOutputStream out = new DataOutputStream( conn.getOutputStream());
-				        out.writeBytes(zdmc);
-				        out.flush();
-				        out.close();
-				        BufferedReader bfReader= new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
-
-				        String lines;
-				        StringBuffer sb = new StringBuffer();
-				        while ((lines = bfReader.readLine()) != null) {
-				            // utf-8 无需再次转码
-				            //lines = new String(lines.getBytes(), "UTF-8");
-				            sb.append(lines);
-				        }
-				        bfReader.close();
-
-				        // 断开连接
-				        conn.disconnect();
-				        System.out.println(sb.toString()+"------------------------");
-					
-					URLEncoder.encode(zdmc,"UTF-8");
-					System.out.println("====112=====>"+zdmc);
-					String gbk=URLEncoder.encode(zdmc,"GBK");
-					System.out.println("========3====>"+gbk);
-					 new String(gbk.getBytes("UTF-8"),"ISO-8859-1");   
-					//zdmc = new String(zdmc.getBytes("GBk"),"UTF-8");
-					//URLEncoder.encode(zdmc,"gbk");
-					String bz = upload.getParameter("bz");
-					bz = new String(bz.getBytes("GBK"),"UTF-8");
-					for(int i = 0;i <= bz.length();i++){
-						bz=java.net.URLDecoder.decode(bz, "UTF-8");
-						System.out.println("==============>"+i);
+					if(EmptyUtils.isNotEmpty(hkzd)){
+						hkzd.setZdid(HkzdAction.getHtid());
+						hkzd.setCreate_time(DateUtil.getCurDateTime());
+						HkzdBean newhkzd = daoCtl.addT(dao, hkzd);
+						if(EmptyUtils.isNotEmpty(newhkzd.getZdid())){
+							appModel.setObj(newhkzd.getZdid());
+							appModel.setResult(1);
+						}
 					}
-					hkzd.setZdmc(zdmc);
-					hkzd.setUserid(upload.getParameter("fkr"));
-					hkzd.setFkrq(upload.getParameter("fkrq"));
-					hkzd.setGmtj(upload.getParameter("gmtj"));
-					hkzd.setSfjk(upload.getParameter("yfjk"));
-					hkzd.setIsfk(upload.getParameter("isfk"));
-					hkzd.setYt(upload.getParameter("yt"));
-					hkzd.setBz(bz);
-					hkzd.setActor(upload.getParameter("loginname"));
-					hkzd.setZdid(HkzdAction.getHtid());
-					hkzd.setCreate_time(DateUtil.getCurDateTime());
-					dao.insert(hkzd);
-				    //保存图片
-					String[] fileType = {".gif" , ".png" , ".jpg" , ".jpeg" , ".bmp"};
+				} catch (Exception e) {
+					appModel.setResult(-1);
+					appModel.setMsg("数据提交失败");
+					e.printStackTrace();
+				}
+			}
+		});
+		return appModel;
+	}
+
+	@At
+	@Ok("json")
+	public AppCommonModel showIndex(@Param("loginname") String loginname) {
+		AppCommonModel appModel = new AppCommonModel();
+		try {
+			Sys_user user = daoCtl.detailByName(dao, Sys_user.class,
+					"loginname", loginname);
+			if (EmptyUtils.isNotEmpty(user)) {
+				Map<String, Object> map = new HashMap<String, Object>();
+				// 获取通知公告
+				/*
+				 * List<Map> noticeList=appService.getIndexNotice(1, 2);
+				 * map.put("notice", noticeList);
+				 */
+				// 单位办理数量
+				List<Object> list = appService.getGongDanCount();
+
+				map.put("gdcount", list);
+				appModel.setObj(map);
+			} else {
+				appModel.setResult(-1);
+				appModel.setMsg("用户不存在");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			appModel.setResult(-1);
+			appModel.setMsg("请求错误");
+		}
+		return appModel;
+	}
+
+	// 上传图片
+	@At
+	@Ok("json")
+	public AppCommonModel imagesUpload(final HttpServletRequest request,HttpServletResponse response) {
+		final ThreadLocal<AppCommonModel> re = new ThreadLocal<AppCommonModel>();
+		final AppCommonModel appModel = new AppCommonModel();
+		Trans.exec(new Atom() {
+			@Override
+			public void run() {
+				try {
+					// 获取参数
+					WebMoreUploader upload = new WebMoreUploader(request);
+					String htid = upload.getParameter("htid");
+					String tablename = upload.getParameter("tablename");
+					// 保存图片
+					String[] fileType = { ".gif", ".png", ".jpg", ".jpeg",".bmp" };
 					upload.setAllowFiles(fileType);
 					upload.upload();
-					for (UploadParam param :upload.uploadlist) {
+					for (UploadParam param : upload.uploadlist) {
 						if (param.getState().equals("SUCCESS")) {
-							File_info fj=File_info.getFj("l_hkzd", hkzd.getZdid()+"", param.getOriginalName(), "/index"+param.getUrl(),param.getSize());
+							File_info fj = File_info.getFj(tablename,htid + "",param.getOriginalName(),
+									"/index" + param.getUrl(), param.getSize());
 							dao.insert(fj);
 							appModel.setResult(1);
 							appModel.setMsg("保存成功");
-						}else{
+						} else {
 							appModel.setResult(-1);
 							appModel.setMsg("图片上传出现错误");
 							throw new RuntimeException("图片上传出现错误");
 						}
 					}
+					appModel.setResult(1);
 				} catch (Exception e) {
 					appModel.setResult(-1);
 					appModel.setMsg("数据提交失败");
@@ -461,5 +494,84 @@ public class AppAction extends BaseAction {
 		});
 		return appModel;
 	}
-	
+
+	@At
+	@Ok("json")
+	public AppCommonModel zdShow(@Param("htid") String htid) {
+		AppCommonModel appModel = new AppCommonModel();
+		Map<String, Object> map = new HashMap<>();
+		HkzdBean hkzd = daoCtl.detailByName(dao, HkzdBean.class, htid);
+		long userid = Long.parseLong(hkzd.getUserid());
+		System.out.println(daoCtl.detailById(dao, Sys_user.class, userid)
+				.getRealname());
+		hkzd.setUserid(daoCtl.detailById(dao, Sys_user.class, userid)
+				.getRealname());
+		hkzd.setGmtj(YWCL.getValueFromCs(daoCtl, dao, "00010040",
+				hkzd.getGmtj()));
+		hkzd.setYt(YWCL.getValueFromCs(daoCtl, dao, "00010041", hkzd.getYt()));
+		hkzd.setIsfk(YWCL.getValueFromCs(daoCtl, dao, "00010038",
+				hkzd.getIsfk()));
+		// req.setAttribute("fileList", daoCtl.getMulRowValue(dao,
+		// Sqls.create("select filename,filepath from file_info where tablekey='"+id+"' and tablename='l_hkzd' order by create_time asc")));
+		// req.setAttribute("hkzd", hkzd);
+		map.put("hkzd", hkzd);
+		// 附件
+		List<Map> fjList = daoCtl.list(dao,Sqls.create("select filename,filepath from file_info where tablename='l_hkzd' and tablekey='"
+		+ htid + "'"));
+		if (fjList.size() > 0) {
+			map.put("fjlist", fjList);
+		}
+		appModel.setObj(map);
+		return appModel;
+	}
+
+	@At
+	@Ok("json")
+	public AppCommonModel orderShow(@Param("htid") String htid) {
+		AppCommonModel appModel = new AppCommonModel();
+		Map<String, Object> map = new HashMap<>();
+		OrderBean order = daoCtl.detailByName(dao, OrderBean.class, htid);
+		order.setHhgg(YWCL.getValueFromCs(daoCtl, dao, "00010039",
+				order.getHhgg()));
+		order.setIsfh(YWCL.getValueFromCs(daoCtl, dao, "00010038",
+				order.getIsfh()));
+		Sys_unit unit = daoCtl.detailByName(dao, Sys_unit.class,
+				order.getUnitid());
+		map.put("unit", unit);
+		map.put("order", order);
+		/*
+		 * //附件 List<Map> fjList = daoCtl.list(dao, Sqls.create(
+		 * "select filename,filepath from file_info where tablename='l_hkzd' and tablekey='"
+		 * +htid+"'")); if (fjList.size()>0) { map.put("fjlist", fjList); }
+		 */
+		appModel.setObj(map);
+		return appModel;
+	}
+
+	@At
+	@Ok("json")
+	public AppCommonModel addOrder(@Param("..") final OrderBean order) {
+		final AppCommonModel appModel = new AppCommonModel();
+		Trans.exec(new Atom() {
+			@Override
+			public void run() {
+				if(EmptyUtils.isNotEmpty(order)){
+					order.setHtid(OrderAction.getHtid());
+					order.setCreate_time(DateUtil.getCurDateTime());
+					order.setXzqh_unit(daoCtl.detailByName(dao, Sys_unit.class, order.getUnitid()).getXzqh());
+					OrderBean neworder = daoCtl.addT(dao, order);
+					if(EmptyUtils.isNotEmpty(neworder.getHtid())){
+						appModel.setObj(order.getHtid());
+						appModel.setResult(1);
+					}else{
+						appModel.setResult(-1);
+					}
+				}else{
+					appModel.setResult(-1);
+				}
+			}
+		});
+		return appModel;
+	}
+
 }
