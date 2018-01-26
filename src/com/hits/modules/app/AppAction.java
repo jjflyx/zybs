@@ -115,10 +115,8 @@ public class AppAction extends BaseAction {
 	public AppCommonModel getHeadTitle() {
 		AppCommonModel appModel = new AppCommonModel();
 		try {
-			Sql sql = Sqls
-					.create("select typevalue from SYS_USERPARAMCONFIG where typename='app_name'");
+			Sql sql = Sqls.create("select typevalue from SYS_USERPARAMCONFIG where typename='app_name'");
 			String title = daoCtl.getStrRowValue(dao, sql);
-			System.out.println("----" + title);
 			title = EmptyUtils.isNotEmpty(title) ? title : "";
 
 			appModel.setObj(title);
@@ -298,8 +296,7 @@ public class AppAction extends BaseAction {
 		AppCommonModel appModel = new AppCommonModel();
 		try {
 			Map<String, Object> map = new HashMap<String, Object>();
-			Sql sql = Sqls
-					.create("select value,name as text from cs_value where typeid='00010039' and state=0 and value like '____' order by location asc,id asc ");
+			Sql sql = Sqls.create("select value,name as text from cs_value where typeid='00010039' and state=0 and value like '____' order by location asc,id asc ");
 			List<Map> hhggList = daoCtl.list(dao, sql);
 			List<Map> hhggChildren = new ArrayList<Map>();
 			for (Map<String, Object> hhgg : hhggList) {
@@ -437,7 +434,7 @@ public class AppAction extends BaseAction {
 				 */
 				// 单位办理数量
 				List<Object> list = appService.getGongDanCount();
-
+				System.out.println();
 				map.put("gdcount", list);
 				appModel.setObj(map);
 			} else {
@@ -571,6 +568,17 @@ public class AppAction extends BaseAction {
 				}
 			}
 		});
+		return appModel;
+	}
+	
+	@At
+	@Ok("json")
+	public AppCommonModel getGgdfe() {
+		AppCommonModel appModel = new AppCommonModel();
+		String sqlstr = "select unit.name,sum(yfjk) as count from l_jsgg gg,sys_unit unit where gg.unitid=unit.id  group by gg.unitid";
+		List<Map> list= daoCtl.list(dao, Sqls.create(sqlstr));
+		appModel.setResult(1);
+		appModel.setObj(list);
 		return appModel;
 	}
 

@@ -162,8 +162,12 @@ public class BaobiaoAction extends BaseAction {
 	public void zcfx(HttpSession session, HttpServletRequest req,@Param("startdate") String startdate){
 		try {
 			Gson gson = new Gson();
+			if(EmptyUtils.isNotEmpty(startdate)){
+				req.setAttribute("year",startdate);
+			}else{
+				req.setAttribute("year",DateUtil.getToday().substring(0, 4));
+			}
 			startdate = EmptyUtils.isEmpty(startdate)?DateUtil.getToday():startdate;
-			req.setAttribute("year",DateUtil.getToday().substring(0, 4));
 			//当前年份的第一天
 			String firstday = startdate .substring(0, 4)+"-01-01";
 			//当前年份的最后一天
@@ -265,9 +269,6 @@ public class BaobiaoAction extends BaseAction {
 	public void srzxq(HttpSession session, HttpServletResponse response,HttpServletRequest req) throws IOException{
 		List<Chart> chartlist =new ArrayList<Chart>();
 		String[] months = DateUtil.getLast12Months();
-		for(int i=0;i<months.length;i++){
-			System.out.println("====>"+months[i]);
-		}
 		/*//查询月度支出
 		String sqlstr="select CONCAT(YEAR(fkrq),'-',DATE_FORMAT(fkrq,'%m')) months ,sum(sfjk) as "
 				+ "count_amount from l_hkzd WHERE fkrq BETWEEN '"+firstday+"' AND '"+endday+"' group by months";
