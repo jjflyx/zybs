@@ -2,6 +2,7 @@ package com.hits.modules.baobiao;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +18,7 @@ import net.sf.json.JSONObject;
 
 import org.nutz.dao.Dao;
 import org.nutz.dao.Sqls;
+import org.nutz.dao.sql.Sql;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.mvc.annotation.At;
@@ -180,7 +182,7 @@ public class BaobiaoAction extends BaseAction {
 			req.setAttribute("xzqhList",xzqhList);
 			List<String> months = DateUtil.getMonthBetween(firstday,endday);
 			req.setAttribute("months",months);
-			String a="select CONCAT(YEAR(fkrq),'-',DATE_FORMAT(fkrq,'%m')) months ,sum(sfjk) as "
+			String b="select CONCAT(YEAR(fkrq),'-',DATE_FORMAT(fkrq,'%m')) months ,sum(sfjk) as "
 					+ "count_amount from l_hkzd WHERE fkrq BETWEEN '"+firstday+"' AND '"+endday+"' group by months";
 			//开始处理报表数据
 			Map<String,String> srMap = new HashMap<String, String>();
@@ -269,33 +271,6 @@ public class BaobiaoAction extends BaseAction {
 	public void srzxq(HttpSession session, HttpServletResponse response,HttpServletRequest req) throws IOException{
 		List<Chart> chartlist =new ArrayList<Chart>();
 		String[] months = DateUtil.getLast12Months();
-		/*//查询月度支出
-		String sqlstr="select CONCAT(YEAR(fkrq),'-',DATE_FORMAT(fkrq,'%m')) months ,sum(sfjk) as "
-				+ "count_amount from l_hkzd WHERE fkrq BETWEEN '"+firstday+"' AND '"+endday+"' group by months";
-		zcMap = daoCtl.getHTable(dao,Sqls.create(sqlstr));
-		//查询月度收入
-		sqlstr="select CONCAT(YEAR(add_time),'-',DATE_FORMAT(add_time,'%m')) months ,sum(yfjk) as "
-				+ "count_amount from l_jsgg WHERE add_time BETWEEN '"+firstday+"' AND '"+endday+"' group by months";
-		srMap = daoCtl.getHTable(dao, Sqls.create(sqlstr));
-		//盈利情况
-		for(String month : months){
-			int sr = 0;
-			int zc = 0;
-			if(EmptyUtils.isNotEmpty(srMap.get(month))){
-				sr = Integer.valueOf(srMap.get(month));
-			}
-			if(EmptyUtils.isNotEmpty(zcMap.get(month))){
-				zc = Integer.valueOf(zcMap.get(month));
-			}
-			String yl =  (sr - zc)+"";
-			ylMap.put(month, yl);
-		}
-		for(Sys_unit unit : unitList){
-			Chart chart=new Chart();
-			chart.setTime(unit.getName());
-			chart.setSumCount(zjMap.get(unit.getId()));
-			chartlist.add(chart);
-		}*/
 		JSONObject param=new JSONObject();
 		JSONArray json = JSONArray.fromObject(chartlist);
 		param.put("RowCount", chartlist.size());
@@ -307,4 +282,125 @@ public class BaobiaoAction extends BaseAction {
 		out.close();
 		Gson gson = new Gson();
 	}
+	
+	@At
+	@Ok("->:/private/baobiao/yxlzzt.html")
+	public void toyxlzzt(HttpSession session,HttpServletRequest req){
+		Sys_user user = (Sys_user) session.getAttribute("userSession");
+		req.setAttribute("czrunitid", user.getUnitid());//当前登录用户的单位id
+		Sql sql=Sqls.create("select id,name from sys_unit where unittype=88");
+		List<Map> unitMap = new ArrayList<Map>();
+		unitMap=daoCtl.list(dao, sql);
+		req.setAttribute("unitMap", unitMap);
+	}
+	
+	/**
+	 * 月销量柱状图
+	 * @param session
+	 * @param response
+	 * @param req
+	 * @throws IOException
+	 * @throws ParseException 
+	 */
+	@At
+	public void yxlzzt(HttpSession session, HttpServletResponse response,HttpServletRequest req,@Param("startdate") String startdate) throws IOException, ParseException{
+		Sys_user user = (Sys_user) session.getAttribute("userSession");
+		Sys_unit unit = daoCtl.detailByName(dao, Sys_unit.class, user.getUnitid());
+		Map<String,String> zjMap = new HashMap<String, String>();//总计
+		List<Chart> chartlist =new ArrayList<Chart>();
+		if(EmptyUtils.isNotEmpty(startdate)){
+			req.setAttribute("year",startdate);
+		}else{
+			req.setAttribute("year",DateUtil.getToday().substring(0, 4));
+		}
+		startdate = EmptyUtils.isEmpty(startdate)?DateUtil.getToday():startdate;
+		//当前年份的第一天
+		String firstday = startdate .substring(0, 4)+"-01-01";
+		//当前年份的最后一天
+		String endday = DateUtil.getToday();
+		if(!EmptyUtils.isEmpty(startdate)){
+			endday = startdate +"-12-31";
+		}
+		List<String> months = DateUtil.getMonthBetween(firstday,endday);
+		String sqlstr="";
+		if("85".equals(unit.getUnittype())){
+			sqlstr="select CONCAT(YEAR(add_time),'-',DATE_FORMAT(add_time,'%m')) months ,sum(yfjk) as "
+					+ "count_amount from l_jsgg WHERE add_time BETWEEN '"+firstday+"' AND '"+endday+"' group by months";
+			zjMap = daoCtl.getHTable(dao, Sqls.create(sqlstr));
+		}else if("88".equals(unit.getUnittype())){
+			sqlstr="select CONCAT(YEAR(add_time),'-',DATE_FORMAT(add_time,'%m')) months ,sum(yfjk) as "
+					+ "count_amount from l_jsgg WHERE unitid='"+user.getUnitid()+"' and  add_time BETWEEN '"+firstday+"' AND '"+endday+"' group by months";
+			zjMap = daoCtl.getHTable(dao, Sqls.create(sqlstr));
+		}
+		for(String month : months){
+			Chart chart=new Chart();
+			chart.setTime(month);
+			if(EmptyUtils.isNotEmpty(zjMap.get(month))){
+				chart.setSumCount(zjMap.get(month));
+			}else{
+				chart.setSumCount("0");
+			}
+			chartlist.add(chart);
+		}
+		JSONObject param=new JSONObject();
+		JSONArray json = JSONArray.fromObject(chartlist);
+		param.put("RowCount", chartlist.size());
+		param.put("Rows", json);
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out=response.getWriter();
+		out.println(param.toString());
+		out.flush();
+		out.close();
+		Gson gson = new Gson();
+	}
+	
+	
+	/**
+	 * 月销量柱状图
+	 * @throws ParseException 
+	 * @throws IOException 
+	 */
+	/*@At
+	public void yxlzzt(HttpSession session, HttpServletResponse response,HttpServletRequest req,@Param("startdate") String startdate) throws ParseException, IOException{
+		Sys_user user = (Sys_user) session.getAttribute("userSession");
+		Sys_unit unit = daoCtl.detailByName(dao, Sys_unit.class, user.getUnitid());
+		Map<String,String> zjMap = new HashMap<String, String>();//总计
+		List<Chart> chartlist =new ArrayList<Chart>();
+		if("85".equals(unit.getUnittype())){
+			if(EmptyUtils.isNotEmpty(startdate)){
+				req.setAttribute("year",startdate);
+			}else{
+				req.setAttribute("year",DateUtil.getToday().substring(0, 4));
+			}
+			startdate = EmptyUtils.isEmpty(startdate)?DateUtil.getToday():startdate;
+			//当前年份的第一天
+			String firstday = startdate .substring(0, 4)+"-01-01";
+			//当前年份的最后一天
+			String endday = DateUtil.getToday();
+			if(!EmptyUtils.isEmpty(startdate)){
+				endday = startdate +"-12-31";
+			}
+			List<String> months = DateUtil.getMonthBetween(firstday,endday);
+			String sqlstr="select CONCAT(YEAR(add_time),'-',DATE_FORMAT(add_time,'%m')) months ,sum(yfjk) as "
+					+ "count_amount from l_jsgg WHERE add_time BETWEEN '"+firstday+"' AND '"+endday+"' group by months";
+			zjMap = daoCtl.getHTable(dao, Sqls.create(sqlstr));
+			for(String month : months){
+				Chart chart=new Chart();
+				chart.setTime(month);
+				chart.setSumCount(zjMap.get(months));
+				chartlist.add(chart);
+			}
+			JSONObject param=new JSONObject();
+			JSONArray json = JSONArray.fromObject(chartlist);
+			param.put("RowCount", chartlist.size());
+			param.put("Rows", json);
+			response.setContentType("text/html;charset=utf-8");
+			PrintWriter out=response.getWriter();
+			out.println(param.toString());
+			out.flush();
+			out.close();
+			Gson gson = new Gson();
+		}
+	}*/
+	
 }
