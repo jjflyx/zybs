@@ -4,6 +4,10 @@
 <html>
  <head>
 <title>图表统计</title>
+<script type='text/javascript'>
+		var CONTEXTPATH = '${base}';
+		var stylePath = '$!stylename';
+	</script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script type="text/javascript" src="script/jquery-1.4.2.min.js"></script>
 <script src="script/highcharts.js"></script>
@@ -12,7 +16,7 @@
     $(document).ready(function() {
         var jsonyD2 = [];
         $.ajax({
-            url: 'chart',
+            url: '${base}/private/baobiao/ggdfe',
             cache: false,
             async: false,
             success: function(data) {
